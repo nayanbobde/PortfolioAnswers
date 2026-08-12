@@ -571,6 +571,1446 @@
 
     </div>
 
+    <div class="eyebrow" style="margin-top:64px;">Technical Topics</div>
+    <h1>Power BI Topics</h1>
+    <p class="sub">Click a topic to expand it and see the related practice questions.</p>
+
+    <div class="list" id="pbi-topics">
+
+      <div class="item" data-index="17">
+        <button class="item-head">
+          <span class="idx">17</span>
+          <span class="item-title">DAX Fundamentals</span>
+          <span class="tag">8 Questions</span>
+          <svg class="chev" viewBox="0 0 24 24" fill="none"><path d="M12 5v14M5 12h14" stroke-width="2" stroke-linecap="round"/></svg>
+        </button>
+        <div class="item-body">
+          <div class="item-body-inner">
+<h3>1. Write a DAX measure to calculate Total Sales.</h3>
+<p><strong>Say:</strong></p>
+<blockquote>
+<p>“I'll create a measure using <code>SUM()</code> on the Sales Amount column.”</p>
+</blockquote>
+<pre><code class="language-DAX">Total Sales =
+SUM(Sales[SalesAmount])
+</code></pre>
+<hr />
+<h3>2. Difference between a Measure and a Calculated Column. Show how to create each.</h3>
+<p><strong>Say:</strong></p>
+<blockquote>
+<p>“A calculated column is calculated row by row and stored in the model. A measure is calculated dynamically based on filter context.”</p>
+</blockquote>
+<p><strong>Calculated Column:</strong></p>
+<pre><code class="language-DAX">Total Amount =
+Sales[Quantity] * Sales[UnitPrice]
+</code></pre>
+<p><strong>Measure:</strong></p>
+<pre><code class="language-DAX">Total Sales =
+SUM(Sales[SalesAmount])
+</code></pre>
+<hr />
+<h3>3. Difference between <code>SUM()</code> and <code>SUMX()</code>. Write an example of both.</h3>
+<p><strong>Say:</strong></p>
+<blockquote>
+<p>“<code>SUM()</code> adds values from one column. <code>SUMX()</code> iterates through a table row by row and evaluates an expression.”</p>
+</blockquote>
+<pre><code class="language-DAX">Total Sales =
+SUM(Sales[SalesAmount])
+</code></pre>
+<pre><code class="language-DAX">Total Sales =
+SUMX(
+    Sales,
+    Sales[Quantity] * Sales[UnitPrice]
+)
+</code></pre>
+<hr />
+<h3>4. Explain Row Context vs Filter Context with a practical example.</h3>
+<p><strong>Say:</strong></p>
+<blockquote>
+<p>“Row context means DAX is evaluating one row at a time, mainly in calculated columns and iterators. Filter context is the filters coming from visuals, slicers, relationships, or DAX.”</p>
+</blockquote>
+<p><strong>Row Context:</strong></p>
+<pre><code class="language-DAX">Total Amount =
+Sales[Quantity] * Sales[UnitPrice]
+</code></pre>
+<p><strong>Filter Context:</strong></p>
+<pre><code class="language-DAX">Total Sales =
+CALCULATE(
+    SUM(Sales[SalesAmount]),
+    Product[Category] = &quot;Electronics&quot;
+)
+</code></pre>
+<hr />
+<h3>5. What is <code>CALCULATE()</code>? Calculate sales for a specific category.</h3>
+<p><strong>Say:</strong></p>
+<blockquote>
+<p>“<code>CALCULATE()</code> evaluates an expression after modifying the filter context.”</p>
+</blockquote>
+<pre><code class="language-DAX">Electronics Sales =
+CALCULATE(
+    [Total Sales],
+    Product[Category] = &quot;Electronics&quot;
+)
+</code></pre>
+<hr />
+<h3>6. What is Context Transition? Show an example using <code>CALCULATE()</code>.</h3>
+<p><strong>Say:</strong></p>
+<blockquote>
+<p>“Context transition converts the current row context into filter context. <code>CALCULATE()</code> performs this transition.”</p>
+</blockquote>
+<pre><code class="language-DAX">Customer Sales =
+CALCULATE(
+    [Total Sales]
+)
+</code></pre>
+<blockquote>
+<p>“For example, when <code>CALCULATE()</code> is used inside an iterator or calculated column, the current row can become a filter.”</p>
+</blockquote>
+<hr />
+<h3>7. Use <code>FILTER()</code> inside <code>CALCULATE()</code> to calculate sales based on a condition.</h3>
+<p><strong>Say:</strong></p>
+<blockquote>
+<p>“I'll use <code>FILTER()</code> when I need a table expression with a condition.”</p>
+</blockquote>
+<pre><code class="language-DAX">High Value Sales =
+CALCULATE(
+    [Total Sales],
+    FILTER(
+        Sales,
+        Sales[SalesAmount] &gt; 1000
+    )
+)
+</code></pre>
+<hr />
+<h3>8. Create a measure using <code>VAR</code>.</h3>
+<p><strong>Say:</strong></p>
+<blockquote>
+<p>“Variables make DAX easier to read, avoid repeating calculations and can improve performance.”</p>
+</blockquote>
+<pre><code class="language-DAX">Profit Margin =
+VAR TotalSales = [Total Sales]
+VAR TotalCost = [Total Cost]
+VAR Profit = TotalSales - TotalCost
+RETURN
+DIVIDE(Profit, TotalSales)
+</code></pre>
+<hr />
+          </div>
+        </div>
+      </div>
+
+      <div class="item" data-index="18">
+        <button class="item-head">
+          <span class="idx">18</span>
+          <span class="item-title">Time Intelligence</span>
+          <span class="tag">8 Questions</span>
+          <svg class="chev" viewBox="0 0 24 24" fill="none"><path d="M12 5v14M5 12h14" stroke-width="2" stroke-linecap="round"/></svg>
+        </button>
+        <div class="item-body">
+          <div class="item-body-inner">
+<h3>9. Calculate YTD Sales.</h3>
+<p><strong>Say:</strong></p>
+<blockquote>
+<p>“I'll use <code>TOTALYTD()</code> with my Date column.”</p>
+</blockquote>
+<pre><code class="language-DAX">YTD Sales =
+TOTALYTD(
+    [Total Sales],
+    'Date'[Date]
+)
+</code></pre>
+<hr />
+<h3>10. Calculate MTD Sales.</h3>
+<pre><code class="language-DAX">MTD Sales =
+TOTALMTD(
+    [Total Sales],
+    'Date'[Date]
+)
+</code></pre>
+<p><strong>Say:</strong></p>
+<blockquote>
+<p>“<code>TOTALMTD()</code> calculates sales from the beginning of the current month to the current date.”</p>
+</blockquote>
+<hr />
+<h3>11. Calculate QTD Sales.</h3>
+<pre><code class="language-DAX">QTD Sales =
+TOTALQTD(
+    [Total Sales],
+    'Date'[Date]
+)
+</code></pre>
+<hr />
+<h3>12. Calculate Previous Year Sales using <code>SAMEPERIODLASTYEAR()</code>.</h3>
+<p><strong>Say:</strong></p>
+<blockquote>
+<p>“I'll shift the current date context back by one year.”</p>
+</blockquote>
+<pre><code class="language-DAX">Previous Year Sales =
+CALCULATE(
+    [Total Sales],
+    SAMEPERIODLASTYEAR('Date'[Date])
+)
+</code></pre>
+<hr />
+<h3>13. Calculate YoY Sales Growth %.</h3>
+<p><strong>Say:</strong></p>
+<blockquote>
+<p>“I'll compare current sales with previous-year sales.”</p>
+</blockquote>
+<pre><code class="language-DAX">YoY Growth % =
+VAR CurrentSales = [Total Sales]
+VAR PreviousSales = [Previous Year Sales]
+RETURN
+DIVIDE(
+    CurrentSales - PreviousSales,
+    PreviousSales
+)
+</code></pre>
+<hr />
+<h3>14. Calculate Month-over-Month Sales Growth %.</h3>
+<p><strong>Say:</strong></p>
+<blockquote>
+<p>“I'll calculate previous-month sales and compare it with current sales.”</p>
+</blockquote>
+<pre><code class="language-DAX">Previous Month Sales =
+CALCULATE(
+    [Total Sales],
+    DATEADD('Date'[Date], -1, MONTH)
+)
+</code></pre>
+<pre><code class="language-DAX">MoM Growth % =
+DIVIDE(
+    [Total Sales] - [Previous Month Sales],
+    [Previous Month Sales]
+)
+</code></pre>
+<hr />
+<h3>15. Create a running/cumulative Sales measure.</h3>
+<p><strong>Say:</strong></p>
+<blockquote>
+<p>“I'll use <code>CALCULATE()</code> with <code>FILTER()</code> to include all dates up to the current date.”</p>
+</blockquote>
+<pre><code class="language-DAX">Cumulative Sales =
+CALCULATE(
+    [Total Sales],
+    FILTER(
+        ALL('Date'[Date]),
+        'Date'[Date] &lt;= MAX('Date'[Date])
+    )
+)
+</code></pre>
+<hr />
+<h3>16. Create a rolling 30-day Sales measure.</h3>
+<p><strong>Say:</strong></p>
+<blockquote>
+<p>“I'll create a date window covering the current date and previous 29 days.”</p>
+</blockquote>
+<pre><code class="language-DAX">Rolling 30 Days Sales =
+CALCULATE(
+    [Total Sales],
+    DATESINPERIOD(
+        'Date'[Date],
+        MAX('Date'[Date]),
+        -30,
+        DAY
+    )
+)
+</code></pre>
+<hr />
+          </div>
+        </div>
+      </div>
+
+      <div class="item" data-index="19">
+        <button class="item-head">
+          <span class="idx">19</span>
+          <span class="item-title">Advanced DAX / Ranking</span>
+          <span class="tag">7 Questions</span>
+          <svg class="chev" viewBox="0 0 24 24" fill="none"><path d="M12 5v14M5 12h14" stroke-width="2" stroke-linecap="round"/></svg>
+        </button>
+        <div class="item-body">
+          <div class="item-body-inner">
+<h3>17. Create a Top 5 Products by Sales using <code>TOPN()</code>.</h3>
+<p><strong>Say:</strong></p>
+<blockquote>
+<p>“I'll create a table containing the five products with the highest sales.”</p>
+</blockquote>
+<pre><code class="language-DAX">Top 5 Products =
+TOPN(
+    5,
+    ALL(Product[ProductName]),
+    [Total Sales],
+    DESC
+)
+</code></pre>
+<p><strong>For a Top-5 sales measure:</strong></p>
+<pre><code class="language-DAX">Top 5 Sales =
+CALCULATE(
+    [Total Sales],
+    TOPN(
+        5,
+        ALL(Product[ProductName]),
+        [Total Sales],
+        DESC
+    )
+)
+</code></pre>
+<hr />
+<h3>18. Rank products using <code>RANKX()</code>.</h3>
+<p><strong>Say:</strong></p>
+<blockquote>
+<p>“I'll use <code>RANKX()</code> to rank products based on total sales.”</p>
+</blockquote>
+<pre><code class="language-DAX">Product Rank =
+RANKX(
+    ALL(Product[ProductName]),
+    [Total Sales],
+    ,
+    DESC,
+    DENSE
+)
+</code></pre>
+<hr />
+<h3>19. Rank products within each category.</h3>
+<p><strong>Say:</strong></p>
+<blockquote>
+<p>“I'll remove the product filter while keeping the current category context.”</p>
+</blockquote>
+<pre><code class="language-DAX">Product Rank =
+RANKX(
+    ALL(Product[ProductName]),
+    [Total Sales],
+    ,
+    DESC,
+    DENSE
+)
+</code></pre>
+<blockquote>
+<p>“Because Category remains in the filter context, the ranking is evaluated within the current category.”</p>
+</blockquote>
+<hr />
+<h3>20. Calculate each product's percentage contribution to total sales.</h3>
+<p><strong>Say:</strong></p>
+<blockquote>
+<p>“I'll divide the current product sales by total sales after removing the product filter.”</p>
+</blockquote>
+<pre><code class="language-DAX">Sales Contribution % =
+DIVIDE(
+    [Total Sales],
+    CALCULATE(
+        [Total Sales],
+        ALL(Product[ProductName])
+    )
+)
+</code></pre>
+<hr />
+<h3>21. Explain <code>ALL()</code> vs <code>ALLEXCEPT()</code> vs <code>ALLSELECTED()</code>.</h3>
+<p><strong>Say:</strong></p>
+<blockquote>
+<p>“<code>ALL()</code> removes filters, <code>ALLEXCEPT()</code> removes filters except specified columns, and <code>ALLSELECTED()</code> respects filters selected by the user outside the current visual context.”</p>
+</blockquote>
+<pre><code class="language-DAX">All Sales =
+CALCULATE(
+    [Total Sales],
+    ALL(Product)
+)
+</code></pre>
+<pre><code class="language-DAX">Category Sales =
+CALCULATE(
+    [Total Sales],
+    ALLEXCEPT(Product, Product[Category])
+)
+</code></pre>
+<pre><code class="language-DAX">Selected Sales =
+CALCULATE(
+    [Total Sales],
+    ALLSELECTED(Product)
+)
+</code></pre>
+<hr />
+<h3>22. Use <code>REMOVEFILTERS()</code> to remove a particular filter.</h3>
+<p><strong>Say:</strong></p>
+<blockquote>
+<p>“I'll remove only the Product filter while keeping other filters.”</p>
+</blockquote>
+<pre><code class="language-DAX">Sales All Products =
+CALCULATE(
+    [Total Sales],
+    REMOVEFILTERS(Product[ProductName])
+)
+</code></pre>
+<hr />
+<h3>23. Use <code>SWITCH()</code> for dynamic KPI/status classification.</h3>
+<p><strong>Say:</strong></p>
+<blockquote>
+<p>“I'll use <code>SWITCH()</code> to classify the KPI based on its value.”</p>
+</blockquote>
+<pre><code class="language-DAX">Sales Status =
+SWITCH(
+    TRUE(),
+    [Total Sales] &gt;= 1000000, &quot;Excellent&quot;,
+    [Total Sales] &gt;= 500000, &quot;Good&quot;,
+    [Total Sales] &gt;= 250000, &quot;Average&quot;,
+    &quot;Low&quot;
+)
+</code></pre>
+<hr />
+          </div>
+        </div>
+      </div>
+
+      <div class="item" data-index="20">
+        <button class="item-head">
+          <span class="idx">20</span>
+          <span class="item-title">Power Query / M Code</span>
+          <span class="tag">7 Questions</span>
+          <svg class="chev" viewBox="0 0 24 24" fill="none"><path d="M12 5v14M5 12h14" stroke-width="2" stroke-linecap="round"/></svg>
+        </button>
+        <div class="item-body">
+          <div class="item-body-inner">
+<h3>24. Remove duplicate rows and null values.</h3>
+<p><strong>Say:</strong></p>
+<blockquote>
+<p>“I'll first remove null rows and then remove duplicates based on the required columns.”</p>
+</blockquote>
+<p><strong>Power Query:</strong></p>
+<pre><code class="language-text">Remove Rows → Remove Blank Rows
+Remove Rows → Remove Duplicates
+</code></pre>
+<p><strong>M:</strong></p>
+<pre><code class="language-powerquery">= Table.Distinct(
+    Table.SelectRows(Source, each [CustomerID] &lt;&gt; null)
+)
+</code></pre>
+<hr />
+<h3>25. Change data types and clean text.</h3>
+<p><strong>Say:</strong></p>
+<blockquote>
+<p>“I'll explicitly set the correct data types and use text transformation functions to clean the column.”</p>
+</blockquote>
+<pre><code class="language-powerquery">= Table.TransformColumnTypes(
+    Source,
+    {
+        {&quot;CustomerID&quot;, Int64.Type},
+        {&quot;CustomerName&quot;, type text},
+        {&quot;SalesAmount&quot;, type number}
+    }
+)
+</code></pre>
+<pre><code class="language-powerquery">= Table.TransformColumns(
+    Source,
+    {
+        {&quot;CustomerName&quot;, Text.Trim, type text}
+    }
+)
+</code></pre>
+<hr />
+<h3>26. Difference between Merge and Append. Demonstrate both.</h3>
+<p><strong>Say:</strong></p>
+<blockquote>
+<p>“Merge combines tables horizontally using a matching key. Append combines tables vertically by adding rows.”</p>
+</blockquote>
+<p><strong>Merge:</strong></p>
+<pre><code class="language-text">Home → Merge Queries
+CustomerID → CustomerID
+</code></pre>
+<p><strong>Append:</strong></p>
+<pre><code class="language-text">Home → Append Queries
+Table1 + Table2
+</code></pre>
+<hr />
+<h3>27. Unpivot months stored as columns.</h3>
+<p><strong>Say:</strong></p>
+<blockquote>
+<p>“I'll select the identifier columns and use Unpivot Other Columns.”</p>
+</blockquote>
+<pre><code class="language-text">Select Product / ID columns
+        ↓
+Transform
+        ↓
+Unpivot Other Columns
+</code></pre>
+<p>Result:</p>
+<pre><code class="language-text">Product | Month | Sales
+A       | Jan   | 100
+A       | Feb   | 150
+</code></pre>
+<hr />
+<h3>28. Create a Conditional/Custom Column using <code>if...then...else</code>.</h3>
+<p><strong>Say:</strong></p>
+<blockquote>
+<p>“I'll use conditional logic to create a new column.”</p>
+</blockquote>
+<pre><code class="language-powerquery">= Table.AddColumn(
+    Source,
+    &quot;Sales Category&quot;,
+    each if [Sales] &gt;= 100000
+         then &quot;High&quot;
+         else if [Sales] &gt;= 50000
+         then &quot;Medium&quot;
+         else &quot;Low&quot;
+)
+</code></pre>
+<hr />
+<h3>29. Use <code>Table.TransformColumns()</code> to clean a column.</h3>
+<p><strong>Say:</strong></p>
+<blockquote>
+<p>“I'll apply a transformation directly to the selected column.”</p>
+</blockquote>
+<pre><code class="language-powerquery">= Table.TransformColumns(
+    Source,
+    {
+        {&quot;CustomerName&quot;, Text.Upper, type text}
+    }
+)
+</code></pre>
+<hr />
+<h3>30. Create and use a Power Query parameter.</h3>
+<p><strong>Say:</strong></p>
+<blockquote>
+<p>“A parameter allows me to make the query dynamic without hardcoding a value.”</p>
+</blockquote>
+<p>Example parameter:</p>
+<pre><code class="language-text">ServerName = &quot;MyServer&quot;
+</code></pre>
+<p>Use it:</p>
+<pre><code class="language-powerquery">Sql.Database(
+    ServerName,
+    &quot;SalesDB&quot;
+)
+</code></pre>
+<hr />
+          </div>
+        </div>
+      </div>
+
+      <div class="item" data-index="21">
+        <button class="item-head">
+          <span class="idx">21</span>
+          <span class="item-title">RLS / Security</span>
+          <span class="tag">4 Questions</span>
+          <svg class="chev" viewBox="0 0 24 24" fill="none"><path d="M12 5v14M5 12h14" stroke-width="2" stroke-linecap="round"/></svg>
+        </button>
+        <div class="item-body">
+          <div class="item-body-inner">
+<h3>31. Create Static Row-Level Security for a Region.</h3>
+<p><strong>Say:</strong></p>
+<blockquote>
+<p>“I'll create a role and filter the Region column for a specific region.”</p>
+</blockquote>
+<p><strong>Role filter:</strong></p>
+<pre><code class="language-DAX">Sales[Region] = &quot;West&quot;
+</code></pre>
+<p>Then:</p>
+<pre><code class="language-text">Modeling
+→ Manage Roles
+→ Create Role
+→ Add Region filter
+</code></pre>
+<hr />
+<h3>32. Create Dynamic RLS using <code>USERPRINCIPALNAME()</code>.</h3>
+<p><strong>Say:</strong></p>
+<blockquote>
+<p>“I'll use the logged-in user's email to dynamically determine which rows they can see.”</p>
+</blockquote>
+<pre><code class="language-DAX">UserAccess[Email] =
+    USERPRINCIPALNAME()
+</code></pre>
+<p>Example role:</p>
+<pre><code class="language-DAX">UserAccess[Email] = USERPRINCIPALNAME()
+</code></pre>
+<p>With a relationship from <code>UserAccess</code> to the relevant dimension/fact table, the filter propagates automatically.</p>
+<hr />
+<h3>33. Create a User Mapping table and implement Dynamic RLS.</h3>
+<p><strong>Say:</strong></p>
+<blockquote>
+<p>“I'll create a mapping table containing user email and permitted region, then use <code>USERPRINCIPALNAME()</code> to filter it.”</p>
+</blockquote>
+<p>Example:</p>
+<pre><code class="language-text">UserEmail             Region
+john@company.com      West
+mary@company.com      East
+</code></pre>
+<p>Role:</p>
+<pre><code class="language-DAX">UserMapping[UserEmail] =
+    USERPRINCIPALNAME()
+</code></pre>
+<p>Then create the relationship:</p>
+<pre><code class="language-text">UserMapping
+     ↓
+Region
+     ↓
+Sales
+</code></pre>
+<hr />
+<h3>34. Test RLS using &quot;View As Roles&quot; and explain after publishing.</h3>
+<p><strong>Say:</strong></p>
+<blockquote>
+<p>“I'll test the role in Power BI Desktop using View As, then publish the report and assign users or groups to the role in Power BI Service.”</p>
+</blockquote>
+<pre><code class="language-text">Power BI Desktop
+→ Modeling
+→ View As
+→ Select Role
+→ Verify data
+</code></pre>
+<p>After publishing:</p>
+<pre><code class="language-text">Power BI Service
+→ Semantic Model
+→ Security
+→ Add users/groups to role
+</code></pre>
+<hr />
+          </div>
+        </div>
+      </div>
+
+      <div class="item" data-index="22">
+        <button class="item-head">
+          <span class="idx">22</span>
+          <span class="item-title">Relationships / Advanced DAX</span>
+          <span class="tag">3 Questions</span>
+          <svg class="chev" viewBox="0 0 24 24" fill="none"><path d="M12 5v14M5 12h14" stroke-width="2" stroke-linecap="round"/></svg>
+        </button>
+        <div class="item-body">
+          <div class="item-body-inner">
+<h3>35. Calculate Sales based on Ship Date using <code>USERELATIONSHIP()</code>.</h3>
+<p><strong>Say:</strong></p>
+<blockquote>
+<p>“If Order Date is the active relationship and Ship Date is inactive, I'll activate the Ship Date relationship inside <code>CALCULATE()</code>.”</p>
+</blockquote>
+<pre><code class="language-DAX">Ship Date Sales =
+CALCULATE(
+    [Total Sales],
+    USERELATIONSHIP(
+        Sales[ShipDate],
+        'Date'[Date]
+    )
+)
+</code></pre>
+<hr />
+<h3>36. Use <code>RELATED()</code> or <code>LOOKUPVALUE()</code>.</h3>
+<p><strong>Say:</strong></p>
+<blockquote>
+<p>“I'll prefer <code>RELATED()</code> when a proper relationship exists. I'll use <code>LOOKUPVALUE()</code> when I need to retrieve a value based on matching columns without relying on that relationship.”</p>
+</blockquote>
+<p><strong>RELATED:</strong></p>
+<pre><code class="language-DAX">Category =
+RELATED(Product[Category])
+</code></pre>
+<p><strong>LOOKUPVALUE:</strong></p>
+<pre><code class="language-DAX">Category =
+LOOKUPVALUE(
+    Product[Category],
+    Product[ProductID],
+    Sales[ProductID]
+)
+</code></pre>
+<hr />
+<h3>37. Use <code>VALUES()</code> / <code>DISTINCT()</code> to calculate unique customers/products.</h3>
+<p><strong>Say:</strong></p>
+<blockquote>
+<p>“For counting unique values, I can use <code>DISTINCTCOUNT()</code>. <code>VALUES()</code> and <code>DISTINCT()</code> return the unique values under the current filter context.”</p>
+</blockquote>
+<pre><code class="language-DAX">Unique Customers =
+DISTINCTCOUNT(
+    Sales[CustomerID]
+)
+</code></pre>
+<p>Or:</p>
+<pre><code class="language-DAX">Unique Customers =
+COUNTROWS(
+    VALUES(Sales[CustomerID])
+)
+</code></pre>
+<hr />
+          </div>
+        </div>
+      </div>
+
+      <div class="item" data-index="23">
+        <button class="item-head">
+          <span class="idx">23</span>
+          <span class="item-title">Performance / Optimization</span>
+          <span class="tag">3 Questions</span>
+          <svg class="chev" viewBox="0 0 24 24" fill="none"><path d="M12 5v14M5 12h14" stroke-width="2" stroke-linecap="round"/></svg>
+        </button>
+        <div class="item-body">
+          <div class="item-body-inner">
+<h3>38. Power Query refresh is very slow. Identify and fix it, including Query Folding.</h3>
+<p><strong>Say:</strong></p>
+<blockquote>
+<p>“First I'll identify the slow step, check whether Query Folding is occurring, and push transformations back to the source whenever possible.”</p>
+</blockquote>
+<pre><code class="language-text">1. Check Applied Steps
+2. Identify slow step
+3. Right-click → View Native Query
+4. Check Query Folding
+5. Filter rows early
+6. Remove unnecessary columns
+7. Avoid expensive transformations early
+8. Push transformations to SQL/source
+</code></pre>
+<blockquote>
+<p>“If Query Folding stops, I'll check which transformation caused it and move non-folding transformations later where possible.”</p>
+</blockquote>
+<hr />
+<h3>39. A DAX measure is slow. Troubleshoot and optimize it.</h3>
+<p><strong>Say:</strong></p>
+<blockquote>
+<p>“I'll use Performance Analyzer to identify the slow visual/query, then simplify the DAX and reduce unnecessary iterations.”</p>
+</blockquote>
+<pre><code class="language-text">1. Performance Analyzer
+2. Identify slow visual
+3. Check DAX query
+4. Reduce unnecessary FILTER/iterators
+5. Use variables
+6. Avoid unnecessary calculated columns
+7. Optimize relationships/model
+8. Test again
+</code></pre>
+<p>Example:</p>
+<pre><code class="language-DAX">Profit Margin =
+VAR SalesAmount = [Total Sales]
+VAR CostAmount = [Total Cost]
+RETURN
+DIVIDE(
+    SalesAmount - CostAmount,
+    SalesAmount
+)
+</code></pre>
+<hr />
+<h3>40. Large dataset — reduce columns/rows and optimize the model.</h3>
+<p><strong>Say:</strong></p>
+<blockquote>
+<p>“I'll reduce the data before it reaches the model, use a star schema, remove unnecessary columns and rows, and keep DAX calculations as measures where appropriate.”</p>
+</blockquote>
+<pre><code class="language-text">Power Query
+↓
+Remove unnecessary columns
+↓
+Filter unnecessary rows
+↓
+Correct data types
+↓
+Remove duplicates
+↓
+Enable Query Folding
+↓
+Star Schema
+↓
+Fact + Dimension tables
+↓
+Create efficient DAX measures
+</code></pre>
+<p><strong>Key point to say:</strong></p>
+<blockquote>
+<p>“I would not load unnecessary high-cardinality columns, unused fields or duplicate data into the model because they increase model size and can affect refresh and report performance.”</p>
+</blockquote>
+<h1>Top 40 SQL Questions — Interview Answers</h1>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="eyebrow" style="margin-top:64px;">Technical Topics</div>
+    <h1>SQL Topics</h1>
+    <p class="sub">Click a topic to expand it and see the related practice questions.</p>
+
+    <div class="list" id="sql-topics">
+
+      <div class="item" data-index="24">
+        <button class="item-head">
+          <span class="idx">01</span>
+          <span class="item-title">JOINs</span>
+          <span class="tag">3 Questions</span>
+          <svg class="chev" viewBox="0 0 24 24" fill="none"><path d="M12 5v14M5 12h14" stroke-width="2" stroke-linecap="round"/></svg>
+        </button>
+        <div class="item-body">
+          <div class="item-body-inner">
+<h3>1. Find customers who have never placed an order.</h3>
+<p><strong>Say:</strong></p>
+<blockquote>
+<p>“I'll use a <code>LEFT JOIN</code> and filter unmatched orders using <code>IS NULL</code>.”</p>
+</blockquote>
+<pre><code class="language-sql">SELECT c.CustomerID, c.CustomerName
+FROM Customers c
+LEFT JOIN Orders o
+    ON c.CustomerID = o.CustomerID
+WHERE o.CustomerID IS NULL;
+</code></pre>
+<h3>2. Find records that exist in Table A but not in Table B.</h3>
+<p><strong>Say:</strong></p>
+<blockquote>
+<p>“I'll use a <code>LEFT JOIN</code> and find records where Table B has no match.”</p>
+</blockquote>
+<pre><code class="language-sql">SELECT a.*
+FROM TableA a
+LEFT JOIN TableB b
+    ON a.ID = b.ID
+WHERE b.ID IS NULL;
+</code></pre>
+<h3>3. Find employees earning more than their managers using a self-join.</h3>
+<p><strong>Say:</strong></p>
+<blockquote>
+<p>“I'll use a self-join because employees and managers are in the same table.”</p>
+</blockquote>
+<pre><code class="language-sql">SELECT e.EmployeeName, e.Salary,
+       m.EmployeeName AS ManagerName,
+       m.Salary AS ManagerSalary
+FROM Employees e
+JOIN Employees m
+    ON e.ManagerID = m.EmployeeID
+WHERE e.Salary &gt; m.Salary;
+</code></pre>
+<hr />
+          </div>
+        </div>
+      </div>
+
+      <div class="item" data-index="25">
+        <button class="item-head">
+          <span class="idx">02</span>
+          <span class="item-title">GROUP BY &amp; HAVING</span>
+          <span class="tag">5 Questions</span>
+          <svg class="chev" viewBox="0 0 24 24" fill="none"><path d="M12 5v14M5 12h14" stroke-width="2" stroke-linecap="round"/></svg>
+        </button>
+        <div class="item-body">
+          <div class="item-body-inner">
+<h3>4. Find duplicate records using <code>GROUP BY</code> and <code>HAVING</code>.</h3>
+<p><strong>Say:</strong></p>
+<blockquote>
+<p>“I'll group by the columns that define a duplicate and filter counts greater than one.”</p>
+</blockquote>
+<pre><code class="language-sql">SELECT Name, COUNT(*) AS DuplicateCount
+FROM Employees
+GROUP BY Name
+HAVING COUNT(*) &gt; 1;
+</code></pre>
+<h3>5. Calculate total revenue per product.</h3>
+<p><strong>Say:</strong></p>
+<blockquote>
+<p>“I'll multiply quantity by unit price and aggregate the result by product.”</p>
+</blockquote>
+<pre><code class="language-sql">SELECT ProductID,
+       SUM(Quantity * UnitPrice) AS TotalRevenue
+FROM Sales
+GROUP BY ProductID;
+</code></pre>
+<h3>6. Find departments whose total salary expense is greater than a specified amount.</h3>
+<p><strong>Say:</strong></p>
+<blockquote>
+<p>“Because I'm filtering an aggregate, I'll use <code>HAVING</code> instead of <code>WHERE</code>.”</p>
+</blockquote>
+<pre><code class="language-sql">SELECT DepartmentID,
+       SUM(Salary) AS TotalSalary
+FROM Employees
+GROUP BY DepartmentID
+HAVING SUM(Salary) &gt; 100000;
+</code></pre>
+<h3>7. Calculate average sales per region.</h3>
+<p><strong>Say:</strong></p>
+<blockquote>
+<p>“I'll group sales by region and calculate the average.”</p>
+</blockquote>
+<pre><code class="language-sql">SELECT Region,
+       AVG(SalesAmount) AS AvgSales
+FROM Sales
+GROUP BY Region;
+</code></pre>
+<h3>8. Find the most profitable/top 3 regions by revenue.</h3>
+<p><strong>Say:</strong></p>
+<blockquote>
+<p>“I'll aggregate revenue by region, sort it descending and return the top three.”</p>
+</blockquote>
+<pre><code class="language-sql">SELECT TOP 3 Region,
+       SUM(Revenue) AS TotalRevenue
+FROM Sales
+GROUP BY Region
+ORDER BY TotalRevenue DESC;
+</code></pre>
+<hr />
+          </div>
+        </div>
+      </div>
+
+      <div class="item" data-index="26">
+        <button class="item-head">
+          <span class="idx">03</span>
+          <span class="item-title">Subqueries</span>
+          <span class="tag">4 Questions</span>
+          <svg class="chev" viewBox="0 0 24 24" fill="none"><path d="M12 5v14M5 12h14" stroke-width="2" stroke-linecap="round"/></svg>
+        </button>
+        <div class="item-body">
+          <div class="item-body-inner">
+<h3>9. Find the second-highest salary.</h3>
+<p><strong>Say:</strong></p>
+<blockquote>
+<p>“I'll first find the maximum salary and then find the maximum salary below it.”</p>
+</blockquote>
+<pre><code class="language-sql">SELECT MAX(Salary) AS SecondHighestSalary
+FROM Employees
+WHERE Salary &lt; (
+    SELECT MAX(Salary)
+    FROM Employees
+);
+</code></pre>
+<h3>10. Find employees earning more than the average salary.</h3>
+<p><strong>Say:</strong></p>
+<blockquote>
+<p>“I'll calculate the average salary in a subquery and compare each employee against it.”</p>
+</blockquote>
+<pre><code class="language-sql">SELECT EmployeeID, EmployeeName, Salary
+FROM Employees
+WHERE Salary &gt; (
+    SELECT AVG(Salary)
+    FROM Employees
+);
+</code></pre>
+<h3>11. Find the top 3 employees with the highest salaries.</h3>
+<p><strong>Say:</strong></p>
+<blockquote>
+<p>“I'll sort employees by salary in descending order and return the top three.”</p>
+</blockquote>
+<pre><code class="language-sql">SELECT TOP 3 EmployeeID, EmployeeName, Salary
+FROM Employees
+ORDER BY Salary DESC;
+</code></pre>
+<h3>12. Find products that have never been sold.</h3>
+<p><strong>Say:</strong></p>
+<blockquote>
+<p>“I'll use <code>NOT EXISTS</code> to find products with no matching sales record.”</p>
+</blockquote>
+<pre><code class="language-sql">SELECT p.ProductID, p.ProductName
+FROM Products p
+WHERE NOT EXISTS (
+    SELECT 1
+    FROM Sales s
+    WHERE s.ProductID = p.ProductID
+);
+</code></pre>
+<hr />
+          </div>
+        </div>
+      </div>
+
+      <div class="item" data-index="27">
+        <button class="item-head">
+          <span class="idx">04</span>
+          <span class="item-title">CTE</span>
+          <span class="tag">2 Questions</span>
+          <svg class="chev" viewBox="0 0 24 24" fill="none"><path d="M12 5v14M5 12h14" stroke-width="2" stroke-linecap="round"/></svg>
+        </button>
+        <div class="item-body">
+          <div class="item-body-inner">
+<h3>13. Delete duplicate records while keeping one record.</h3>
+<p><strong>Say:</strong></p>
+<blockquote>
+<p>“I'll use <code>ROW_NUMBER()</code> inside a CTE to identify duplicates and then delete rows having a row number greater than one.”</p>
+</blockquote>
+<pre><code class="language-sql">WITH CTE AS (
+    SELECT *,
+           ROW_NUMBER() OVER (
+               PARTITION BY Name
+               ORDER BY EmployeeID
+           ) AS rn
+    FROM Employees
+)
+DELETE FROM CTE
+WHERE rn &gt; 1;
+</code></pre>
+<h3>14. Write a CTE-based query for a multi-step business problem.</h3>
+<p><strong>Say:</strong></p>
+<blockquote>
+<p>“I'll use a CTE to break the complex logic into readable steps.”</p>
+</blockquote>
+<pre><code class="language-sql">WITH SalesSummary AS (
+    SELECT CustomerID,
+           SUM(Amount) AS TotalSales
+    FROM Sales
+    GROUP BY CustomerID
+)
+SELECT CustomerID, TotalSales
+FROM SalesSummary
+WHERE TotalSales &gt; 10000;
+</code></pre>
+<hr />
+          </div>
+        </div>
+      </div>
+
+      <div class="item" data-index="28">
+        <button class="item-head">
+          <span class="idx">05</span>
+          <span class="item-title">Window Functions</span>
+          <span class="tag">8 Questions</span>
+          <svg class="chev" viewBox="0 0 24 24" fill="none"><path d="M12 5v14M5 12h14" stroke-width="2" stroke-linecap="round"/></svg>
+        </button>
+        <div class="item-body">
+          <div class="item-body-inner">
+<h3>15. Find the Nth highest salary using <code>DENSE_RANK()</code>.</h3>
+<p><strong>Say:</strong></p>
+<blockquote>
+<p>“I'll rank salaries using <code>DENSE_RANK()</code> and filter for the required rank.”</p>
+</blockquote>
+<pre><code class="language-sql">WITH CTE AS (
+    SELECT *,
+           DENSE_RANK() OVER (ORDER BY Salary DESC) AS rnk
+    FROM Employees
+)
+SELECT *
+FROM CTE
+WHERE rnk = 3;
+</code></pre>
+<h3>16. Calculate a running total of sales.</h3>
+<p><strong>Say:</strong></p>
+<blockquote>
+<p>“I'll use <code>SUM()</code> as a window function ordered by the sale date.”</p>
+</blockquote>
+<pre><code class="language-sql">SELECT SaleDate,
+       SalesAmount,
+       SUM(SalesAmount) OVER (
+           ORDER BY SaleDate
+       ) AS RunningTotal
+FROM Sales;
+</code></pre>
+<h3>17. Find the second-highest transaction amount for each user.</h3>
+<p><strong>Say:</strong></p>
+<blockquote>
+<p>“I'll rank transactions separately for each user using <code>DENSE_RANK()</code>.”</p>
+</blockquote>
+<pre><code class="language-sql">WITH CTE AS (
+    SELECT *,
+           DENSE_RANK() OVER (
+               PARTITION BY UserID
+               ORDER BY Amount DESC
+           ) AS rnk
+    FROM Transactions
+)
+SELECT *
+FROM CTE
+WHERE rnk = 2;
+</code></pre>
+<h3>18. Find month-over-month sales increases using <code>LAG()</code>.</h3>
+<p><strong>Say:</strong></p>
+<blockquote>
+<p>“I'll use <code>LAG()</code> to compare the current month's sales with the previous month.”</p>
+</blockquote>
+<pre><code class="language-sql">WITH CTE AS (
+    SELECT Month,
+           Sales,
+           LAG(Sales) OVER (ORDER BY Month) AS PreviousSales
+    FROM MonthlySales
+)
+SELECT *,
+       Sales - PreviousSales AS SalesIncrease
+FROM CTE
+WHERE Sales &gt; PreviousSales;
+</code></pre>
+<h3>19. Calculate percentage contribution of each product to total revenue.</h3>
+<p><strong>Say:</strong></p>
+<blockquote>
+<p>“I'll divide product revenue by the overall revenue using a window function.”</p>
+</blockquote>
+<pre><code class="language-sql">SELECT ProductID,
+       SUM(Revenue) AS ProductRevenue,
+       SUM(Revenue) * 100.0 /
+       SUM(SUM(Revenue)) OVER () AS RevenuePercentage
+FROM Sales
+GROUP BY ProductID;
+</code></pre>
+<h3>20. Find the second-most-recent order for each customer.</h3>
+<p><strong>Say:</strong></p>
+<blockquote>
+<p>“I'll use <code>ROW_NUMBER()</code> partitioned by customer and order by date descending.”</p>
+</blockquote>
+<pre><code class="language-sql">WITH CTE AS (
+    SELECT *,
+           ROW_NUMBER() OVER (
+               PARTITION BY CustomerID
+               ORDER BY OrderDate DESC
+           ) AS rn
+    FROM Orders
+)
+SELECT *
+FROM CTE
+WHERE rn = 2;
+</code></pre>
+<h3>21. Explain <code>ROW_NUMBER()</code>, <code>RANK()</code> and <code>DENSE_RANK()</code>.</h3>
+<p><strong>Say:</strong></p>
+<blockquote>
+<p>“<code>ROW_NUMBER()</code> gives every row a unique number. <code>RANK()</code> gives the same rank to ties but skips ranks. <code>DENSE_RANK()</code> gives the same rank to ties without skipping ranks.”</p>
+</blockquote>
+<pre><code class="language-sql">SELECT EmployeeName,
+       Salary,
+       ROW_NUMBER() OVER (ORDER BY Salary DESC) AS RowNum,
+       RANK() OVER (ORDER BY Salary DESC) AS RankNum,
+       DENSE_RANK() OVER (ORDER BY Salary DESC) AS DenseRankNum
+FROM Employees;
+</code></pre>
+<h3>22. Find the second-highest salary within each department.</h3>
+<p><strong>Say:</strong></p>
+<blockquote>
+<p>“I'll partition the ranking by department.”</p>
+</blockquote>
+<pre><code class="language-sql">WITH CTE AS (
+    SELECT *,
+           DENSE_RANK() OVER (
+               PARTITION BY DepartmentID
+               ORDER BY Salary DESC
+           ) AS rnk
+    FROM Employees
+)
+SELECT *
+FROM CTE
+WHERE rnk = 2;
+</code></pre>
+<hr />
+          </div>
+        </div>
+      </div>
+
+      <div class="item" data-index="29">
+        <button class="item-head">
+          <span class="idx">06</span>
+          <span class="item-title">Ranking</span>
+          <span class="tag">3 Questions</span>
+          <svg class="chev" viewBox="0 0 24 24" fill="none"><path d="M12 5v14M5 12h14" stroke-width="2" stroke-linecap="round"/></svg>
+        </button>
+        <div class="item-body">
+          <div class="item-body-inner">
+<h3>23. Find the highest-selling product in each category.</h3>
+<p><strong>Say:</strong></p>
+<blockquote>
+<p>“I'll rank products within each category and select rank one.”</p>
+</blockquote>
+<pre><code class="language-sql">WITH CTE AS (
+    SELECT ProductID, Category,
+           SUM(SalesAmount) AS TotalSales,
+           RANK() OVER (
+               PARTITION BY Category
+               ORDER BY SUM(SalesAmount) DESC
+           ) AS rnk
+    FROM Sales
+    GROUP BY ProductID, Category
+)
+SELECT *
+FROM CTE
+WHERE rnk = 1;
+</code></pre>
+<h3>24. Find the top 3 products by total revenue.</h3>
+<p><strong>Say:</strong></p>
+<blockquote>
+<p>“I'll aggregate revenue by product and return the top three.”</p>
+</blockquote>
+<pre><code class="language-sql">SELECT TOP 3 ProductID,
+       SUM(Revenue) AS TotalRevenue
+FROM Sales
+GROUP BY ProductID
+ORDER BY TotalRevenue DESC;
+</code></pre>
+<h3>25. Find the percentage of total sales contributed by the top 5 products.</h3>
+<p><strong>Say:</strong></p>
+<blockquote>
+<p>“I'll first calculate product-level sales, select the top five and divide their sales by total sales.”</p>
+</blockquote>
+<pre><code class="language-sql">WITH ProductSales AS (
+    SELECT TOP 5 ProductID,
+           SUM(SalesAmount) AS Sales
+    FROM Sales
+    GROUP BY ProductID
+    ORDER BY Sales DESC
+)
+SELECT SUM(Sales) * 100.0 /
+       (SELECT SUM(SalesAmount) FROM Sales) AS Top5Percentage
+FROM ProductSales;
+</code></pre>
+<hr />
+          </div>
+        </div>
+      </div>
+
+      <div class="item" data-index="30">
+        <button class="item-head">
+          <span class="idx">07</span>
+          <span class="item-title">Duplicate Records</span>
+          <span class="tag">2 Questions</span>
+          <svg class="chev" viewBox="0 0 24 24" fill="none"><path d="M12 5v14M5 12h14" stroke-width="2" stroke-linecap="round"/></svg>
+        </button>
+        <div class="item-body">
+          <div class="item-body-inner">
+<h3>26. Find duplicate records.</h3>
+<p><strong>Say:</strong></p>
+<blockquote>
+<p>“I'll group by the duplicate-defining columns and check where the count is greater than one.”</p>
+</blockquote>
+<pre><code class="language-sql">SELECT Name, COUNT(*) AS Cnt
+FROM Employees
+GROUP BY Name
+HAVING COUNT(*) &gt; 1;
+</code></pre>
+<h3>27. Delete duplicates while keeping one record.</h3>
+<p><strong>Say:</strong></p>
+<blockquote>
+<p>“I'll assign row numbers within each duplicate group and delete rows after the first.”</p>
+</blockquote>
+<pre><code class="language-sql">WITH CTE AS (
+    SELECT *,
+           ROW_NUMBER() OVER (
+               PARTITION BY Name
+               ORDER BY EmployeeID
+           ) AS rn
+    FROM Employees
+)
+DELETE FROM CTE
+WHERE rn &gt; 1;
+</code></pre>
+<hr />
+          </div>
+        </div>
+      </div>
+
+      <div class="item" data-index="31">
+        <button class="item-head">
+          <span class="idx">08</span>
+          <span class="item-title">Date &amp; Time</span>
+          <span class="tag">8 Questions</span>
+          <svg class="chev" viewBox="0 0 24 24" fill="none"><path d="M12 5v14M5 12h14" stroke-width="2" stroke-linecap="round"/></svg>
+        </button>
+        <div class="item-body">
+          <div class="item-body-inner">
+<h3>28. Find the first and last purchase date for each customer.</h3>
+<p><strong>Say:</strong></p>
+<blockquote>
+<p>“I'll use <code>MIN()</code> for the first purchase and <code>MAX()</code> for the last purchase.”</p>
+</blockquote>
+<pre><code class="language-sql">SELECT CustomerID,
+       MIN(PurchaseDate) AS FirstPurchase,
+       MAX(PurchaseDate) AS LastPurchase
+FROM Orders
+GROUP BY CustomerID;
+</code></pre>
+<h3>29. Find customers with no purchases in the last 6 months.</h3>
+<p><strong>Say:</strong></p>
+<blockquote>
+<p>“I'll find customers whose latest purchase is older than six months or who have never purchased.”</p>
+</blockquote>
+<pre><code class="language-sql">SELECT CustomerID
+FROM Orders
+GROUP BY CustomerID
+HAVING MAX(OrderDate) &lt; DATEADD(MONTH, -6, GETDATE());
+</code></pre>
+<h3>30. Find customers whose spending increased compared with the previous month.</h3>
+<p><strong>Say:</strong></p>
+<blockquote>
+<p>“I'll aggregate monthly spending and use <code>LAG()</code> to compare it with the previous month.”</p>
+</blockquote>
+<pre><code class="language-sql">WITH CTE AS (
+    SELECT CustomerID,
+           DATEFROMPARTS(YEAR(OrderDate), MONTH(OrderDate), 1) AS Month,
+           SUM(Amount) AS Sales
+    FROM Orders
+    GROUP BY CustomerID,
+             DATEFROMPARTS(YEAR(OrderDate), MONTH(OrderDate), 1)
+),
+CompareSales AS (
+    SELECT *,
+           LAG(Sales) OVER (
+               PARTITION BY CustomerID
+               ORDER BY Month
+           ) AS PreviousSales
+    FROM CTE
+)
+SELECT *
+FROM CompareSales
+WHERE Sales &gt; PreviousSales;
+</code></pre>
+<h3>31. Find first and last transaction within a date range.</h3>
+<p><strong>Say:</strong></p>
+<blockquote>
+<p>“I'll filter the required date range and then use <code>MIN()</code> and <code>MAX()</code>.”</p>
+</blockquote>
+<pre><code class="language-sql">SELECT CustomerID,
+       MIN(TransactionDate) AS FirstTransaction,
+       MAX(TransactionDate) AS LastTransaction
+FROM Transactions
+WHERE TransactionDate BETWEEN '2026-01-01' AND '2026-06-30'
+GROUP BY CustomerID;
+</code></pre>
+<h3>32. Find the difference in days between first and last order.</h3>
+<p><strong>Say:</strong></p>
+<blockquote>
+<p>“I'll find the first and last order dates and use <code>DATEDIFF()</code>.”</p>
+</blockquote>
+<pre><code class="language-sql">SELECT CustomerID,
+       DATEDIFF(
+           DAY,
+           MIN(OrderDate),
+           MAX(OrderDate)
+       ) AS DaysBetweenOrders
+FROM Orders
+GROUP BY CustomerID;
+</code></pre>
+<h3>33. Find customers who made purchases in two consecutive months.</h3>
+<p><strong>Say:</strong></p>
+<blockquote>
+<p>“I'll compare each purchase month with the previous purchase month using <code>LAG()</code>.”</p>
+</blockquote>
+<pre><code class="language-sql">WITH Months AS (
+    SELECT DISTINCT
+           CustomerID,
+           DATEFROMPARTS(YEAR(OrderDate), MONTH(OrderDate), 1) AS Month
+    FROM Orders
+),
+CTE AS (
+    SELECT *,
+           LAG(Month) OVER (
+               PARTITION BY CustomerID
+               ORDER BY Month
+           ) AS PreviousMonth
+    FROM Months
+)
+SELECT DISTINCT CustomerID
+FROM CTE
+WHERE DATEDIFF(MONTH, PreviousMonth, Month) = 1;
+</code></pre>
+<h3>34. Generate a month-wise/year-wise sales report.</h3>
+<p><strong>Say:</strong></p>
+<blockquote>
+<p>“I'll extract the year and month from the date and aggregate sales.”</p>
+</blockquote>
+<pre><code class="language-sql">SELECT YEAR(OrderDate) AS Year,
+       MONTH(OrderDate) AS Month,
+       SUM(Amount) AS TotalSales
+FROM Orders
+GROUP BY YEAR(OrderDate),
+         MONTH(OrderDate)
+ORDER BY Year, Month;
+</code></pre>
+<h3>35. Find customers who are inactive for 6 months/churned customers.</h3>
+<p><strong>Say:</strong></p>
+<blockquote>
+<p>“I'll find the customer's latest order and check whether it is older than six months.”</p>
+</blockquote>
+<pre><code class="language-sql">SELECT CustomerID,
+       MAX(OrderDate) AS LastOrderDate
+FROM Orders
+GROUP BY CustomerID
+HAVING MAX(OrderDate) &lt; DATEADD(MONTH, -6, GETDATE());
+</code></pre>
+<hr />
+          </div>
+        </div>
+      </div>
+
+      <div class="item" data-index="32">
+        <button class="item-head">
+          <span class="idx">09</span>
+          <span class="item-title">CASE WHEN / Conditional Logic</span>
+          <span class="tag">3 Questions</span>
+          <svg class="chev" viewBox="0 0 24 24" fill="none"><path d="M12 5v14M5 12h14" stroke-width="2" stroke-linecap="round"/></svg>
+        </button>
+        <div class="item-body">
+          <div class="item-body-inner">
+<h3>36. Categorize employees/customers into Low/Medium/High.</h3>
+<p><strong>Say:</strong></p>
+<blockquote>
+<p>“I'll use <code>CASE WHEN</code> to create conditional categories.”</p>
+</blockquote>
+<pre><code class="language-sql">SELECT EmployeeID,
+       Salary,
+       CASE
+           WHEN Salary &lt; 50000 THEN 'Low'
+           WHEN Salary &lt; 100000 THEN 'Medium'
+           ELSE 'High'
+       END AS SalaryCategory
+FROM Employees;
+</code></pre>
+<h3>37. Pivot rows into columns using <code>CASE WHEN</code>.</h3>
+<p><strong>Say:</strong></p>
+<blockquote>
+<p>“I'll use conditional aggregation with <code>CASE WHEN</code>.”</p>
+</blockquote>
+<pre><code class="language-sql">SELECT CustomerID,
+       SUM(CASE WHEN Month = 'Jan' THEN Sales ELSE 0 END) AS JanSales,
+       SUM(CASE WHEN Month = 'Feb' THEN Sales ELSE 0 END) AS FebSales,
+       SUM(CASE WHEN Month = 'Mar' THEN Sales ELSE 0 END) AS MarSales
+FROM Sales
+GROUP BY CustomerID;
+</code></pre>
+<h3>38. Correct <code>SUM()</code> used in <code>WHERE</code>.</h3>
+<p><strong>Say:</strong></p>
+<blockquote>
+<p>“Aggregate functions cannot be used directly in <code>WHERE</code>; I'll use <code>HAVING</code> after the <code>GROUP BY</code>.”</p>
+</blockquote>
+<p>❌ Incorrect:</p>
+<pre><code class="language-sql">SELECT DepartmentID, SUM(Salary)
+FROM Employees
+WHERE SUM(Salary) &gt; 100000
+GROUP BY DepartmentID;
+</code></pre>
+<p>✅ Correct:</p>
+<pre><code class="language-sql">SELECT DepartmentID,
+       SUM(Salary) AS TotalSalary
+FROM Employees
+GROUP BY DepartmentID
+HAVING SUM(Salary) &gt; 100000;
+</code></pre>
+<hr />
+          </div>
+        </div>
+      </div>
+
+      <div class="item" data-index="33">
+        <button class="item-head">
+          <span class="idx">10</span>
+          <span class="item-title">Business Scenarios / Advanced</span>
+          <span class="tag">2 Questions</span>
+          <svg class="chev" viewBox="0 0 24 24" fill="none"><path d="M12 5v14M5 12h14" stroke-width="2" stroke-linecap="round"/></svg>
+        </button>
+        <div class="item-body">
+          <div class="item-body-inner">
+<h3>39. Find numbers/records that occur consecutively three times.</h3>
+<p><strong>Say:</strong></p>
+<blockquote>
+<p>“I'll use <code>LAG()</code> to compare the current value with the previous two rows.”</p>
+</blockquote>
+<pre><code class="language-sql">WITH CTE AS (
+    SELECT ID,
+           Value,
+           LAG(Value, 1) OVER (ORDER BY ID) AS Prev1,
+           LAG(Value, 2) OVER (ORDER BY ID) AS Prev2
+    FROM DataTable
+)
+SELECT ID, Value
+FROM CTE
+WHERE Value = Prev1
+  AND Value = Prev2;
+</code></pre>
+<h3>40. Find gaps in sequential data, such as missing invoice numbers.</h3>
+<p><strong>Say:</strong></p>
+<blockquote>
+<p>“I'll compare each invoice number with the previous invoice number using <code>LAG()</code> and identify gaps greater than one.”</p>
+</blockquote>
+<pre><code class="language-sql">WITH CTE AS (
+    SELECT InvoiceNo,
+           LAG(InvoiceNo) OVER (
+               ORDER BY InvoiceNo
+           ) AS PreviousInvoice
+    FROM Invoices
+)
+SELECT PreviousInvoice + 1 AS MissingFrom,
+       InvoiceNo - 1 AS MissingTo
+FROM CTE
+WHERE InvoiceNo - PreviousInvoice &gt; 1;
+</code></pre>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
     <footer>// click a row to expand · only one project stays open at a time</footer>
   </div>
 
