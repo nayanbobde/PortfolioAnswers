@@ -1,0 +1,600 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Project Notes — Nayan Bobde</title>
+<style>
+  :root{
+    --bg: #0B1220;
+    --panel: #101A2C;
+    --panel-hover: #14213A;
+    --line: #223051;
+    --text: #E7ECF5;
+    --text-dim: #93A2C0;
+    --accent: #4FD1C5;   /* teal, BI-chart-ish */
+    --accent-2: #F5A623; /* amber, secondary series color */
+    --mono: 'JetBrains Mono', 'Fira Code', ui-monospace, SFMono-Regular, Menlo, monospace;
+    --sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  }
+
+  * { box-sizing: border-box; }
+
+  body{
+    margin:0;
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--sans);
+    padding: 64px 24px 100px;
+    line-height: 1.55;
+  }
+
+  .wrap{
+    max-width: 780px;
+    margin: 0 auto;
+  }
+
+  .eyebrow{
+    font-family: var(--mono);
+    font-size: 12px;
+    letter-spacing: 0.12em;
+    color: var(--accent);
+    text-transform: uppercase;
+    margin-bottom: 10px;
+  }
+
+  h1{
+    font-size: clamp(28px, 4vw, 38px);
+    margin: 0 0 8px;
+    letter-spacing: -0.01em;
+    font-weight: 650;
+  }
+
+  .sub{
+    color: var(--text-dim);
+    font-size: 15px;
+    margin-bottom: 48px;
+    max-width: 56ch;
+  }
+
+  .list{
+    border-top: 1px solid var(--line);
+  }
+
+  .item{
+    border-bottom: 1px solid var(--line);
+  }
+
+  .item-head{
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    width: 100%;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 22px 4px;
+    text-align: left;
+    color: var(--text);
+    font-family: inherit;
+  }
+
+  .idx{
+    font-family: var(--mono);
+    font-size: 12px;
+    color: var(--text-dim);
+    width: 28px;
+    flex-shrink: 0;
+  }
+
+  .item-title{
+    flex: 1;
+    font-size: 17px;
+    font-weight: 550;
+    transition: color .15s ease;
+  }
+
+  .item.open .item-title{ color: var(--accent); }
+
+  .tag{
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--accent-2);
+    border: 1px solid rgba(245,166,35,0.35);
+    border-radius: 999px;
+    padding: 3px 10px;
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+
+  .chev{
+    width: 18px;
+    height: 18px;
+    flex-shrink: 0;
+    stroke: var(--text-dim);
+    transition: transform .25s ease, stroke .15s ease;
+  }
+
+  .item.open .chev{
+    transform: rotate(45deg);
+    stroke: var(--accent);
+  }
+
+  .item-body{
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height .35s ease;
+  }
+
+  .item-body-inner{
+    padding: 0 4px 28px 44px;
+    color: var(--text-dim);
+    font-size: 15px;
+  }
+
+  .item-body-inner p{
+    margin: 0 0 14px;
+  }
+
+  .item-body-inner p:last-child{ margin-bottom: 0; }
+
+  .item-body-inner strong{
+    color: var(--text);
+    font-weight: 600;
+  }
+
+  code{
+    font-family: var(--mono);
+    font-size: 0.9em;
+    color: var(--accent);
+    background: rgba(79,209,197,0.08);
+    padding: 1px 6px;
+    border-radius: 4px;
+  }
+
+  .flow{
+    font-family: var(--mono);
+    font-size: 13px;
+    color: var(--accent);
+    background: var(--panel);
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    padding: 12px 14px;
+    margin: 16px 0;
+    overflow-x: auto;
+    white-space: nowrap;
+  }
+
+  .placeholder .item-title{ color: var(--text-dim); font-style: italic; }
+  .placeholder .item-body-inner{ font-style: italic; }
+
+  footer{
+    margin-top: 56px;
+    font-family: var(--mono);
+    font-size: 12px;
+    color: var(--text-dim);
+    opacity: 0.7;
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    .item-body, .chev { transition: none; }
+  }
+</style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="eyebrow">Portfolio / Project Log</div>
+    <h1>Personal Projects</h1>
+    <p class="sub">Click a project to expand it. Each entry covers the objective, the data, the modeling approach, and the business takeaway.</p>
+
+    <div class="list" id="list">
+
+      <div class="item" data-index="1">
+        <button class="item-head">
+          <span class="idx">01</span>
+          <span class="item-title">E-Commerce Sales Insights Platform</span>
+          <span class="tag">Power BI · DAX</span>
+          <svg class="chev" viewBox="0 0 24 24" fill="none"><path d="M12 5v14M5 12h14" stroke-width="2" stroke-linecap="round"/></svg>
+        </button>
+        <div class="item-body">
+          <div class="item-body-inner">
+            <p>One of my personal projects is an <strong>E-Commerce Sales Insights Platform</strong>, a Power BI dashboard built for a US-based e-commerce business using around 113,000 order records. The main business objective was to give management a single interactive dashboard to monitor sales, profitability, customer and product performance, regional trends, and shipping performance, and quickly identify areas that required attention.</p>
+
+            <p>The raw transaction data contained fields such as Order Date, Ship Date, Customer, Product, Category, Region, State, Sales, Profit, Quantity, and Discount. I first cleaned and structured the data and created a star-schema-oriented model, with the Orders table as the fact table and supporting dimensions such as Calendar, Product, Customer Segment, Region, and State Coordinates. One challenge was deciding which attributes should remain in the fact table versus being separated into dimensions; for a production model, I would normalize these into dedicated dimension tables.</p>
+
+            <p>For analysis, I created KPIs such as YTD Sales, YTD Profit, YTD Quantity, Profit Margin %, Previous Year Sales, and YoY Growth %, using DAX functions such as <strong>TOTALYTD()</strong>, <strong>SAMEPERIODLASTYEAR()</strong>, and <strong>DIVIDE()</strong>. I also used ranking logic to identify Top 5 and Bottom 5 products. Customer performance was analyzed using sales and customer-segment trends; however, the project documentation does not specify a separate repeat-customer or high-value-customer segmentation methodology, so I would not claim a specific RFM model for this project.</p>
+
+            <p>The dashboard then presented the insights through KPI cards, monthly trends, customer-segment comparisons, state-level maps, Top/Bottom product charts, regional analysis, and shipping-mode analysis, with slicers for interactive filtering. From a business perspective, these insights could help management identify high-performing products and regions, declining segments, and areas where marketing or operational attention was needed.</p>
+
+            <div class="flow">raw transaction data → data modeling → DAX / KPI analysis → interactive Power BI dashboard → business insights → marketing &amp; management decisions</div>
+
+            <p>The project helped me build practical experience in data modeling, DAX time intelligence, visualization, and translating transaction-level data into actionable business insights.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="item" data-index="2">
+        <button class="item-head">
+          <span class="idx">02</span>
+          <span class="item-title">PL-300 Power BI Data Analyst Certification</span>
+          <span class="tag">Certification</span>
+          <svg class="chev" viewBox="0 0 24 24" fill="none"><path d="M12 5v14M5 12h14" stroke-width="2" stroke-linecap="round"/></svg>
+        </button>
+        <div class="item-body">
+          <div class="item-body-inner">
+            <p>"I completed the PL-300 Power BI Data Analyst certification, where I covered the complete Power BI reporting lifecycle — connecting to different data sources, transforming and cleaning data using Power Query, building data models and relationships, creating DAX measures and calculated columns, and developing interactive reports and dashboards. I also covered report optimization, visualization best practices, row-level security, workspace and dataset management, and sharing and maintaining Power BI solutions. Along with the certification, I applied these concepts practically in my retail and supply-chain project, particularly in data modeling, KPI development, DAX, Power Query, dashboard development, performance optimization and stakeholder reporting."</p>
+
+            <p><strong>If interviewer asks: "What exactly did you learn in PL-300?"</strong><br>Remember these 5 areas:</p>
+            <p>Prepare the data → Connect, clean, transform using Power Query<br>
+            Model the data → Relationships, Star Schema, dimensions/facts<br>
+            Visualize &amp; analyze → Reports, dashboards, drill-through, filters, interactions<br>
+            DAX → Measures, calculated columns, time intelligence, filter context<br>
+            Manage &amp; secure → Workspaces, refresh, RLS, sharing and deployment</p>
+
+            <p><strong>Strong closing line</strong><br>For example, in a retail Power BI project, I would connect Power BI to SQL Server, extract sales, inventory and allocation data, and use Power Query to clean and transform the data. I would then build a Star Schema with fact and dimension tables, create relationships and develop DAX measures such as Revenue, Gross Margin, WOC and Stockout Rate.</p>
+
+            <p>Next, I would build an interactive Power BI report with KPI cards, trends, drill-throughs, slicers and conditional formatting so business users can analyze store, product and DC performance. Finally, I would publish the report to a Power BI workspace, configure scheduled refresh and Row-Level Security, and monitor the solution for performance and data issues.</p>
+
+            <div class="flow">Connect → Transform → Model → DAX → Visualize → Publish → Refresh → Secure</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="item" data-index="3">
+        <button class="item-head">
+          <span class="idx">03</span>
+          <span class="item-title">Microsoft Fabric — DP-600 Certification</span>
+          <span class="tag">Certification</span>
+          <svg class="chev" viewBox="0 0 24 24" fill="none"><path d="M12 5v14M5 12h14" stroke-width="2" stroke-linecap="round"/></svg>
+        </button>
+        <div class="item-body">
+          <div class="item-body-inner">
+            <p>"I completed the Microsoft Certified: Fabric Analytics Engineer Associate certification, which gave me a strong understanding of building and managing enterprise-scale analytics solutions using Microsoft Fabric. I covered data preparation and enrichment, Fabric analytics assets such as Lakehouses, Warehouses and semantic models, SQL and DAX-based analysis, KQL fundamentals, semantic model design and optimization, security, governance and maintaining analytics solutions. The certification helped me understand how different Fabric components work together to build an end-to-end analytics platform, and it strengthened my knowledge beyond traditional Power BI reporting."</p>
+
+            <p><strong>If interviewer asks: "What exactly did you learn in DP-600?"</strong><br>Remember these 5 areas:</p>
+            <p>Prepare data → Data ingestion, transformation and enrichment<br>
+            Fabric analytics → Lakehouse, Warehouse and analytics assets<br>
+            Semantic models → Modeling, relationships, DAX and optimization<br>
+            Query &amp; analyze → SQL, DAX and KQL<br>
+            Manage &amp; secure → Security, governance, deployment and maintenance</p>
+
+            <p>Microsoft currently describes the certification around preparing/enriching data, securing and maintaining analytics assets, and implementing/managing semantic models.</p>
+
+            <p>Take a retail company that wants to analyze sales and inventory across stores. Data comes from ERP, POS and inventory systems and is ingested into a Fabric Lakehouse using Data Factory pipelines. The data is cleaned and transformed using Dataflow Gen2 or Spark, and curated into fact and dimension tables.</p>
+
+            <p>I would then create a Warehouse or Lakehouse-based semantic model using a Star Schema, define DAX measures such as Revenue, Gross Margin, WOC and Stockout Rate, and build Power BI reports on top of the semantic model. I would apply security such as RLS, configure refresh and monitor the solution through Fabric.</p>
+
+            <div class="flow">Source systems → Data Factory → Lakehouse → Transformation → Warehouse/Semantic Model → DAX → Power BI → Security &amp; Monitoring</div>
+
+            <p><strong>One-line flow to memorize</strong><br>ERP/POS → Fabric Data Factory → Lakehouse → Transform → Warehouse/Semantic Model → DAX → Power BI → RLS/Deployment/Monitoring</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="item" data-index="4">
+        <button class="item-head">
+          <span class="idx">04</span>
+          <span class="item-title">Resume, Introduction &amp; Experience</span>
+          <span class="tag">Intro</span>
+          <svg class="chev" viewBox="0 0 24 24" fill="none"><path d="M12 5v14M5 12h14" stroke-width="2" stroke-linecap="round"/></svg>
+        </button>
+        <div class="item-body">
+          <div class="item-body-inner">
+            <p>I'm Nayan Bobde, a Data Analyst with around 2.4 years of experience, primarily in retail and supply chain analytics at Cognizant. My core expertise is in SQL and Power BI, followed by DAX, Power Query, Advanced Excel, Python, and data modeling, with a strong focus on data analysis, KPI development, dashboarding, and reporting.</p>
+
+            <p>In my previous role, I worked with a global apparel retail client on an inventory optimization project, where I analyzed end-to-end inventory movement from Distribution Centers to retail stores. I worked with 500K+ records covering 20,000+ SKUs, multiple stores, and 3+ distribution centers. I used SQL Server for data extraction, transformation, analysis, query optimization, and reusable SQL Views, while JDA provided allocation-related data and outputs.</p>
+
+            <p>On the Power BI side, I developed interactive, KPI-driven dashboards used by 5+ business functions, including Buying, Planning, Merchandising, Supply Chain, and Distribution teams. I created 15+ DAX measures covering KPIs such as Weeks of Cover, In-Stock %, Stockout Rate, Sell-Through %, Allocation Accuracy, Inventory Value, Revenue, Gross Margin %, and Forecast Accuracy. I also worked with Star Schema data modeling, Power Query, ETL concepts, Row-Level Security, and reporting automation.</p>
+
+            <p>One of my key responsibilities was identifying inventory and allocation issues by analyzing the relationship between inventory distribution, store requirements, and DC allocation. I worked closely with business stakeholders to gather requirements, validate KPI calculations, support UAT, and convert analytical findings into actionable business insights.</p>
+
+            <p>Overall, my experience has been about taking raw business data, analyzing it using SQL and analytical techniques, building Power BI dashboards to communicate insights, and collaborating with stakeholders to support better inventory, planning, and supply chain decisions.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="item" data-index="5">
+        <button class="item-head">
+          <span class="idx">05</span>
+          <span class="item-title">Current Role &amp; Responsibilities</span>
+          <span class="tag">Role</span>
+          <svg class="chev" viewBox="0 0 24 24" fill="none"><path d="M12 5v14M5 12h14" stroke-width="2" stroke-linecap="round"/></svg>
+        </button>
+        <div class="item-body">
+          <div class="item-body-inner">
+            <p>In my previous role at Cognizant, I worked as a Data Analyst for a global apparel retail client, supporting retail and supply chain analytics. My primary responsibilities included extracting and analyzing data using SQL, developing Power BI dashboards and DAX measures, building data models, monitoring business KPIs, and providing actionable insights to stakeholders.</p>
+
+            <p>On a typical day, I would work on SQL queries to extract and validate data, analyze inventory, sales, and allocation performance, update or enhance Power BI reports, troubleshoot data or KPI issues, and discuss requirements and findings with business stakeholders. I also supported UAT and production deployment of reporting solutions.</p>
+
+            <p>In the project, my main contribution was analyzing inventory flow from distribution centers to stores and identifying allocation and inventory imbalances. I worked with 500K+ records across 20,000+ SKUs, multiple stores, and 3+ distribution centers. I developed Power BI dashboards for functions such as Buying, Planning, Merchandising, Supply Chain, and Distribution, and created KPIs such as Weeks of Cover, In-Stock %, Stockout Rate, Sell-Through %, and Allocation Accuracy.</p>
+
+            <p>The client was a global apparel retail business, and my work was focused mainly on the retail supply chain, inventory management, demand planning, and allocation domain. My role was essentially to convert business and operational data into reliable dashboards and insights that helped teams make better inventory and allocation decisions.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="item" data-index="6">
+        <button class="item-head">
+          <span class="idx">06</span>
+          <span class="item-title">Project Overview &amp; Architecture</span>
+          <span class="tag">Project</span>
+          <svg class="chev" viewBox="0 0 24 24" fill="none"><path d="M12 5v14M5 12h14" stroke-width="2" stroke-linecap="round"/></svg>
+        </button>
+        <div class="item-body">
+          <div class="item-body-inner">
+            <p>My latest project was a Power BI retail inventory and supply-chain analytics project for a global apparel retail client. The main business problem was to improve inventory visibility, identify allocation imbalances, and reduce stockouts and excess inventory across stores and distribution centers.</p>
+
+            <p>End-to-end, the data came from operational systems such as JDA allocation data, purchase orders, store inventory, and sales/POS data. The Data Engineering team used ETL processes to load the data into SQL Server. I used SQL to clean, validate, join, and transform the data, and created reporting views. From SQL, the data was brought into Power BI through Power Query, where I performed final transformations and maintained query folding. I built a star-schema model with Sales and Inventory fact data connected to Product, Store, and Date dimensions, and then created DAX measures and KPI-driven reports. The reports were published to Power BI Service, where the business teams consumed them.</p>
+
+            <p>One of the biggest challenges was an allocation imbalance where DC1 was receiving more stock than its share of stores. I analyzed the JDA allocation output using SQL, identified the issue with the allocation thresholds, and proposed a revised allocation logic. I then monitored the corrected allocation through Power BI.</p>
+
+            <p>One of my challenging DAX issues was a regional sales-percentage measure that showed the correct overall total but incorrect values by region because ALL() was removing the region filter. I corrected the filter context by removing only the required product filter instead of all filters.</p>
+
+            <p>For production, one important issue was a Power BI report continuing to show old allocation numbers after the JDA rule change. I traced it to a failed Gateway refresh. I added a Last Refreshed indicator and a validation check comparing current and previous allocation records so that a failed refresh could be detected immediately.</p>
+
+            <p>Overall, my role was to take operational retail data, validate and transform it using SQL, model it in Power BI, develop DAX-based KPIs and dashboards, troubleshoot data and reporting issues, and provide reliable insights to the business teams for inventory, allocation, and supply-chain decisions.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="item" data-index="7">
+        <button class="item-head">
+          <span class="idx">07</span>
+          <span class="item-title">Business Requirements &amp; Stakeholder Management</span>
+          <span class="tag">Stakeholder</span>
+          <svg class="chev" viewBox="0 0 24 24" fill="none"><path d="M12 5v14M5 12h14" stroke-width="2" stroke-linecap="round"/></svg>
+        </button>
+        <div class="item-body">
+          <div class="item-body-inner">
+            <p>I usually start by understanding the business objective and the problem stakeholders are trying to solve, rather than directly starting with the report. I discuss the required KPIs, filters, business rules, data sources, expected output, and target users, and document the requirements clearly. If the requirement is ambiguous, I ask focused questions, confirm the business logic with the stakeholder, and create a clear understanding of what should be delivered.</p>
+
+            <p>Once the requirements are clear, I translate them into SQL logic, data-model requirements, DAX measures, KPIs, and Power BI visuals. For example, for inventory reporting, I would clarify metrics such as WOC, In-Stock %, and Stockout Rate and then build the report around those business definitions. I also work iteratively with stakeholders — sharing the initial report, collecting feedback, and incorporating approved change requests.</p>
+
+            <p>For validation and UAT, I first validate the data and KPI calculations against SQL/source data, then share the report with business users in the UAT environment. I support stakeholders during UAT, resolve any data, calculation, or visualization issues, and make sure the final numbers match the agreed business definitions before production deployment. The project documentation also describes UAT as involving sample-data testing, DAX unit testing, business-user sign-off on KPIs, and validation before production deployment.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="item" data-index="8">
+        <button class="item-head">
+          <span class="idx">08</span>
+          <span class="item-title">Data Sources &amp; Connectivity</span>
+          <span class="tag">Data</span>
+          <svg class="chev" viewBox="0 0 24 24" fill="none"><path d="M12 5v14M5 12h14" stroke-width="2" stroke-linecap="round"/></svg>
+        </button>
+        <div class="item-body">
+          <div class="item-body-inner">
+            <p>In my Power BI projects, I have mainly worked with SQL Server/SSMS, JDA allocation data, ODBMS, store inventory, and sales/POS data. In the retail project, these sources provided information such as product, sales, inventory, purchase orders, and distribution-center allocation data. The production data was stored in SQL tables, while CSV files were mainly used as snapshots for analysis and validation.</p>
+
+            <p>Yes, I have worked with multiple data sources. My approach was to bring the required data into the SQL/reporting layer, perform data cleaning, validation, joins, and business transformations using SQL, and then connect Power BI to the prepared reporting views. Power Query was mainly used for final transformations such as column selection and data types, while maintaining query folding wherever possible.</p>
+
+            <p>For connectivity, the main dashboards used Import Mode because performance was important and the data was refreshed on a schedule. For scenarios requiring current data, DirectQuery was used for real-time DC stock monitoring. The Power BI Gateway connected the on-premise SQL Server to Power BI Service for scheduled refreshes.</p>
+
+            <div class="flow">Multiple sources → SQL/ETL → validation &amp; transformation → Power BI/Power Query → data model → DAX → dashboard → Power BI Service</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="item" data-index="9">
+        <button class="item-head">
+          <span class="idx">09</span>
+          <span class="item-title">Data Modeling</span>
+          <span class="tag">Modeling</span>
+          <svg class="chev" viewBox="0 0 24 24" fill="none"><path d="M12 5v14M5 12h14" stroke-width="2" stroke-linecap="round"/></svg>
+        </button>
+        <div class="item-body">
+          <div class="item-body-inner">
+            <p>In my project, I designed a <strong>Star Schema</strong>, which is the main data model I used for the Power BI reporting solution. The model had central fact tables containing measurable business data, such as <strong>Sales and Inventory</strong>, surrounded by dimension tables such as <strong>Products, Stores, and Date</strong>. For example, the Sales fact contained fields such as <code>product_id</code>, <code>store_id</code>, <code>date_id</code>, <code>units_sold</code>, and <code>net_revenue</code>, while the Product dimension contained attributes such as category, season, section, price, material, and origin.</p>
+
+            <p>I have primarily worked with <strong>Star Schema</strong>, and the project documentation also covers concepts such as <strong>Snowflake Schema and Slowly Changing Dimensions</strong>. I prefer Star Schema in Power BI because relationships are simpler, filter propagation is cleaner, and DAX calculations are easier to maintain.</p>
+
+            <p>When designing the model, I first identified the <strong>business grain</strong> of each fact table, then separated measurable transactional data from descriptive attributes. I created relationships between the dimensions and fact tables using keys, generally with <strong>one-to-many relationships</strong>, and added a proper Date table for time-based analysis. I then built DAX measures such as <strong>WOC, In-Stock %, MOM Revenue, YTD Sales, and Store Sales Rank</strong> on top of the model.</p>
+
+            <p>I also focused on performance while designing the model by removing unnecessary columns, using appropriate data types, keeping relationships simple, and avoiding unnecessary bidirectional filtering. This helped create a model that was easier to maintain and performed well for the business dashboards.</p>
+
+            <div class="flow">Define business grain → Identify facts &amp; dimensions → Build Star Schema → Create relationships → Add Date table → Validate data → Create DAX measures → Optimize the model → Build reports</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="item" data-index="10">
+        <button class="item-head">
+          <span class="idx">10</span>
+          <span class="item-title">SQL + Power BI — Interview-Ready Answer</span>
+          <span class="tag">SQL</span>
+          <svg class="chev" viewBox="0 0 24 24" fill="none"><path d="M12 5v14M5 12h14" stroke-width="2" stroke-linecap="round"/></svg>
+        </button>
+        <div class="item-body">
+          <div class="item-body-inner">
+            <p>I used <strong>SQL and Power BI together as part of the complete reporting workflow</strong>. I primarily used SQL for data extraction, cleaning, validation, joins, aggregations, KPI calculations, and preparing the data before it was consumed by Power BI. I worked with tables such as <strong>sales, store inventory, products, and DC allocation</strong>, and used SQL to analyze inventory, sales, WOC, stockouts, allocation, and other retail KPIs.</p>
+
+            <p>I created <strong>SQL views</strong> to standardize and prepare the business logic before connecting Power BI. For example, the project documentation describes views being used to combine and transform data into reporting-ready datasets, including <code>vw_kpi_master</code>, and a <code>vw_revenue_standard</code> view that aligned Finance and Operations revenue definitions so both teams could use a consistent source of truth.</p>
+
+            <p>I preferred using <strong>Views instead of writing the complete SQL logic directly in Power BI</strong> because the business logic could be centralized, reused across reports, easier to validate, and maintained at the SQL/reporting layer. It also allowed Power BI to consume a cleaner, reporting-ready dataset instead of repeatedly processing complex joins and transformations.</p>
+
+            <p>For SQL performance, I focused on <strong>filtering and aggregating data at the SQL layer, using appropriate joins, avoiding unnecessary columns, and preparing aggregated/reporting views</strong> before Power BI consumed the data. This reduced the amount of raw data Power BI had to process and improved overall report performance. The project documentation specifically recommends pushing aggregations into SQL rather than making Power BI process large raw tables.</p>
+
+            <div class="flow">SQL → Extract &amp; Clean → Join &amp; Validate → Create Reporting Views → Power BI Data Model → DAX → Dashboard</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="item" data-index="11">
+        <button class="item-head">
+          <span class="idx">11</span>
+          <span class="item-title">Power Query &amp; DAX</span>
+          <span class="tag">DAX</span>
+          <svg class="chev" viewBox="0 0 24 24" fill="none"><path d="M12 5v14M5 12h14" stroke-width="2" stroke-linecap="round"/></svg>
+        </button>
+        <div class="item-body">
+          <div class="item-body-inner">
+            <p>In my project, I used Power Query mainly for data preparation and transformation, while I used DAX for analytical calculations and dynamic KPIs. Power Query handled tasks such as selecting required columns, setting data types, and performing final transformations before loading the data into the Power BI model. I also tried to maintain query folding by keeping major transformations in SQL views and using Power Query mainly for the final preparation steps.</p>
+
+            <p>For DAX, I created measures such as MOM Revenue Growth, YTD Sales, In-Stock %, WOC, and Store Sales Rank. For example, my WOC measure calculated total stock as SOH + SOO and divided it by average weekly sales based on the last eight weeks.</p>
+
+            <p>One of the more challenging DAX problems I faced was a regional sales-percentage measure that was giving the correct overall total but incorrect regional values. I traced the issue to the use of <code>ALL()</code>, which was removing the region filter. I corrected the measure by removing only the required product-level filter so that the region filter was preserved.</p>
+
+            <p>The main DAX functions I used were <code>CALCULATE()</code>, <code>SUM()</code>, <code>DIVIDE()</code>, <code>FILTER()</code>, <code>DATEADD()</code>, <code>DATESYTD()</code>, <code>DATESINPERIOD()</code>, <code>RANKX()</code>, <code>ALL()</code>, <code>ALLEXCEPT()</code>, and <code>VAR</code>. I used them for time intelligence, KPI calculations, ranking, filter manipulation, and percentage calculations.</p>
+
+            <p>For DAX optimization, I used variables with <code>VAR</code> to avoid repeated calculations, preferred efficient filter-context logic with <code>CALCULATE()</code>, avoided unnecessary iterators such as <code>SUMX()</code> over large fact tables, and pushed heavy aggregation work into SQL where possible. I also used measures instead of unnecessary calculated columns because measures are evaluated dynamically based on filter context.</p>
+
+            <div class="flow">Power Query = Prepare &amp; Transform Data → Data Model → DAX = Calculate &amp; Analyze → KPIs → Dashboard</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="item" data-index="12">
+        <button class="item-head">
+          <span class="idx">12</span>
+          <span class="item-title">Power BI Performance Optimization</span>
+          <span class="tag">Performance</span>
+          <svg class="chev" viewBox="0 0 24 24" fill="none"><path d="M12 5v14M5 12h14" stroke-width="2" stroke-linecap="round"/></svg>
+        </button>
+        <div class="item-body">
+          <div class="item-body-inner">
+            <p>When I face a slow Power BI report, I first identify the bottleneck rather than changing everything at once. I use Performance Analyzer to identify slow visuals and DAX queries, then check the data model, SQL queries, relationships, and refresh process.</p>
+
+            <p>In my project, I optimized performance at multiple levels. At the SQL level, I pushed aggregations and transformations into SQL views so that Power BI did not have to process unnecessary raw data. At the data-model level, I removed unused columns, used appropriate data types, maintained a clean star schema, and avoided unnecessary bidirectional relationships. At the DAX level, I used measures appropriately, optimized <code>CALCULATE()</code> logic, used <code>VAR</code> to avoid repeated calculations, and avoided unnecessary iteration over large fact tables. The project documentation specifically recommends these approaches for large Power BI models.</p>
+
+            <p>For refresh performance, I used Incremental Refresh, so instead of refreshing the complete historical dataset every time, only the required recent data was refreshed. In the documented project example, this reduced the refresh time from around 40 minutes to approximately 4 minutes.</p>
+
+            <p>I also monitored the refresh and Gateway process because a report can appear incorrect or slow when the underlying dataset has not refreshed properly. In one production issue, the Gateway refresh failed silently, so I added a Last Refreshed indicator and a validation check comparing current and previous allocation records.</p>
+
+            <div class="flow">Identify bottleneck → Optimize SQL → Optimize data model → Optimize DAX → Optimize visuals → Enable Incremental Refresh → Monitor Gateway/refresh → Validate performance</div>
+
+            <p>The key principle I follow is "optimize the data before optimizing the visuals."</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="item" data-index="13">
+        <button class="item-head">
+          <span class="idx">13</span>
+          <span class="item-title">KPIs &amp; Dashboard</span>
+          <span class="tag">KPIs</span>
+          <svg class="chev" viewBox="0 0 24 24" fill="none"><path d="M12 5v14M5 12h14" stroke-width="2" stroke-linecap="round"/></svg>
+        </button>
+        <div class="item-body">
+          <div class="item-body-inner">
+            <p>In my project, I developed Power BI dashboards for inventory, allocation, sales, and supply-chain monitoring. The main purpose was to give Buying, Planning, Merchandising, Supply Chain, and Distribution teams a single view of inventory health and help them identify stockout, overstock, and allocation issues. I worked with KPIs such as WOC, In-Stock %, Stockout Rate, Sell-Through %, Allocation Accuracy, Forecast Accuracy, DC Utilization, Inventory Value, Revenue, and Gross Margin %.</p>
+
+            <p>For example, WOC (Weeks of Cover) measures how many weeks the available inventory is expected to last. I calculated it using SOH + SOO divided by average weekly sales, based on the last eight weeks of sales. Stockout Rate measures the percentage of SKUs with no available stock, while Sell-Through Rate measures the percentage of purchased/bought units that were actually sold. Allocation Accuracy measures how closely the actual allocation matches the optimal allocation, and Forecast Accuracy measures how closely actual demand matches the forecast. DC Utilization indicates how effectively distribution-center capacity or stock is being utilized. Inventory Value represents the monetary value of inventory, and Gross Margin % measures profitability after COGS. The project documentation specifically defines WOC, In-Stock %, Stockout, Sell-Through, GMROI, and Inventory Turn with their formulas and business interpretation.</p>
+
+            <p>I implemented the KPI calculations mainly through SQL and DAX measures. For example, the DAX WOC measure calculates total stock as SOH plus SOO and divides it by average weekly sales, while In-Stock % is calculated using SKUs where SOH is greater than zero.</p>
+
+            <p>To ensure accuracy, I first validated the source data and SQL calculations, then compared the Power BI KPI results against SQL outputs and business expectations. During UAT, I worked with stakeholders to validate the KPI definitions and report numbers before production deployment. I also used data-quality checks and refresh validation to identify issues.</p>
+
+            <p>For visualization, I selected the visual based on the business question. KPI cards were used for critical metrics such as WOC and Stockout Rate, line charts for trends, bar/column charts for category and seasonal comparisons, matrices for detailed product analysis, and gauges for DC utilization. I also used conditional formatting for WOC status and bookmarks to switch between stockout and excess-inventory views.</p>
+
+            <p>The overall business value was that the dashboards converted complex inventory and allocation data into actionable insights. Instead of manually checking multiple sources, business teams could quickly identify where stock was too low, where inventory was excessive, and where allocation needed attention. This supported faster replenishment, better allocation decisions, and improved inventory visibility. My resume reflects the resulting impact as a 30% reduction in stockouts, 10% improvement in allocation accuracy, and 15% increase in revenue.</p>
+
+            <div class="flow">Dashboard → KPIs → SQL/DAX calculation → Validation → Right visualization → Business action → Measurable impact</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="item" data-index="14">
+        <button class="item-head">
+          <span class="idx">14</span>
+          <span class="item-title">Data Quality &amp; Validation</span>
+          <span class="tag">Quality</span>
+          <svg class="chev" viewBox="0 0 24 24" fill="none"><path d="M12 5v14M5 12h14" stroke-width="2" stroke-linecap="round"/></svg>
+        </button>
+        <div class="item-body">
+          <div class="item-body-inner">
+            <p>In my project, I treated <strong>data quality and validation as an important step before the data reached the Power BI dashboard</strong>. I first validated the source data using SQL by checking for <strong>NULL values, duplicate records, incorrect formats, unexpected values, and record-count inconsistencies</strong>. For duplicate or missing records, I identified the affected records using SQL and either removed duplicates or handled NULLs according to the business rule before using the data for reporting. The project documentation specifically includes duplicate-PO and JDA data-quality checks as part of the SQL validation process.</p>
+
+            <p>For <strong>KPI validation</strong>, I independently calculated the KPI using SQL and then compared the result with the corresponding Power BI/DAX measure. For example, for WOC, In-Stock %, and other inventory KPIs, I checked the Power BI results against the underlying SQL data and business definitions. If there was a mismatch, I traced it through the SQL logic, relationships, filter context, and DAX calculation.</p>
+
+            <p>For <strong>dashboard accuracy</strong>, I performed source-to-report validation by checking record counts, totals, filters, KPI values, and different business scenarios. I also validated that slicers and report filters produced the expected results.</p>
+
+            <p>For <strong>UAT</strong>, after internal testing and DAX validation, I moved the report to the UAT environment and worked with business users to validate the KPIs and report functionality. Stakeholders reviewed the numbers against their business expectations, provided feedback, and I resolved any issues before getting their sign-off. The documented process includes sample-data testing, DAX unit testing, UAT with business-user KPI sign-off, and then production deployment.</p>
+
+            <p>Before production, my final process was:</p>
+
+            <div class="flow">Source validation → SQL data-quality checks → Duplicate/NULL checks → KPI validation → Power BI/DAX validation → Report testing → UAT → Stakeholder sign-off → Production deployment → Post-deployment refresh validation</div>
+
+            <p>I also used refresh monitoring in production. For example, when a Gateway refresh failed and the dashboard continued showing old allocation numbers, I added a <strong>Last Refreshed indicator and a data-validation check</strong> to detect silent refresh failures.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="item" data-index="15">
+        <button class="item-head">
+          <span class="idx">15</span>
+          <span class="item-title">Deployment, Refresh &amp; Sharing</span>
+          <span class="tag">Deployment</span>
+          <svg class="chev" viewBox="0 0 24 24" fill="none"><path d="M12 5v14M5 12h14" stroke-width="2" stroke-linecap="round"/></svg>
+        </button>
+        <div class="item-body">
+          <div class="item-body-inner">
+            <p>In my project, after development and internal validation, I published the Power BI report to the appropriate <strong>Power BI Service workspace</strong> and followed the <strong>Dev → Test/UAT → Production</strong> deployment process. The dataset was deployed first, followed by the report, and production refresh schedules and security settings were configured before the final release.</p>
+
+            <p>For data refresh, the main dashboards used <strong>Import Mode</strong>, so the data was refreshed on a scheduled basis. An <strong>Enterprise Power BI Gateway</strong> connected the on-premise SQL Server to Power BI Service, with the documented project setup using a <strong>6 AM nightly refresh</strong> before the morning business reviews.</p>
+
+            <p>For sharing, I published the reports to Power BI Service so that the relevant <strong>Buying, Planning, Supply Chain, Finance, DC Operations, and leadership teams</strong> could access the reports.</p>
+
+            <p>For access management, I used <strong>workspace permissions and Row-Level Security (RLS)</strong> where required. In the inventory dashboard, I implemented <strong>Dynamic RLS</strong> using a <code>UserRegion</code> table and <code>USERPRINCIPALNAME()</code>, so users automatically saw data for their assigned region. I tested the roles using <strong>View as Role</strong> before publishing.</p>
+
+            <div class="flow">Develop → Test/UAT → Publish → Configure Gateway &amp; Refresh → Apply Security/RLS → Share with Users → Monitor Production</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="item" data-index="16">
+        <button class="item-head">
+          <span class="idx">16</span>
+          <span class="item-title">Power BI Security &amp; Service</span>
+          <span class="tag">Security</span>
+          <svg class="chev" viewBox="0 0 24 24" fill="none"><path d="M12 5v14M5 12h14" stroke-width="2" stroke-linecap="round"/></svg>
+        </button>
+        <div class="item-body">
+          <div class="item-body-inner">
+            <p>In my project, I used <strong>Power BI Service</strong> for publishing, sharing, security, and refresh management. For security, I implemented <strong>Dynamic Row-Level Security (RLS)</strong>. I created a <code>UserRegion</code> mapping table containing user email and region, and used <code>USERPRINCIPALNAME()</code> with <code>LOOKUPVALUE()</code> so that each user automatically saw only the data for their assigned region. I tested the role using <strong>View as Role</strong> in Power BI Desktop before publishing.</p>
+
+            <p>For <strong>RLS vs OLS</strong>, RLS controls <strong>which rows of data a user can see</strong>, whereas OLS is used to restrict access to specific <strong>tables or columns</strong>. My documented project experience specifically covers Dynamic RLS; OLS is not documented as an implemented project feature, so I would present OLS as a Power BI security concept rather than claim that I implemented it.</p>
+
+            <p>A <strong>Power BI workspace</strong> is the collaborative environment where reports, semantic models, dashboards, and other Power BI content are developed and managed. A <strong>Power BI App</strong> is a packaged, controlled way of distributing selected content from a workspace to business users.</p>
+
+            <p>A <strong>report</strong> is a multi-page interactive Power BI document containing visuals, filters, drill-through, and other interactions, while a <strong>dashboard</strong> is a single-page canvas in Power BI Service made up of pinned tiles. In my project, I developed multi-page reports and provided executives with KPI dashboard views.</p>
+
+            <p>For navigation, <strong>drill-down</strong> allows users to move to a more detailed level within the same visual — for example, Year → Quarter → Month → Day. <strong>Drill-through</strong> takes the user to a separate detail page while carrying the selected filter context. I used drill-down for time-based analysis and drill-through for detailed DC or stockout investigation.</p>
+
+            <p>I used <strong>bookmarks</strong> when I wanted to provide different report views without creating separate pages. For example, my dashboard used a bookmark to toggle between <strong>stockout and excess-inventory views</strong> with a button.</p>
+
+            <p>For <strong>data refresh</strong>, the main reports used Import Mode with scheduled refresh through the <strong>Enterprise Power BI Gateway</strong>, which connected the on-premise SQL Server to Power BI Service. The documented project setup used a nightly refresh at <strong>6 AM</strong>. I also monitored refresh status and added a <strong>Last Refreshed</strong> indicator and validation check to identify failed or stale refreshes.</p>
+
+            <div class="flow">RLS → control rows | OLS → control objects/columns | Workspace → manage content | App → distribute content | Report → multi-page analysis | Dashboard → single-page KPI view | Drill-down → same visual | Drill-through → detail page | Bookmarks → alternate views | Gateway → scheduled refresh</div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <footer>// click a row to expand · only one project stays open at a time</footer>
+  </div>
+
+<script>
+  const items = document.querySelectorAll('.item');
+
+  items.forEach(item => {
+    const head = item.querySelector('.item-head');
+    const body = item.querySelector('.item-body');
+
+    head.addEventListener('click', () => {
+      const isOpen = item.classList.contains('open');
+
+      items.forEach(other => {
+        other.classList.remove('open');
+        other.querySelector('.item-body').style.maxHeight = null;
+      });
+
+      if (!isOpen){
+        item.classList.add('open');
+        body.style.maxHeight = body.scrollHeight + 'px';
+      }
+    });
+  });
+</script>
+</body>
+</html>
