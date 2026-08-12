@@ -395,62 +395,20 @@
 </button>
 <div class="item-body">
 <div class="item-body-inner">
-<h2>⭐ 1. SQL — Complex Allocation &amp; Inventory Analysis</h2>
-<h3>Situation</h3>
-<blockquote>Stores were experiencing <strong>stockouts even though inventory was available across the network</strong>.</blockquote>
-<h3>Task</h3>
-<blockquote>My responsibility was to use the available inventory and allocation data to identify whether the issue was related to <strong>demand, supply, or DC allocation</strong>.</blockquote>
-<h3>Action</h3>
-<blockquote>I used SQL joins, aggregations and business logic across <strong>inventory, allocation, store and DC data</strong>. I compared the percentage of inventory allocated to each DC against the number of stores served by that DC.</blockquote>
-<h3>Real-Life Project Case</h3>
-<blockquote>For example, I identified that one DC was receiving around <strong>70% of the inventory while serving only around 50% of the stores</strong>, while other DCs were relatively under-supplied.</blockquote>
-<h3>Result / Achievement</h3>
-<blockquote>The analysis supported the <strong>60/30/10 DC rebalancing recommendation</strong>, which was associated with approximately <strong>30% reduction in stockouts and 10% improvement in allocation accuracy</strong>.</blockquote>
-<h3>🎤 Interview Answer</h3>
-<blockquote><strong>“One of my major SQL challenges was investigating stockouts even though inventory was available in the network. I used SQL joins and aggregations across inventory, allocation, store and DC data and found that one DC was receiving around 70% of the inventory while serving only 50% of the stores. This identified an allocation imbalance, and my analysis supported the 60/30/10 rebalancing recommendation, which was associated with around 30% lower stockouts and 10% better allocation accuracy.”</strong></blockquote>
-<hr>
-<h2>⭐ 2. Power BI — KPI, DAX &amp; Data Modeling Challenge</h2>
-<h3>Situation</h3>
-<blockquote>Business users needed consistent visibility into <strong>inventory, allocation, sales and store/DC performance</strong> through multiple KPIs.</blockquote>
-<h3>Task</h3>
-<blockquote>I needed to build a reliable Power BI model and ensure that KPIs such as <strong>WOC, Stockout Rate, In-Stock %, Sell-Through and Allocation Accuracy</strong> were calculated consistently.</blockquote>
-<h3>Action</h3>
-<blockquote>I followed a <strong>Star Schema</strong>, created relationships between fact and dimension tables, developed reusable DAX measures and validated the Power BI results against SQL outputs.</blockquote>
-<h3>Real-Life Project Case</h3>
-<blockquote>For example, I used <strong>WOC to identify inventory health</strong>, helping planners identify stores with low coverage and potential stockout risk versus stores carrying excess inventory.</blockquote>
-<h3>Result / Achievement</h3>
-<blockquote>The model provided a consistent reporting layer for business users to monitor inventory health and support <strong>allocation and replenishment decisions</strong>.</blockquote>
-<h3>🎤 Interview Answer</h3>
-<blockquote><strong>“One of my Power BI challenges was maintaining accurate and consistent KPI calculations across different business views. I built the model using a Star Schema, managed the relationships and developed reusable DAX measures. For example, WOC helped planners identify stores at stockout risk or with excess inventory. I validated the Power BI calculations against SQL results to ensure the dashboard numbers were reliable.”</strong></blockquote>
-<hr>
-<h2>⭐ 3. SQL + Power BI — Performance Optimization</h2>
-<h3>Situation</h3>
-<blockquote>The dashboards handled retail <strong>sales, inventory and allocation data</strong>, along with multiple KPIs and visuals, so performance was an important consideration.</blockquote>
-<h3>Task</h3>
-<blockquote>I needed to maintain good dashboard performance while still providing the required business analysis.</blockquote>
-<h3>Action</h3>
-<blockquote>I worked across the SQL and Power BI layers by optimizing <strong>SQL Views, the Star Schema, Power Query transformations and DAX calculations</strong>. I primarily used <strong>Import Mode</strong> for the core dashboards because they had nightly refresh requirements.</blockquote>
-<h3>Real-Life Project Case</h3>
-<blockquote>For example, instead of performing every transformation and calculation inside Power BI, I used SQL Views such as <strong><code>vw_kpi_master</code></strong> to standardize reporting logic before consuming the data in Power BI.</blockquote>
-<h3>Result / Achievement</h3>
-<blockquote>This created a more <strong>performance-focused reporting architecture</strong>, while DirectQuery was used only where the business required <strong>real-time DC stock monitoring</strong>.</blockquote>
-<h3>🎤 Interview Answer</h3>
-<blockquote><strong>“Another challenge was dashboard performance because we were working with retail sales, inventory and allocation data. I optimized the SQL reporting layer, Star Schema and DAX calculations, and primarily used Import Mode for the core dashboards. For example, I standardized reusable KPI logic in SQL Views such as <code>vw_kpi_master</code> rather than doing everything inside Power BI. For the specific real-time DC stock requirement, DirectQuery was used.”</strong></blockquote>
-<hr>
-<h2>🔥 Quick Comparison — Remember This</h2>
-<table><thead><tr><th>Area</th><th>Challenge</th><th>Your Action</th><th>Real-Life Case</th><th>Achievement</th></tr></thead><tbody>
-<tr><td><strong>SQL</strong></td><td>Stockouts despite network inventory</td><td>SQL joins + aggregations + allocation analysis</td><td>70% inventory → 50% store coverage</td><td>~30% stockout reduction, ~10% allocation accuracy improvement</td></tr>
-<tr><td><strong>Power BI</strong></td><td>KPI consistency</td><td>Star Schema + DAX + validation</td><td>WOC used to identify inventory risk</td><td>Reliable KPI reporting</td></tr>
-<tr><td><strong>SQL + Power BI</strong></td><td>Dashboard performance</td><td>SQL Views + model + DAX optimization</td><td><code>vw_kpi_master</code> standardized KPI logic</td><td>Performance-focused architecture</td></tr>
-</tbody></table>
-<h2>🧠 The 3 stories to memorize</h2>
-<h3>Story 1 — SQL</h3>
-<p><strong>Stockout → SQL analysis → DC imbalance → 70% vs 50% → 60/30/10 → business improvement</strong></p>
-<h3>Story 2 — Power BI</h3>
-<p><strong>Multiple KPIs → Star Schema → DAX → WOC example → SQL validation → reliable dashboard</strong></p>
-<h3>Story 3 — SQL + Power BI</h3>
-<p><strong>Large retail data → SQL Views → Star Schema → DAX optimization → Import Mode → better performance</strong></p>
-<p>These three stories demonstrate that you didn't just <strong>create visuals in Power BI</strong> — you understood the <strong>business problem, analyzed the data using SQL, built the model, developed DAX and converted the analysis into a usable business solution</strong>.</p>
+<h3>1. SQL — Allocation &amp; Inventory Analysis</h3>
+<p>One of the major challenges I faced was that some stores were experiencing <strong>stockouts even though inventory was available across the network</strong>. My responsibility was to identify whether the root cause was demand, supply or allocation. I used SQL joins, aggregations and business logic across inventory, allocation, store and DC data and compared the inventory allocated to each DC against the stores they were serving. For example, I identified that one DC was receiving around <strong>70% of the inventory while serving around 50% of the stores</strong>, indicating an allocation imbalance. My analysis supported the <strong>60/30/10 rebalancing recommendation</strong>, which was associated with approximately <strong>30% reduction in stockouts and 10% improvement in allocation accuracy</strong>.</p>
+<hr/>
+<h3>2. Power BI — KPI, DAX &amp; Data Modeling</h3>
+<p>One of the Power BI challenges was maintaining <strong>accurate and consistent KPI calculations</strong> across different business views. I was responsible for building a reliable model and ensuring KPIs such as <strong>WOC, Stockout Rate, In-Stock %, Sell-Through and Allocation Accuracy</strong> were calculated correctly. I followed a <strong>Star Schema</strong>, created the required relationships and developed reusable DAX measures, and then validated the Power BI results against SQL outputs. For example, I used <strong>WOC to identify stores with low inventory coverage and potential stockout risk versus stores with excess inventory</strong>, helping planners make better allocation and replenishment decisions. This resulted in a more reliable and consistent reporting layer for the business.</p>
+<hr/>
+<h3>3. SQL + Power BI — Performance Optimization</h3>
+<p>Another challenge was maintaining <strong>good dashboard performance</strong> while working with retail sales, inventory and allocation data. I optimized the SQL Views, data model and DAX calculations, reduced unnecessary data and primarily used <strong>Import Mode</strong> for the core dashboards because they had nightly refresh requirements. For example, instead of performing every KPI calculation inside Power BI, I standardized reusable reporting logic in SQL Views such as <strong><code>vw_kpi_master</code></strong> and then consumed the prepared data in Power BI. For the specific requirement of real-time DC stock monitoring, I used DirectQuery. This helped create a <strong>performance-focused reporting architecture while still meeting the business requirements</strong>.</p>
+<hr/>
+<h3>4. Inter-Store Transfer — Inventory Rebalancing</h3>
+<p>Another challenge was that some stores had <strong>excess inventory while other stores had shortages of the same product</strong>. I was responsible for identifying potential Inter-Store Transfer opportunities before recommending additional procurement. I used SQL to compare product-level inventory across stores and applied conditions such as <strong>SOH greater than 100 for excess stores and below 20 for needy stores</strong>, while keeping a safety-stock buffer at the source store. For example, if Store A had excess units of a product while Store B had very low stock, the analysis could identify Store A → Store B as a potential transfer. This created a structured approach to <strong>inventory rebalancing and stockout prevention</strong>.</p>
+<hr/>
+<h3>5. KPI/Data Validation — SQL vs Power BI</h3>
+<p>One challenge was ensuring that the numbers shown in Power BI were consistent with the underlying SQL data. When a KPI or total did not match, I traced the data flow from the <strong>SQL base tables and Views through Power Query, the Power BI model and DAX measures</strong>. For example, for an inventory KPI, I would compare the SQL-level aggregation with the Power BI result and check for duplicate records, incorrect relationships, filters or transformation issues. I then corrected the relevant logic and revalidated the result. This helped ensure that the dashboards provided <strong>accurate and trusted numbers to business users</strong>.</p>
 </div>
 </div>
 </div>
