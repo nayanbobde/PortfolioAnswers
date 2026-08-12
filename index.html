@@ -389,6 +389,74 @@
 <div class="item" data-index="12">
 <button class="item-head">
 <span class="idx">12</span>
+<span class="item-title">SQL + Power BI — Top 3 Technical Challenges &amp; Achievements</span>
+<span class="tag">Challenges &amp; Achievements</span>
+<svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg>
+</button>
+<div class="item-body">
+<div class="item-body-inner">
+<h2>⭐ 1. SQL — Complex Allocation &amp; Inventory Analysis</h2>
+<h3>Situation</h3>
+<blockquote>Stores were experiencing <strong>stockouts even though inventory was available across the network</strong>.</blockquote>
+<h3>Task</h3>
+<blockquote>My responsibility was to use the available inventory and allocation data to identify whether the issue was related to <strong>demand, supply, or DC allocation</strong>.</blockquote>
+<h3>Action</h3>
+<blockquote>I used SQL joins, aggregations and business logic across <strong>inventory, allocation, store and DC data</strong>. I compared the percentage of inventory allocated to each DC against the number of stores served by that DC.</blockquote>
+<h3>Real-Life Project Case</h3>
+<blockquote>For example, I identified that one DC was receiving around <strong>70% of the inventory while serving only around 50% of the stores</strong>, while other DCs were relatively under-supplied.</blockquote>
+<h3>Result / Achievement</h3>
+<blockquote>The analysis supported the <strong>60/30/10 DC rebalancing recommendation</strong>, which was associated with approximately <strong>30% reduction in stockouts and 10% improvement in allocation accuracy</strong>.</blockquote>
+<h3>🎤 Interview Answer</h3>
+<blockquote><strong>“One of my major SQL challenges was investigating stockouts even though inventory was available in the network. I used SQL joins and aggregations across inventory, allocation, store and DC data and found that one DC was receiving around 70% of the inventory while serving only 50% of the stores. This identified an allocation imbalance, and my analysis supported the 60/30/10 rebalancing recommendation, which was associated with around 30% lower stockouts and 10% better allocation accuracy.”</strong></blockquote>
+<hr>
+<h2>⭐ 2. Power BI — KPI, DAX &amp; Data Modeling Challenge</h2>
+<h3>Situation</h3>
+<blockquote>Business users needed consistent visibility into <strong>inventory, allocation, sales and store/DC performance</strong> through multiple KPIs.</blockquote>
+<h3>Task</h3>
+<blockquote>I needed to build a reliable Power BI model and ensure that KPIs such as <strong>WOC, Stockout Rate, In-Stock %, Sell-Through and Allocation Accuracy</strong> were calculated consistently.</blockquote>
+<h3>Action</h3>
+<blockquote>I followed a <strong>Star Schema</strong>, created relationships between fact and dimension tables, developed reusable DAX measures and validated the Power BI results against SQL outputs.</blockquote>
+<h3>Real-Life Project Case</h3>
+<blockquote>For example, I used <strong>WOC to identify inventory health</strong>, helping planners identify stores with low coverage and potential stockout risk versus stores carrying excess inventory.</blockquote>
+<h3>Result / Achievement</h3>
+<blockquote>The model provided a consistent reporting layer for business users to monitor inventory health and support <strong>allocation and replenishment decisions</strong>.</blockquote>
+<h3>🎤 Interview Answer</h3>
+<blockquote><strong>“One of my Power BI challenges was maintaining accurate and consistent KPI calculations across different business views. I built the model using a Star Schema, managed the relationships and developed reusable DAX measures. For example, WOC helped planners identify stores at stockout risk or with excess inventory. I validated the Power BI calculations against SQL results to ensure the dashboard numbers were reliable.”</strong></blockquote>
+<hr>
+<h2>⭐ 3. SQL + Power BI — Performance Optimization</h2>
+<h3>Situation</h3>
+<blockquote>The dashboards handled retail <strong>sales, inventory and allocation data</strong>, along with multiple KPIs and visuals, so performance was an important consideration.</blockquote>
+<h3>Task</h3>
+<blockquote>I needed to maintain good dashboard performance while still providing the required business analysis.</blockquote>
+<h3>Action</h3>
+<blockquote>I worked across the SQL and Power BI layers by optimizing <strong>SQL Views, the Star Schema, Power Query transformations and DAX calculations</strong>. I primarily used <strong>Import Mode</strong> for the core dashboards because they had nightly refresh requirements.</blockquote>
+<h3>Real-Life Project Case</h3>
+<blockquote>For example, instead of performing every transformation and calculation inside Power BI, I used SQL Views such as <strong><code>vw_kpi_master</code></strong> to standardize reporting logic before consuming the data in Power BI.</blockquote>
+<h3>Result / Achievement</h3>
+<blockquote>This created a more <strong>performance-focused reporting architecture</strong>, while DirectQuery was used only where the business required <strong>real-time DC stock monitoring</strong>.</blockquote>
+<h3>🎤 Interview Answer</h3>
+<blockquote><strong>“Another challenge was dashboard performance because we were working with retail sales, inventory and allocation data. I optimized the SQL reporting layer, Star Schema and DAX calculations, and primarily used Import Mode for the core dashboards. For example, I standardized reusable KPI logic in SQL Views such as <code>vw_kpi_master</code> rather than doing everything inside Power BI. For the specific real-time DC stock requirement, DirectQuery was used.”</strong></blockquote>
+<hr>
+<h2>🔥 Quick Comparison — Remember This</h2>
+<table><thead><tr><th>Area</th><th>Challenge</th><th>Your Action</th><th>Real-Life Case</th><th>Achievement</th></tr></thead><tbody>
+<tr><td><strong>SQL</strong></td><td>Stockouts despite network inventory</td><td>SQL joins + aggregations + allocation analysis</td><td>70% inventory → 50% store coverage</td><td>~30% stockout reduction, ~10% allocation accuracy improvement</td></tr>
+<tr><td><strong>Power BI</strong></td><td>KPI consistency</td><td>Star Schema + DAX + validation</td><td>WOC used to identify inventory risk</td><td>Reliable KPI reporting</td></tr>
+<tr><td><strong>SQL + Power BI</strong></td><td>Dashboard performance</td><td>SQL Views + model + DAX optimization</td><td><code>vw_kpi_master</code> standardized KPI logic</td><td>Performance-focused architecture</td></tr>
+</tbody></table>
+<h2>🧠 The 3 stories to memorize</h2>
+<h3>Story 1 — SQL</h3>
+<p><strong>Stockout → SQL analysis → DC imbalance → 70% vs 50% → 60/30/10 → business improvement</strong></p>
+<h3>Story 2 — Power BI</h3>
+<p><strong>Multiple KPIs → Star Schema → DAX → WOC example → SQL validation → reliable dashboard</strong></p>
+<h3>Story 3 — SQL + Power BI</h3>
+<p><strong>Large retail data → SQL Views → Star Schema → DAX optimization → Import Mode → better performance</strong></p>
+<p>These three stories demonstrate that you didn't just <strong>create visuals in Power BI</strong> — you understood the <strong>business problem, analyzed the data using SQL, built the model, developed DAX and converted the analysis into a usable business solution</strong>.</p>
+</div>
+</div>
+</div>
+<div class="item" data-index="13">
+<button class="item-head">
+<span class="idx">13</span>
 <span class="item-title">Power Query &amp; DAX</span>
 <span class="tag">DAX</span>
 <svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg>
@@ -404,9 +472,9 @@
 </div>
 </div>
 </div>
-<div class="item" data-index="13">
+<div class="item" data-index="14">
 <button class="item-head">
-<span class="idx">13</span>
+<span class="idx">14</span>
 <span class="item-title">Power BI Performance Optimization</span>
 <span class="tag">Performance</span>
 <svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg>
@@ -422,9 +490,9 @@
 </div>
 </div>
 </div>
-<div class="item" data-index="14">
+<div class="item" data-index="15">
 <button class="item-head">
-<span class="idx">14</span>
+<span class="idx">15</span>
 <span class="item-title">KPIs &amp; Dashboard</span>
 <span class="tag">KPIs</span>
 <svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg>
@@ -441,9 +509,9 @@
 </div>
 </div>
 </div>
-<div class="item" data-index="15">
+<div class="item" data-index="16">
 <button class="item-head">
-<span class="idx">15</span>
+<span class="idx">16</span>
 <span class="item-title">Data Quality &amp; Validation</span>
 <span class="tag">Quality</span>
 <svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg>
@@ -460,9 +528,9 @@
 </div>
 </div>
 </div>
-<div class="item" data-index="16">
+<div class="item" data-index="17">
 <button class="item-head">
-<span class="idx">16</span>
+<span class="idx">17</span>
 <span class="item-title">Deployment, Refresh &amp; Sharing</span>
 <span class="tag">Deployment</span>
 <svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg>
@@ -477,9 +545,9 @@
 </div>
 </div>
 </div>
-<div class="item" data-index="17">
+<div class="item" data-index="18">
 <button class="item-head">
-<span class="idx">17</span>
+<span class="idx">18</span>
 <span class="item-title">Power BI Security &amp; Service</span>
 <span class="tag">Security</span>
 <svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg>
