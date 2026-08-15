@@ -239,25 +239,31 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    flex-wrap: wrap;
+    gap: 16px;
     margin-top: 60px;
     margin-bottom: 40px;
   }
 
-  #randomQuestionBtn{
+  #randomQuestionBtn,
+  #realInterviewBtn{
     display: inline-flex;
     align-items: center;
     gap: 10px;
     padding: 14px 28px;
-    background: var(--accent);
-    color: #06251F;
     font-family: var(--sans);
     font-size: 15px;
     font-weight: 650;
-    border: none;
     border-radius: 999px;
     cursor: pointer;
+    transition: transform .18s ease, box-shadow .18s ease, background .18s ease, color .18s ease, border-color .18s ease;
+  }
+
+  #randomQuestionBtn{
+    background: var(--accent);
+    color: #06251F;
+    border: none;
     box-shadow: 0 8px 24px rgba(79, 209, 197, 0.25), 0 2px 6px rgba(0,0,0,0.2);
-    transition: transform .18s ease, box-shadow .18s ease, background .18s ease;
   }
   #randomQuestionBtn:hover{
     background: #62dcd1;
@@ -265,7 +271,21 @@
     box-shadow: 0 12px 28px rgba(79, 209, 197, 0.35), 0 4px 10px rgba(0,0,0,0.25);
   }
   #randomQuestionBtn:active{ transform: translateY(0) scale(.97); }
-  #randomQuestionBtn .rq-dice{
+
+  #realInterviewBtn{
+    background: transparent;
+    color: var(--accent-2);
+    border: 1.5px solid var(--accent-2);
+  }
+  #realInterviewBtn:hover{
+    background: rgba(245, 166, 35, 0.1);
+    transform: translateY(-2px);
+    box-shadow: 0 12px 28px rgba(245, 166, 35, 0.2), 0 4px 10px rgba(0,0,0,0.2);
+  }
+  #realInterviewBtn:active{ transform: translateY(0) scale(.97); }
+
+  #randomQuestionBtn .rq-dice,
+  #realInterviewBtn .ri-target{
     font-size: 18px;
     line-height: 1;
     display: inline-block;
@@ -279,7 +299,11 @@
   }
 
   @media (max-width: 560px){
-    #randomQuestionBtn{
+    .random-question-section{
+      flex-direction: column;
+    }
+    #randomQuestionBtn,
+    #realInterviewBtn{
       width: 100%;
       max-width: 320px;
       justify-content: center;
@@ -480,6 +504,370 @@
   @media (max-width: 560px){
     .rq-modal{ padding: 24px; }
   }
+
+  /* ===== Real Interview Practice ===== */
+  .ri-overlay{
+    position: fixed;
+    inset: 0;
+    background: rgba(6, 10, 20, 0.72);
+    backdrop-filter: blur(3px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+    z-index: 1000;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity .22s ease, visibility .22s ease;
+  }
+  .ri-overlay.ri-visible{
+    opacity: 1;
+    visibility: visible;
+  }
+
+  .ri-modal{
+    width: 100%;
+    max-width: 640px;
+    max-height: 86vh;
+    overflow-y: auto;
+    background: var(--panel);
+    border: 1px solid var(--line);
+    border-radius: 16px;
+    padding: 32px;
+    box-shadow: 0 24px 60px rgba(0,0,0,0.5);
+    transform: translateY(18px) scale(.97);
+    opacity: 0;
+    transition: transform .28s cubic-bezier(.2,.9,.25,1.1), opacity .22s ease;
+  }
+  .ri-overlay.ri-visible .ri-modal{
+    transform: translateY(0) scale(1);
+    opacity: 1;
+  }
+
+  .ri-view{ display: none; }
+  .ri-view.ri-active{ display: block; }
+
+  .ri-close{
+    position: sticky;
+    top: 0;
+    float: right;
+    width: 32px;
+    height: 32px;
+    border-radius: 8px;
+    border: 1px solid var(--line);
+    background: var(--panel);
+    color: var(--text-dim);
+    font-size: 16px;
+    line-height: 1;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background .15s ease, color .15s ease, border-color .15s ease;
+  }
+  .ri-close:hover{
+    background: var(--panel-hover);
+    color: var(--text);
+    border-color: var(--accent-2);
+  }
+
+  /* Start screen */
+  .ri-start-eyebrow{
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--accent-2);
+    margin-bottom: 8px;
+  }
+  .ri-start-title{
+    font-size: 24px;
+    font-weight: 650;
+    margin: 0 0 20px;
+    letter-spacing: -0.01em;
+  }
+  .ri-round-list{
+    list-style: none;
+    margin: 0 0 24px;
+    padding: 0;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+  }
+  .ri-round-list li{
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 14px;
+    color: var(--text);
+    background: var(--bg);
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    padding: 10px 12px;
+  }
+  .ri-round-list li .ri-check{
+    color: var(--accent);
+    font-weight: 700;
+    flex-shrink: 0;
+  }
+  .ri-round-list li.ri-round-empty{
+    color: var(--text-dim);
+    font-style: italic;
+  }
+  .ri-round-list li.ri-round-empty .ri-check{ color: var(--text-dim); }
+
+  .ri-stats{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin-bottom: 28px;
+  }
+  .ri-stat{
+    background: var(--bg);
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    padding: 14px 16px;
+  }
+  .ri-stat-label{
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--text-dim);
+    margin-bottom: 6px;
+  }
+  .ri-stat-value{
+    font-size: 20px;
+    font-weight: 650;
+    color: var(--accent);
+  }
+
+  .ri-btn{
+    padding: 14px 20px;
+    border-radius: 10px;
+    font-family: var(--sans);
+    font-size: 14px;
+    font-weight: 650;
+    cursor: pointer;
+    transition: transform .15s ease, background .15s ease, border-color .15s ease, color .15s ease;
+    text-align: center;
+    border: none;
+  }
+  .ri-btn:active{ transform: scale(.97); }
+  .ri-btn:disabled{ opacity: .4; cursor: not-allowed; transform: none; }
+
+  .ri-btn-start{
+    display: block;
+    width: 100%;
+    background: var(--accent-2);
+    color: #2B1600;
+    font-size: 15px;
+    padding: 16px 20px;
+  }
+  .ri-btn-start:hover{ background: #ffb54d; }
+
+  /* Interview screen */
+  .ri-round-header{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    margin-bottom: 6px;
+    padding-right: 40px;
+  }
+  .ri-round-badge{
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--accent-2);
+  }
+  .ri-round-name{
+    font-size: 20px;
+    font-weight: 650;
+    margin: 4px 0 18px;
+    color: var(--text);
+  }
+
+  .ri-progress-block{
+    margin-bottom: 22px;
+  }
+  .ri-progress-row{
+    display: flex;
+    justify-content: space-between;
+    font-size: 12px;
+    color: var(--text-dim);
+    margin-bottom: 6px;
+  }
+  .ri-progress-track{
+    width: 100%;
+    height: 6px;
+    background: var(--bg);
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    overflow: hidden;
+  }
+  .ri-progress-fill{
+    height: 100%;
+    background: var(--accent);
+    border-radius: 999px;
+    transition: width .3s ease;
+  }
+  .ri-progress-fill.ri-round-fill{ background: var(--accent-2); }
+
+  .ri-question-badge{
+    font-family: var(--mono);
+    font-size: 12px;
+    color: var(--text-dim);
+    margin-bottom: 10px;
+  }
+  .ri-question-text{
+    font-size: 18px;
+    font-weight: 600;
+    line-height: 1.5;
+    color: var(--text);
+    margin: 0 0 22px;
+  }
+  .ri-question-text code{
+    font-family: var(--mono);
+    font-size: 0.85em;
+    background: var(--bg);
+    border: 1px solid var(--line);
+    border-radius: 4px;
+    padding: 1px 6px;
+  }
+
+  .ri-answer{
+    max-height: 0;
+    opacity: 0;
+    overflow: hidden;
+    margin-top: 0;
+    border-radius: 12px;
+    transition: max-height .38s cubic-bezier(.2,.9,.25,1.1), opacity .3s ease, margin-top .38s ease;
+  }
+  .ri-answer.ri-open{
+    max-height: 420px;
+    opacity: 1;
+    margin-top: 4px;
+    margin-bottom: 18px;
+  }
+  .ri-answer-inner{
+    background: var(--bg);
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    padding: 18px 20px;
+    max-height: 380px;
+    overflow-y: auto;
+    color: var(--text-dim);
+    font-size: 14px;
+  }
+  .ri-answer-inner p{ margin: 0 0 14px; }
+  .ri-answer-inner p:last-child{ margin-bottom: 0; }
+  .ri-answer-inner strong{ color: var(--text); font-weight: 600; }
+  .ri-answer-inner ul,
+  .ri-answer-inner ol{ margin: 0 0 14px; padding-left: 20px; }
+  .ri-answer-inner li{ margin-bottom: 6px; }
+  .ri-answer-inner li:last-child{ margin-bottom: 0; }
+  .ri-answer-inner pre{ margin: 12px 0; }
+  .ri-answer-inner pre:first-child{ margin-top: 0; }
+  .ri-answer-inner pre:last-child{ margin-bottom: 0; }
+
+  .ri-actions{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    margin-top: 4px;
+  }
+  .ri-btn-answer{
+    background: transparent;
+    border: 1px solid var(--line);
+    color: var(--text-dim);
+    grid-column: span 2;
+  }
+  .ri-btn-answer:hover{ color: var(--text); border-color: var(--accent); }
+  .ri-btn-answer.ri-active{
+    color: var(--accent);
+    border-color: var(--accent);
+    background: rgba(79,209,197,0.08);
+  }
+  .ri-btn-nav{
+    background: transparent;
+    border: 1px solid var(--line);
+    color: var(--text-dim);
+  }
+  .ri-btn-nav:hover{ color: var(--text); border-color: var(--accent-2); }
+  .ri-btn-end{
+    background: transparent;
+    border: 1px solid rgba(220, 90, 90, 0.5);
+    color: #E28A8A;
+    grid-column: span 2;
+  }
+  .ri-btn-end:hover{ background: rgba(220, 90, 90, 0.1); border-color: #E28A8A; }
+
+  /* Completion screen */
+  .ri-complete-title{
+    font-size: 24px;
+    font-weight: 650;
+    margin: 0 0 6px;
+  }
+  .ri-complete-sub{
+    color: var(--text-dim);
+    font-size: 14px;
+    margin: 0 0 24px;
+  }
+  .ri-complete-list{
+    list-style: none;
+    margin: 0 0 20px;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  .ri-complete-list li{
+    display: flex;
+    justify-content: space-between;
+    font-size: 14px;
+    background: var(--bg);
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    padding: 10px 14px;
+    color: var(--text-dim);
+  }
+  .ri-complete-list li span:last-child{
+    color: var(--accent);
+    font-weight: 650;
+    font-family: var(--mono);
+  }
+  .ri-complete-total{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: rgba(79,209,197,0.08);
+    border: 1px solid var(--accent);
+    border-radius: 10px;
+    padding: 14px 16px;
+    margin-bottom: 24px;
+    font-weight: 650;
+  }
+  .ri-complete-total span:last-child{
+    color: var(--accent);
+    font-size: 20px;
+    font-family: var(--mono);
+  }
+  .ri-complete-actions{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+  }
+
+  @media (max-width: 560px){
+    .ri-modal{ padding: 22px; }
+    .ri-round-list{ grid-template-columns: 1fr; }
+    .ri-stats{ grid-template-columns: 1fr; }
+    .ri-actions{ grid-template-columns: 1fr; }
+    .ri-btn-answer, .ri-btn-end{ grid-column: span 1; }
+    .ri-complete-actions{ grid-template-columns: 1fr; }
+  }
 </style>
 </head>
 <body>
@@ -503,6 +891,88 @@
     </div>
     <div class="rq-answer" id="rqAnswer">
       <div class="rq-answer-inner item-body-inner" id="rqAnswerContent"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== Real Interview Practice: modal ===== -->
+<div class="ri-overlay" id="riOverlay" role="dialog" aria-modal="true" aria-labelledby="riLiveTitle">
+  <div class="ri-modal" id="riModal">
+    <button class="ri-close" id="riClose" type="button" aria-label="Close">✕</button>
+
+    <!-- Start screen -->
+    <div class="ri-view ri-active" id="riStartView">
+      <div class="ri-start-eyebrow">Interview Simulation</div>
+      <h2 class="ri-start-title" id="riLiveTitle">Power BI / SQL Interview Simulation</h2>
+      <ul class="ri-round-list" id="riRoundList"></ul>
+      <div class="ri-stats">
+        <div class="ri-stat">
+          <div class="ri-stat-label">Estimated Duration</div>
+          <div class="ri-stat-value" id="riDuration">—</div>
+        </div>
+        <div class="ri-stat">
+          <div class="ri-stat-label">Total Questions Available</div>
+          <div class="ri-stat-value" id="riTotalAvailable">—</div>
+        </div>
+      </div>
+      <button class="ri-btn ri-btn-start" id="riStartBtn" type="button">Start Interview</button>
+    </div>
+
+    <!-- Interview screen -->
+    <div class="ri-view" id="riInterviewView">
+      <div class="ri-round-header">
+        <div class="ri-round-badge" id="riRoundBadge">Round 1 of 6</div>
+      </div>
+      <h3 class="ri-round-name" id="riRoundName">Introduction</h3>
+
+      <div class="ri-progress-block">
+        <div class="ri-progress-row">
+          <span>Overall Progress</span>
+          <span id="riOverallPct">0%</span>
+        </div>
+        <div class="ri-progress-track">
+          <div class="ri-progress-fill" id="riOverallFill" style="width:0%"></div>
+        </div>
+      </div>
+
+      <div class="ri-progress-block">
+        <div class="ri-progress-row">
+          <span>Round Progress</span>
+          <span id="riRoundProgressLabel">0 / 0 Questions</span>
+        </div>
+        <div class="ri-progress-track">
+          <div class="ri-progress-fill ri-round-fill" id="riRoundFill" style="width:0%"></div>
+        </div>
+      </div>
+
+      <div class="ri-question-badge" id="riQuestionBadge">Question 1 of 1</div>
+      <p class="ri-question-text" id="riQuestionText">Loading…</p>
+
+      <div class="ri-answer" id="riAnswer">
+        <div class="ri-answer-inner" id="riAnswerContent"></div>
+      </div>
+
+      <div class="ri-actions">
+        <button class="ri-btn ri-btn-answer" id="riShowAnswer" type="button" aria-expanded="false">Show Answer</button>
+        <button class="ri-btn ri-btn-nav" id="riPrev" type="button">Previous</button>
+        <button class="ri-btn ri-btn-nav" id="riNext" type="button">Next</button>
+        <button class="ri-btn ri-btn-end" id="riEnd" type="button">End Interview</button>
+      </div>
+    </div>
+
+    <!-- Completion screen -->
+    <div class="ri-view" id="riCompleteView">
+      <h2 class="ri-complete-title">Interview Completed</h2>
+      <p class="ri-complete-sub">Here's how your practice session broke down by round.</p>
+      <ul class="ri-complete-list" id="riCompleteList"></ul>
+      <div class="ri-complete-total">
+        <span>Total Questions Practiced</span>
+        <span id="riCompleteTotal">0</span>
+      </div>
+      <div class="ri-complete-actions">
+        <button class="ri-btn ri-btn-nav" id="riCompleteClose" type="button">Close</button>
+        <button class="ri-btn ri-btn-start" id="riRestartBtn" type="button">Practice Again</button>
+      </div>
     </div>
   </div>
 </div>
@@ -5467,6 +5937,10 @@ HAVING SUM(order_value) &gt; 100000;</code></pre>
     <span class="rq-dice" aria-hidden="true">🎲</span>
     <span>Practice Random Question</span>
   </button>
+  <button id="realInterviewBtn" type="button" aria-haspopup="dialog" aria-controls="riOverlay">
+    <span class="ri-target" aria-hidden="true">🎯</span>
+    <span>Real Interview Practice</span>
+  </button>
 </section>
 
 <footer>// click a row to expand · only one project stays open at a time</footer>
@@ -5735,6 +6209,327 @@ HAVING SUM(order_value) &gt; 100000;</code></pre>
       }
     }
   });
+})();
+</script>
+
+<!-- ===== Real Interview Practice: logic ===== -->
+<script>
+(function(){
+  const openBtn = document.getElementById('realInterviewBtn');
+  const overlay = document.getElementById('riOverlay');
+  const closeBtn = document.getElementById('riClose');
+
+  const startView = document.getElementById('riStartView');
+  const interviewView = document.getElementById('riInterviewView');
+  const completeView = document.getElementById('riCompleteView');
+
+  const roundListEl = document.getElementById('riRoundList');
+  const durationEl = document.getElementById('riDuration');
+  const totalAvailableEl = document.getElementById('riTotalAvailable');
+  const startBtn = document.getElementById('riStartBtn');
+
+  const roundBadgeEl = document.getElementById('riRoundBadge');
+  const roundNameEl = document.getElementById('riRoundName');
+  const overallPctEl = document.getElementById('riOverallPct');
+  const overallFillEl = document.getElementById('riOverallFill');
+  const roundProgressLabelEl = document.getElementById('riRoundProgressLabel');
+  const roundFillEl = document.getElementById('riRoundFill');
+  const questionBadgeEl = document.getElementById('riQuestionBadge');
+  const questionTextEl = document.getElementById('riQuestionText');
+  const answerPanel = document.getElementById('riAnswer');
+  const answerContentEl = document.getElementById('riAnswerContent');
+
+  const showAnswerBtn = document.getElementById('riShowAnswer');
+  const prevBtn = document.getElementById('riPrev');
+  const nextBtn = document.getElementById('riNext');
+  const endBtn = document.getElementById('riEnd');
+
+  const completeListEl = document.getElementById('riCompleteList');
+  const completeTotalEl = document.getElementById('riCompleteTotal');
+  const completeCloseBtn = document.getElementById('riCompleteClose');
+  const restartBtn = document.getElementById('riRestartBtn');
+
+  // Fixed interview blueprint. Content is never hardcoded here — only the
+  // round names/order/duration hint are fixed; every question and answer is
+  // read live from the page each time the interview starts.
+  const ROUND_DEFS = [
+    { id: 1, name: 'Introduction',        hint: '5 min' },
+    { id: 2, name: 'Resume Discussion',   hint: '10 min' },
+    { id: 3, name: 'SQL Round',           hint: '15–20 min' },
+    { id: 4, name: 'Power BI Round',      hint: '20–30 min' },
+    { id: 5, name: 'Scenario Round',      hint: '10–15 min' },
+    { id: 6, name: 'Behavioral Round',    hint: '5–10 min' }
+  ];
+
+  // Keyword groups used to dynamically map each question to a round, based
+  // on its own section/topic/question title text. Checked in this order
+  // (most specific first) so a title only needs to contain ONE matching
+  // signal to be classified correctly. Adding new sections/topics/questions
+  // on the page that contain these same words automatically routes them
+  // into the right round with no code changes.
+  const ROUND_KEYWORDS = [
+    { round: 6, words: ['behavioral', 'conflict', 'team collaboration', 'difficult situation', 'difficult stakeholder', 'staying current'] },
+    { round: 1, words: ['resume,', 'introduction', 'current role', 'responsibilit', 'certification', 'certified'] },
+    { round: 2, words: ['project overview', 'architecture', 'business requirement', 'stakeholder', 'data source', 'connectivity', 'domain knowledge', 'supply chain', 'retail', 'e-commerce', 'ecommerce'] },
+    { round: 5, words: ['scenario', 'challenge', 'production issue', 'gateway', 'stockout', 'allocation issue', 'kpi mismatch', 'slow report', 'data validation', 'data quality', 'root cause'] },
+    { round: 3, words: ['sql'] },
+    { round: 4, words: ['power bi', 'power query', 'dax', 'data model', 'kpi', 'dashboard', 'security', 'service', 'visual', 'performance', 'deployment', 'refresh', 'fabric'] }
+  ];
+
+  function classifyRound(unit){
+    const hay = (unit.sectionTitle + ' ' + unit.topicTitle + ' ' + unit.title).toLowerCase();
+    for (const group of ROUND_KEYWORDS) {
+      if (group.words.some(w => hay.includes(w))) return group.round;
+    }
+    return 2; // sensible fallback: general resume/project discussion
+  }
+
+  function cleanText(el){
+    return el ? el.textContent.replace(/\s+/g, ' ').trim() : '';
+  }
+
+  // Reads every interview-worthy Q&A unit currently in the DOM. Nothing is
+  // stored in a separate array between calls — this always re-scans the live
+  // page, so any question added, edited, or removed later is automatically
+  // reflected the next time the interview is started.
+  function collectInterviewUnits(){
+    const units = [];
+    const seen = new Set();
+
+    function push(node, titleEl, answerEl, topicTitle){
+      if (!titleEl || !answerEl || seen.has(node)) return;
+      const title = cleanText(titleEl);
+      if (!title) return;
+      const sectionItem = node.closest('.section-item');
+      const sectionTitleEl = sectionItem ? sectionItem.querySelector(':scope > .item-head h1, :scope > .section-head h1') : null;
+      const unit = {
+        title: title,
+        answerEl: answerEl,
+        topicTitle: topicTitle || '',
+        sectionTitle: cleanText(sectionTitleEl)
+      };
+      unit.round = classifyRound(unit);
+      units.push(unit);
+      seen.add(node);
+    }
+
+    // Type A: existing "question-item" Q&A blocks (Power BI Hands-on, SQL
+    // Hands-on, Most Asked sections, etc).
+    document.querySelectorAll('.question-item').forEach((node) => {
+      const titleEl = node.querySelector(':scope > .item-head .item-title');
+      const answerEl = node.querySelector(':scope > .item-body > .item-body-inner');
+      const topicItem = node.closest('.topic-item');
+      const topicTitleEl = topicItem ? topicItem.querySelector(':scope > .item-head .item-title') : null;
+      push(node, titleEl, answerEl, cleanText(topicTitleEl));
+    });
+
+    // Type B: flat narrative items sitting directly in a section's top-level
+    // list (not wrapped in a topic-item or question-item), e.g. the items
+    // under "Work Experience & Resume Questions".
+    document.querySelectorAll('.section-body-inner > .list > .item').forEach((node) => {
+      if (node.classList.contains('topic-item') || node.classList.contains('question-item')) return;
+      const titleEl = node.querySelector(':scope > .item-head .item-title');
+      const answerEl = node.querySelector(':scope > .item-body > .item-body-inner');
+      push(node, titleEl, answerEl, '');
+    });
+
+    return units;
+  }
+
+  function buildRounds(units){
+    return ROUND_DEFS.map(def => ({
+      id: def.id,
+      name: def.name,
+      hint: def.hint,
+      questions: units.filter(u => u.round === def.id)
+    })).filter(r => r.questions.length > 0);
+  }
+
+  // ---- Interview state ----
+  let rounds = [];
+  let flat = [];          // flattened list of {round, roundIndex, qIndexInRound, title, answerEl}
+  let currentPos = 0;
+  let visited = new Set();
+
+  function buildFlat(roundsArr){
+    const out = [];
+    roundsArr.forEach((r, ri) => {
+      r.questions.forEach((q, qi) => {
+        out.push({ round: r, roundIndex: ri, qIndexInRound: qi, title: q.title, answerEl: q.answerEl });
+      });
+    });
+    return out;
+  }
+
+  function resetAnswerPanel(){
+    answerPanel.classList.remove('ri-open');
+    answerContentEl.innerHTML = '';
+    showAnswerBtn.textContent = 'Show Answer';
+    showAnswerBtn.setAttribute('aria-expanded', 'false');
+    showAnswerBtn.classList.remove('ri-active');
+  }
+
+  function showView(view){
+    [startView, interviewView, completeView].forEach(v => v.classList.remove('ri-active'));
+    view.classList.add('ri-active');
+  }
+
+  // ---- Start screen ----
+  function populateStartScreen(){
+    const units = collectInterviewUnits();
+    rounds = buildRounds(units);
+    flat = buildFlat(rounds);
+
+    roundListEl.innerHTML = '';
+    ROUND_DEFS.forEach(def => {
+      const found = rounds.find(r => r.id === def.id);
+      const li = document.createElement('li');
+      if (found) {
+        li.innerHTML = '<span class="ri-check">✓</span><span>' + def.name + ' (' + found.questions.length + ')</span>';
+      } else {
+        li.className = 'ri-round-empty';
+        li.innerHTML = '<span class="ri-check">–</span><span>' + def.name + ' (none yet)</span>';
+      }
+      roundListEl.appendChild(li);
+    });
+
+    const totalQuestions = flat.length;
+    totalAvailableEl.textContent = totalQuestions;
+
+    // Rough, always-current estimate: ~1.5–2 minutes per question.
+    const estMin = Math.max(15, Math.round(totalQuestions * 1.75));
+    durationEl.textContent = '~' + estMin + ' Minutes';
+
+    startBtn.disabled = totalQuestions === 0;
+    startBtn.textContent = totalQuestions === 0 ? 'No Questions Found' : 'Start Interview';
+  }
+
+  // ---- Interview screen ----
+  function renderCurrentQuestion(){
+    const item = flat[currentPos];
+    if (!item) return;
+
+    roundBadgeEl.textContent = 'Round ' + (item.roundIndex + 1) + ' of ' + rounds.length;
+    roundNameEl.textContent = item.round.name;
+
+    const overallPct = Math.round(((currentPos + 1) / flat.length) * 100);
+    overallPctEl.textContent = overallPct + '%';
+    overallFillEl.style.width = overallPct + '%';
+
+    const roundTotal = item.round.questions.length;
+    const roundPos = item.qIndexInRound + 1;
+    roundProgressLabelEl.textContent = roundPos + ' / ' + roundTotal + ' Questions';
+    roundFillEl.style.width = Math.round((roundPos / roundTotal) * 100) + '%';
+
+    questionBadgeEl.textContent = 'Question ' + roundPos + ' of ' + roundTotal;
+    questionTextEl.textContent = item.title;
+
+    resetAnswerPanel();
+    visited.add(currentPos);
+
+    prevBtn.disabled = currentPos === 0;
+    nextBtn.textContent = (currentPos === flat.length - 1) ? 'Finish' : 'Next';
+  }
+
+  function toggleAnswer(){
+    const item = flat[currentPos];
+    if (!item || !item.answerEl) return;
+
+    const isOpen = answerPanel.classList.contains('ri-open');
+    if (isOpen) {
+      answerPanel.classList.remove('ri-open');
+      showAnswerBtn.textContent = 'Show Answer';
+      showAnswerBtn.setAttribute('aria-expanded', 'false');
+      showAnswerBtn.classList.remove('ri-active');
+    } else {
+      // Extracted live from the question's own existing .item-body-inner —
+      // no separate answer store is kept anywhere.
+      answerContentEl.innerHTML = item.answerEl.innerHTML;
+      answerPanel.classList.add('ri-open');
+      showAnswerBtn.textContent = 'Hide Answer';
+      showAnswerBtn.setAttribute('aria-expanded', 'true');
+      showAnswerBtn.classList.add('ri-active');
+    }
+  }
+
+  function goNext(){
+    if (currentPos >= flat.length - 1) {
+      finishInterview();
+      return;
+    }
+    currentPos++;
+    renderCurrentQuestion();
+  }
+
+  function goPrev(){
+    if (currentPos === 0) return;
+    currentPos--;
+    renderCurrentQuestion();
+  }
+
+  // ---- Completion screen ----
+  function finishInterview(){
+    completeListEl.innerHTML = '';
+    let total = 0;
+
+    rounds.forEach((r, ri) => {
+      let count = 0;
+      r.questions.forEach((q, qi) => {
+        const flatIdx = flat.findIndex(f => f.roundIndex === ri && f.qIndexInRound === qi);
+        if (flatIdx !== -1 && visited.has(flatIdx)) count++;
+      });
+      total += count;
+
+      const li = document.createElement('li');
+      li.innerHTML = '<span>' + r.name + '</span><span>' + count + ' Question' + (count === 1 ? '' : 's') + '</span>';
+      completeListEl.appendChild(li);
+    });
+
+    completeTotalEl.textContent = total;
+    showView(completeView);
+  }
+
+  // ---- Open / close / start / restart ----
+  function openModal(){
+    populateStartScreen();
+    showView(startView);
+    overlay.classList.add('ri-visible');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeModal(){
+    overlay.classList.remove('ri-visible');
+    document.body.style.overflow = '';
+  }
+
+  function startInterview(){
+    if (!flat.length) return;
+    currentPos = 0;
+    visited = new Set();
+    showView(interviewView);
+    renderCurrentQuestion();
+  }
+
+  function restartInterview(){
+    populateStartScreen();
+    showView(startView);
+  }
+
+  openBtn.addEventListener('click', openModal);
+  closeBtn.addEventListener('click', closeModal);
+  completeCloseBtn.addEventListener('click', closeModal);
+  overlay.addEventListener('click', (e) => { if (e.target === overlay) closeModal(); });
+  document.addEventListener('keydown', (e) => {
+    if (!overlay.classList.contains('ri-visible')) return;
+    if (e.key === 'Escape') closeModal();
+  });
+
+  startBtn.addEventListener('click', startInterview);
+  restartBtn.addEventListener('click', restartInterview);
+  showAnswerBtn.addEventListener('click', toggleAnswer);
+  prevBtn.addEventListener('click', goPrev);
+  nextBtn.addEventListener('click', goNext);
+  endBtn.addEventListener('click', finishInterview);
 })();
 </script>
 </body>
