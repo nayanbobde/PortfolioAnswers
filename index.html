@@ -233,9 +233,280 @@
   .section-body-inner .list{
     border-top: 1px solid var(--line);
   }
+
+  /* ===== Random Question Practice ===== */
+  .random-question-section{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 60px;
+    margin-bottom: 40px;
+  }
+
+  #randomQuestionBtn{
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 14px 28px;
+    background: var(--accent);
+    color: #06251F;
+    font-family: var(--sans);
+    font-size: 15px;
+    font-weight: 650;
+    border: none;
+    border-radius: 999px;
+    cursor: pointer;
+    box-shadow: 0 8px 24px rgba(79, 209, 197, 0.25), 0 2px 6px rgba(0,0,0,0.2);
+    transition: transform .18s ease, box-shadow .18s ease, background .18s ease;
+  }
+  #randomQuestionBtn:hover{
+    background: #62dcd1;
+    transform: translateY(-2px);
+    box-shadow: 0 12px 28px rgba(79, 209, 197, 0.35), 0 4px 10px rgba(0,0,0,0.25);
+  }
+  #randomQuestionBtn:active{ transform: translateY(0) scale(.97); }
+  #randomQuestionBtn .rq-dice{
+    font-size: 18px;
+    line-height: 1;
+    display: inline-block;
+  }
+  #randomQuestionBtn.rq-rolling .rq-dice{
+    animation: rq-spin .5s ease;
+  }
+  @keyframes rq-spin{
+    0%{ transform: rotate(0deg); }
+    100%{ transform: rotate(360deg); }
+  }
+
+  @media (max-width: 560px){
+    #randomQuestionBtn{
+      width: 100%;
+      max-width: 320px;
+      justify-content: center;
+      padding: 14px 20px;
+      font-size: 14px;
+    }
+  }
+
+  .rq-overlay{
+    position: fixed;
+    inset: 0;
+    background: rgba(6, 10, 20, 0.72);
+    backdrop-filter: blur(3px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+    z-index: 1000;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity .22s ease, visibility .22s ease;
+  }
+  .rq-overlay.rq-visible{
+    opacity: 1;
+    visibility: visible;
+  }
+
+  .rq-modal{
+    width: 100%;
+    max-width: 560px;
+    max-height: 82vh;
+    overflow-y: auto;
+    background: var(--panel);
+    border: 1px solid var(--line);
+    border-radius: 16px;
+    padding: 32px;
+    box-shadow: 0 24px 60px rgba(0,0,0,0.5);
+    transform: translateY(18px) scale(.97);
+    opacity: 0;
+    transition: transform .28s cubic-bezier(.2,.9,.25,1.1), opacity .22s ease;
+  }
+  .rq-overlay.rq-visible .rq-modal{
+    transform: translateY(0) scale(1);
+    opacity: 1;
+  }
+
+  .rq-modal-top{
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 16px;
+    margin-bottom: 18px;
+  }
+
+  .rq-meta{
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  .rq-badge{
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--accent);
+  }
+
+  .rq-crumbs{
+    font-size: 12px;
+    color: var(--text-dim);
+  }
+  .rq-crumbs span{ color: var(--accent-2); }
+
+  .rq-close{
+    flex-shrink: 0;
+    width: 32px;
+    height: 32px;
+    border-radius: 8px;
+    border: 1px solid var(--line);
+    background: transparent;
+    color: var(--text-dim);
+    font-size: 16px;
+    line-height: 1;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background .15s ease, color .15s ease, border-color .15s ease;
+  }
+  .rq-close:hover{
+    background: var(--panel-hover);
+    color: var(--text);
+    border-color: var(--accent);
+  }
+
+  .rq-question-text{
+    font-size: 19px;
+    font-weight: 600;
+    line-height: 1.5;
+    color: var(--text);
+    margin: 0 0 28px;
+  }
+  .rq-question-text code{
+    font-family: var(--mono);
+    font-size: 0.85em;
+    background: var(--bg);
+    border: 1px solid var(--line);
+    border-radius: 4px;
+    padding: 1px 6px;
+  }
+
+  .rq-actions{
+    display: flex;
+    gap: 10px;
+  }
+
+  .rq-actions .rq-btn{ flex: 1; }
+
+  .rq-btn{
+    padding: 13px 14px;
+    border-radius: 10px;
+    font-family: var(--sans);
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: transform .15s ease, background .15s ease, border-color .15s ease, color .15s ease;
+    text-align: center;
+  }
+  .rq-btn:active{ transform: scale(.97); }
+
+  .rq-btn-primary{
+    background: var(--accent);
+    border: 1px solid var(--accent);
+    color: #06251F;
+  }
+  .rq-btn-primary:hover{ background: #62dcd1; }
+
+  .rq-btn-secondary{
+    background: transparent;
+    border: 1px solid var(--line);
+    color: var(--text-dim);
+  }
+  .rq-btn-secondary:hover{
+    color: var(--text);
+    border-color: var(--accent);
+  }
+
+  .rq-btn-answer.rq-active{
+    color: var(--accent);
+    border-color: var(--accent);
+    background: rgba(79,209,197,0.08);
+  }
+
+  /* Answer reveal panel */
+  .rq-answer{
+    max-height: 0;
+    opacity: 0;
+    overflow: hidden;
+    margin-top: 0;
+    border-radius: 12px;
+    transition: max-height .38s cubic-bezier(.2,.9,.25,1.1), opacity .3s ease, margin-top .38s ease;
+  }
+  .rq-answer.rq-open{
+    max-height: 440px;
+    opacity: 1;
+    margin-top: 18px;
+  }
+
+  .rq-answer-inner{
+    background: var(--bg);
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    padding: 18px 20px;
+    max-height: 400px;
+    overflow-y: auto;
+    color: var(--text-dim);
+    font-size: 14px;
+  }
+
+  .rq-answer-inner ul,
+  .rq-answer-inner ol{
+    margin: 0 0 14px;
+    padding-left: 20px;
+  }
+  .rq-answer-inner li{ margin-bottom: 6px; }
+  .rq-answer-inner li:last-child{ margin-bottom: 0; }
+
+  .rq-answer-inner pre{ margin: 12px 0; }
+  .rq-answer-inner pre:first-child{ margin-top: 0; }
+  .rq-answer-inner pre:last-child{ margin-bottom: 0; }
+
+  .rq-empty{
+    color: var(--text-dim);
+    font-size: 14px;
+  }
+
+  @media (max-width: 560px){
+    .rq-modal{ padding: 24px; }
+  }
 </style>
 </head>
 <body>
+
+<!-- ===== Random Question Practice: modal (button now lives at the bottom of the page) ===== -->
+
+<div class="rq-overlay" id="rqOverlay" role="dialog" aria-modal="true" aria-labelledby="rqQuestionText">
+  <div class="rq-modal" id="rqModal">
+    <div class="rq-modal-top">
+      <div class="rq-meta">
+        <div class="rq-badge" id="rqBadge">Question</div>
+        <div class="rq-crumbs" id="rqCrumbs"></div>
+      </div>
+      <button class="rq-close" id="rqClose" type="button" aria-label="Close">✕</button>
+    </div>
+    <p class="rq-question-text" id="rqQuestionText">Loading…</p>
+    <div class="rq-actions">
+      <button class="rq-btn rq-btn-secondary" id="rqCloseBottom" type="button">Close</button>
+      <button class="rq-btn rq-btn-secondary rq-btn-answer" id="rqShowAnswer" type="button" aria-expanded="false">Show Answer</button>
+      <button class="rq-btn rq-btn-primary" id="rqNext" type="button">Next Random Question</button>
+    </div>
+    <div class="rq-answer" id="rqAnswer">
+      <div class="rq-answer-inner item-body-inner" id="rqAnswerContent"></div>
+    </div>
+  </div>
+</div>
+
 <div class="wrap">
 <div class="item section-item" data-index="work-exp">
 <div class="item-head section-head" role="button" tabindex="0" aria-expanded="false">
@@ -655,7 +926,7 @@
 <div class="list" id="pbi-topics"> <div class="item topic-item" data-index="17">
 <button class="item-head">
 <span class="idx">01</span>
-<span class="item-title">DAX Fundamentals</span>
+<span class="item-title">Writing DAX Measures: Total Sales, VAR &amp; CALCULATE()</span>
 <span class="tag">8 Questions</span>
 <svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg>
 </button>
@@ -826,7 +1097,7 @@ DIVIDE(Profit, TotalSales)</code></pre>
 <div class="item topic-item" data-index="18">
 <button class="item-head">
 <span class="idx">02</span>
-<span class="item-title">Time Intelligence</span>
+<span class="item-title">Building YTD, MTD, QTD, YoY, MoM &amp; Rolling Measures</span>
 <span class="tag">8 Questions</span>
 <svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg>
 </button>
@@ -1003,7 +1274,7 @@ CALCULATE(
 <div class="item topic-item" data-index="19">
 <button class="item-head">
 <span class="idx">03</span>
-<span class="item-title">Advanced DAX / Ranking</span>
+<span class="item-title">Building TOPN(), RANKX(), % Contribution &amp; SWITCH() Measures</span>
 <span class="tag">7 Questions</span>
 <svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg>
 </button>
@@ -1183,7 +1454,7 @@ SWITCH(
 <div class="item topic-item" data-index="20">
 <button class="item-head">
 <span class="idx">04</span>
-<span class="item-title">Power Query / M Code</span>
+<span class="item-title">Cleaning Data, Merge/Append, Unpivot &amp; Custom Columns in M</span>
 <span class="tag">7 Questions</span>
 <svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg>
 </button>
@@ -1350,7 +1621,7 @@ A       | Feb   | 150</code></pre>
 <div class="item topic-item" data-index="21">
 <button class="item-head">
 <span class="idx">05</span>
-<span class="item-title">RLS / Security</span>
+<span class="item-title">Building Static &amp; Dynamic RLS with USERPRINCIPALNAME()</span>
 <span class="tag">4 Questions</span>
 <svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg>
 </button>
@@ -1452,7 +1723,7 @@ Sales</code></pre>
 <div class="item topic-item" data-index="22">
 <button class="item-head">
 <span class="idx">06</span>
-<span class="item-title">Relationships / Advanced DAX</span>
+<span class="item-title">Using USERELATIONSHIP(), RELATED() &amp; DISTINCT() in Practice</span>
 <span class="tag">3 Questions</span>
 <svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg>
 </button>
@@ -1532,7 +1803,7 @@ COUNTROWS(
 <div class="item topic-item" data-index="23">
 <button class="item-head">
 <span class="idx">07</span>
-<span class="item-title">Performance / Optimization</span>
+<span class="item-title">Fixing Slow Refresh, DAX &amp; Large Dataset Performance</span>
 <span class="tag">3 Questions</span>
 <svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg>
 </button>
@@ -1643,7 +1914,7 @@ Create efficient DAX measures</code></pre>
 <p class="sub">Interview-ready Power BI topics with questions, “Say” answers, queries, and real-life cases.</p>
 <div class="list" id="powerbi-topics">
 <div class="item topic-item" data-index="powerbi-1">
-<button class="item-head"><span class="idx">01</span><span class="item-title">DAX --- Measures vs Calculated Columns</span><span class="tag">12 Questions</span><svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg></button>
+<button class="item-head"><span class="idx">01</span><span class="item-title">Measure vs Calculated Column: Storage, Timing &amp; Performance</span><span class="tag">12 Questions</span><svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg></button>
 <div class="item-body"><div class="item-body-inner"><div class="item question-item" data-question="powerbi-1">
 <button class="item-head"><span class="idx">01</span><span class="item-title">What is a measure?</span><svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg></button>
 <div class="item-body"><div class="item-body-inner"><p><strong>Say:</strong> A measure is a DAX calculation evaluated at query time based on
@@ -1750,7 +2021,7 @@ measures.</p>
 </div></div>
 </div></div></div>
 </div><div class="item topic-item" data-index="powerbi-2">
-<button class="item-head"><span class="idx">02</span><span class="item-title">DAX --- SUM vs SUMX</span><span class="tag">7 Questions</span><svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg></button>
+<button class="item-head"><span class="idx">02</span><span class="item-title">SUM() vs SUMX(): Iterators, Speed &amp; When to Use Each</span><span class="tag">7 Questions</span><svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg></button>
 <div class="item-body"><div class="item-body-inner"><div class="item question-item" data-question="powerbi-13">
 <button class="item-head"><span class="idx">13</span><span class="item-title">What is <code>SUM()</code>?</span><svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg></button>
 <div class="item-body"><div class="item-body-inner"><p><strong>Say:</strong> <code>SUM()</code> adds the values of a single numeric column.</p>
@@ -1827,7 +2098,7 @@ quantity and price are available.</p>
 </div></div>
 </div></div></div>
 </div><div class="item topic-item" data-index="powerbi-3">
-<button class="item-head"><span class="idx">03</span><span class="item-title">DAX --- Contexts</span><span class="tag">12 Questions</span><svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg></button>
+<button class="item-head"><span class="idx">03</span><span class="item-title">Row, Filter &amp; Evaluation Context, ALL(), ALLEXCEPT(), KEEPFILTERS()</span><span class="tag">12 Questions</span><svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg></button>
 <div class="item-body"><div class="item-body-inner"><div class="item question-item" data-question="powerbi-20">
 <button class="item-head"><span class="idx">20</span><span class="item-title">What is row context?</span><svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg></button>
 <div class="item-body"><div class="item-body-inner"><p><strong>Say:</strong> Row context means DAX is evaluating the current row, commonly
@@ -1964,7 +2235,7 @@ applying an additional business condition.</p>
 </div></div>
 </div></div></div>
 </div><div class="item topic-item" data-index="powerbi-4">
-<button class="item-head"><span class="idx">04</span><span class="item-title">DAX --- CALCULATE &amp; Context Transition</span><span class="tag">4 Questions</span><svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg></button>
+<button class="item-head"><span class="idx">04</span><span class="item-title">CALCULATE() and Row-to-Filter Context Transition</span><span class="tag">4 Questions</span><svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg></button>
 <div class="item-body"><div class="item-body-inner"><div class="item question-item" data-question="powerbi-32">
 <button class="item-head"><span class="idx">32</span><span class="item-title">What is <code>CALCULATE()</code>?</span><svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg></button>
 <div class="item-body"><div class="item-body-inner"><p><strong>Say:</strong> <code>CALCULATE()</code> evaluates an expression in a modified filter
@@ -2008,7 +2279,7 @@ CustomerID can become a filter when the measure is evaluated.</p>
 </div></div>
 </div></div></div>
 </div><div class="item topic-item" data-index="powerbi-5">
-<button class="item-head"><span class="idx">05</span><span class="item-title">DAX --- Time Intelligence</span><span class="tag">8 Questions</span><svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg></button>
+<button class="item-head"><span class="idx">05</span><span class="item-title">YoY, SAMEPERIODLASTYEAR(), DATEADD() &amp; TOTALYTD() Concepts</span><span class="tag">8 Questions</span><svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg></button>
 <div class="item-body"><div class="item-body-inner"><div class="item question-item" data-question="powerbi-36">
 <button class="item-head"><span class="idx">36</span><span class="item-title">How do you calculate Year-over-Year growth?</span><svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg></button>
 <div class="item-body"><div class="item-body-inner"><p><strong>Say:</strong> I calculate current-period sales, calculate prior-year sales
@@ -2122,7 +2393,7 @@ time calculations across sales and inventory reports.</p>
 </div></div>
 </div></div></div>
 </div><div class="item topic-item" data-index="powerbi-6">
-<button class="item-head"><span class="idx">06</span><span class="item-title">DAX --- Advanced Functions &amp; Dynamic Analysis</span><span class="tag">6 Questions</span><svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg></button>
+<button class="item-head"><span class="idx">06</span><span class="item-title">Calculation Groups, RELATED() vs RELATEDTABLE() &amp; Dynamic Top N</span><span class="tag">6 Questions</span><svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg></button>
 <div class="item-body"><div class="item-body-inner"><div class="item question-item" data-question="powerbi-44">
 <button class="item-head"><span class="idx">44</span><span class="item-title">How would you handle dynamic currency conversion?</span><svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg></button>
 <div class="item-body"><div class="item-body-inner"><p><strong>Say:</strong> I keep exchange rates in a rate table and use the selected
@@ -2222,7 +2493,7 @@ measure remains unchanged.</p>
 </div></div>
 </div></div></div>
 </div><div class="item topic-item" data-index="powerbi-7">
-<button class="item-head"><span class="idx">07</span><span class="item-title">Power Query --- Fundamentals &amp; Transformations</span><span class="tag">14 Questions</span><svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg></button>
+<button class="item-head"><span class="idx">07</span><span class="item-title">Power Query Editor, Reference vs Duplicate &amp; M Best Practices</span><span class="tag">14 Questions</span><svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg></button>
 <div class="item-body"><div class="item-body-inner"><div class="item question-item" data-question="powerbi-50">
 <button class="item-head"><span class="idx">50</span><span class="item-title">What is Power Query?</span><svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg></button>
 <div class="item-body"><div class="item-body-inner"><p><strong>Say:</strong> Power Query is Power BI's data ingestion and transformation
@@ -2382,7 +2653,7 @@ without rewriting the transformation.</p>
 </div></div>
 </div></div></div>
 </div><div class="item topic-item" data-index="powerbi-8">
-<button class="item-head"><span class="idx">08</span><span class="item-title">Power Query --- Append &amp; Merge</span><span class="tag">3 Questions</span><svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg></button>
+<button class="item-head"><span class="idx">08</span><span class="item-title">Append vs Merge: Key Differences Explained</span><span class="tag">3 Questions</span><svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg></button>
 <div class="item-body"><div class="item-body-inner"><div class="item question-item" data-question="powerbi-64">
 <button class="item-head"><span class="idx">64</span><span class="item-title">What is Append?</span><svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg></button>
 <div class="item-body"><div class="item-body-inner"><p><strong>Say:</strong> Append combines rows from two or more tables with compatible
@@ -2406,7 +2677,7 @@ merged into sales data.</p>
 </div></div>
 </div></div></div>
 </div><div class="item topic-item" data-index="powerbi-9">
-<button class="item-head"><span class="idx">09</span><span class="item-title">Power Query --- Query Folding</span><span class="tag">6 Questions</span><svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg></button>
+<button class="item-head"><span class="idx">09</span><span class="item-title">Query Folding: What It Is, Why It Matters &amp; What Breaks It</span><span class="tag">6 Questions</span><svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg></button>
 <div class="item-body"><div class="item-body-inner"><div class="item question-item" data-question="powerbi-67">
 <button class="item-head"><span class="idx">67</span><span class="item-title">What is Query Folding?</span><svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg></button>
 <div class="item-body"><div class="item-body-inner"><p><strong>Say:</strong> Query folding is Power Query's ability to translate supported
@@ -2456,7 +2727,7 @@ filters to SQL Server before loading the model.</p>
 </div></div>
 </div></div></div>
 </div><div class="item topic-item" data-index="powerbi-10">
-<button class="item-head"><span class="idx">10</span><span class="item-title">Power Query --- Parameters</span><span class="tag">3 Questions</span><svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg></button>
+<button class="item-head"><span class="idx">10</span><span class="item-title">Power Query Parameters &amp; Their Role in Incremental Refresh</span><span class="tag">3 Questions</span><svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg></button>
 <div class="item-body"><div class="item-body-inner"><div class="item question-item" data-question="powerbi-73">
 <button class="item-head"><span class="idx">73</span><span class="item-title">Have you worked with parameters in Power BI?</span><svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg></button>
 <div class="item-body"><div class="item-body-inner"><p><strong>Say:</strong> Yes; parameters can make source paths, date ranges,
@@ -2482,7 +2753,7 @@ historical partitions remain unchanged.</p>
 </div></div>
 </div></div></div>
 </div><div class="item topic-item" data-index="powerbi-11">
-<button class="item-head"><span class="idx">11</span><span class="item-title">Data Modeling --- Star &amp; Snowflake Schema</span><span class="tag">8 Questions</span><svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg></button>
+<button class="item-head"><span class="idx">11</span><span class="item-title">Star vs Snowflake Schema: Facts, Dimensions &amp; Performance</span><span class="tag">8 Questions</span><svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg></button>
 <div class="item-body"><div class="item-body-inner"><div class="item question-item" data-question="powerbi-76">
 <button class="item-head"><span class="idx">76</span><span class="item-title">What is a star schema?</span><svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg></button>
 <div class="item-body"><div class="item-body-inner"><p><strong>Say:</strong> A star schema has a central fact table connected directly to
@@ -2542,7 +2813,7 @@ when a simple dimension can provide the required attributes.</p>
 </div></div>
 </div></div></div>
 </div><div class="item topic-item" data-index="powerbi-12">
-<button class="item-head"><span class="idx">12</span><span class="item-title">Data Modeling --- Relationships &amp; Cardinality</span><span class="tag">6 Questions</span><svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg></button>
+<button class="item-head"><span class="idx">12</span><span class="item-title">Cardinality, Bi-Directional Filtering &amp; High-Cardinality Columns</span><span class="tag">6 Questions</span><svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg></button>
 <div class="item-body"><div class="item-body-inner"><div class="item question-item" data-question="powerbi-84">
 <button class="item-head"><span class="idx">84</span><span class="item-title">What are relationship cardinalities?</span><svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg></button>
 <div class="item-body"><div class="item-body-inner"><p><strong>Say:</strong> The main cardinalities are one-to-one, one-to-many,
@@ -2603,7 +2874,7 @@ CustomerSegment bridge can model the relationship cleanly.</p>
 </div></div>
 </div></div></div>
 </div><div class="item topic-item" data-index="powerbi-13">
-<button class="item-head"><span class="idx">13</span><span class="item-title">Data Modeling --- Many-to-Many Relationships</span><span class="tag">6 Questions</span><svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg></button>
+<button class="item-head"><span class="idx">13</span><span class="item-title">Many-to-Many Relationships, Bridge Tables, CROSSFILTER() &amp; TREATAS()</span><span class="tag">6 Questions</span><svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg></button>
 <div class="item-body"><div class="item-body-inner"><div class="item question-item" data-question="powerbi-90">
 <button class="item-head"><span class="idx">90</span><span class="item-title">What is a many-to-many relationship?</span><svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg></button>
 <div class="item-body"><div class="item-body-inner"><p><strong>Say:</strong> It occurs when multiple rows in one table can relate to
@@ -2676,7 +2947,7 @@ a model table without creating a physical relationship.</p>
 </div></div>
 </div></div></div>
 </div><div class="item topic-item" data-index="powerbi-14">
-<button class="item-head"><span class="idx">14</span><span class="item-title">Power BI --- Row-Level Security &amp; Data Security</span><span class="tag">9 Questions</span><svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg></button>
+<button class="item-head"><span class="idx">14</span><span class="item-title">Static/Dynamic RLS, USERPRINCIPALNAME() &amp; Column-Level Security</span><span class="tag">9 Questions</span><svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg></button>
 <div class="item-body"><div class="item-body-inner"><div class="item question-item" data-question="powerbi-96">
 <button class="item-head"><span class="idx">96</span><span class="item-title">What is Row-Level Security?</span><svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg></button>
 <div class="item-body"><div class="item-body-inner"><p><strong>Say:</strong> RLS restricts which rows a user can see based on roles and
@@ -2757,7 +3028,7 @@ release.</p>
 </div></div>
 </div></div></div>
 </div><div class="item topic-item" data-index="powerbi-15">
-<button class="item-head"><span class="idx">15</span><span class="item-title">Power BI --- Storage Modes &amp; Connectivity</span><span class="tag">17 Questions</span><svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg></button>
+<button class="item-head"><span class="idx">15</span><span class="item-title">Import vs DirectQuery vs Live Connection &amp; Data Sources</span><span class="tag">17 Questions</span><svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg></button>
 <div class="item-body"><div class="item-body-inner"><div class="item question-item" data-question="powerbi-105">
 <button class="item-head"><span class="idx">105</span><span class="item-title">What is Import mode?</span><svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg></button>
 <div class="item-body"><div class="item-body-inner"><p><strong>Say:</strong> Import mode loads data into Power BI's in-memory storage
@@ -2907,7 +3178,7 @@ weather, or operational data that is not available in the warehouse.</p>
 </div></div>
 </div></div></div>
 </div><div class="item topic-item" data-index="powerbi-16">
-<button class="item-head"><span class="idx">16</span><span class="item-title">Power BI --- DirectQuery Performance</span><span class="tag">1 Questions</span><svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg></button>
+<button class="item-head"><span class="idx">16</span><span class="item-title">Indexes &amp; Execution Plans Behind DirectQuery Speed</span><span class="tag">1 Questions</span><svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg></button>
 <div class="item-body"><div class="item-body-inner"><div class="item question-item" data-question="powerbi-122">
 <button class="item-head"><span class="idx">122</span><span class="item-title">How do clustered/non-clustered indexes and execution plans help DirectQuery?</span><svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg></button>
 <div class="item-body"><div class="item-body-inner"><p><strong>Say:</strong> In DirectQuery, source-side indexing and query-plan
@@ -2919,7 +3190,7 @@ operations.</p>
 </div></div>
 </div></div></div>
 </div><div class="item topic-item" data-index="powerbi-17">
-<button class="item-head"><span class="idx">17</span><span class="item-title">Power BI --- Refresh &amp; Incremental Refresh</span><span class="tag">8 Questions</span><svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg></button>
+<button class="item-head"><span class="idx">17</span><span class="item-title">Scheduled vs Incremental Refresh &amp; Gateway Timeout Fixes</span><span class="tag">8 Questions</span><svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg></button>
 <div class="item-body"><div class="item-body-inner"><div class="item question-item" data-question="powerbi-123">
 <button class="item-head"><span class="idx">123</span><span class="item-title">What is data refresh?</span><svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg></button>
 <div class="item-body"><div class="item-body-inner"><p><strong>Say:</strong> Data refresh updates the Power BI model with the latest
@@ -2987,7 +3258,7 @@ historical partitions remain unchanged.</p>
 </div></div>
 </div></div></div>
 </div><div class="item topic-item" data-index="powerbi-18">
-<button class="item-head"><span class="idx">18</span><span class="item-title">Power BI --- Premium &amp; Capacity</span><span class="tag">4 Questions</span><svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg></button>
+<button class="item-head"><span class="idx">18</span><span class="item-title">Power BI Premium, Capacity &amp; Refresh Behavior</span><span class="tag">4 Questions</span><svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg></button>
 <div class="item-body"><div class="item-body-inner"><div class="item question-item" data-question="powerbi-131">
 <button class="item-head"><span class="idx">131</span><span class="item-title">What is Power BI Premium?</span><svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg></button>
 <div class="item-body"><div class="item-body-inner"><p><strong>Say:</strong> Power BI Premium provides dedicated capacity capabilities and
@@ -3024,7 +3295,7 @@ design.</p>
 </div></div>
 </div></div></div>
 </div><div class="item topic-item" data-index="powerbi-19">
-<button class="item-head"><span class="idx">19</span><span class="item-title">Power BI Service</span><span class="tag">7 Questions</span><svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg></button>
+<button class="item-head"><span class="idx">19</span><span class="item-title">Drill-Through, Reports vs Dashboards, Gateways &amp; Workspace Roles</span><span class="tag">7 Questions</span><svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg></button>
 <div class="item-body"><div class="item-body-inner"><div class="item question-item" data-question="powerbi-135">
 <button class="item-head"><span class="idx">135</span><span class="item-title">What is your experience with Power BI Service?</span><svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg></button>
 <div class="item-body"><div class="item-body-inner"><p><strong>Say:</strong> "After developing reports, I have worked with publishing,
@@ -3083,7 +3354,7 @@ responsibilities.</p>
 </div></div>
 </div></div></div>
 </div><div class="item topic-item" data-index="powerbi-20">
-<button class="item-head"><span class="idx">20</span><span class="item-title">Power BI --- Visualization</span><span class="tag">1 Questions</span><svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg></button>
+<button class="item-head"><span class="idx">20</span><span class="item-title">Visualization Types Used Across Power BI Projects</span><span class="tag">1 Questions</span><svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg></button>
 <div class="item-body"><div class="item-body-inner"><div class="item question-item" data-question="powerbi-142">
 <button class="item-head"><span class="idx">142</span><span class="item-title">What visualizations have you worked with?</span><svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg></button>
 <div class="item-body"><div class="item-body-inner"><p><strong>Say:</strong> I have used cards/KPIs, bar and column charts, line charts,
@@ -3095,7 +3366,7 @@ for operational detail.</p>
 </div></div>
 </div></div></div>
 </div><div class="item topic-item" data-index="powerbi-21">
-<button class="item-head"><span class="idx">21</span><span class="item-title">DAX --- Self-Assessment</span><span class="tag">1 Questions</span><svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg></button>
+<button class="item-head"><span class="idx">21</span><span class="item-title">Rating Your Own DAX Confidence &amp; Proficiency</span><span class="tag">1 Questions</span><svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg></button>
 <div class="item-body"><div class="item-body-inner"><div class="item question-item" data-question="powerbi-143">
 <button class="item-head"><span class="idx">143</span><span class="item-title">How confident are you in writing DAX? How would you rate yourself?</span><svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg></button>
 <div class="item-body"><div class="item-body-inner"><p><strong>Say:</strong> "I would rate myself around 8/10 for practical DAX; I am
@@ -3108,7 +3379,7 @@ contexts.</p>
 </div></div>
 </div></div></div>
 </div><div class="item topic-item" data-index="powerbi-22">
-<button class="item-head"><span class="idx">22</span><span class="item-title">Round 3 --- Scenario-Based Questions</span><span class="tag">13 Questions</span><svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg></button>
+<button class="item-head"><span class="idx">22</span><span class="item-title">Scenario Round: SQL, DAX, RLS, Storage Mode &amp; Performance</span><span class="tag">13 Questions</span><svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg></button>
 <div class="item-body"><div class="item-body-inner"><div class="item question-item" data-question="powerbi-144">
 <button class="item-head"><span class="idx">144</span><span class="item-title">How would you use SQL to find the top 3 customers by total order value?</span><svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg></button>
 <div class="item-body"><div class="item-body-inner"><p><strong>Say:</strong> I aggregate order value by customer, rank or sort the totals,
@@ -3242,7 +3513,7 @@ relationships, and check source query plans for DirectQuery.</p>
 </div></div>
 </div></div></div>
 </div><div class="item topic-item" data-index="powerbi-23">
-<button class="item-head"><span class="idx">23</span><span class="item-title">Behavioral / Lead-Level Scenarios</span><span class="tag">4 Questions</span><svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg></button>
+<button class="item-head"><span class="idx">23</span><span class="item-title">Handling Requirements, Deadlines, DBA Conflicts &amp; Staying Current</span><span class="tag">4 Questions</span><svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg></button>
 <div class="item-body"><div class="item-body-inner"><div class="item question-item" data-question="powerbi-157">
 <button class="item-head"><span class="idx">157</span><span class="item-title">How do you handle vague or changing business requirements?</span><svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg></button>
 <div class="item-body"><div class="item-body-inner"><p><strong>Say:</strong> "I clarify the objective, users, KPI definitions, scope, and
@@ -3280,7 +3551,7 @@ compatibility.</p>
 </div></div>
 </div></div></div>
 </div><div class="item topic-item" data-index="powerbi-24">
-<button class="item-head"><span class="idx">24</span><span class="item-title">Lead-Level Quick Memory Sheet</span><span class="tag">Quick Reference</span><svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg></button>
+<button class="item-head"><span class="idx">24</span><span class="item-title">Lead-Level Quick Revision Reference Sheet</span><span class="tag">Quick Reference</span><svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg></button>
 <div class="item-body"><div class="item-body-inner"><p>Topic                              One-line memory</p>
 <hr/>
 <p>Measure                            Dynamic calculation evaluated in
@@ -3349,7 +3620,7 @@ content-management boundary</p>
 <p>Tooltip                            Hover-based contextual detail</p>
 </div></div>
 </div><div class="item topic-item" data-index="powerbi-25">
-<button class="item-head"><span class="idx">25</span><span class="item-title">Best Interview Answer Pattern</span><span class="tag">Quick Reference</span><svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg></button>
+<button class="item-head"><span class="idx">25</span><span class="item-title">Answer Framework by Question Type (Theory, DAX, Modeling, Performance)</span><span class="tag">Quick Reference</span><svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg></button>
 <div class="item-body"><div class="item-body-inner"><h2>For a theory question</h2>
 <p><strong>Say:</strong> &gt; "Definition + when I use it + one practical example."</p>
 <h2>For a DAX question</h2>
@@ -3391,7 +3662,7 @@ and validate the result with stakeholders."</p>
 <div class="list" id="sql-topics"> <div class="item topic-item" data-index="24">
 <button class="item-head">
 <span class="idx">01</span>
-<span class="item-title">JOINs</span>
+<span class="item-title">Anti-Joins, Never-Ordered Customers &amp; Self-Join Salary Comparison</span>
 <span class="tag">3 Questions</span>
 <svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg>
 </button>
@@ -3459,7 +3730,7 @@ WHERE e.Salary &gt; m.Salary;</code></pre>
 <div class="item topic-item" data-index="25">
 <button class="item-head">
 <span class="idx">02</span>
-<span class="item-title">GROUP BY &amp; HAVING</span>
+<span class="item-title">Duplicate Detection, Revenue per Product/Region with GROUP BY &amp; HAVING</span>
 <span class="tag">5 Questions</span>
 <svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg>
 </button>
@@ -3558,7 +3829,7 @@ ORDER BY TotalRevenue DESC;</code></pre>
 <div class="item topic-item" data-index="26">
 <button class="item-head">
 <span class="idx">03</span>
-<span class="item-title">Subqueries</span>
+<span class="item-title">Second-Highest Salary, Above-Average Pay &amp; Top 3 Subqueries</span>
 <span class="tag">4 Questions</span>
 <svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg>
 </button>
@@ -3644,7 +3915,7 @@ WHERE NOT EXISTS (
 <div class="item topic-item" data-index="27">
 <button class="item-head">
 <span class="idx">04</span>
-<span class="item-title">CTE</span>
+<span class="item-title">Deleting Duplicates &amp; Multi-Step Business Problems with CTEs</span>
 <span class="tag">2 Questions</span>
 <svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg>
 </button>
@@ -3701,7 +3972,7 @@ WHERE TotalSales &gt; 10000;</code></pre>
 <div class="item topic-item" data-index="28">
 <button class="item-head">
 <span class="idx">05</span>
-<span class="item-title">Window Functions</span>
+<span class="item-title">DENSE_RANK(), Running Totals, LAG() &amp; Per-Customer Rankings</span>
 <span class="tag">8 Questions</span>
 <svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg>
 </button>
@@ -3886,7 +4157,7 @@ WHERE rnk = 2;</code></pre>
 <div class="item topic-item" data-index="29">
 <button class="item-head">
 <span class="idx">06</span>
-<span class="item-title">Ranking</span>
+<span class="item-title">Top-Selling Products &amp; Revenue Contribution by Category</span>
 <span class="tag">3 Questions</span>
 <svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg>
 </button>
@@ -3965,7 +4236,7 @@ FROM ProductSales;</code></pre>
 <div class="item topic-item" data-index="30">
 <button class="item-head">
 <span class="idx">07</span>
-<span class="item-title">Duplicate Records</span>
+<span class="item-title">Finding &amp; Removing Duplicate Rows</span>
 <span class="tag">2 Questions</span>
 <svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg>
 </button>
@@ -4017,7 +4288,7 @@ WHERE rn &gt; 1;</code></pre>
 <div class="item topic-item" data-index="31">
 <button class="item-head">
 <span class="idx">08</span>
-<span class="item-title">Date &amp; Time</span>
+<span class="item-title">First/Last Purchase, Churn &amp; Consecutive-Month Buyers</span>
 <span class="tag">8 Questions</span>
 <svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg>
 </button>
@@ -4204,7 +4475,7 @@ HAVING MAX(OrderDate) &lt; DATEADD(MONTH, -6, GETDATE());</code></pre>
 <div class="item topic-item" data-index="32">
 <button class="item-head">
 <span class="idx">09</span>
-<span class="item-title">CASE WHEN / Conditional Logic</span>
+<span class="item-title">Categorizing Records, Pivoting &amp; Fixing SUM() in WHERE</span>
 <span class="tag">3 Questions</span>
 <svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg>
 </button>
@@ -4280,7 +4551,7 @@ HAVING SUM(Salary) &gt; 100000;</code></pre>
 <div class="item topic-item" data-index="33">
 <button class="item-head">
 <span class="idx">10</span>
-<span class="item-title">Business Scenarios / Advanced</span>
+<span class="item-title">Consecutive Occurrences &amp; Missing Invoice Number Gaps</span>
 <span class="tag">2 Questions</span>
 <svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg>
 </button>
@@ -4353,7 +4624,7 @@ WHERE InvoiceNo - PreviousInvoice &gt; 1;</code></pre>
 <p class="sub">Interview-ready SQL topics with questions, “Say” answers, queries, and real-life cases.</p>
 <div class="list" id="senior-sql-topics">
 <div class="item topic-item" data-index="senior-1">
-<button class="item-head"><span class="idx">01</span><span class="item-title">Ranking, Nth Highest &amp; Window Functions</span><span class="tag">18 Questions</span><svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg></button>
+<button class="item-head"><span class="idx">01</span><span class="item-title">ROW_NUMBER(), RANK(), DENSE_RANK(), OVER() &amp; PARTITION BY</span><span class="tag">18 Questions</span><svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg></button>
 <div class="item-body"><div class="item-body-inner"><div class="item question-item" data-question="senior-sql-1-1">
 <button class="item-head"><span class="idx">01</span><span class="item-title">What is <code>ROW_NUMBER()</code>?</span><svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg></button>
 <div class="item-body"><div class="item-body-inner"><p><strong>Say:</strong> <code>ROW_NUMBER()</code> assigns a unique sequential number to every row within the specified window, even when values are tied.</p>
@@ -4557,7 +4828,7 @@ WHERE r.rn &gt; 1;</code></pre>
 </div></div></div>
 </div>
 <div class="item topic-item" data-index="senior-2">
-<button class="item-head"><span class="idx">02</span><span class="item-title">CTEs &amp; Subqueries</span><span class="tag">8 Questions</span><svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg></button>
+<button class="item-head"><span class="idx">02</span><span class="item-title">CTE vs Subquery vs Temp Table &amp; Recursive CTEs</span><span class="tag">8 Questions</span><svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg></button>
 <div class="item-body"><div class="item-body-inner"><div class="item question-item" data-question="senior-sql-2-19">
 <button class="item-head"><span class="idx">19</span><span class="item-title">What is a CTE?</span><svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg></button>
 <div class="item-body"><div class="item-body-inner"><p><strong>Say:</strong> A CTE is a temporary named result set that exists for the duration of one SQL statement and makes complex logic easier to organize.</p>
@@ -4631,7 +4902,7 @@ WHERE e.Salary &gt; (
 </div></div></div>
 </div>
 <div class="item topic-item" data-index="senior-3">
-<button class="item-head"><span class="idx">03</span><span class="item-title">SQL Joins</span><span class="tag">8 Questions</span><svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg></button>
+<button class="item-head"><span class="idx">03</span><span class="item-title">INNER, LEFT, RIGHT, FULL OUTER, CROSS &amp; SELF JOIN Explained</span><span class="tag">8 Questions</span><svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg></button>
 <div class="item-body"><div class="item-body-inner"><div class="item question-item" data-question="senior-sql-3-27">
 <button class="item-head"><span class="idx">27</span><span class="item-title">What is an <code>INNER JOIN</code>?</span><svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg></button>
 <div class="item-body"><div class="item-body-inner"><p><strong>Say:</strong> <code>INNER JOIN</code> returns only rows with matching keys in both tables.</p>
@@ -4706,7 +4977,7 @@ INNER JOIN Product p
 </div></div></div>
 </div>
 <div class="item topic-item" data-index="senior-4">
-<button class="item-head"><span class="idx">04</span><span class="item-title">UNION &amp; Pattern Matching</span><span class="tag">4 Questions</span><svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg></button>
+<button class="item-head"><span class="idx">04</span><span class="item-title">UNION vs UNION ALL &amp; LIKE Wildcard Patterns</span><span class="tag">4 Questions</span><svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg></button>
 <div class="item-body"><div class="item-body-inner"><div class="item question-item" data-question="senior-sql-4-35">
 <button class="item-head"><span class="idx">35</span><span class="item-title">Difference between <code>UNION</code> and <code>UNION ALL</code>?</span><svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg></button>
 <div class="item-body"><div class="item-body-inner"><p><strong>Say:</strong> <code>UNION</code> combines result sets and removes duplicate rows, while <code>UNION ALL</code> combines them without removing duplicates and generally has less overhead.</p>
@@ -4754,7 +5025,7 @@ WHERE name LIKE 'A_';   -- A + exactly one character</code></pre>
 </div></div></div>
 </div>
 <div class="item topic-item" data-index="senior-5">
-<button class="item-head"><span class="idx">05</span><span class="item-title">Filtering &amp; SQL Execution</span><span class="tag">4 Questions</span><svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg></button>
+<button class="item-head"><span class="idx">05</span><span class="item-title">WHERE vs HAVING, Execution Order, TOP &amp; OFFSET-FETCH</span><span class="tag">4 Questions</span><svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg></button>
 <div class="item-body"><div class="item-body-inner"><div class="item question-item" data-question="senior-sql-5-39">
 <button class="item-head"><span class="idx">39</span><span class="item-title">Difference between <code>WHERE</code> and <code>HAVING</code>?</span><svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg></button>
 <div class="item-body"><div class="item-body-inner"><p><strong>Say:</strong> <code>WHERE</code> filters individual rows before aggregation, while <code>HAVING</code> filters groups after aggregation.</p>
@@ -4789,7 +5060,7 @@ ORDER BY Salary DESC;</code></pre>
 </div></div></div>
 </div>
 <div class="item topic-item" data-index="senior-6">
-<button class="item-head"><span class="idx">06</span><span class="item-title">Keys &amp; Data Modeling</span><span class="tag">8 Questions</span><svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg></button>
+<button class="item-head"><span class="idx">06</span><span class="item-title">Primary, Foreign, Candidate, Composite &amp; Surrogate Keys</span><span class="tag">8 Questions</span><svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg></button>
 <div class="item-body"><div class="item-body-inner"><div class="item question-item" data-question="senior-sql-6-43">
 <button class="item-head"><span class="idx">43</span><span class="item-title">What is a Primary Key?</span><svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg></button>
 <div class="item-body"><div class="item-body-inner"><p><strong>Say:</strong> A Primary Key uniquely identifies each row in a table and cannot contain duplicate or <code>NULL</code> values.</p>
@@ -4844,7 +5115,7 @@ ORDER BY Salary DESC;</code></pre>
 </div></div></div>
 </div>
 <div class="item topic-item" data-index="senior-7">
-<button class="item-head"><span class="idx">07</span><span class="item-title">Views, Variables, Procedures &amp; Functions</span><span class="tag">9 Questions</span><svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg></button>
+<button class="item-head"><span class="idx">07</span><span class="item-title">Views, SQL/DAX Variables, Stored Procedures &amp; Triggers</span><span class="tag">9 Questions</span><svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg></button>
 <div class="item-body"><div class="item-body-inner"><div class="item question-item" data-question="senior-sql-7-51">
 <button class="item-head"><span class="idx">51</span><span class="item-title">What is a View?</span><svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg></button>
 <div class="item-body"><div class="item-body-inner"><p><strong>Say:</strong> A View is a stored SQL query that presents its result as a virtual table; a normal View does not physically store the result set.</p>
@@ -4920,7 +5191,7 @@ END;</code></pre>
 </div></div></div>
 </div>
 <div class="item topic-item" data-index="senior-8">
-<button class="item-head"><span class="idx">08</span><span class="item-title">Temporary Tables</span><span class="tag">2 Questions</span><svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg></button>
+<button class="item-head"><span class="idx">08</span><span class="item-title">Local vs Global Temporary Tables</span><span class="tag">2 Questions</span><svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg></button>
 <div class="item-body"><div class="item-body-inner"><div class="item question-item" data-question="senior-sql-8-60">
 <button class="item-head"><span class="idx">60</span><span class="item-title">What is a temporary table?</span><svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg></button>
 <div class="item-body"><div class="item-body-inner"><p><strong>Say:</strong> A temporary table stores intermediate data temporarily and is useful when results must be reused or indexed across multiple steps.</p>
@@ -4940,7 +5211,7 @@ CREATE TABLE ##Sales (...);</code></pre>
 </div></div></div>
 </div>
 <div class="item topic-item" data-index="senior-9">
-<button class="item-head"><span class="idx">09</span><span class="item-title">Normalization</span><span class="tag">3 Questions</span><svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg></button>
+<button class="item-head"><span class="idx">09</span><span class="item-title">Normalization Basics &amp; 1NF, 2NF, 3NF</span><span class="tag">3 Questions</span><svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg></button>
 <div class="item-body"><div class="item-body-inner"><div class="item question-item" data-question="senior-sql-9-62">
 <button class="item-head"><span class="idx">62</span><span class="item-title">What is Normalization?</span><svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg></button>
 <div class="item-body"><div class="item-body-inner"><p><strong>Say:</strong> Normalization organizes data into related tables to reduce redundancy and improve data integrity.</p>
@@ -4956,7 +5227,7 @@ CREATE TABLE ##Sales (...);</code></pre>
 </div></div></div>
 </div>
 <div class="item topic-item" data-index="senior-10">
-<button class="item-head"><span class="idx">10</span><span class="item-title">Indexes</span><span class="tag">1 Questions</span><svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg></button>
+<button class="item-head"><span class="idx">10</span><span class="item-title">Clustered vs Non-Clustered Indexes</span><span class="tag">1 Questions</span><svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg></button>
 <div class="item-body"><div class="item-body-inner"><div class="item question-item" data-question="senior-sql-10-65">
 <button class="item-head"><span class="idx">65</span><span class="item-title">Clustered vs Non-Clustered Index?</span><svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg></button>
 <div class="item-body"><div class="item-body-inner"><p><strong>Say:</strong> A clustered index organizes table data around the index key and a table can have one, while a non-clustered index is a separate structure and multiple can exist.</p>
@@ -4964,7 +5235,7 @@ CREATE TABLE ##Sales (...);</code></pre>
 </div></div></div>
 </div>
 <div class="item topic-item" data-index="senior-11">
-<button class="item-head"><span class="idx">11</span><span class="item-title">NULL Handling &amp; Conditional Logic</span><span class="tag">2 Questions</span><svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg></button>
+<button class="item-head"><span class="idx">11</span><span class="item-title">ISNULL(), COALESCE(), NULLIF() &amp; CASE Statement</span><span class="tag">2 Questions</span><svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg></button>
 <div class="item-body"><div class="item-body-inner"><div class="item question-item" data-question="senior-sql-11-66">
 <button class="item-head"><span class="idx">66</span><span class="item-title">Difference between <code>ISNULL()</code>, <code>COALESCE()</code> and <code>NULLIF()</code>?</span><svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg></button>
 <div class="item-body"><div class="item-body-inner"><p><strong>Say:</strong> <code>ISNULL</code> replaces a NULL, <code>COALESCE</code> returns the first non-NULL expression, and <code>NULLIF</code> returns NULL when two expressions are equal.</p>
@@ -4994,7 +5265,7 @@ FROM Products;</code></pre>
 </div></div></div>
 </div>
 <div class="item topic-item" data-index="senior-12">
-<button class="item-head"><span class="idx">12</span><span class="item-title">DELETE, TRUNCATE &amp; DROP</span><span class="tag">2 Questions</span><svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg></button>
+<button class="item-head"><span class="idx">12</span><span class="item-title">DELETE vs TRUNCATE vs DROP: Differences &amp; Speed</span><span class="tag">2 Questions</span><svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg></button>
 <div class="item-body"><div class="item-body-inner"><div class="item question-item" data-question="senior-sql-12-68">
 <button class="item-head"><span class="idx">68</span><span class="item-title">Difference between <code>DELETE</code>, <code>TRUNCATE</code> and <code>DROP</code>?</span><svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg></button>
 <div class="item-body"><div class="item-body-inner"><p><strong>Say:</strong> <code>DELETE</code> removes selected rows and supports <code>WHERE</code>; <code>TRUNCATE</code> removes all rows while keeping the table; <code>DROP</code> removes the table object.</p>
@@ -5013,7 +5284,7 @@ DROP TABLE Employees;</code></pre>
 </div></div></div>
 </div>
 <div class="item topic-item" data-index="senior-13">
-<button class="item-head"><span class="idx">13</span><span class="item-title">EXISTS, IN &amp; Business Queries</span><span class="tag">2 Questions</span><svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg></button>
+<button class="item-head"><span class="idx">13</span><span class="item-title">EXISTS vs IN &amp; Finding Inactive Customers</span><span class="tag">2 Questions</span><svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg></button>
 <div class="item-body"><div class="item-body-inner"><div class="item question-item" data-question="senior-sql-13-70">
 <button class="item-head"><span class="idx">70</span><span class="item-title">Difference between <code>EXISTS</code> and <code>IN</code>?</span><svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg></button>
 <div class="item-body"><div class="item-body-inner"><p><strong>Say:</strong> <code>IN</code> compares a value with a list/result set, while <code>EXISTS</code> checks whether at least one related row exists; <code>NOT IN</code> needs special care with NULLs.</p>
@@ -5051,7 +5322,7 @@ WHERE NOT EXISTS (
 </div></div></div>
 </div>
 <div class="item topic-item" data-index="senior-14">
-<button class="item-head"><span class="idx">14</span><span class="item-title">Transactions &amp; ACID</span><span class="tag">2 Questions</span><svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg></button>
+<button class="item-head"><span class="idx">14</span><span class="item-title">SQL Transactions &amp; ACID Properties Explained</span><span class="tag">2 Questions</span><svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg></button>
 <div class="item-body"><div class="item-body-inner"><div class="item question-item" data-question="senior-sql-14-72">
 <button class="item-head"><span class="idx">72</span><span class="item-title">What is a transaction?</span><svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg></button>
 <div class="item-body"><div class="item-body-inner"><p><strong>Say:</strong> A transaction groups one or more database operations into one logical unit that can be committed or rolled back.</p>
@@ -5083,7 +5354,7 @@ END CATCH;</code></pre>
 </div></div></div>
 </div>
 <div class="item topic-item" data-index="senior-15">
-<button class="item-head"><span class="idx">15</span><span class="item-title">Quick Real-Life SQL Cases</span><span class="tag">4 Questions</span><svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg></button>
+<button class="item-head"><span class="idx">15</span><span class="item-title">Latest Record, Top Sellers &amp; Threshold-Based Queries</span><span class="tag">4 Questions</span><svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg></button>
 <div class="item-body"><div class="item-body-inner"><div class="item question-item" data-question="senior-sql-15-74">
 <button class="item-head"><span class="idx">74</span><span class="item-title">Find the latest record for each customer.</span><svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg></button>
 <div class="item-body"><div class="item-body-inner"><p><strong>Say:</strong> I use <code>ROW_NUMBER()</code> partitioned by customer and ordered by date descending, then keep <code>rn = 1</code>.</p>
@@ -5179,7 +5450,7 @@ HAVING SUM(order_value) &gt; 100000;</code></pre>
 </div></div></div>
 </div>
 <div class="item topic-item" data-index="senior-16">
-<button class="item-head"><span class="idx">16</span><span class="item-title">Final Interview Memory Sheet</span><span class="tag">Interview Guide</span><svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg></button>
+<button class="item-head"><span class="idx">16</span><span class="item-title">Final SQL Quick Revision Reference Sheet</span><span class="tag">Interview Guide</span><svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg></button>
 <div class="item-body"><div class="item-body-inner"><div class="table-wrap"><table><thead><tr><th>Concept</th><th>One-line memory</th></tr></thead><tbody><tr><td><code>ROW_NUMBER()</code></td><td>Unique numbering</td></tr><tr><td><code>RANK()</code></td><td>Ties + gaps</td></tr><tr><td><code>DENSE_RANK()</code></td><td>Ties + no gaps</td></tr><tr><td>Window Function</td><td>Calculate across rows without collapsing</td></tr><tr><td><code>PARTITION BY</code></td><td>Groups for a window calculation</td></tr><tr><td><code>OVER()</code></td><td>Defines the window</td></tr><tr><td><code>LAG()</code></td><td>Previous row</td></tr><tr><td><code>LEAD()</code></td><td>Next row</td></tr><tr><td><code>GROUP BY</code></td><td>Groups + collapses</td></tr><tr><td>CTE</td><td>Named temporary result for one statement</td></tr><tr><td>Subquery</td><td>Query inside another query</td></tr><tr><td>Correlated Subquery</td><td>Inner query depends on outer row</td></tr><tr><td><code>INNER JOIN</code></td><td>Matching rows</td></tr><tr><td><code>LEFT JOIN</code></td><td>All left + matching right</td></tr><tr><td><code>RIGHT JOIN</code></td><td>All right + matching left</td></tr><tr><td><code>FULL JOIN</code></td><td>Everything from both</td></tr><tr><td><code>CROSS JOIN</code></td><td>Every combination</td></tr><tr><td><code>SELF JOIN</code></td><td>Table joined to itself</td></tr><tr><td><code>UNION</code></td><td>Combines + removes duplicates</td></tr><tr><td><code>UNION ALL</code></td><td>Combines + keeps duplicates</td></tr><tr><td><code>LIKE</code></td><td>Pattern matching</td></tr><tr><td><code>WHERE</code></td><td>Filters rows before aggregation</td></tr><tr><td><code>HAVING</code></td><td>Filters groups after aggregation</td></tr><tr><td>Primary Key</td><td>Uniquely identifies row</td></tr><tr><td>Foreign Key</td><td>Connects tables</td></tr><tr><td>Candidate Key</td><td>Can become PK</td></tr><tr><td>Alternate Key</td><td>Candidate key not selected as PK</td></tr><tr><td>Composite Key</td><td>Multiple columns form key</td></tr><tr><td>Surrogate Key</td><td>System-generated identifier</td></tr><tr><td>View</td><td>Reusable virtual table</td></tr><tr><td>Temp Table</td><td>Reusable intermediate stored result</td></tr><tr><td>Stored Procedure</td><td>Performs operations/business process</td></tr><tr><td>Function</td><td>Returns reusable value/table</td></tr><tr><td>Trigger</td><td>Automatically fires on database event</td></tr><tr><td>Normalization</td><td>Reduces redundancy and anomalies</td></tr><tr><td>Clustered Index</td><td>Organizes table data around key</td></tr><tr><td>Non-Clustered Index</td><td>Separate lookup structure</td></tr><tr><td><code>ISNULL()</code></td><td>Replace NULL</td></tr><tr><td><code>COALESCE()</code></td><td>First non-NULL</td></tr><tr><td><code>NULLIF()</code></td><td>Return NULL when equal</td></tr><tr><td><code>CASE</code></td><td>Conditional business logic</td></tr><tr><td><code>DELETE</code></td><td>Remove selected/all rows</td></tr><tr><td><code>TRUNCATE</code></td><td>Remove all rows, keep table</td></tr><tr><td><code>DROP</code></td><td>Remove table object</td></tr><tr><td><code>EXISTS</code></td><td>Check whether related row exists</td></tr><tr><td>Transaction</td><td>Unit of work</td></tr><tr><td>ACID</td><td>Reliable transaction properties</td></tr></tbody></table></div><div class="item question-item" data-question="senior-sql-16-guide">
 <button class="item-head"><span class="idx">01</span><span class="item-title">Best interview pattern</span><svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg></button>
 <div class="item-body"><div class="item-body-inner"><p>*<em><strong>For theory:</strong></em>*\\ \\&gt; "One-line definition + when I use it."</p>
@@ -5190,6 +5461,14 @@ HAVING SUM(order_value) &gt; 100000;</code></pre>
 </div>
 </div>
 </div>
+
+<section class="random-question-section">
+  <button id="randomQuestionBtn" type="button" aria-haspopup="dialog" aria-controls="rqOverlay">
+    <span class="rq-dice" aria-hidden="true">🎲</span>
+    <span>Practice Random Question</span>
+  </button>
+</section>
+
 <footer>// click a row to expand · only one project stays open at a time</footer>
 </div>
 <script>
@@ -5284,6 +5563,179 @@ HAVING SUM(order_value) &gt; 100000;</code></pre>
       resizeObserver.observe(inner);
     });
   }
+</script>
+
+<!-- ===== Random Question Practice: logic ===== -->
+<script>
+(function(){
+  const fab = document.getElementById('randomQuestionBtn');
+  const overlay = document.getElementById('rqOverlay');
+  const modal = document.getElementById('rqModal');
+  const closeBtn = document.getElementById('rqClose');
+  const closeBottomBtn = document.getElementById('rqCloseBottom');
+  const nextBtn = document.getElementById('rqNext');
+  const badgeEl = document.getElementById('rqBadge');
+  const crumbsEl = document.getElementById('rqCrumbs');
+  const textEl = document.getElementById('rqQuestionText');
+  const showAnswerBtn = document.getElementById('rqShowAnswer');
+  const answerPanel = document.getElementById('rqAnswer');
+  const answerContent = document.getElementById('rqAnswerContent');
+
+  let lastIndex = -1;
+  let currentQuestion = null;
+
+  // Reads every .question-item currently in the DOM. Nothing is cached
+  // across calls, so any question added to the page later is automatically
+  // included the next time the button is clicked.
+  function collectQuestions(){
+    const nodes = document.querySelectorAll('.question-item');
+    const questions = [];
+
+    nodes.forEach((node, i) => {
+      const titleEl = node.querySelector(':scope > .item-head .item-title, .item-head .item-title');
+      if (!titleEl) return;
+      const text = titleEl.textContent.replace(/\s+/g, ' ').trim();
+      if (!text) return;
+
+      // Category = nearest ancestor topic item's title (if present).
+      const topicItem = node.closest('.topic-item');
+      const topicTitleEl = topicItem ? topicItem.querySelector(':scope > .item-head .item-title') : null;
+      const category = topicTitleEl ? topicTitleEl.textContent.replace(/\s+/g, ' ').trim() : '';
+
+      // Section = nearest ancestor section item's heading (if present).
+      const sectionItem = node.closest('.section-item');
+      const sectionTitleEl = sectionItem ? sectionItem.querySelector(':scope > .item-head h1, :scope > .section-head h1') : null;
+      const section = sectionTitleEl ? sectionTitleEl.textContent.replace(/\s+/g, ' ').trim() : '';
+
+      // Answer = the existing item-body-inner belonging to this same
+      // question-item (its own answer/explanation block already on the page).
+      const answerEl = node.querySelector(':scope > .item-body > .item-body-inner');
+
+      questions.push({
+        number: i + 1,
+        text: text,
+        category: category,
+        section: section,
+        node: node,
+        answerEl: answerEl
+      });
+    });
+
+    return questions;
+  }
+
+  function pickRandomIndex(count){
+    if (count <= 1) return 0;
+    let idx;
+    do {
+      idx = Math.floor(Math.random() * count);
+    } while (idx === lastIndex);
+    return idx;
+  }
+
+  function resetAnswerPanel(){
+    answerPanel.classList.remove('rq-open');
+    answerContent.innerHTML = '';
+    showAnswerBtn.textContent = 'Show Answer';
+    showAnswerBtn.setAttribute('aria-expanded', 'false');
+    showAnswerBtn.classList.remove('rq-active');
+  }
+
+  function renderQuestion(q, totalCount){
+    currentQuestion = q;
+    badgeEl.textContent = 'Question #' + q.number + ' of ' + totalCount;
+    const crumbParts = [];
+    if (q.section) crumbParts.push(q.section);
+    if (q.category) crumbParts.push(q.category);
+    crumbsEl.innerHTML = crumbParts.length
+      ? crumbParts.map((c, i) => i === crumbParts.length - 1 ? '<span>' + c + '</span>' : c).join(' › ')
+      : '';
+    textEl.textContent = q.text;
+
+    // A new question always starts with the answer hidden.
+    resetAnswerPanel();
+    showAnswerBtn.disabled = !q.answerEl;
+    showAnswerBtn.style.opacity = q.answerEl ? '' : '.5';
+    showAnswerBtn.style.cursor = q.answerEl ? '' : 'not-allowed';
+  }
+
+  function showRandomQuestion(){
+    const questions = collectQuestions();
+
+    if (!questions.length) {
+      currentQuestion = null;
+      badgeEl.textContent = 'No questions found';
+      crumbsEl.textContent = '';
+      textEl.textContent = 'Could not find any .question-item elements on this page yet.';
+      resetAnswerPanel();
+      return;
+    }
+
+    const idx = pickRandomIndex(questions.length);
+    lastIndex = idx;
+    renderQuestion(questions[idx], questions.length);
+  }
+
+  function toggleAnswer(){
+    if (!currentQuestion || !currentQuestion.answerEl) return;
+
+    const isOpen = answerPanel.classList.contains('rq-open');
+
+    if (isOpen) {
+      answerPanel.classList.remove('rq-open');
+      showAnswerBtn.textContent = 'Show Answer';
+      showAnswerBtn.setAttribute('aria-expanded', 'false');
+      showAnswerBtn.classList.remove('rq-active');
+    } else {
+      // Extracted dynamically from the question's own existing
+      // .item-body-inner — no separate answer array/store is kept.
+      answerContent.innerHTML = currentQuestion.answerEl.innerHTML;
+      answerPanel.classList.add('rq-open');
+      showAnswerBtn.textContent = 'Hide Answer';
+      showAnswerBtn.setAttribute('aria-expanded', 'true');
+      showAnswerBtn.classList.add('rq-active');
+    }
+  }
+
+  function openModal(){
+    fab.classList.add('rq-rolling');
+    setTimeout(() => fab.classList.remove('rq-rolling'), 500);
+    showRandomQuestion();
+    overlay.classList.add('rq-visible');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeModal(){
+    overlay.classList.remove('rq-visible');
+    document.body.style.overflow = '';
+  }
+
+  fab.addEventListener('click', openModal);
+  nextBtn.addEventListener('click', () => {
+    fab.classList.add('rq-rolling');
+    setTimeout(() => fab.classList.remove('rq-rolling'), 500);
+    showRandomQuestion();
+  });
+  showAnswerBtn.addEventListener('click', toggleAnswer);
+  closeBtn.addEventListener('click', closeModal);
+  closeBottomBtn.addEventListener('click', closeModal);
+
+  overlay.addEventListener('click', (e) => {
+    if (e.target === overlay) closeModal();
+  });
+
+  document.addEventListener('keydown', (e) => {
+    if (!overlay.classList.contains('rq-visible')) return;
+    if (e.key === 'Escape') closeModal();
+    if (e.key === 'Enter' || e.key === ' ') {
+      // Space/Enter triggers "next" only when focus isn't on a button already.
+      if (document.activeElement === overlay) {
+        e.preventDefault();
+        showRandomQuestion();
+      }
+    }
+  });
+})();
 </script>
 </body>
 </html>
