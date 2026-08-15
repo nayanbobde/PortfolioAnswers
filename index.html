@@ -1100,6 +1100,8 @@
 <p>Some of the KPIs I worked on include Weeks of Cover, In-Stock %, Stockout Rate, Sell-Through %, Allocation Accuracy, Inventory Value, Revenue, Gross Margin %, and Forecast Accuracy.</p>
 <p>These dashboards were used by Buying, Planning, Merchandising, Supply Chain, and Distribution teams for decision-making.</p>
 <p>I worked closely with business stakeholders to gather requirements, validate KPI calculations, support UAT testing, and convert analytical findings into actionable business insights.</p>
+<p>My last project was a Global Direct SAR (Spend Analysis Report) Dashboard for the finance leadership team, built using SQL and Power BI to provide a single view of company-wide spending.</p>
+<p>I handled custom August fiscal-year calculations, multi-currency conversion, and dynamic RLS so users could see accurate financial data based on their role.</p>
 <p>Overall, my role involved converting raw business data into meaningful insights using SQL and Power BI, collaborating with stakeholders, and helping business teams make better inventory and supply chain decisions.</p>
 </div>
 </div>
@@ -1126,6 +1128,311 @@
 <p>I redesigned the data model following star schema principles, corrected the relationships, and rewrote the affected DAX measures to ensure accurate calculations at every drill-down level.</p>
 <p>After implementing the changes, I worked closely with the finance team and validated the results against source data row by row until every number matched.</p>
 <p>After the fix, the business gained confidence in the dashboard and stopped performing manual Excel-based validation for margin analysis, which significantly improved reporting efficiency.</p>
+<h3>Flow of Project</h3>
+<div class="list">
+<div class="item topic-item" data-index="sar-flow">
+<button class="item-head">
+<span class="idx">01</span>
+<span class="item-title">Project Flow — Requirement Gathering to Business Impact</span>
+<span class="tag">21 Steps</span>
+<svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg>
+</button>
+<div class="item-body">
+<div class="item-body-inner">
+<div class="item question-item" data-question="sar-flow-1">
+<button class="item-head">
+<span class="idx">01</span>
+<span class="item-title">Requirement Gathering</span>
+<svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg>
+</button>
+<div class="item-body">
+<div class="item-body-inner">
+<p>Worked closely with Finance leadership, SET teams, and business stakeholders to understand spend reporting requirements, budget tracking needs, regional spend visibility, fiscal calendar requirements, and security access expectations.</p>
+</div>
+</div>
+</div>
+<div class="item question-item" data-question="sar-flow-2">
+<button class="item-head">
+<span class="idx">02</span>
+<span class="item-title">Business Understanding</span>
+<svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg>
+</button>
+<div class="item-body">
+<div class="item-body-inner">
+<p>Understood the complete financial reporting process across regions, departments, cost centers, and spend categories, including Actual vs Budget analysis, variance reporting, YTD tracking, and prior-year comparisons.</p>
+</div>
+</div>
+</div>
+<div class="item question-item" data-question="sar-flow-3">
+<button class="item-head">
+<span class="idx">03</span>
+<span class="item-title">Data Source Identification</span>
+<svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg>
+</button>
+<div class="item-body">
+<div class="item-body-inner">
+<p>Worked with enterprise financial data stored in MS SQL Server, including spend transactions, budget data, cost center mappings, exchange rates, organizational hierarchy, and user access mapping tables.</p>
+</div>
+</div>
+</div>
+<div class="item question-item" data-question="sar-flow-4">
+<button class="item-head">
+<span class="idx">04</span>
+<span class="item-title">Data Extraction</span>
+<svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg>
+</button>
+<div class="item-body">
+<div class="item-body-inner">
+<p>Used SQL Views and complex SQL queries to consolidate financial data from multiple source tables and prepare reporting-ready datasets for Power BI.</p>
+</div>
+</div>
+</div>
+<div class="item question-item" data-question="sar-flow-5">
+<button class="item-head">
+<span class="idx">05</span>
+<span class="item-title">ETL / Data Transformation</span>
+<svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg>
+</button>
+<div class="item-body">
+<div class="item-body-inner">
+<p>Leveraged ETL pipelines maintained by the Data Engineering team and implemented reporting-level transformations through SQL Views and Power Query where required.</p>
+</div>
+</div>
+</div>
+<div class="item question-item" data-question="sar-flow-6">
+<button class="item-head">
+<span class="idx">06</span>
+<span class="item-title">Currency Conversion Logic</span>
+<svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg>
+</button>
+<div class="item-body">
+<div class="item-body-inner">
+<p>Implemented multi-region currency conversion logic directly in the SQL View. Applied the last available exchange rate of completed months and used the previous month's closing exchange rate for the current month to ensure stable and consistent financial reporting.</p>
+</div>
+</div>
+</div>
+<div class="item question-item" data-question="sar-flow-7">
+<button class="item-head">
+<span class="idx">07</span>
+<span class="item-title">Fiscal Calendar Handling</span>
+<svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg>
+</button>
+<div class="item-body">
+<div class="item-body-inner">
+<p>Designed reporting logic around the organization's custom fiscal year beginning in August, ensuring all YTD Actual, Budget YTD, Prior Year YTD, and variance calculations aligned with the fiscal calendar.</p>
+</div>
+</div>
+</div>
+<div class="item question-item" data-question="sar-flow-8">
+<button class="item-head">
+<span class="idx">08</span>
+<span class="item-title">Data Cleaning &amp; Validation</span>
+<svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg>
+</button>
+<div class="item-body">
+<div class="item-body-inner">
+<p>Validated financial transactions, exchange rate mappings, budget allocations, and reporting outputs to ensure data accuracy and consistency across all reporting regions.</p>
+</div>
+</div>
+</div>
+<div class="item question-item" data-question="sar-flow-9">
+<button class="item-head">
+<span class="idx">09</span>
+<span class="item-title">Data Modeling (Star Schema)</span>
+<svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg>
+</button>
+<div class="item-body">
+<div class="item-body-inner">
+<p>Developed and maintained a Star Schema consisting of financial fact tables connected to dimensions such as Date, Cost Center, Department, Region, Functional Area, Currency, and Organizational Hierarchy.</p>
+</div>
+</div>
+</div>
+<div class="item question-item" data-question="sar-flow-10">
+<button class="item-head">
+<span class="idx">10</span>
+<span class="item-title">DAX Development</span>
+<svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg>
+</button>
+<div class="item-body">
+<div class="item-body-inner">
+<p>Developed advanced DAX measures for YTD Actual Spend, Budget YTD, Prior Year YTD, Variance Analysis, Budget vs Actual %, and Spend Trends, incorporating custom fiscal calendar logic.</p>
+</div>
+</div>
+</div>
+<div class="item question-item" data-question="sar-flow-11">
+<button class="item-head">
+<span class="idx">11</span>
+<span class="item-title">Report &amp; Dashboard Development</span>
+<svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg>
+</button>
+<div class="item-body">
+<div class="item-body-inner">
+<p>Built an executive-level Power BI dashboard with KPI cards, variance analysis, trend reporting, drill-through functionality, slicers, departmental views, and regional spend analysis.</p>
+</div>
+</div>
+</div>
+<div class="item question-item" data-question="sar-flow-12">
+<button class="item-head">
+<span class="idx">12</span>
+<span class="item-title">Row-Level Security (Dynamic RLS)</span>
+<svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg>
+</button>
+<div class="item-body">
+<div class="item-body-inner">
+<p>Implemented Dynamic RLS using <code>USERPRINCIPALNAME()</code> and a security mapping table. Configured multiple access levels including Executive users, SET-level users, and Functional Area users with page-level visibility controls.</p>
+</div>
+</div>
+</div>
+<div class="item question-item" data-question="sar-flow-13">
+<button class="item-head">
+<span class="idx">13</span>
+<span class="item-title">Testing &amp; Validation</span>
+<svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg>
+</button>
+<div class="item-body">
+<div class="item-body-inner">
+<p>Performed detailed validation of dashboard calculations, fiscal-year logic, currency conversion outputs, filters, and security access against source data.</p>
+</div>
+</div>
+</div>
+<div class="item question-item" data-question="sar-flow-14">
+<button class="item-head">
+<span class="idx">14</span>
+<span class="item-title">User Acceptance Testing (UAT)</span>
+<svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg>
+</button>
+<div class="item-body">
+<div class="item-body-inner">
+<p>Partnered with Finance stakeholders during UAT to validate spend figures, budget calculations, security requirements, and dashboard usability.</p>
+</div>
+</div>
+</div>
+<div class="item question-item" data-question="sar-flow-15">
+<button class="item-head">
+<span class="idx">15</span>
+<span class="item-title">Performance Optimization</span>
+<svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg>
+</button>
+<div class="item-body">
+<div class="item-body-inner">
+<p>Minimized Power Query transformations by pushing business logic into SQL Views, optimized DAX calculations, and improved overall report refresh performance.</p>
+</div>
+</div>
+</div>
+<div class="item question-item" data-question="sar-flow-16">
+<button class="item-head">
+<span class="idx">16</span>
+<span class="item-title">Deployment / Publishing</span>
+<svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg>
+</button>
+<div class="item-body">
+<div class="item-body-inner">
+<p>Published datasets and reports to Power BI Service workspaces and supported deployment through appropriate environments.</p>
+</div>
+</div>
+</div>
+<div class="item question-item" data-question="sar-flow-17">
+<button class="item-head">
+<span class="idx">17</span>
+<span class="item-title">Scheduling &amp; Refresh</span>
+<svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg>
+</button>
+<div class="item-body">
+<div class="item-body-inner">
+<p>Supported scheduled refresh processes and monitored successful data availability for monthly and executive reporting cycles.</p>
+</div>
+</div>
+</div>
+<div class="item question-item" data-question="sar-flow-18">
+<button class="item-head">
+<span class="idx">18</span>
+<span class="item-title">Documentation</span>
+<svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg>
+</button>
+<div class="item-body">
+<div class="item-body-inner">
+<p>Documented fiscal calendar logic, exchange-rate conversion rules, KPI definitions, RLS design, and dashboard functionality for business and support teams.</p>
+</div>
+</div>
+</div>
+<div class="item question-item" data-question="sar-flow-19">
+<button class="item-head">
+<span class="idx">19</span>
+<span class="item-title">User Training</span>
+<svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg>
+</button>
+<div class="item-body">
+<div class="item-body-inner">
+<p>Assisted Finance and business users in understanding dashboard navigation, security behavior, KPI interpretation, and self-service reporting capabilities.</p>
+</div>
+</div>
+</div>
+<div class="item question-item" data-question="sar-flow-20">
+<button class="item-head">
+<span class="idx">20</span>
+<span class="item-title">Production Support &amp; Maintenance</span>
+<svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg>
+</button>
+<div class="item-body">
+<div class="item-body-inner">
+<p>Supported post-production issues related to spend calculations, security access, refresh failures, and reporting discrepancies. Maintained reporting logic, exchange-rate mappings, fiscal calendar updates, and security configurations based on evolving business requirements.</p>
+</div>
+</div>
+</div>
+<div class="item question-item" data-question="sar-flow-21">
+<button class="item-head">
+<span class="idx">21</span>
+<span class="item-title">Business Impact</span>
+<svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg>
+</button>
+<div class="item-body">
+<div class="item-body-inner">
+<p>Enabled Finance teams to move from manual spend reconciliation and spreadsheet-based analysis to a centralized, trusted reporting solution with controlled data access and consistent financial metrics.</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="item topic-item" data-index="sar-datamodel">
+<button class="item-head">
+<span class="idx">02</span>
+<span class="item-title">Data Model — Fact, Dimension &amp; Security Tables</span>
+<span class="tag">Schema</span>
+<svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg>
+</button>
+<div class="item-body">
+<div class="item-body-inner">
+<p><strong>Fact Tables</strong></p>
+<ul>
+<li><strong>FactSpend</strong> → Spend transactions (Amount, Date, Cost Center, Department, Currency, Vendor)</li>
+<li><strong>FactBudget</strong> → Budget values by month, department, cost center</li>
+<li><strong>FactExchangeRate</strong> → Currency exchange rates by date and currency</li>
+<li><strong>FactForecast</strong> (if forecasting exists) → Forecasted spend values</li>
+</ul>
+<p><strong>Dimension Tables</strong></p>
+<ul>
+<li><strong>DimDate</strong> → Fiscal Calendar (August Start), Month, Quarter, Fiscal Year</li>
+<li><strong>DimDepartment</strong> → Finance, HR, IT, Operations, etc.</li>
+<li><strong>DimCostCenter</strong> → Cost center hierarchy</li>
+<li><strong>DimFunctionalArea</strong> → Functional area mapping</li>
+<li><strong>DimRegion</strong> → APAC, EMEA, Americas</li>
+<li><strong>DimCurrency</strong> → USD, EUR, INR, etc.</li>
+<li><strong>DimVendor</strong> → Supplier/Vendor details</li>
+<li><strong>DimUserAccess</strong> → User Email, Role, Department Mapping (for RLS)</li>
+</ul>
+<p><strong>Security Table</strong></p>
+<p><strong>UserRoleMapping</strong></p>
+<ul>
+<li>UserEmail</li>
+<li>AccessLevel (Executive / SET / Functional)</li>
+<li>FunctionalArea</li>
+<li>Department</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
 <h3>Follow-up Interview Questions</h3>
 <div class="list">
 <div class="item topic-item" data-index="sar-followup">
