@@ -2150,6 +2150,75 @@ CALCULATE(
 <p>One of my challenging DAX issues was a regional sales-percentage measure that showed the correct overall total but incorrect values by region because ALL() was removing the region filter. I corrected the filter context by removing only the required product filter instead of all filters.</p>
 <p>For production, one important issue was a Power BI report continuing to show old allocation numbers after the JDA rule change. I traced it to a failed Gateway refresh. I added a Last Refreshed indicator and a validation check comparing current and previous allocation records so that a failed refresh could be detected immediately.</p>
 <p>Overall, my role was to take operational retail data, validate and transform it using SQL, model it in Power BI, develop DAX-based KPIs and dashboards, troubleshoot data and reporting issues, and provide reliable insights to the business teams for inventory, allocation, and supply-chain decisions.</p>
+<p><strong>KPI Formulas &amp; Required Columns</strong></p>
+<table>
+<thead><tr><th>KPI</th><th>Formula</th><th>Required Columns</th><th>Short Interview Explanation</th></tr></thead>
+<tbody>
+<tr><td>WOC ⭐</td><td>(SOH + SOO) / Avg Weekly Sales</td><td>SOH, SOO, Last_8_Week_Sales</td><td>Tells how many weeks the current inventory can support sales.</td></tr>
+<tr><td>Stockout % ⭐</td><td>Stockout SKUs / Total Active SKUs × 100</td><td>SOH, SKU_ID</td><td>Measures the percentage of SKUs with zero inventory.</td></tr>
+<tr><td>In-Stock % ⭐</td><td>SKUs with SOH &gt; 0 / Total Active SKUs × 100</td><td>SOH, SKU_ID</td><td>Shows the percentage of active SKUs currently available.</td></tr>
+<tr><td>Revenue ⭐</td><td>SUM(Net Revenue)</td><td>NetRevenue</td><td>Measures total sales revenue after considering the defined net-revenue logic.</td></tr>
+<tr><td>Gross Margin %</td><td>(Revenue - COGS) / Revenue × 100</td><td>NetRevenue, COGS</td><td>Measures profitability as a percentage of revenue.</td></tr>
+<tr><td>Sell-Through % ⭐</td><td>Units Sold / Units Bought × 100</td><td>UnitsSold, UnitsBought</td><td>Shows how effectively purchased inventory was sold.</td></tr>
+<tr><td>Allocation Accuracy % ⭐</td><td>Correct Allocations / Total Allocations × 100</td><td>OptimalAllocation, ActualAllocation</td><td>Measures how closely actual allocation matched the optimal allocation.</td></tr>
+<tr><td>Inventory Value</td><td>SUM(CostValue)</td><td>CostValue</td><td>Shows the value of inventory currently held.</td></tr>
+<tr><td>DC Utilization %</td><td>Used Capacity / Total Capacity × 100</td><td>UsedCapacity, TotalCapacity</td><td>Shows how much of a DC's available capacity is being used.</td></tr>
+<tr><td>Forecast Accuracy %</td><td>1 - ABS(Actual - Forecast) / Actual</td><td>ActualDemand, ForecastDemand</td><td>Measures how close forecast demand was to actual demand.</td></tr>
+<tr><td>MoM Revenue Growth %</td><td>(This Month - Last Month) / Last Month × 100</td><td>Date, NetRevenue</td><td>Shows revenue growth compared with the previous month.</td></tr>
+<tr><td>YoY Growth %</td><td>(This Year - Last Year) / Last Year × 100</td><td>Date, NetRevenue</td><td>Compares current performance with the same period last year.</td></tr>
+<tr><td>Inventory Turnover</td><td>COGS / Average Inventory Value</td><td>COGS, InventoryValue</td><td>Shows how many times inventory is sold and replaced during a period.</td></tr>
+</tbody>
+</table>
+<p>The project guide explicitly lists these KPI formulas, including WOC, In-Stock %, Stockout Rate, Sell-Through, Allocation Accuracy, DC Utilization, Revenue growth and Inventory Turnover.</p>
+<p><strong>⭐ WOC — Most Important KPI</strong></p>
+<p>Project-specific calculation: <code>WOC = (SOH + SOO) ÷ (Last 8 weeks sales ÷ 8)</code></p>
+<p><strong>Example:</strong></p>
+<pre><code>SOH = 800
+SOO = 200
+Last 8-week sales = 800
+Average weekly sales = 800 / 8 = 100
+WOC = (800 + 200) / 100
+    = 10 weeks</code></pre>
+<p><strong>Interview answer:</strong> "I calculated WOC using SOH plus SOO divided by average weekly sales from the last eight weeks. For example, if SOH is 800, SOO is 200 and average weekly sales are 100, WOC is 10 weeks, which falls within our healthy range."</p>
+<p>The project uses 5–12 weeks as healthy, below 5 as urgent replenishment territory, and above 18 as critical overstock/markdown territory.</p>
+<p><strong>⭐ Stockout %</strong></p>
+<p><strong>Example:</strong></p>
+<pre><code>Zero-stock SKUs = 50
+Total active SKUs = 1,000
+Stockout % = 50 / 1,000 × 100
+           = 5%</code></pre>
+<p><strong>Interview answer:</strong> "I calculated Stockout Rate as SKUs with SOH equal to zero divided by total active SKUs, multiplied by 100. If 50 out of 1,000 active SKUs have zero stock, the stockout rate is 5%."</p>
+<p><strong>⭐ Revenue</strong></p>
+<pre><code class="language-DAX">Total Revenue =
+SUM(FactSales[NetRevenue])</code></pre>
+<p>Required: <code>FactSales[NetRevenue]</code></p>
+<p><strong>Interview answer:</strong> "Revenue was calculated by summing Net Revenue from the sales fact table, and I used it for overall performance, monthly growth and year-over-year comparisons."</p>
+<p><strong>Column Mapping (quick recall)</strong></p>
+<table>
+<thead><tr><th>KPI</th><th>Required Columns</th></tr></thead>
+<tbody>
+<tr><td>WOC</td><td>SOH + SOO + Sales</td></tr>
+<tr><td>Stockout %</td><td>SOH + SKU</td></tr>
+<tr><td>In-Stock %</td><td>SOH + SKU</td></tr>
+<tr><td>Revenue</td><td>NetRevenue</td></tr>
+<tr><td>Gross Margin %</td><td>NetRevenue + COGS</td></tr>
+<tr><td>Sell-Through</td><td>Units Sold + Units Bought</td></tr>
+<tr><td>Allocation Accuracy</td><td>Optimal Allocation + Actual Allocation</td></tr>
+<tr><td>Inventory Value</td><td>CostValue</td></tr>
+<tr><td>DC Utilization</td><td>Used Capacity + Total Capacity</td></tr>
+<tr><td>Forecast Accuracy</td><td>Actual Demand + Forecast Demand</td></tr>
+<tr><td>MoM / YoY Revenue</td><td>Date + NetRevenue</td></tr>
+</tbody>
+</table>
+<p>This is the short version to memorize for the interview: if asked "What data did you need to calculate your KPIs?", the required columns can be explained immediately instead of just giving formulas.</p>
+<p><strong>Key Field Definitions</strong></p>
+<ul>
+<li><strong>SOH:</strong> Current inventory physically available at the store/DC.</li>
+<li><strong>SOH calculation:</strong> Opening Stock + Receipts − Sales − Transfers Out + Transfers In.</li>
+<li><strong>SOO:</strong> Inventory ordered but not yet received.</li>
+<li><strong>SOO calculation:</strong> Ordered Quantity − Received Quantity.</li>
+<li><strong>WOC:</strong> (SOH + SOO) ÷ Average Weekly Sales.</li>
+</ul>
 </div>
 </div>
 </div>
