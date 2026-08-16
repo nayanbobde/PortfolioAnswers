@@ -1453,6 +1453,8 @@
 <div class="item-body">
 <div class="item-body-inner">
 <p><strong>Answer:</strong> Currency conversion was a business rule used across all reports, so implementing it in SQL ensured a single source of truth. It also reduced Power BI processing time and simplified DAX measures.</p>
+<p><strong>You can explain it like this:</strong></p>
+<div class="table-wrap"><table><thead><tr><th>Flow Step</th><th>Table / Column</th></tr></thead><tbody><tr><td>Regional Transaction</td><td><code>FactSpend.Amount</code></td></tr><tr><td>Local Currency</td><td><code>FactSpend.CurrencyCode</code></td></tr><tr><td>SQL View</td><td><code>vw_GlobalSpend</code></td></tr><tr><td>Find Month</td><td><code>FactSpend.TransactionDate</code></td></tr><tr><td>Find Currency</td><td><code>FactSpend.CurrencyCode</code></td></tr><tr><td>Exchange Rate Table</td><td><code>FactExchangeRate</code></td></tr><tr><td>Last Rate of Month</td><td><code>FactExchangeRate.ExchangeRate</code></td></tr><tr><td>Apply Conversion</td><td><code>Amount * ExchangeRate</code></td></tr><tr><td>Converted Amount</td><td><code>ConvertedAmountUSD</code></td></tr><tr><td>Power BI</td><td>Import from <code>vw_GlobalSpend</code></td></tr></tbody></table></div>
 </div>
 </div>
 </div>
