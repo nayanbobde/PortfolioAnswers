@@ -510,6 +510,141 @@
     }
   }
 
+  /* ===== Question Search ===== */
+  .search-section{
+    margin-top: 56px;
+    padding-top: 40px;
+    border-top: 1px solid var(--line);
+  }
+  .search-heading{
+    font-size: clamp(20px, 3vw, 26px);
+    margin: 0 0 16px;
+    font-weight: 650;
+    letter-spacing: -0.01em;
+  }
+  .search-box{
+    position: relative;
+    display: flex;
+    align-items: center;
+  }
+  .search-input{
+    width: 100%;
+    background: var(--panel);
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    color: var(--text);
+    font-family: var(--sans);
+    font-size: 15px;
+    padding: 13px 42px;
+    outline: none;
+    transition: border-color .15s ease;
+  }
+  .search-input:focus{ border-color: var(--accent); }
+  .search-input::placeholder{ color: var(--text-dim); }
+  .search-icon{
+    position: absolute;
+    left: 14px;
+    width: 17px;
+    height: 17px;
+    stroke: var(--text-dim);
+    pointer-events: none;
+  }
+  .search-clear{
+    position: absolute;
+    right: 8px;
+    width: 28px;
+    height: 28px;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    background: none;
+    border: none;
+    border-radius: 6px;
+    color: var(--text-dim);
+    cursor: pointer;
+    font-size: 18px;
+    line-height: 1;
+  }
+  .search-clear:hover{ color: var(--text); background: var(--panel-hover); }
+  .search-clear.is-visible{ display: flex; }
+  .search-count{
+    margin: 12px 2px 0;
+    font-family: var(--mono);
+    font-size: 12px;
+    color: var(--text-dim);
+    min-height: 16px;
+  }
+  .search-results{
+    margin-top: 14px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  .search-result{
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    background: var(--panel);
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    padding: 14px 16px;
+  }
+  .search-result-idx{
+    font-family: var(--mono);
+    font-size: 12px;
+    color: var(--text-dim);
+    flex-shrink: 0;
+    width: 30px;
+  }
+  .search-result-main{ flex: 1; min-width: 0; }
+  .search-result-title{
+    font-size: 14.5px;
+    font-weight: 550;
+    color: var(--text);
+    margin: 0 0 4px;
+  }
+  .search-result-category{
+    font-family: var(--mono);
+    font-size: 11.5px;
+    color: var(--accent-2);
+  }
+  .search-result-open{
+    flex-shrink: 0;
+    font-family: var(--sans);
+    font-size: 12.5px;
+    font-weight: 600;
+    color: var(--accent);
+    background: rgba(79,209,197,0.1);
+    border: 1px solid rgba(79,209,197,0.35);
+    border-radius: 8px;
+    padding: 8px 13px;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: background .15s ease, border-color .15s ease;
+  }
+  .search-result-open:hover{ background: rgba(79,209,197,0.18); border-color: var(--accent); }
+  .search-empty{
+    margin-top: 16px;
+    padding: 22px 4px;
+    text-align: center;
+  }
+  .search-empty-title{
+    color: var(--text);
+    font-size: 15px;
+    font-weight: 600;
+    margin: 0 0 6px;
+  }
+  .search-empty-hint{ color: var(--text-dim); font-size: 13px; margin: 0; }
+  .search-highlight{ animation: searchPulse 1.6s ease; }
+  @keyframes searchPulse{
+    0%   { box-shadow: 0 0 0 0 rgba(79,209,197,0.55); }
+    100% { box-shadow: 0 0 0 12px rgba(79,209,197,0); }
+  }
+  @media (max-width: 560px){
+    .search-result{ flex-wrap: wrap; }
+    .search-result-open{ width: 100%; text-align: center; }
+  }
+
 </style>
 </head>
 <body>
@@ -13033,9 +13168,63 @@ LEAD()</code></pre>
 </div>
 </div>
 </div>
+<div class="search-section">
+<h2 class="search-heading">Search Questions</h2>
+<div class="search-box">
+<svg class="search-icon" fill="none" viewbox="0 0 24 24"><circle cx="11" cy="11" r="7" stroke="currentColor" stroke-width="2"></circle><path d="M21 21l-4.3-4.3" stroke="currentColor" stroke-linecap="round" stroke-width="2"></path></svg>
+<input autocomplete="off" class="search-input" id="qs-input" placeholder="Search Power BI, SQL, DAX, Python, Fabric questions..." type="text"/>
+<button aria-label="Clear search" class="search-clear" id="qs-clear" type="button">×</button>
+</div>
+<div class="search-count" id="qs-count"></div>
+<div class="search-results" id="qs-results"></div>
+<div class="search-empty" id="qs-empty" style="display:none">
+<p class="search-empty-title">No questions found</p>
+<p class="search-empty-hint">Try searching for SQL, DAX, Power BI, RLS, Gateway, Fabric, etc.</p>
+</div>
+</div>
 <footer>// click a row to expand · only one section stays open at a time</footer>
 </div>
 <script>
+  // ===== Question Search: build index BEFORE tileification =====
+  // Captures every .question-item's title + ancestor chain (subtopic/topic/
+  // section) while the original nested accordion markup is still intact.
+  // Each ancestor .item gets a stable, globally-unique data-search-id so the
+  // tile buttons created dynamically by the tile engine below (which clone
+  // this original markup) can later be found and clicked programmatically to
+  // reveal a given search result, however deep it's nested.
+  (function buildQuestionSearchIndex() {
+    let counter = 0;
+    const nextId = () => 'sid-' + (++counter);
+    const index = [];
+
+    document.querySelectorAll('.question-item').forEach(qItem => {
+      const chain = [];
+      const titles = [];
+      let node = qItem;
+      while (node) {
+        if (!node.dataset.searchId) node.dataset.searchId = nextId();
+        chain.push(node.dataset.searchId);
+        const t = node.querySelector(':scope > .item-head > .item-title');
+        titles.push(t ? t.textContent.replace(/\s+/g, ' ').trim() : '');
+        node = node.parentElement ? node.parentElement.closest('.item') : null;
+      }
+      chain.reverse();
+      titles.reverse();
+
+      const idxEl = qItem.querySelector(':scope > .item-head > .idx');
+
+      index.push({
+        id: qItem.dataset.searchId,
+        idx: idxEl ? idxEl.textContent.trim() : '',
+        title: titles[titles.length - 1] || '',
+        category: titles.slice(0, -1).filter(Boolean).join(' \u203a '),
+        chain: chain
+      });
+    });
+
+    window.__questionSearchIndex = index;
+  })();
+
   // ===== Base accordion engine (used only for the top-level page section) =====
   function setBodyHeight(item) {
     const body = item.querySelector(':scope > .item-body');
@@ -13240,6 +13429,7 @@ LEAD()</code></pre>
       const tile = document.createElement('button');
       tile.type = 'button';
       tile.className = tileClass;
+      if (it.dataset.searchId) tile.dataset.searchId = it.dataset.searchId;
       tile.innerHTML = titleEl ? titleEl.innerHTML : 'Untitled';
       navInner.appendChild(tile);
       return { tile, titleEl, tagEl, bodyInner };
@@ -13415,6 +13605,130 @@ LEAD()</code></pre>
       bar.remove();
     });
   }
+</script>
+
+<script>
+  // ===== Question Search: search UI + open-in-place behavior =====
+  (function () {
+    const input = document.getElementById('qs-input');
+    const clearBtn = document.getElementById('qs-clear');
+    const countEl = document.getElementById('qs-count');
+    const resultsEl = document.getElementById('qs-results');
+    const emptyEl = document.getElementById('qs-empty');
+    if (!input || !clearBtn || !countEl || !resultsEl || !emptyEl) return;
+
+    // Built once at load (see the index-building IIFE near the top of the
+    // first script block, which runs before the tile engine tears down the
+    // original nested markup). We only ever filter this in-memory array —
+    // no DOM scanning happens on keystrokes.
+    const searchIndex = window.__questionSearchIndex || [];
+
+    function render(query) {
+      resultsEl.innerHTML = '';
+
+      if (!query) {
+        countEl.textContent = '';
+        emptyEl.style.display = 'none';
+        return;
+      }
+
+      const matches = searchIndex.filter(q => q.title.toLowerCase().includes(query));
+
+      if (matches.length === 0) {
+        countEl.textContent = '0 questions found';
+        emptyEl.style.display = '';
+        return;
+      }
+
+      emptyEl.style.display = 'none';
+      countEl.textContent = matches.length + (matches.length === 1 ? ' question found' : ' questions found');
+
+      const frag = document.createDocumentFragment();
+      matches.forEach(q => {
+        const row = document.createElement('div');
+        row.className = 'search-result';
+
+        const idxSpan = document.createElement('span');
+        idxSpan.className = 'search-result-idx';
+        idxSpan.textContent = q.idx || '';
+
+        const main = document.createElement('div');
+        main.className = 'search-result-main';
+
+        const titleP = document.createElement('p');
+        titleP.className = 'search-result-title';
+        titleP.textContent = q.title;
+        main.appendChild(titleP);
+
+        if (q.category) {
+          const catP = document.createElement('p');
+          catP.className = 'search-result-category';
+          catP.textContent = q.category;
+          main.appendChild(catP);
+        }
+
+        const openBtn = document.createElement('button');
+        openBtn.type = 'button';
+        openBtn.className = 'search-result-open';
+        openBtn.textContent = 'Open Question';
+        openBtn.addEventListener('click', () => openSearchResult(q.chain));
+
+        row.appendChild(idxSpan);
+        row.appendChild(main);
+        row.appendChild(openBtn);
+        frag.appendChild(row);
+      });
+      resultsEl.appendChild(frag);
+    }
+
+    // Walks the ancestor chain (section -> topic -> [subtopic] -> question),
+    // clicking each level's real, already-bound control — the section's own
+    // accordion header for the outermost step, then each dynamically-created
+    // tile button for every level below it — using the exact same code path
+    // a user clicking through the UI by hand would trigger. Nothing is
+    // cloned or duplicated here; every panel opened is the site's own.
+    function openSearchResult(chain) {
+      chain.forEach((id, i) => {
+        const el = document.querySelector('[data-search-id="' + id + '"]');
+        if (!el) return;
+        if (i === 0) {
+          if (!el.classList.contains('open')) {
+            const head = el.querySelector(':scope > .item-head');
+            if (head) head.click();
+          }
+        } else if (!el.classList.contains('is-active')) {
+          el.click();
+        }
+      });
+
+      requestAnimationFrame(() => {
+        const finalTile = document.querySelector('[data-search-id="' + chain[chain.length - 1] + '"]');
+        if (!finalTile) return;
+        const panel = finalTile.nextElementSibling;
+        const target = (panel && panel.classList.contains('question-panel')) ? panel : finalTile;
+        target.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        target.classList.add('search-highlight');
+        setTimeout(() => target.classList.remove('search-highlight'), 1600);
+      });
+    }
+
+    let debounceTimer = null;
+    input.addEventListener('input', () => {
+      clearBtn.classList.toggle('is-visible', input.value.length > 0);
+      clearTimeout(debounceTimer);
+      debounceTimer = setTimeout(() => {
+        const query = input.value.trim().replace(/\s+/g, ' ').toLowerCase();
+        render(query);
+      }, 120);
+    });
+
+    clearBtn.addEventListener('click', () => {
+      input.value = '';
+      clearBtn.classList.remove('is-visible');
+      render('');
+      input.focus();
+    });
+  })();
 </script>
 </body>
 </html>
