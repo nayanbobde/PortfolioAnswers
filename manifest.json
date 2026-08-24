@@ -1,18 +1,20 @@
+```json
 {
   "name": "Interview Prep — Nayan Bobde",
   "short_name": "Interview Prep",
-  "description": "Power BI, SQL, DAX, Python, Azure & Microsoft Fabric interview preparation — built around the Global Direct SAR Dashboard project.",
+  "description": "Power BI, SQL, DAX, Python, Azure & Microsoft Fabric interview preparation.",
   "id": "./",
-  "start_url": "./index.html",
+  "start_url": "./",
   "scope": "./",
   "display": "standalone",
-  "display_override": ["fullscreen", "window-controls-overlay", "standalone", "minimal-ui"],
-  "orientation": "any",
   "background_color": "#0B1220",
   "theme_color": "#0B1220",
   "lang": "en",
   "dir": "ltr",
-  "categories": ["education", "productivity", "utilities"],
+  "categories": [
+    "education",
+    "productivity"
+  ],
   "icons": [
     {
       "src": "./icons/icon-192.png",
@@ -40,3 +42,4 @@
     }
   ]
 }
+```
