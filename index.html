@@ -645,6 +645,19 @@
     .search-result-open{ width: 100%; text-align: center; }
   }
 
+
+  /* ===== Added for Northern Trust section (phase-intro summaries) ===== */
+  .phase-intro{
+    color: var(--text-dim);
+    font-size: 14.5px;
+    line-height: 1.65;
+    max-width: 84ch;
+    margin: 0 0 22px;
+    padding-bottom: 18px;
+    border-bottom: 1px dashed var(--line);
+  }
+  .phase-intro strong{ color: var(--text); }
+
 </style>
 </head>
 <body>
@@ -14369,6 +14382,1972 @@ HAVING MAX(s.SaleDate) &lt; DATEADD(DAY, -90, GETDATE())
 <p>“It's the secure bridge between Power BI Service in the cloud and data sources the Service can't reach directly, like on-prem SQL Server or Oracle.”</p>
 <p>The gateway matters whenever the Service needs secure connectivity to an on-premises or otherwise inaccessible source — common ones being SQL Server, Oracle and file shares. For a cloud-hosted source, a gateway usually isn't required at all.</p>
 <pre><code>On-premises SQL Server -&gt; On-premises Data Gateway -&gt; Power BI Service</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="item section-item" data-index="northern-trust">
+<div class="item-head section-head" role="button" tabindex="0" aria-expanded="false">
+<div class="section-head-text">
+<div class="eyebrow">Technical Topics</div>
+<h1>Northern Trust</h1>
+</div>
+<svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg>
+</div>
+<div class="item-body">
+<div class="item-body-inner section-body-inner">
+<p class="sub">Click a phase to expand it and see the related practice questions.</p>
+<div class="list" id="northern-trust-topics">
+<div class="item topic-item" data-index="201">
+<button class="item-head">
+<span class="idx">01</span>
+<span class="item-title">PHASE 12 — ALTERYX</span>
+<span class="tag">15 Questions</span>
+<svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg>
+</button>
+<div class="item-body">
+<div class="item-body-inner">
+<p class="phase-intro"><strong>What I’ve Learned:</strong> Alteryx is a data preparation and ETL/automation tool that sits alongside SQL and Power Query in my toolkit — I reach for it when a job needs a <strong>repeatable, multi-source workflow</strong> rather than a one-off Power BI transformation. My mental model of any Alteryx build is the same six-stage pipeline every time: <strong>Input → Clean → Transform → Join/Union → Validate → Output</strong>. I know the core toolset (Input/Output Data, Select, Filter, Formula, Summarize, Sort, Unique, Join, Union, Append Fields, Data Cleansing) well enough to explain what each does and when to reach for it — especially the distinction between <strong>Join</strong> (key-based matching), <strong>Union</strong> (stacking similar datasets) and <strong>Append Fields</strong> (no-key combination). I can connect Alteryx to SQL Server, Excel and CSV in the same workflow, standardize their columns/keys, and combine them with the right tool for the job. On data quality, my instinct is never to silently delete bad records — nulls and duplicates get profiled, flagged, or resolved against a defined business key, not dropped. For performance, I push filtering as early and as close to the source as possible rather than pulling everything into Alteryx and filtering late. I validate every output the same way I'd validate a Power BI number: record counts, control totals, duplicate/null checks, and source-to-target reconciliation. I understand macros (Standard/Batch/Iterative) as the reuse mechanism for repeated logic, and I know how to reason about troubleshooting a failed workflow by isolating the failing tool and comparing against the last successful run. Overall, this phase is about proving I can design an ETL pipeline that's reusable, validated and production-safe — not just a one-time data cleanup.</p>
+<div class="item question-item" data-question="nt-1">
+<button class="item-head">
+<span class="idx">01</span>
+<span class="item-title">What is Alteryx?</span>
+<svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg>
+</button>
+<div class="item-body">
+<div class="item-body-inner">
+<p><strong>Answer:</strong> Alteryx is a data preparation and ETL/automation tool. I use it to connect to multiple data sources, clean and transform data, apply business rules, combine datasets, validate the output and prepare it for reporting — especially when the process is repetitive or spans multiple sources.</p>
+<p><strong>Real-life case:</strong> I take transaction data from SQL, client mapping from Excel and exceptions from CSV, clean and combine them in Alteryx, validate the result and hand the final dataset to Power BI.</p>
+</div>
+</div>
+</div>
+<div class="item question-item" data-question="nt-2">
+<button class="item-head">
+<span class="idx">02</span>
+<span class="item-title">Explain your Alteryx workflow end-to-end.</span>
+<svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg>
+</button>
+<div class="item-body">
+<div class="item-body-inner">
+<p><strong>Answer:</strong> My typical workflow is <strong>Input → Clean → Transform → Join/Union → Validate → Output</strong>. I bring in the data, standardize columns/types, apply business rules, combine datasets, validate results, and write the output.</p>
+<p><strong>Real-life case:</strong> For reconciliation, I'd take transactions from two systems, standardize IDs and dates, compare records, identify exceptions and produce a final reconciliation output for Power BI.</p>
+</div>
+</div>
+</div>
+<div class="item question-item" data-question="nt-3">
+<button class="item-head">
+<span class="idx">03</span>
+<span class="item-title">Why use Alteryx instead of Power Query?</span>
+<svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg>
+</button>
+<div class="item-body">
+<div class="item-body-inner">
+<p><strong>Answer:</strong> Power Query when the transformation is mainly part of one Power BI solution; Alteryx when I need a dedicated, reusable ETL workflow involving multiple sources, complex transformations, automation or multiple outputs. The choice follows the business requirement, not habit.</p>
+<p><strong>Real-life case:</strong> Cleaning one SQL table for one report → Power Query. Combining SQL + Excel + CSV for several downstream processes → Alteryx.</p>
+</div>
+</div>
+</div>
+<div class="item question-item" data-question="nt-4">
+<button class="item-head">
+<span class="idx">04</span>
+<span class="item-title">What Alteryx tools have you used, and what do you use each one for?</span>
+<svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg>
+</button>
+<div class="item-body">
+<div class="item-body-inner">
+<p><strong>Answer:</strong> Input Data (connect), Output Data (write), Select (choose/rename/retype fields), Filter (filter records), Formula (calculations), Summarize (aggregation), Sort (ordering), Unique (de-dup), Join (combine on keys), Union (stack), Append Fields (add fields without a key), Data Cleansing (common quality fixes).</p>
+<p><strong>Real-life case:</strong> Input Data → Select → Filter → Formula → Join → Summarize → Output Data for a transaction workflow.</p>
+</div>
+</div>
+</div>
+<div class="item question-item" data-question="nt-5">
+<button class="item-head">
+<span class="idx">05</span>
+<span class="item-title">How do you combine Excel, CSV and SQL data in Alteryx?</span>
+<svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg>
+</button>
+<div class="item-body">
+<div class="item-body-inner">
+<p><strong>Answer:</strong> Separate input streams for each source, standardize column names/types/keys, then Join for related records or Union for stacking similar data, and validate the final output.</p>
+<p><strong>Real-life case:</strong> SQL has transactions, Excel has client mapping, CSV has exceptions — clean all three and combine into one reporting dataset.</p>
+</div>
+</div>
+</div>
+<div class="item question-item" data-question="nt-6">
+<button class="item-head">
+<span class="idx">06</span>
+<span class="item-title">How do you connect Alteryx to SQL databases?</span>
+<svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg>
+</button>
+<div class="item-body">
+<div class="item-body-inner">
+<p><strong>Answer:</strong> Input Data tool → select the database connection (e.g., SQL Server), provide server/authentication details, choose a table/view/query, and use it in the workflow.</p>
+<p><strong>Real-life case:</strong> Pull only the required period's transaction data from SQL Server, transform it, and prepare it for Power BI.</p>
+</div>
+</div>
+</div>
+<div class="item question-item" data-question="nt-7">
+<button class="item-head">
+<span class="idx">07</span>
+<span class="item-title">How do you handle nulls, duplicates and data-quality issues?</span>
+<svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg>
+</button>
+<div class="item-body">
+<div class="item-body-inner">
+<p><strong>Answer:</strong> Profile the data first. Nulls → replace, flag or filter per business rule. Duplicates → identify the correct business key and use Unique. Bad types/values → Select, Formula, Filter, Data Cleansing.</p>
+<p><strong>Real-life case:</strong> A transaction with a missing Client ID isn't deleted — it's flagged as a data-quality exception for investigation.</p>
+</div>
+</div>
+</div>
+<div class="item question-item" data-question="nt-8">
+<button class="item-head">
+<span class="idx">08</span>
+<span class="item-title">Explain Join vs Union vs Append Fields.</span>
+<svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg>
+</button>
+<div class="item-body">
+<div class="item-body-inner">
+<p><strong>Answer:</strong> Join = combine on a matching key. Union = stack datasets vertically. Append Fields = add fields from one dataset to another without a key.</p>
+<p><strong>Real-life case:</strong> Customer + Sales on CustomerID → Join. January + February sales → Union. Adding one common value to every record → Append Fields.</p>
+</div>
+</div>
+</div>
+<div class="item question-item" data-question="nt-9">
+<button class="item-head">
+<span class="idx">09</span>
+<span class="item-title">How do you process and optimize large datasets?</span>
+<svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg>
+</button>
+<div class="item-body">
+<div class="item-body-inner">
+<p><strong>Answer:</strong> Reduce data as early as possible — select only needed columns, filter early, push filtering to the database, avoid unnecessary tools, optimize joins, break large processes into stages.</p>
+<p><strong>Real-life case:</strong> If the report only needs current-year transactions, I don't pull ten years into Alteryx first.</p>
+</div>
+</div>
+</div>
+<div class="item question-item" data-question="nt-10">
+<button class="item-head">
+<span class="idx">10</span>
+<span class="item-title">How do you troubleshoot a failed Alteryx workflow?</span>
+<svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg>
+</button>
+<div class="item-body">
+<div class="item-body-inner">
+<p><strong>Answer:</strong> Identify the tool that failed, read the error, check input data/connection/column names/types/formulas/joins around that step, and compare against the last successful run.</p>
+<p><strong>Real-life case:</strong> A sudden failure often traces back to a renamed Excel column, a broken DB connection, or a new value breaking a formula.</p>
+</div>
+</div>
+</div>
+<div class="item question-item" data-question="nt-11">
+<button class="item-head">
+<span class="idx">11</span>
+<span class="item-title">How do you validate the output of an Alteryx workflow?</span>
+<svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg>
+</button>
+<div class="item-body">
+<div class="item-body-inner">
+<p><strong>Answer:</strong> Record counts, duplicate/null checks, control totals, source-to-target reconciliation, sample record checks, and business-rule validation.</p>
+<p><strong>Real-life case:</strong> If source transactions total ₹10 crore, I compare the output control total and investigate any difference before Power BI consumes it.</p>
+</div>
+</div>
+</div>
+<div class="item question-item" data-question="nt-12">
+<button class="item-head">
+<span class="idx">12</span>
+<span class="item-title">How do you prepare Alteryx output for Power BI?</span>
+<svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg>
+</button>
+<div class="item-body">
+<div class="item-body-inner">
+<p><strong>Answer:</strong> A clean, structured dataset — correct types, consistent column names, applied business logic, validated records, no unnecessary fields — written where Power BI can reliably consume it.</p>
+<p><strong>Real-life case:</strong> A validated reconciliation table (transaction ID, client, amount, match status, exception reason) feeds a Power BI exception dashboard.</p>
+</div>
+</div>
+</div>
+<div class="item question-item" data-question="nt-13">
+<button class="item-head">
+<span class="idx">13</span>
+<span class="item-title">What are macros? Explain Standard, Batch and Iterative.</span>
+<svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg>
+</button>
+<div class="item-body">
+<div class="item-body-inner">
+<p><strong>Answer:</strong> A macro is a reusable Alteryx workflow component. Standard = a reusable process. Batch = runs the same process per group/input value. Iterative = repeats until a condition is met.</p>
+<p><strong>Real-life case:</strong> Same cleansing logic needed for 20 client files → build one reusable macro instead of 20 workflows.</p>
+</div>
+</div>
+</div>
+<div class="item question-item" data-question="nt-14">
+<button class="item-head">
+<span class="idx">14</span>
+<span class="item-title">How do you schedule Alteryx workflows?</span>
+<svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg>
+</button>
+<div class="item-body">
+<div class="item-body-inner">
+<p><strong>Answer:</strong> Alteryx Server or the org's enterprise scheduling capability — define frequency, dependencies and monitoring, and make failures visible to the support team.</p>
+<p><strong>Real-life case:</strong> A reconciliation workflow scheduled to run every morning before operations reviews exceptions.</p>
+</div>
+</div>
+</div>
+<div class="item question-item" data-question="nt-15">
+<button class="item-head">
+<span class="idx">15</span>
+<span class="item-title">How would you design a reusable Alteryx ETL workflow?</span>
+<svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg>
+</button>
+<div class="item-body">
+<div class="item-body-inner">
+<p><strong>Answer:</strong> Separate into Input, Validation, Transformation, Business Rules, Output. Parameterize dates/file locations, use macros for repeated logic, and build in validation checks.</p>
+<p><strong>Real-life case:</strong> A monthly financial-reporting workflow reuses the same logic every month, only the reporting period changes.</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="item topic-item" data-index="202">
+<button class="item-head">
+<span class="idx">02</span>
+<span class="item-title">PHASE 13 — POWER APPS</span>
+<span class="tag">11 Questions</span>
+<svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg>
+</button>
+<div class="item-body">
+<div class="item-body-inner">
+<p class="phase-intro"><strong>What I’ve Learned:</strong> This phase is about the Power Apps + Dataverse layer as the operational counterpart to Power BI's reporting layer. I know when to build a <strong>Canvas App</strong> (task-specific, UI-driven) versus a <strong>Model-Driven App</strong> (Dataverse-centric, structured business processes with related entities), and I can explain why <strong>Dataverse</strong> beats Excel or SharePoint once a solution needs multiple concurrent users, relationships, security and reliable transactional updates. I understand the core building blocks — <strong>Gallery</strong> (list view), <strong>Form</strong> (view/edit one record), <strong>SubmitForm</strong> (save form changes) and <strong>Patch</strong> (programmatic, field-level create/update) — and I can articulate when Patch is the better choice over SubmitForm (targeted field updates, e.g., a one-click "Resolve" action). I know the difference between <strong>Filter</strong> (multiple records), <strong>Search</strong> (text-based), and <strong>LookUp</strong> (single record), and I understand <strong>delegation</strong> — why Power Apps needs to push filtering to the data source rather than pulling everything locally, and how non-delegable formulas cause silent record-count limits on large datasets. I can talk through input validation and error handling around save operations, app security (both the app layer and the underlying data source — hiding a screen isn't security), and the levers for improving performance (loading less data, using delegation, reducing repeated calls, optimizing formulas). Finally, I know how a Canvas App triggers a Power Automate flow and passes parameters like an Exception ID to kick off approvals or notifications — the bridge into Phase 15.</p>
+<div class="item question-item" data-question="nt-16">
+<button class="item-head">
+<span class="idx">16</span>
+<span class="item-title">Canvas App vs Model-Driven App — when would you use each?</span>
+<svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg>
+</button>
+<div class="item-body">
+<div class="item-body-inner">
+<p><strong>Answer:</strong> Canvas Apps give more UI control, good for task-specific apps. Model-Driven Apps are data-centric, built around Dataverse, suited to structured business processes with related entities.</p>
+<p><strong>Real-life case:</strong> A simple exception-entry screen for operations → Canvas App. A complex case-management process with many related entities → Model-Driven App.</p>
+</div>
+</div>
+</div>
+<div class="item question-item" data-question="nt-17">
+<button class="item-head">
+<span class="idx">17</span>
+<span class="item-title">What is Dataverse, and why use it instead of Excel or SharePoint?</span>
+<svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg>
+</button>
+<div class="item-body">
+<div class="item-body-inner">
+<p><strong>Answer:</strong> Dataverse is Microsoft's business data platform for Power Platform — structured tables, relationships, security and business rules. I prefer it once a solution needs multiple users, controlled access, relationships and reliable transactional updates.</p>
+<p><strong>Real-life case:</strong> 50 operations users creating/updating exceptions simultaneously → Dataverse, not a shared Excel file.</p>
+</div>
+</div>
+</div>
+<div class="item question-item" data-question="nt-18">
+<button class="item-head">
+<span class="idx">18</span>
+<span class="item-title">How do you connect a Canvas App to Dataverse?</span>
+<svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg>
+</button>
+<div class="item-body">
+<div class="item-body-inner">
+<p><strong>Answer:</strong> Create/identify the Dataverse table → add Dataverse as a data source in Power Apps → select the table → use it in Galleries/Forms/formulas → configure permissions → test.</p>
+<p><strong>Real-life case:</strong> An Exception table in Dataverse connected to a Canvas App where operations creates, updates and resolves exceptions.</p>
+</div>
+</div>
+</div>
+<div class="item question-item" data-question="nt-19">
+<button class="item-head">
+<span class="idx">19</span>
+<span class="item-title">Explain Gallery, Form, SubmitForm and Patch.</span>
+<svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg>
+</button>
+<div class="item-body">
+<div class="item-body-inner">
+<p><strong>Answer:</strong> Gallery displays multiple records. Form views/edits one record. SubmitForm saves a form's changes. Patch creates/updates records programmatically with control over specific fields.</p>
+<p><strong>Real-life case:</strong> Display open exceptions in a Gallery → select one → open in an Edit Form → SubmitForm to save.</p>
+</div>
+</div>
+</div>
+<div class="item question-item" data-question="nt-20">
+<button class="item-head">
+<span class="idx">20</span>
+<span class="item-title">Patch vs SubmitForm — when would you use each?</span>
+<svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg>
+</button>
+<div class="item-body">
+<div class="item-body-inner">
+<p><strong>Answer:</strong> SubmitForm for standard form saves. Patch when I need more control — updating select fields or creating a record programmatically.</p>
+<p><strong>Real-life case:</strong> Resolve button uses <code>Patch(Exceptions, SelectedException, {Status: "Resolved"})</code> to update just the Status field, not the whole form.</p>
+</div>
+</div>
+</div>
+<div class="item question-item" data-question="nt-21">
+<button class="item-head">
+<span class="idx">21</span>
+<span class="item-title">Explain Filter, Search and LookUp.</span>
+<svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg>
+</button>
+<div class="item-body">
+<div class="item-body-inner">
+<p><strong>Answer:</strong> Filter returns multiple records matching a condition. Search finds records by text. LookUp returns a single matching record/value.</p>
+<p><strong>Real-life case:</strong> <code>Filter(Exceptions, Status = "Open")</code> shows open exceptions; <code>LookUp(Exceptions, ExceptionID = 1001)</code> finds one specific exception.</p>
+</div>
+</div>
+</div>
+<div class="item question-item" data-question="nt-22">
+<button class="item-head">
+<span class="idx">22</span>
+<span class="item-title">What is delegation, and why is it important?</span>
+<svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg>
+</button>
+<div class="item-body">
+<div class="item-body-inner">
+<p><strong>Answer:</strong> Delegation means Power Apps sends supported operations to the underlying data source to filter/query, instead of pulling all records locally. Important with large datasets, since non-delegated formulas cap out at a limited local record count. I resolve it by using delegation-supported functions and redesigning non-delegable formulas.</p>
+<p><strong>Real-life case:</strong> 100,000 exceptions in Dataverse — I want the database to return only the open ones, not all 100,000 into the app.</p>
+</div>
+</div>
+</div>
+<div class="item question-item" data-question="nt-23">
+<button class="item-head">
+<span class="idx">23</span>
+<span class="item-title">How do you validate user input and handle errors?</span>
+<svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg>
+</button>
+<div class="item-body">
+<div class="item-body-inner">
+<p><strong>Answer:</strong> Validate mandatory fields and business rules before saving, and handle errors around data operations with clear user-facing messages.</p>
+<p><strong>Real-life case:</strong> Before submitting an exception, check Client ID, Exception Type and Amount are populated; show a clear message if the save fails.</p>
+</div>
+</div>
+</div>
+<div class="item question-item" data-question="nt-24">
+<button class="item-head">
+<span class="idx">24</span>
+<span class="item-title">How do you secure a Canvas App and its underlying data?</span>
+<svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg>
+</button>
+<div class="item-body">
+<div class="item-body-inner">
+<p><strong>Answer:</strong> Secure both the app and the data source — identity groups, Dataverse security roles or SharePoint permissions, least-privilege access. Hiding screens alone is not sufficient.</p>
+<p><strong>Real-life case:</strong> Operations users can update exceptions; managers get additional approval permissions, enforced at the data layer.</p>
+</div>
+</div>
+</div>
+<div class="item question-item" data-question="nt-25">
+<button class="item-head">
+<span class="idx">25</span>
+<span class="item-title">How do you improve Power Apps performance?</span>
+<svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg>
+</button>
+<div class="item-body">
+<div class="item-body-inner">
+<p><strong>Answer:</strong> Reduce unnecessary data loading, use delegation, minimize repeated data calls and unnecessary controls, optimize formulas, retrieve only what's needed, choose the right data source.</p>
+<p><strong>Real-life case:</strong> Load only open/relevant exceptions on app open instead of the full historical set.</p>
+</div>
+</div>
+</div>
+<div class="item question-item" data-question="nt-26">
+<button class="item-head">
+<span class="idx">26</span>
+<span class="item-title">How do you trigger Power Automate from Power Apps?</span>
+<svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg>
+</button>
+<div class="item-body">
+<div class="item-body-inner">
+<p><strong>Answer:</strong> Create a Power Automate flow, connect it to the Canvas App; the app triggers the flow and passes parameters such as an Exception ID.</p>
+<p><strong>Real-life case:</strong> Clicking "Submit for Approval" sends the Exception ID to Power Automate, which routes an approval request to the manager.</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="item topic-item" data-index="203">
+<button class="item-head">
+<span class="idx">03</span>
+<span class="item-title">PHASE 14 — POWER APPS REAL-LIFE SCENARIOS</span>
+<span class="tag">7 Questions</span>
+<svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg>
+</button>
+<div class="item-body">
+<div class="item-body-inner">
+<p class="phase-intro"><strong>What I’ve Learned:</strong> This phase takes everything from Phase 13 and assembles it into one coherent end-to-end story: replacing a manual Excel exception process with <strong>Power Apps (interface) → Dataverse (storage) → Power Automate (workflow/approval) → Power BI (reporting)</strong>. I can walk through the full user journey — a New Exception screen, an Exception List gallery, an Edit Exception form, and a Resolve action using SubmitForm or Patch — and explain how input validation and a duplicate check (e.g., Client + Transaction ID + Trade Date) prevent bad or repeated records at the point of entry. I understand how the approval loop works (Power Apps triggers Power Automate, which identifies the right manager, sends the request, and updates Dataverse based on Approved/Rejected), and how Power BI then connects to that same Dataverse table to build KPIs like total/open/resolved exceptions, aging, and breakdowns by client or portfolio. Security threads through the whole design — identity groups and Dataverse roles for the app, RLS for the reporting layer — so this phase is really my rehearsal for "design a full operational + reporting solution," which recurs constantly in later scenario phases.</p>
+<div class="item question-item" data-question="nt-27">
+<button class="item-head">
+<span class="idx">27</span>
+<span class="item-title">Operations users maintain exceptions in Excel. Design an end-to-end Power Apps solution.</span>
+<svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg>
+</button>
+<div class="item-body">
+<div class="item-body-inner">
+<p><strong>Answer:</strong> Replace the manual process with Power Apps + Dataverse + Power Automate + Power BI. Power Apps is the interface, Dataverse stores the records, Power Automate manages notifications/approvals, Power BI reports and monitors.</p>
+<p><strong>Real-life case:</strong> An unmatched transaction is entered via Power Apps, stored in Dataverse, sent for approval via Power Automate, and shown as open/resolved in Power BI.</p>
+</div>
+</div>
+</div>
+<div class="item question-item" data-question="nt-28">
+<button class="item-head">
+<span class="idx">28</span>
+<span class="item-title">Why choose Power Apps + Dataverse instead of Excel?</span>
+<svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg>
+</button>
+<div class="item-body">
+<div class="item-body-inner">
+<p><strong>Answer:</strong> Excel works for simple analysis; an operational, multi-user application needs structured data, security, relationships and controlled updates — which Dataverse provides.</p>
+<p><strong>Real-life case:</strong> Instead of 20 users editing the same exception spreadsheet, they use Power Apps while Dataverse governs the records.</p>
+</div>
+</div>
+</div>
+<div class="item question-item" data-question="nt-29">
+<button class="item-head">
+<span class="idx">29</span>
+<span class="item-title">How would users create, update and resolve exception records?</span>
+<svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg>
+</button>
+<div class="item-body">
+<div class="item-body-inner">
+<p><strong>Answer:</strong> A New Exception screen, an Exception List gallery, an Edit Exception form, and a Resolve action — using SubmitForm or Patch to update Dataverse.</p>
+<p><strong>Real-life case:</strong> A user opens an exception, adds the root cause, changes status to Resolved, and saves.</p>
+</div>
+</div>
+</div>
+<div class="item question-item" data-question="nt-30">
+<button class="item-head">
+<span class="idx">30</span>
+<span class="item-title">How do you validate inputs, handle errors and prevent duplicates?</span>
+<svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg>
+</button>
+<div class="item-body">
+<div class="item-body-inner">
+<p><strong>Answer:</strong> Validate mandatory fields/business rules before submission, check the business key against existing records, and wrap create/update operations in error handling.</p>
+<p><strong>Real-life case:</strong> Check Client + Transaction ID + Trade Date before creating another exception for the same transaction.</p>
+</div>
+</div>
+</div>
+<div class="item question-item" data-question="nt-31">
+<button class="item-head">
+<span class="idx">31</span>
+<span class="item-title">How would you notify managers and obtain approvals?</span>
+<svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg>
+</button>
+<div class="item-body">
+<div class="item-body-inner">
+<p><strong>Answer:</strong> Power Apps triggers Power Automate on submission; the flow identifies the right manager, sends the approval request, waits for the response, then updates Dataverse status accordingly.</p>
+<p><strong>Real-life case:</strong> A high-value reconciliation exception is auto-routed to the responsible manager for approval.</p>
+</div>
+</div>
+</div>
+<div class="item question-item" data-question="nt-32">
+<button class="item-head">
+<span class="idx">32</span>
+<span class="item-title">How would Power BI consume exception data?</span>
+<svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg>
+</button>
+<div class="item-body">
+<div class="item-body-inner">
+<p><strong>Answer:</strong> Connect to the Dataverse exception table, model it, and build KPIs — total/open/resolved exceptions, aging, exceptions by client or portfolio.</p>
+<p><strong>Real-life case:</strong> Management sees 150 open exceptions, how many are past SLA, and which portfolios have the most.</p>
+</div>
+</div>
+</div>
+<div class="item question-item" data-question="nt-33">
+<button class="item-head">
+<span class="idx">33</span>
+<span class="item-title">How would you secure the solution?</span>
+<svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg>
+</button>
+<div class="item-body">
+<div class="item-body-inner">
+<p><strong>Answer:</strong> Identity groups and Dataverse permissions for the app/data layer, Power BI RLS for reporting where access needs to differ, least privilege throughout.</p>
+<p><strong>Real-life case:</strong> A portfolio manager can only access the portfolios they're authorized for, both in the app and in the dashboard.</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="item topic-item" data-index="204">
+<button class="item-head">
+<span class="idx">04</span>
+<span class="item-title">PHASE 15 — POWER AUTOMATE</span>
+<span class="tag">8 Questions</span>
+<svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg>
+</button>
+<div class="item-body">
+<div class="item-body-inner">
+<p class="phase-intro"><strong>What I’ve Learned:</strong> Power Automate is the workflow/orchestration layer that connects everything else together — I use it for notifications, approvals, record updates and scheduled activities, and I can distinguish the three trigger types cleanly: <strong>Automated</strong> (event-driven), <strong>Instant</strong> (user-triggered), <strong>Scheduled</strong> (time-driven). I can design an approval workflow end-to-end: trigger on submission → fetch details → identify the approver → send the request → wait for the response → update the record and notify accordingly on Approved or Rejected. On resilience, I know how to structure a flow with <strong>Scopes</strong> (Try/Success/Failure) and use <strong>Configure Run After</strong> to build a failure branch that logs the error and alerts support instead of failing silently. I also think about idempotency — using retry policies for transient failures while making sure a re-run doesn't create duplicate business records (e.g., checking whether an approval already exists for an Exception ID before creating another). For monitoring, I rely on flow run history plus, for critical processes, a separate logging mechanism capturing flow name, timestamp, record ID and error message so recurring issues are easy to spot. All of this comes together in the reconciliation-automation story: exceptions land in Dataverse, Power Automate handles notification/approval/status updates, Power Apps is the operational interface, and Power BI monitors the whole pipeline.</p>
+<div class="item question-item" data-question="nt-34">
+<button class="item-head">
+<span class="idx">34</span>
+<span class="item-title">What is Power Automate and where would you use it?</span>
+<svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg>
+</button>
+<div class="item-body">
+<div class="item-body-inner">
+<p><strong>Answer:</strong> Microsoft's workflow automation platform — used to automate repetitive processes like notifications, approvals, record updates and scheduled activities, connecting Power Apps, Dataverse, SharePoint and other services.</p>
+<p><strong>Real-life case:</strong> A new reconciliation exception triggers a notification to the responsible manager and starts an approval process.</p>
+</div>
+</div>
+</div>
+<div class="item question-item" data-question="nt-35">
+<button class="item-head">
+<span class="idx">35</span>
+<span class="item-title">Automated, Instant and Scheduled flows.</span>
+<svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg>
+</button>
+<div class="item-body">
+<div class="item-body-inner">
+<p><strong>Answer:</strong> Automated starts on an event. Instant is manually triggered by a user. Scheduled runs at a defined time/frequency.</p>
+<p><strong>Real-life case:</strong> New exception created → Automated. User clicks Submit for Approval → Instant. Daily exception summary → Scheduled.</p>
+</div>
+</div>
+</div>
+<div class="item question-item" data-question="nt-36">
+<button class="item-head">
+<span class="idx">36</span>
+<span class="item-title">How would you build an approval workflow?</span>
+<svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg>
+</button>
+<div class="item-body">
+<div class="item-body-inner">
+<p><strong>Answer:</strong> Trigger on submission → get exception details → identify approver → send approval request → wait for response → update record and notify on approve/reject.</p>
+<p><strong>Real-life case:</strong> A financial exception above a threshold auto-routes to the appropriate manager for approval.</p>
+</div>
+</div>
+</div>
+<div class="item question-item" data-question="nt-37">
+<button class="item-head">
+<span class="idx">37</span>
+<span class="item-title">How do you handle errors? Explain Scopes and Configure Run After.</span>
+<svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg>
+</button>
+<div class="item-body">
+<div class="item-body-inner">
+<p><strong>Answer:</strong> Structure the flow with scopes like Try/Failure; Configure Run After lets a failure branch execute when an action fails — capturing, logging and notifying support.</p>
+<p><strong>Real-life case:</strong> If an approval notification fails, the failure branch logs the error and alerts support instead of failing silently.</p>
+</div>
+</div>
+</div>
+<div class="item question-item" data-question="nt-38">
+<button class="item-head">
+<span class="idx">38</span>
+<span class="item-title">How do you handle retries and prevent duplicate executions?</span>
+<svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg>
+</button>
+<div class="item-body">
+<div class="item-body-inner">
+<p><strong>Answer:</strong> Use appropriate retry policies for transient failures, and design the flow so re-execution doesn't create duplicate records — check whether a record was already processed first.</p>
+<p><strong>Real-life case:</strong> Before creating an approval for Exception 123, check whether one already exists for that ID.</p>
+</div>
+</div>
+</div>
+<div class="item question-item" data-question="nt-39">
+<button class="item-head">
+<span class="idx">39</span>
+<span class="item-title">How do you log and monitor Power Automate failures?</span>
+<svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg>
+</button>
+<div class="item-body">
+<div class="item-body-inner">
+<p><strong>Answer:</strong> Use run history for investigation, plus a separate logging mechanism for critical flows (flow name, timestamp, record ID, error message) to spot recurring issues.</p>
+<p><strong>Real-life case:</strong> An error log for the reconciliation flow lets support see which exception failed and why.</p>
+</div>
+</div>
+</div>
+<div class="item question-item" data-question="nt-40">
+<button class="item-head">
+<span class="idx">40</span>
+<span class="item-title">How would you automate reconciliation exceptions?</span>
+<svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg>
+</button>
+<div class="item-body">
+<div class="item-body-inner">
+<p><strong>Answer:</strong> Reconciliation identifies exceptions → stores them in Dataverse → Power Automate notifies the user, drives approvals, updates status → Power Apps is the interface → Power BI monitors.</p>
+<p><strong>Real-life case:</strong> An unmatched transaction becomes an exception, reviewed in Power Apps, approved by a manager, reflected on the dashboard.</p>
+</div>
+</div>
+</div>
+<div class="item question-item" data-question="nt-41">
+<button class="item-head">
+<span class="idx">41</span>
+<span class="item-title">How would you notify users or management when a workflow fails?</span>
+<svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg>
+</button>
+<div class="item-body">
+<div class="item-body-inner">
+<p><strong>Answer:</strong> Error-handling branch via Configure Run After, capture the error details, send email/Teams notification to the responsible support group; maintain an error log for critical processes.</p>
+<p><strong>Real-life case:</strong> If the daily reconciliation flow fails, support gets the error details before management starts using the dashboard.</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="item topic-item" data-index="205">
+<button class="item-head">
+<span class="idx">05</span>
+<span class="item-title">PHASE 16 — COPILOT / AI</span>
+<span class="tag">6 Questions</span>
+<svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg>
+</button>
+<div class="item-body">
+<div class="item-body-inner">
+<p class="phase-intro"><strong>What I’ve Learned:</strong> My stance on Copilot/AI is consistent across every question in this phase: it's a <strong>productivity accelerator, never an authority</strong>. I use it for drafting documentation, summarizing requirements, generating a first-pass DAX/formula idea, and suggesting test cases — but I always treat the output as a starting point that needs validation, never something I use as-is in production. My validation loop for AI-generated DAX specifically is: understand the business requirement → review the formula → test against known results → compare with source data → test filters/edge cases. I can name the real risks (incorrect logic, wrong assumptions, hallucinated information, security/privacy exposure, missing business context) without being alarmist about them. On confidentiality, I have a firm line: I would never put confidential client or financial data into an unapproved AI tool — only approved enterprise environments, following the organization's security and AI-use policy, masking sensitive details where appropriate. In a financial-services context specifically, my framework is <strong>AI assistance → human validation → security check → business approval</strong> — Copilot can draft, but people remain accountable for the final calculation or decision.</p>
+<div class="item question-item" data-question="nt-42">
+<button class="item-head">
+<span class="idx">42</span>
+<span class="item-title">How have you used Microsoft Copilot in your work?</span>
+<svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg>
+</button>
+<div class="item-body">
+<div class="item-body-inner">
+<p><strong>Answer:</strong> Mainly as a productivity assistant — drafting documentation, summarizing requirements, generating initial ideas for DAX/formulas, suggesting test cases. I treat its output as a starting point and always validate it before production use.</p>
+<p><strong>Real-life case:</strong> Use Copilot for a first draft of dashboard documentation, then review it against the actual implementation.</p>
+</div>
+</div>
+</div>
+<div class="item question-item" data-question="nt-43">
+<button class="item-head">
+<span class="idx">43</span>
+<span class="item-title">How can Copilot help with Power BI, DAX, documentation, requirements and test cases?</span>
+<svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg>
+</button>
+<div class="item-body">
+<div class="item-body-inner">
+<p><strong>Answer:</strong> It can explain/draft DAX, summarize requirements, assist documentation, suggest report insights and generate initial test-case ideas — a productivity boost, but final logic still needs human validation.</p>
+<p><strong>Real-life case:</strong> For a YoY Revenue measure, Copilot suggests a starting DAX expression, which I test against the approved business definition and source data.</p>
+</div>
+</div>
+</div>
+<div class="item question-item" data-question="nt-44">
+<button class="item-head">
+<span class="idx">44</span>
+<span class="item-title">How do you validate AI-generated DAX?</span>
+<svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg>
+</button>
+<div class="item-body">
+<div class="item-body-inner">
+<p><strong>Answer:</strong> Never used blindly. Understand the requirement, review the formula, test against known results, compare with source data, test different filters and edge cases before using it.</p>
+<p><strong>Real-life case:</strong> Compare a Copilot-generated Revenue measure against the finance-approved Revenue number before shipping it.</p>
+</div>
+</div>
+</div>
+<div class="item question-item" data-question="nt-45">
+<button class="item-head">
+<span class="idx">45</span>
+<span class="item-title">What are the risks of relying on AI-generated solutions?</span>
+<svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg>
+</button>
+<div class="item-body">
+<div class="item-body-inner">
+<p><strong>Answer:</strong> Incorrect logic, wrong assumptions, hallucinated information, security/privacy issues, and lack of business context. AI accelerates development; I remain responsible for validating the final solution.</p>
+<p><strong>Real-life case:</strong> Technically valid DAX can still use the wrong definition of Revenue — business validation catches that.</p>
+</div>
+</div>
+</div>
+<div class="item question-item" data-question="nt-46">
+<button class="item-head">
+<span class="idx">46</span>
+<span class="item-title">Can you put confidential financial data into an AI tool?</span>
+<svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg>
+</button>
+<div class="item-body">
+<div class="item-body-inner">
+<p><strong>Answer:</strong> No — not into an unapproved AI tool. Follow the org's security and AI-use policy, use only approved enterprise environments, and mask/remove sensitive information where appropriate.</p>
+<p><strong>Real-life case:</strong> Documenting a client transaction process without pasting real client names, account numbers or confidential details into an unapproved tool.</p>
+</div>
+</div>
+</div>
+<div class="item question-item" data-question="nt-47">
+<button class="item-head">
+<span class="idx">47</span>
+<span class="item-title">How would you use Copilot responsibly in financial services?</span>
+<svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg>
+</button>
+<div class="item-body">
+<div class="item-body-inner">
+<p><strong>Answer:</strong> Use it for productivity with human validation and security controls kept in place — approved tools only, no exposed confidential data, validate any generated calculation or documentation.</p>
+<p><strong>Real-life case:</strong> Copilot drafts documentation for a reconciliation dashboard; the financial calculations and final report still go through validation and business approval.</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="item topic-item" data-index="206">
+<button class="item-head">
+<span class="idx">06</span>
+<span class="item-title">PHASE 17 — FINANCIAL DOMAIN</span>
+<span class="tag">15 Questions</span>
+<svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg>
+</button>
+<div class="item-body">
+<div class="item-body-inner">
+<p class="phase-intro"><strong>What I’ve Learned:</strong> This phase builds my financial-services vocabulary from the ground up — the terms an interviewer at an asset-servicing firm will use casually and expect me to follow without hesitation. I can cleanly separate <strong>asset management</strong> (making investment decisions) from <strong>asset servicing</strong> (the operational lifecycle around those investments — custody, settlement, reconciliation, fund accounting, corporate actions, reporting), and I know <strong>custody</strong> specifically means safekeeping and administering assets on a client's behalf. I can define the core entity chain — <strong>portfolio → security → asset → transaction → position</strong> — and the scale metrics that sit on top of it: <strong>AUM</strong> (assets under management), <strong>AUC</strong> (assets under custody), <strong>AUA</strong> (assets under administration). I know <strong>NAV</strong> (assets minus liabilities, typically per fund unit) and <strong>P&amp;L</strong> (gains/losses over a period), and I can distinguish investment <strong>performance</strong> from investment <strong>risk</strong>. Reconciliation vocabulary is central here: <strong>reconciliation</strong> is comparing data between two systems to find differences, and a <strong>settlement exception</strong> is when a transaction doesn't settle as expected or the settlement details don't match. I understand why <strong>data quality</strong> carries outsized weight in this industry — errors cascade into client reporting, positions, risk and potentially regulatory exposure. Rounding out the phase, I know the basic instrument and market vocabulary: <strong>mutual funds</strong> (pooled investor money), <strong>derivatives</strong> and the future/option/swap distinction, <strong>primary vs secondary market</strong>, <strong>IPO</strong>, and <strong>settlement</strong> as the post-trade cash/securities exchange.</p>
+<div class="item question-item" data-question="nt-48">
+<button class="item-head">
+<span class="idx">48</span>
+<span class="item-title">What is asset servicing?</span>
+<svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg>
+</button>
+<div class="item-body">
+<div class="item-body-inner">
+<p><strong>Answer:</strong> Services supporting the operational lifecycle of investments — custody, settlement, reconciliation, fund accounting, corporate actions and reporting — making sure investment operations and records are processed accurately.</p>
+<p><strong>Real-life case:</strong> For a client holding thousands of securities, asset servicing maintains records, processes transactions, supports settlement and provides reporting.</p>
+</div>
+</div>
+</div>
+<div class="item question-item" data-question="nt-49">
+<button class="item-head">
+<span class="idx">49</span>
+<span class="item-title">Asset management vs asset servicing.</span>
+<svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg>
+</button>
+<div class="item-body">
+<div class="item-body-inner">
+<p><strong>Answer:</strong> Asset management is managing investments and making decisions. Asset servicing is the operational/administrative support around those investments — custody, settlement, reconciliation, reporting.</p>
+<p><strong>Real-life case:</strong> Asset manager asks "where should we invest?"; asset servicer supports "how do we record, process, reconcile and report that investment?"</p>
+</div>
+</div>
+</div>
+<div class="item question-item" data-question="nt-50">
+<button class="item-head">
+<span class="idx">50</span>
+<span class="item-title">What is custody?</span>
+<svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg>
+</button>
+<div class="item-body">
+<div class="item-body-inner">
+<p><strong>Answer:</strong> Safekeeping and administration of financial assets on behalf of clients — maintaining accurate holding records and supporting settlement and related servicing processes.</p>
+<p><strong>Real-life case:</strong> An institutional investor owning thousands of securities relies on a custodian to maintain accurate records and support the operational lifecycle of those holdings.</p>
+</div>
+</div>
+</div>
+<div class="item question-item" data-question="nt-51">
+<button class="item-head">
+<span class="idx">51</span>
+<span class="item-title">Portfolio, security, asset, transaction, position and AUM.</span>
+<svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg>
+</button>
+<div class="item-body">
+<div class="item-body-inner">
+<p><strong>Answer:</strong> Portfolio = a collection of investments. Security = a financial instrument (stock/bond). Asset = anything with economic value. Transaction = an activity like a buy/sell. Position = the current holding. AUM = Assets Under Management.</p>
+<p><strong>Real-life case:</strong> A portfolio owning 1,000 shares — the shares are the security, the purchase is the transaction, and the 1,000 shares are the resulting position.</p>
+</div>
+</div>
+</div>
+<div class="item question-item" data-question="nt-52">
+<button class="item-head">
+<span class="idx">52</span>
+<span class="item-title">What are AUC and AUA?</span>
+<svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg>
+</button>
+<div class="item-body">
+<div class="item-body-inner">
+<p><strong>Answer:</strong> AUC = Assets Under Custody (assets for which the institution provides custody services). AUA = Assets Under Administration (assets for which it provides administrative/operational services).</p>
+<p><strong>Real-life case:</strong> An institutional client's large portfolio may be administered or custodied by the firm even though it doesn't make the investment decisions.</p>
+</div>
+</div>
+</div>
+<div class="item question-item" data-question="nt-53">
+<button class="item-head">
+<span class="idx">53</span>
+<span class="item-title">What are NAV and P&amp;L?</span>
+<svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg>
+</button>
+<div class="item-body">
+<div class="item-body-inner">
+<p><strong>Answer:</strong> NAV = Net Asset Value (assets minus liabilities, typically per fund unit/share). P&amp;L = Profit and Loss over a period.</p>
+<p><strong>Real-life case:</strong> If the securities in a fund rise in market value, the fund's NAV rises and the portfolio shows a corresponding gain.</p>
+</div>
+</div>
+</div>
+<div class="item question-item" data-question="nt-54">
+<button class="item-head">
+<span class="idx">54</span>
+<span class="item-title">What is investment performance and investment risk?</span>
+<svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg>
+</button>
+<div class="item-body">
+<div class="item-body-inner">
+<p><strong>Answer:</strong> Performance measures how an investment/portfolio performed over a period; risk represents the uncertainty or potential loss associated with it. Both matter when evaluating a portfolio.</p>
+<p><strong>Real-life case:</strong> A portfolio might return 8% but with high volatility — I'd look at both performance and risk.</p>
+</div>
+</div>
+</div>
+<div class="item question-item" data-question="nt-55">
+<button class="item-head">
+<span class="idx">55</span>
+<span class="item-title">What is reconciliation and what is a settlement exception?</span>
+<svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg>
+</button>
+<div class="item-body">
+<div class="item-body-inner">
+<p><strong>Answer:</strong> Reconciliation = comparing data between two systems to identify differences. A settlement exception = a transaction that doesn't settle as expected, or where settlement info doesn't match between systems.</p>
+<p><strong>Real-life case:</strong> Trading system shows 10,000 shares, custody shows 9,000 — the difference becomes a reconciliation exception.</p>
+</div>
+</div>
+</div>
+<div class="item question-item" data-question="nt-56">
+<button class="item-head">
+<span class="idx">56</span>
+<span class="item-title">Why is data quality especially important in financial services?</span>
+<svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg>
+</button>
+<div class="item-body">
+<div class="item-body-inner">
+<p><strong>Answer:</strong> Financial reporting and operational decisions depend on accurate data — incorrect transactions/positions/client info impacts reporting, reconciliation, risk and potentially regulatory requirements. I build validation and reconciliation into the process because of this.</p>
+<p><strong>Real-life case:</strong> An incorrect transaction amount can create a wrong portfolio position and ultimately wrong client reporting.</p>
+</div>
+</div>
+</div>
+<div class="item question-item" data-question="nt-57">
+<button class="item-head">
+<span class="idx">57</span>
+<span class="item-title">What is a mutual fund?</span>
+<svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg>
+</button>
+<div class="item-body">
+<div class="item-body-inner">
+<p><strong>Answer:</strong> A fund that pools money from multiple investors and invests it in a portfolio of securities per a defined strategy; investors own units/shares of the fund.</p>
+<p><strong>Real-life case:</strong> Multiple investors contribute money that the fund invests in stocks, bonds or other securities.</p>
+</div>
+</div>
+</div>
+<div class="item question-item" data-question="nt-58">
+<button class="item-head">
+<span class="idx">58</span>
+<span class="item-title">What is a derivative?</span>
+<svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg>
+</button>
+<div class="item-body">
+<div class="item-body-inner">
+<p><strong>Answer:</strong> A financial contract whose value is derived from an underlying asset, index, interest rate or currency — used for managing exposure or taking positions.</p>
+<p><strong>Real-life case:</strong> A company expecting FX exposure uses a currency derivative to manage the impact of exchange-rate movements.</p>
+</div>
+</div>
+</div>
+<div class="item question-item" data-question="nt-59">
+<button class="item-head">
+<span class="idx">59</span>
+<span class="item-title">Futures vs options vs swaps.</span>
+<svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg>
+</button>
+<div class="item-body">
+<div class="item-body-inner">
+<p><strong>Answer:</strong> Future = agreement to buy/sell an underlying at a future date at an agreed price. Option = the right (not obligation) to buy/sell at an agreed price. Swap = exchanging cash flows on agreed terms (e.g., interest rates, currencies).</p>
+<p><strong>Real-life case:</strong> A company picks the derivative based on whether it wants to manage price, currency or interest-rate exposure.</p>
+</div>
+</div>
+</div>
+<div class="item question-item" data-question="nt-60">
+<button class="item-head">
+<span class="idx">60</span>
+<span class="item-title">Primary vs secondary market.</span>
+<svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg>
+</button>
+<div class="item-body">
+<div class="item-body-inner">
+<p><strong>Answer:</strong> Primary market = where new securities are issued to investors. Secondary market = where existing securities are subsequently traded between investors.</p>
+<p><strong>Real-life case:</strong> An IPO happens in the primary market; an investor later selling those shares on an exchange is the secondary market.</p>
+</div>
+</div>
+</div>
+<div class="item question-item" data-question="nt-61">
+<button class="item-head">
+<span class="idx">61</span>
+<span class="item-title">What is an IPO?</span>
+<svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg>
+</button>
+<div class="item-body">
+<div class="item-body-inner">
+<p><strong>Answer:</strong> Initial Public Offering — when a private company offers shares to the public for the first time and becomes publicly traded.</p>
+<p><strong>Real-life case:</strong> A previously private company raises capital by offering shares to public investors through an IPO.</p>
+</div>
+</div>
+</div>
+<div class="item question-item" data-question="nt-62">
+<button class="item-head">
+<span class="idx">62</span>
+<span class="item-title">What is settlement?</span>
+<svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg>
+</button>
+<div class="item-body">
+<div class="item-body-inner">
+<p><strong>Answer:</strong> The process where the buyer receives the securities and the seller receives payment after a trade executes — part of the post-trade lifecycle.</p>
+<p><strong>Real-life case:</strong> After a stock trade executes, settlement ensures securities and cash are exchanged per the applicable settlement cycle.</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="item topic-item" data-index="207">
+<button class="item-head">
+<span class="idx">07</span>
+<span class="item-title">PHASE 18 — NORTHERN TRUST</span>
+<span class="tag">10 Questions</span>
+<svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg>
+</button>
+<div class="item-body">
+<div class="item-body-inner">
+<p class="phase-intro"><strong>What I’ve Learned:</strong> This phase is my "why this company, why this industry" narrative, and I keep it grounded in the same theme throughout: <strong>Northern Trust's asset-servicing/wealth-management/institutional business generates exactly the kind of high-volume transaction, portfolio and client data that my BI and automation skillset is built for.</strong> I know Northern Trust serves institutional and wealth-management clients — asset owners, asset managers, financial institutions, and high-net-worth clients — all of whom have real reporting, custody and operational needs. My answer to "why this role" and "why financial services" is the same idea stated two ways: I want to combine Power BI, Power Apps, Alteryx and SQL with a domain where data accuracy, governance and timely reporting genuinely matter. I can map each tool to a concrete use case in this domain — Power BI for operational dashboards (transaction volumes, settlement status, reconciliation exceptions, AUM/AUC, exception aging, SLA performance), Alteryx for automating data prep/cleansing/reconciliation across systems, and Power Apps + Power Automate for giving operations users a way to manage exceptions with built-in approval workflows. On sensitive data, I fall back to least-privilege access, RLS, and only sharing information with authorized users. And on reporting accuracy, my answer is always the same discipline: validate against the source system using record counts, control totals, duplicate/null checks and source-to-report reconciliation, with KPI definitions signed off by the business owner before anything is published.</p>
+<div class="item question-item" data-question="nt-63">
+<button class="item-head">
+<span class="idx">63</span>
+<span class="item-title">What do you know about Northern Trust?</span>
+<svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg>
+</button>
+<div class="item-body">
+<div class="item-body-inner">
+<p><strong>Answer:</strong> A global financial-services organization spanning asset servicing, asset management and wealth management. What interests me is the combination of financial operations with BI and automation technologies — Power BI, Power Apps, Alteryx and SQL.</p>
+<p><strong>Real-life case:</strong> In asset servicing, large volumes of transaction, portfolio and client data create real opportunities for automation, data-quality monitoring and operational dashboards.</p>
+</div>
+</div>
+</div>
+<div class="item question-item" data-question="nt-64">
+<button class="item-head">
+<span class="idx">64</span>
+<span class="item-title">Why do you want to work for Northern Trust?</span>
+<svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg>
+</button>
+<div class="item-body">
+<div class="item-body-inner">
+<p><strong>Answer:</strong> This role combines the technologies I want to work with — Power BI, Power Apps, Alteryx, SQL — with a financial-services environment. I enjoy taking a business problem and converting it into a practical reporting or automation solution, and I see an opportunity to deepen my asset-servicing knowledge.</p>
+<p><strong>Real-life case:</strong> I could use my BI and automation skills to help an operations team monitor reconciliation exceptions and improve their reporting process.</p>
+</div>
+</div>
+</div>
+<div class="item question-item" data-question="nt-65">
+<button class="item-head">
+<span class="idx">65</span>
+<span class="item-title">Why do you want to work in financial services?</span>
+<svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg>
+</button>
+<div class="item-body">
+<div class="item-body-inner">
+<p><strong>Answer:</strong> Data accuracy, governance and timely reporting are extremely important in this industry — which makes BI, automation and data-quality solutions highly valuable. My Power BI, SQL, Alteryx and Power Platform skills directly support those needs.</p>
+<p><strong>Real-life case:</strong> A reconciliation dashboard helps operations identify financial exceptions quickly and reduce manual investigation.</p>
+</div>
+</div>
+</div>
+<div class="item question-item" data-question="nt-66">
+<button class="item-head">
+<span class="idx">66</span>
+<span class="item-title">What do you know about asset servicing?</span>
+<svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg>
+</button>
+<div class="item-body">
+<div class="item-body-inner">
+<p><strong>Answer:</strong> It supports the operational lifecycle of investments — custody, settlement, reconciliation, fund accounting, corporate actions and reporting. From a BI perspective, that means operational dashboards, exception management and data-quality monitoring.</p>
+<p><strong>Real-life case:</strong> An operations team uses Power BI to monitor settlement exceptions and reconciliation breaks across portfolios.</p>
+</div>
+</div>
+</div>
+<div class="item question-item" data-question="nt-67">
+<button class="item-head">
+<span class="idx">67</span>
+<span class="item-title">What types of clients does Northern Trust serve?</span>
+<svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg>
+</button>
+<div class="item-body">
+<div class="item-body-inner">
+<p><strong>Answer:</strong> Institutional and wealth-management clients — asset owners, asset managers, financial institutions, and wealth-management clients — each with significant asset-servicing, reporting and custody needs.</p>
+<p><strong>Real-life case:</strong> An institutional client may need reporting around portfolios, transactions, positions and operational exceptions.</p>
+</div>
+</div>
+</div>
+<div class="item question-item" data-question="nt-68">
+<button class="item-head">
+<span class="idx">68</span>
+<span class="item-title">How could Power BI support investment operations and asset servicing?</span>
+<svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg>
+</button>
+<div class="item-body">
+<div class="item-body-inner">
+<p><strong>Answer:</strong> Dashboards for transaction volumes, settlement status, reconciliation exceptions, portfolio positions, AUM/AUC, exception aging and SLA performance — helping management and operations quickly find where attention is needed.</p>
+<p><strong>Real-life case:</strong> An operations manager sees today's unmatched transactions, their aging and affected portfolios in one dashboard.</p>
+</div>
+</div>
+</div>
+<div class="item question-item" data-question="nt-69">
+<button class="item-head">
+<span class="idx">69</span>
+<span class="item-title">How could Alteryx support financial operations?</span>
+<svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg>
+</button>
+<div class="item-body">
+<div class="item-body-inner">
+<p><strong>Answer:</strong> Automating data preparation, cleansing, reconciliation and exception processing — combining information from different financial systems, applying matching rules, producing validated outputs for reporting.</p>
+<p><strong>Real-life case:</strong> Combine SQL transaction data with another source, match records, identify exceptions, and prepare the result for a Power BI reconciliation dashboard.</p>
+</div>
+</div>
+</div>
+<div class="item question-item" data-question="nt-70">
+<button class="item-head">
+<span class="idx">70</span>
+<span class="item-title">How could Power Apps and Power Automate support financial operations?</span>
+<svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg>
+</button>
+<div class="item-body">
+<div class="item-body-inner">
+<p><strong>Answer:</strong> Power Apps gives operations users an interface to manage exceptions; Power Automate handles notifications, approvals and workflow automation; Dataverse stores the records; Power BI reports on them.</p>
+<p><strong>Real-life case:</strong> Exception identified → reviewed in Power Apps → sent for approval via Power Automate → status stored in Dataverse → reported in Power BI.</p>
+</div>
+</div>
+</div>
+<div class="item question-item" data-question="nt-71">
+<button class="item-head">
+<span class="idx">71</span>
+<span class="item-title">How would you handle sensitive financial information?</span>
+<svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg>
+</button>
+<div class="item-body">
+<div class="item-body-inner">
+<p><strong>Answer:</strong> Follow security and data-governance policy — least-privilege access, appropriate security groups, RLS where required, secure connections, sharing confidential info only with authorized users.</p>
+<p><strong>Real-life case:</strong> A portfolio manager only sees the portfolios they're authorized to access, even if other portfolio data lives in the same model.</p>
+</div>
+</div>
+</div>
+<div class="item question-item" data-question="nt-72">
+<button class="item-head">
+<span class="idx">72</span>
+<span class="item-title">How would you ensure financial-reporting accuracy?</span>
+<svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg>
+</button>
+<div class="item-body">
+<div class="item-body-inner">
+<p><strong>Answer:</strong> Validate against the source system — record counts, control totals, duplicate/null checks, source-to-report reconciliation — and get key KPI definitions validated by the business owner before publishing.</p>
+<p><strong>Real-life case:</strong> Compare total transaction amounts and positions with the source system before publishing a financial dashboard, and investigate any unexpected difference.</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="item topic-item" data-index="208">
+<button class="item-head">
+<span class="idx">08</span>
+<span class="item-title">PHASE 19 — FINANCIAL BI SCENARIOS</span>
+<span class="tag">10 Questions</span>
+<svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg>
+</button>
+<div class="item-body">
+<div class="item-body-inner">
+<p class="phase-intro"><strong>What I’ve Learned:</strong> This phase is where the financial-domain vocabulary from Phase 17 and the BI skills from earlier phases fuse into concrete dashboard design. I have a repeatable structure for a <strong>portfolio dashboard</strong>: top-line KPIs (AUM/AUC, number of portfolios, positions, open exceptions), then supporting charts (portfolio value, asset allocation, transaction trends, exception analysis), with drill-through to transaction-level detail — the same KPI list (AUM/AUC, portfolio value, transaction volume, reconciliation rate, open exceptions, exception aging, SLA compliance, settlement exceptions) recurs everywhere in this domain, so I know it cold. I have a standard validation routine before anything financial gets published — reconcile against source, check record counts/control totals, validate calculations, test edge cases, get business-owner sign-off. For data issues specifically, I know how to find <strong>duplicate transactions</strong> (group/count by the correct business key), <strong>missing transactions</strong> (compare populations across systems by that key), and how to tell a genuine gap from <strong>late-arriving data</strong> using refresh timestamps and processing status rather than jumping straight to "exception." I can describe building a full <strong>reconciliation dashboard</strong> (standardize both sources → apply matching logic → classify matched/unmatched/partially matched → KPIs on match rate, exception count/amount, aging). On security, I know how to implement <strong>dynamic RLS</strong> with a user-to-portfolio mapping table so each manager only sees their own portfolios, and I extend that same least-privilege thinking to protecting confidential data more broadly. Finally, I can explain what "single source of truth" actually means in practice: clear data lineage from source → transformation → curated dataset → semantic model → report, with one governed, documented definition per KPI reused everywhere instead of every team calculating it their own way.</p>
+<div class="item question-item" data-question="nt-73">
+<button class="item-head">
+<span class="idx">73</span>
+<span class="item-title">Design a portfolio dashboard.</span>
+<svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg>
+</button>
+<div class="item-body">
+<div class="item-body-inner">
+<p><strong>Answer:</strong> Top KPIs — AUM, number of portfolios, positions, open exceptions. Then portfolio value, asset allocation, transaction trends and exception analysis, with drill-through to transaction-level details.</p>
+<p><strong>Real-life case:</strong> Management sees the overall portfolio and exception status; an operations user drills down to the individual transaction causing an exception.</p>
+</div>
+</div>
+</div>
+<div class="item question-item" data-question="nt-74">
+<button class="item-head">
+<span class="idx">74</span>
+<span class="item-title">What KPIs would you include in a financial portfolio dashboard?</span>
+<svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg>
+</button>
+<div class="item-body">
+<div class="item-body-inner">
+<p><strong>Answer:</strong> AUM/AUC, portfolio value, transaction volume, reconciliation rate, open exceptions, exception aging, SLA compliance, settlement exceptions — finalized with business stakeholders based on the decisions the dashboard needs to support.</p>
+<p><strong>Real-life case:</strong> An operations manager sees total transactions, match percentage, open exceptions, and exceptions past SLA at a glance.</p>
+</div>
+</div>
+</div>
+<div class="item question-item" data-question="nt-75">
+<button class="item-head">
+<span class="idx">75</span>
+<span class="item-title">How would you validate financial numbers before publishing?</span>
+<svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg>
+</button>
+<div class="item-body">
+<div class="item-body-inner">
+<p><strong>Answer:</strong> Reconcile against the source system, check record counts and control totals, validate key calculations, test filters and edge cases, and get critical KPIs signed off by the business owner.</p>
+<p><strong>Real-life case:</strong> If Power BI shows ₹500 crore in positions, compare that to the approved source/control total before publishing.</p>
+</div>
+</div>
+</div>
+<div class="item question-item" data-question="nt-76">
+<button class="item-head">
+<span class="idx">76</span>
+<span class="item-title">How would you identify duplicate transactions?</span>
+<svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg>
+</button>
+<div class="item-body">
+<div class="item-body-inner">
+<p><strong>Answer:</strong> Determine the correct business key (e.g., Transaction ID + Account + Trade Date), group/count by that key, and flag counts greater than expected.</p>
+<p><strong>Real-life case:</strong> Transaction ID 123 should occur once but appears twice — flag it as a potential duplicate and investigate the source.</p>
+</div>
+</div>
+</div>
+<div class="item question-item" data-question="nt-77">
+<button class="item-head">
+<span class="idx">77</span>
+<span class="item-title">How would you identify missing transactions?</span>
+<svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg>
+</button>
+<div class="item-body">
+<div class="item-body-inner">
+<p><strong>Answer:</strong> Compare transaction populations between the two systems using a common business key; a record existing in one but not the other is missing/unmatched, subject to checking for timing differences.</p>
+<p><strong>Real-life case:</strong> Transaction 1001 exists in the trading system but not custody — flag for investigation.</p>
+</div>
+</div>
+</div>
+<div class="item question-item" data-question="nt-78">
+<button class="item-head">
+<span class="idx">78</span>
+<span class="item-title">How would you handle late-arriving financial data?</span>
+<svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg>
+</button>
+<div class="item-body">
+<div class="item-body-inner">
+<p><strong>Answer:</strong> First determine whether it's an actual error or simply hasn't arrived yet, using refresh timestamps, processing status and reconciliation rules — then reprocess/reconcile once it arrives.</p>
+<p><strong>Real-life case:</strong> A transaction missing from the morning report but present in the next load is a timing issue, not a business exception.</p>
+</div>
+</div>
+</div>
+<div class="item question-item" data-question="nt-79">
+<button class="item-head">
+<span class="idx">79</span>
+<span class="item-title">How would you build a reconciliation dashboard?</span>
+<svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg>
+</button>
+<div class="item-body">
+<div class="item-body-inner">
+<p><strong>Answer:</strong> Pull data from both systems, standardize it in SQL/Alteryx, apply matching logic, classify records as matched/unmatched/partially matched, store the result, and build KPIs around match rate, exception count/amount, aging.</p>
+<p><strong>Real-life case:</strong> 10,000 transactions — 9,700 matched, 200 unmatched, 100 partially matched — with drill-through to individual records.</p>
+</div>
+</div>
+</div>
+<div class="item question-item" data-question="nt-80">
+<button class="item-head">
+<span class="idx">80</span>
+<span class="item-title">How would you implement client/portfolio-level RLS?</span>
+<svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg>
+</button>
+<div class="item-body">
+<div class="item-body-inner">
+<p><strong>Answer:</strong> Build a security mapping table (user → client/portfolio), use dynamic RLS based on the logged-in user's identity (e.g., <code>USERPRINCIPALNAME()</code>), and relate it to the portfolio data.</p>
+<p><strong>Real-life case:</strong> Manager A logs in and sees Portfolio A; Manager B sees Portfolio B, based on the mapping table.</p>
+</div>
+</div>
+</div>
+<div class="item question-item" data-question="nt-81">
+<button class="item-head">
+<span class="idx">81</span>
+<span class="item-title">How would you protect confidential financial data?</span>
+<svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg>
+</button>
+<div class="item-body">
+<div class="item-body-inner">
+<p><strong>Answer:</strong> Least-privilege access, workspace security, RLS where required, secure data connections, appropriate governance and controlled sharing.</p>
+<p><strong>Real-life case:</strong> A user supporting Client A can't view Client B's portfolio even though both exist in the same semantic model.</p>
+</div>
+</div>
+</div>
+<div class="item question-item" data-question="nt-82">
+<button class="item-head">
+<span class="idx">82</span>
+<span class="item-title">How would you establish a single source of truth?</span>
+<svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg>
+</button>
+<div class="item-body">
+<div class="item-body-inner">
+<p><strong>Answer:</strong> Clear data lineage — source system → transformation → curated dataset → semantic model → report — with documented owners, KPI definitions, transformation logic, validation rules, refresh schedule and security, and one governed measure reused everywhere.</p>
+<p><strong>Real-life case:</strong> If Finance and Operations calculate Revenue differently, align on one approved definition, implement it centrally, and reuse the same measure across reports.</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="item topic-item" data-index="209">
+<button class="item-head">
+<span class="idx">09</span>
+<span class="item-title">PHASE 20 — RECONCILIATION</span>
+<span class="tag">6 Questions</span>
+<svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg>
+</button>
+<div class="item-body">
+<div class="item-body-inner">
+<p class="phase-intro"><strong>What I’ve Learned:</strong> Reconciliation is the throughline connecting SQL, Alteryx, Power Apps, Power Automate and Power BI into one operational story, and this phase is where I practice explaining that whole pipeline in a single breath. Given two systems with mismatched transaction data, my approach is always the same: extract both, standardize the common fields, define matching keys, compare records, and classify each as <strong>matched</strong> (agrees on all key fields), <strong>unmatched</strong> (exists in one system but not the other), or <strong>partially matched</strong> (exists in both but one or more important values differ). I know the standard reconciliation KPI set — total/matched/unmatched/partially-matched transactions, match %, exception %, exception amount, aging — sliceable by client, portfolio or exception type. When I investigate a root cause, I trace it back from the dashboard through the reconciliation dataset, transformation logic and source systems, and I can cleanly distinguish the four reasons a difference shows up: <strong>data quality</strong> (source info wrong/incomplete), <strong>timing</strong> (data hasn't arrived), <strong>mapping</strong> (same entity, different IDs between systems), or a <strong>genuine business exception</strong> (both sides are valid but legitimately differ). Finally, I can describe the fully automated version of this process end-to-end: SQL/Alteryx for extraction and matching, Dataverse for storing exceptions, Power Apps for operations to review/update them, Power Automate for notifications and approvals, and Power BI for monitoring — the same five-layer architecture that recurs in Phase 24.</p>
+<div class="item question-item" data-question="nt-83">
+<button class="item-head">
+<span class="idx">83</span>
+<span class="item-title">Two systems contain transaction data, but values don't match. Design an end-to-end solution.</span>
+<svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg>
+</button>
+<div class="item-body">
+<div class="item-body-inner">
+<p><strong>Answer:</strong> Extract both datasets, standardize common fields, define matching keys, compare records, classify as matched/unmatched/partially matched, investigate exceptions, and store the reconciliation results for reporting.</p>
+<p><strong>Real-life case:</strong> Trading system shows 1,000 shares, custody shows 900 — flag the transaction and investigate the quantity difference.</p>
+</div>
+</div>
+</div>
+<div class="item question-item" data-question="nt-84">
+<button class="item-head">
+<span class="idx">84</span>
+<span class="item-title">How do you identify matched, unmatched and partially matched transactions?</span>
+<svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg>
+</button>
+<div class="item-body">
+<div class="item-body-inner">
+<p><strong>Answer:</strong> Matched = exists in both systems and all required fields agree. Unmatched = exists in one system but not the other. Partially matched = exists in both but one or more important values differ.</p>
+<p><strong>Real-life case:</strong> Same ID and amount → Matched. Missing in System B → Unmatched. Same ID but different amount → Partially matched.</p>
+</div>
+</div>
+</div>
+<div class="item question-item" data-question="nt-85">
+<button class="item-head">
+<span class="idx">85</span>
+<span class="item-title">What KPIs would you show on the reconciliation dashboard?</span>
+<svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg>
+</button>
+<div class="item-body">
+<div class="item-body-inner">
+<p><strong>Answer:</strong> Total, matched, unmatched, partially matched transactions; match %; exception %; exception amount; aging — sliceable by client, portfolio and exception type.</p>
+<p><strong>Real-life case:</strong> Management sees a 98% match rate with 200 open exceptions worth a specific amount.</p>
+</div>
+</div>
+</div>
+<div class="item question-item" data-question="nt-86">
+<button class="item-head">
+<span class="idx">86</span>
+<span class="item-title">How would you investigate the root cause of a reconciliation exception?</span>
+<svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg>
+</button>
+<div class="item-body">
+<div class="item-body-inner">
+<p><strong>Answer:</strong> Trace the exception from the dashboard back to the reconciliation dataset, transformation logic and source systems, then compare the actual records to determine data-quality, timing, mapping or genuine business cause.</p>
+<p><strong>Real-life case:</strong> A transaction missing from one system — check whether it failed to arrive, was mapped to another ID, or genuinely wasn't processed.</p>
+</div>
+</div>
+</div>
+<div class="item question-item" data-question="nt-87">
+<button class="item-head">
+<span class="idx">87</span>
+<span class="item-title">How do you distinguish data-quality, timing, mapping and genuine business exceptions?</span>
+<svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg>
+</button>
+<div class="item-body">
+<div class="item-body-inner">
+<p><strong>Answer:</strong> Data quality = source info incorrect/incomplete. Timing = expected data hasn't arrived yet. Mapping = same entity, different IDs/codes across systems. Genuine business exception = both sides valid but legitimately different.</p>
+<p><strong>Real-life case:</strong> Client ABC123 in one system and C00123 in another is likely a mapping issue, not a transaction error.</p>
+</div>
+</div>
+</div>
+<div class="item question-item" data-question="nt-88">
+<button class="item-head">
+<span class="idx">88</span>
+<span class="item-title">How would you automate reconciliation and exception management?</span>
+<svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg>
+</button>
+<div class="item-body">
+<div class="item-body-inner">
+<p><strong>Answer:</strong> SQL/Alteryx for extraction, cleansing and matching; Dataverse for storing exceptions; Power Apps for review/update; Power Automate for notifications/approvals; Power BI for monitoring.</p>
+<p><strong>Real-life case:</strong> An unmatched transaction auto-creates an exception, assigned to operations, reviewed in Power Apps, shown on the Power BI dashboard.</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="item topic-item" data-index="210">
+<button class="item-head">
+<span class="idx">10</span>
+<span class="item-title">PHASE 21 — STAKEHOLDER / CLIENT</span>
+<span class="tag">15 Questions</span>
+<svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg>
+</button>
+<div class="item-body">
+<div class="item-body-inner">
+<p class="phase-intro"><strong>What I’ve Learned:</strong> This phase is my behavioral toolkit for everything that happens before, during and after a build — the human side of BI delivery. My requirements-gathering approach starts with the business problem, not the visuals: who uses it, what decision it supports, which KPIs are needed, what data exists, how often it's needed, what security applies. When requirements are unclear, I don't guess — I ask targeted questions and build a quick prototype/wireframe to confirm scope before investing in development. Defining a KPI, to me, always means agreeing on name, business definition, formula, source, filters, exclusions and owner, documented so everyone uses the same logic — and when two stakeholders disagree on a definition, I never pick a side myself; I document both, find the real business owner, and get an official ruling that then becomes the standard. I have a consistent way of handling change and pushback: assess impact before committing to mid-project scope changes, ask for specific feedback rather than assuming when a dashboard is rejected, explain technical limitations in terms of business impact (never jargon) with a proposed alternative, and prioritize competing requests by business impact, urgency, regulatory/client stakes, effort and dependencies. For the behavioral "tell me about a time" questions, I keep a small set of concrete stories ready — a disagreement resolved by comparing definitions against sample data, a production issue handled through impact-first triage, a mistake around assuming a KPI definition (and the lesson: confirm business definitions before building), a manual process automated with Alteryx, a data-quality issue traced to its source and closed with a new validation check, and a new technology learned quickly through a small proof of concept. When communicating a critical issue to management, I stick to a fixed structure: what happened, business impact, current status, root cause if known, action taken, expected resolution — no unnecessary technical detail.</p>
+<div class="item question-item" data-question="nt-89">
+<button class="item-head">
+<span class="idx">89</span>
+<span class="item-title">How do you gather requirements from a business stakeholder?</span>
+<svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg>
+</button>
+<div class="item-body">
+<div class="item-body-inner">
+<p><strong>Answer:</strong> Start with the business problem, not the technology — who will use it, what decisions it supports, which KPIs are required, what data is available, how often it's needed, what security is required. Confirm before development.</p>
+<p><strong>Real-life case:</strong> For an exception dashboard, first understand how operations currently identifies, investigates and resolves exceptions.</p>
+</div>
+</div>
+</div>
+<div class="item question-item" data-question="nt-90">
+<button class="item-head">
+<span class="idx">90</span>
+<span class="item-title">What do you do when requirements are unclear?</span>
+<svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg>
+</button>
+<div class="item-body">
+<div class="item-body-inner">
+<p><strong>Answer:</strong> Ask targeted questions and convert vague asks into specific KPIs, business rules and acceptance criteria; build a simple prototype/wireframe and confirm before heavy development.</p>
+<p><strong>Real-life case:</strong> Show the stakeholder a basic KPI and layout prototype and confirm it before investing heavily.</p>
+</div>
+</div>
+</div>
+<div class="item question-item" data-question="nt-91">
+<button class="item-head">
+<span class="idx">91</span>
+<span class="item-title">How do you define KPIs with business stakeholders?</span>
+<svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg>
+</button>
+<div class="item-body">
+<div class="item-body-inner">
+<p><strong>Answer:</strong> Agree on name, business definition, formula, source, filters, exclusions and owner — documented so everyone uses the same logic.</p>
+<p><strong>Real-life case:</strong> For "Open Exceptions," confirm whether exceptions pending approval are included or excluded.</p>
+</div>
+</div>
+</div>
+<div class="item question-item" data-question="nt-92">
+<button class="item-head">
+<span class="idx">92</span>
+<span class="item-title">What do you do when two stakeholders disagree on a KPI definition?</span>
+<svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg>
+</button>
+<div class="item-body">
+<div class="item-body-inner">
+<p><strong>Answer:</strong> Document both definitions, understand why each is used, identify the appropriate business owner/decision-maker, get agreement on the official definition, and document it for consistency going forward.</p>
+<p><strong>Real-life case:</strong> If Finance and Operations calculate Revenue differently, don't choose one myself — get the approved definition and implement it consistently.</p>
+</div>
+</div>
+</div>
+<div class="item question-item" data-question="nt-93">
+<button class="item-head">
+<span class="idx">93</span>
+<span class="item-title">What do you do when requirements change halfway through development?</span>
+<svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg>
+</button>
+<div class="item-body">
+<div class="item-body-inner">
+<p><strong>Answer:</strong> Understand the change, assess impact on model/effort/timeline/existing functionality, then agree with the stakeholder on priority and whether it fits the current release.</p>
+<p><strong>Real-life case:</strong> A new KPI added mid-build — check whether the required data already exists before estimating impact.</p>
+</div>
+</div>
+</div>
+<div class="item question-item" data-question="nt-94">
+<button class="item-head">
+<span class="idx">94</span>
+<span class="item-title">What do you do if a stakeholder rejects your dashboard?</span>
+<svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg>
+</button>
+<div class="item-body">
+<div class="item-body-inner">
+<p><strong>Answer:</strong> Ask for specific feedback rather than assuming the reason, understand the unmet business need, identify the highest-priority changes, and iterate — the goal is business usefulness, not just technical correctness.</p>
+<p><strong>Real-life case:</strong> If it's "too complicated," find out what info they actually use and simplify the report around those decisions.</p>
+</div>
+</div>
+</div>
+<div class="item question-item" data-question="nt-95">
+<button class="item-head">
+<span class="idx">95</span>
+<span class="item-title">How do you explain a technical limitation to a nontechnical stakeholder?</span>
+<svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg>
+</button>
+<div class="item-body">
+<div class="item-body-inner">
+<p><strong>Answer:</strong> Explain in terms of business impact, not jargon, and offer alternatives — what's possible, what's not, and what it would take to get there.</p>
+<p><strong>Real-life case:</strong> If a required field doesn't exist in source, explain the KPI can't be accurately calculated yet and suggest adding the field or an approved alternative.</p>
+</div>
+</div>
+</div>
+<div class="item question-item" data-question="nt-96">
+<button class="item-head">
+<span class="idx">96</span>
+<span class="item-title">How do you prioritize multiple competing requests?</span>
+<svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg>
+</button>
+<div class="item-body">
+<div class="item-body-inner">
+<p><strong>Answer:</strong> Business impact, urgency, client/regulatory impact, effort and dependencies — discuss priorities with stakeholders rather than assuming.</p>
+<p><strong>Real-life case:</strong> A production issue affecting management reporting takes priority over a cosmetic dashboard enhancement.</p>
+</div>
+</div>
+</div>
+<div class="item question-item" data-question="nt-97">
+<button class="item-head">
+<span class="idx">97</span>
+<span class="item-title">Tell me about a difficult stakeholder or disagreement you handled.</span>
+<svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg>
+</button>
+<div class="item-body">
+<div class="item-body-inner">
+<p><strong>Answer:</strong> Focus on the requirement, not the person — clarify the expected outcome, understand their concern, explain my perspective with facts, agree on a practical solution, and document the decision.</p>
+<p><strong>Real-life case:</strong> Compared both KPI definitions with sample data to reach agreement on the approved business definition.</p>
+</div>
+</div>
+</div>
+<div class="item question-item" data-question="nt-98">
+<button class="item-head">
+<span class="idx">98</span>
+<span class="item-title">Tell me about a production issue you handled.</span>
+<svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg>
+</button>
+<div class="item-body">
+<div class="item-body-inner">
+<p><strong>Answer:</strong> Understand impact and what's affected first, communicate appropriately, investigate root cause, apply the safest fix, validate, then document the issue and prevention steps.</p>
+<p><strong>Real-life case:</strong> A failed morning refresh — check the error, source/gateway, resolve, refresh again, and validate key numbers before confirming the report is ready.</p>
+</div>
+</div>
+</div>
+<div class="item question-item" data-question="nt-99">
+<button class="item-head">
+<span class="idx">99</span>
+<span class="item-title">Tell me about a mistake you made and what you learned.</span>
+<svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg>
+</button>
+<div class="item-body">
+<div class="item-body-inner">
+<p><strong>Answer:</strong> Don't make assumptions about business definitions — technical correctness can still produce the wrong business result if the requirement isn't clearly understood. Now I confirm KPI definitions and acceptance criteria before development.</p>
+<p><strong>Real-life case:</strong> If two teams define Revenue differently, I now confirm the approved definition before building the measure.</p>
+</div>
+</div>
+</div>
+<div class="item question-item" data-question="nt-100">
+<button class="item-head">
+<span class="idx">100</span>
+<span class="item-title">Tell me about a process you improved or automated.</span>
+<svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg>
+</button>
+<div class="item-body">
+<div class="item-body-inner">
+<p><strong>Answer:</strong> Look for repetitive manual work, understand the current process, identify the manual steps, automate the repeatable parts, and validate the result.</p>
+<p><strong>Real-life case:</strong> Replace manually combining monthly Excel files with an Alteryx workflow that ingests, cleans and combines them consistently for Power BI.</p>
+</div>
+</div>
+</div>
+<div class="item question-item" data-question="nt-101">
+<button class="item-head">
+<span class="idx">101</span>
+<span class="item-title">Tell me about a data-quality issue you discovered.</span>
+<svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg>
+</button>
+<div class="item-body">
+<div class="item-body-inner">
+<p><strong>Answer:</strong> Identify the issue, determine its impact, trace it back to source/transformation, confirm the expected business rule with the stakeholder, fix it, and add a validation check to catch it earlier next time.</p>
+<p><strong>Real-life case:</strong> A missing client ID on some transactions — investigate the source, fix it, and add a data-quality check for future loads.</p>
+</div>
+</div>
+</div>
+<div class="item question-item" data-question="nt-102">
+<button class="item-head">
+<span class="idx">102</span>
+<span class="item-title">Tell me about a time you had to learn a new technology quickly.</span>
+<svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg>
+</button>
+<div class="item-body">
+<div class="item-body-inner">
+<p><strong>Answer:</strong> Focus on the specific functionality the project needs, learn fundamentals via documentation and hands-on practice, build a small proof of concept, then apply it to the actual requirement.</p>
+<p><strong>Real-life case:</strong> A project needing a new Power Apps or Alteryx feature — build a small test solution first, then integrate the validated approach.</p>
+</div>
+</div>
+</div>
+<div class="item question-item" data-question="nt-103">
+<button class="item-head">
+<span class="idx">103</span>
+<span class="item-title">How do you communicate a critical issue to management?</span>
+<svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg>
+</button>
+<div class="item-body">
+<div class="item-body-inner">
+<p><strong>Answer:</strong> Keep it concise — what happened, business impact, current status, root cause if known, action being taken, expected resolution — no unnecessary technical detail.</p>
+<p><strong>Real-life case:</strong> A failed financial dashboard refresh — tell management the report is unavailable, the impact, recovery status, and expected resolution time.</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="item topic-item" data-index="211">
+<button class="item-head">
+<span class="idx">11</span>
+<span class="item-title">PHASE 22 — CLIENT OWNERSHIP / PRODUCTION</span>
+<span class="tag">12 Questions</span>
+<svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg>
+</button>
+<div class="item-body">
+<div class="item-body-inner">
+<p class="phase-intro"><strong>What I’ve Learned:</strong> This phase is my production-incident playbook, and the same structure repeats across every scenario: <strong>assess impact → communicate → find root cause → fix → validate → document/prevent recurrence.</strong> For a failed morning report, I check the failure detail and business impact first, then isolate whether it's source, gateway, credentials, query or model, before communicating and fixing. For a wrong number, I trace a fixed path — <strong>visual → DAX measure → model relationships → Power Query transformations → source data</strong> — comparing against an independent source at each layer rather than guessing. For an Alteryx record-count drop, I compare the current run against the last successful one and check counts stage-by-stage (filters, joins, duplicates, source changes, date logic) to pinpoint exactly where records were lost. For Power Apps update failures, I isolate user vs. all-users first, then check permissions, connection, Patch/SubmitForm logic and validation. On the delivery side, I know how to handle pressure scenarios cleanly: build a minimum-viable dashboard when requirements are unclear and time is short, get the real business owner to arbitrate when two stakeholders define the same KPI differently, restructure "30 visuals on one page" into summary KPIs plus drill-through detail pages, and explain a technically impossible ask honestly with the closest feasible alternative. I know how to approach inheriting a poorly performing report (Performance Analyzer baseline, then optimize source → Power Query → model → DAX → visuals one layer at a time) and how to handle a production data-quality discovery (assess impact, notify stakeholders, stop/correct reporting if needed, fix root cause, add a control). And when I genuinely don't know an answer to a client's technical question, I say so, verify it, and come back with something accurate rather than guessing.</p>
+<div class="item question-item" data-question="nt-104">
+<button class="item-head">
+<span class="idx">104</span>
+<span class="item-title">A production report fails at 8 AM. What do you do?</span>
+<svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg>
+</button>
+<div class="item-body">
+<div class="item-body-inner">
+<p><strong>Answer:</strong> Check failure details and assess business impact, identify whether it's source/gateway/credentials/query/model, communicate the issue, work the root cause, validate after recovery, and document the incident.</p>
+<p><strong>Real-life case:</strong> A gateway issue breaking the daily management report — troubleshoot the gateway, restore connectivity, refresh the model, validate key KPIs.</p>
+</div>
+</div>
+</div>
+<div class="item question-item" data-question="nt-105">
+<button class="item-head">
+<span class="idx">105</span>
+<span class="item-title">A dashboard number is wrong. How do you investigate it?</span>
+<svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg>
+</button>
+<div class="item-body">
+<div class="item-body-inner">
+<p><strong>Answer:</strong> Trace from visual → DAX measure → model relationships → Power Query transformations → source data, comparing against an independent source to isolate whether it's calculation, filtering, modeling, transformation or source-data.</p>
+<p><strong>Real-life case:</strong> If Revenue is wrong, check the measure and filter context first, then relationships, then compare underlying data with the source system.</p>
+</div>
+</div>
+</div>
+<div class="item question-item" data-question="nt-106">
+<button class="item-head">
+<span class="idx">106</span>
+<span class="item-title">Alteryx suddenly produces 20% fewer records. What do you do?</span>
+<svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg>
+</button>
+<div class="item-body">
+<div class="item-body-inner">
+<p><strong>Answer:</strong> Compare the current run with the last successful one, check record counts at each major stage, and focus on filters, joins, duplicates, source changes and date logic to find where records were lost.</p>
+<p><strong>Real-life case:</strong> Output drops from 100,000 to 80,000 — check each major tool to find where the 20,000-record reduction happened.</p>
+</div>
+</div>
+</div>
+<div class="item question-item" data-question="nt-107">
+<button class="item-head">
+<span class="idx">107</span>
+<span class="item-title">Power Apps users cannot update records. How do you troubleshoot?</span>
+<svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg>
+</button>
+<div class="item-body">
+<div class="item-body-inner">
+<p><strong>Answer:</strong> Check user permissions, underlying data-source permissions, connection status, Patch/SubmitForm logic, validation rules and error messages, and whether it's one user or all users.</p>
+<p><strong>Real-life case:</strong> Users can view but not resolve exceptions — first check whether their Dataverse security role allows update access.</p>
+</div>
+</div>
+</div>
+<div class="item question-item" data-question="nt-108">
+<button class="item-head">
+<span class="idx">108</span>
+<span class="item-title">Power BI refresh fails before a management meeting.</span>
+<svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg>
+</button>
+<div class="item-body">
+<div class="item-body-inner">
+<p><strong>Answer:</strong> Check refresh history and error message immediately, isolate source/gateway/credentials/schema/query, communicate impact, fix root cause, refresh again, and validate key numbers before confirming the report is ready.</p>
+<p><strong>Real-life case:</strong> A renamed source column overnight — identify the broken query step, correct the transformation, refresh, and compare against source.</p>
+</div>
+</div>
+</div>
+<div class="item question-item" data-question="nt-109">
+<button class="item-head">
+<span class="idx">109</span>
+<span class="item-title">Stakeholder wants dashboard tomorrow but requirements are unclear.</span>
+<svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg>
+</button>
+<div class="item-body">
+<div class="item-body-inner">
+<p><strong>Answer:</strong> Focus on a minimum viable dashboard — quickly clarify the objective, identify the most important KPIs, agree on a basic layout, confirm with the stakeholder, and build high-priority items first.</p>
+<p><strong>Real-life case:</strong> Deliver five critical KPIs and the main exception analysis management actually needs, instead of 20 visuals overnight.</p>
+</div>
+</div>
+</div>
+<div class="item question-item" data-question="nt-110">
+<button class="item-head">
+<span class="idx">110</span>
+<span class="item-title">Two stakeholders define Revenue differently.</span>
+<svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg>
+</button>
+<div class="item-body">
+<div class="item-body-inner">
+<p><strong>Answer:</strong> Document both definitions, understand the business reason behind each, identify the appropriate business owner to approve the official definition, then implement and document it centrally.</p>
+<p><strong>Real-life case:</strong> Finance may use accounting Revenue while Operations uses transaction Revenue — establish which applies to the dashboard rather than choosing myself.</p>
+</div>
+</div>
+</div>
+<div class="item question-item" data-question="nt-111">
+<button class="item-head">
+<span class="idx">111</span>
+<span class="item-title">Stakeholder wants 30 visuals on one page.</span>
+<svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg>
+</button>
+<div class="item-body">
+<div class="item-body-inner">
+<p><strong>Answer:</strong> Understand why they want all 30, then organize into summary KPIs, key charts, and detailed/drill-through pages — keeps the dashboard usable while still providing full access.</p>
+<p><strong>Real-life case:</strong> Management sees 6–8 key KPIs on the main page; detailed transaction info lives behind drill-through.</p>
+</div>
+</div>
+</div>
+<div class="item question-item" data-question="nt-112">
+<button class="item-head">
+<span class="idx">112</span>
+<span class="item-title">Business asks for something technically impossible.</span>
+<svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg>
+</button>
+<div class="item-body">
+<div class="item-body-inner">
+<p><strong>Answer:</strong> Understand the actual outcome they want, explain the technical limitation simply, propose the closest feasible alternative, and be clear about what a source/architecture change would take.</p>
+<p><strong>Real-life case:</strong> A KPI needing a field that doesn't exist anywhere in source — explain it can't be calculated accurately until that data exists.</p>
+</div>
+</div>
+</div>
+<div class="item question-item" data-question="nt-113">
+<button class="item-head">
+<span class="idx">113</span>
+<span class="item-title">You inherit an existing Power BI solution with poor performance.</span>
+<svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg>
+</button>
+<div class="item-body">
+<div class="item-body-inner">
+<p><strong>Answer:</strong> Establish a baseline and identify the bottleneck with Performance Analyzer, then review source, Power Query, data model, DAX and visuals one area at a time, measuring improvement as I go.</p>
+<p><strong>Real-life case:</strong> A 40-second report caused by inefficient DAX and too many visuals — optimize those areas and compare load time before/after.</p>
+</div>
+</div>
+</div>
+<div class="item question-item" data-question="nt-114">
+<button class="item-head">
+<span class="idx">114</span>
+<span class="item-title">You discover a production data-quality issue.</span>
+<svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg>
+</button>
+<div class="item-body">
+<div class="item-body-inner">
+<p><strong>Answer:</strong> Assess impact, inform the right stakeholders, determine whether reporting needs to stop or be corrected, find root cause, fix it, and add validation/monitoring to prevent recurrence.</p>
+<p><strong>Real-life case:</strong> Incorrect transaction amounts in a financial dashboard — investigate the source, prevent incorrect reporting if needed, correct the data, add a control check.</p>
+</div>
+</div>
+</div>
+<div class="item question-item" data-question="nt-115">
+<button class="item-head">
+<span class="idx">115</span>
+<span class="item-title">You don't know the answer to a client's technical question.</span>
+<svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg>
+</button>
+<div class="item-body">
+<div class="item-body-inner">
+<p><strong>Answer:</strong> Don't guess, especially in production or financial contexts — be transparent that I need to verify, check documentation or test it, then come back with an accurate answer.</p>
+<p><strong>Real-life case:</strong> Unsure about a specific Power BI Service limitation — verify it before recommending an implementation to the client.</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="item topic-item" data-index="212">
+<button class="item-head">
+<span class="idx">12</span>
+<span class="item-title">PHASE 23 — 10 KILLER SCENARIOS</span>
+<span class="tag">10 Questions</span>
+<svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg>
+</button>
+<div class="item-body">
+<div class="item-body-inner">
+<p class="phase-intro"><strong>What I’ve Learned:</strong> This phase is a concentrated rehearsal — it takes the highest-probability interview scenarios from every earlier phase (wrong numbers, failed refresh, slow report, unclear requirements, conflicting KPI definitions, an Alteryx record drop, an Excel-to-Power-Platform redesign, RLS, multi-source architecture, and AI-with-sensitive-data) and forces me to answer each one in a tight, self-contained 30 seconds without leaning on the surrounding phase for context. Nothing here is new content — it's proof that I can reproduce my troubleshooting method (trace layer by layer), my validation method (record counts/control totals/reconciliation), my stakeholder method (document, don't arbitrate — find the real owner), and my end-to-end architecture (SQL → Alteryx → Dataverse → Power Apps → Power Automate → Power BI) fluently under pressure, which is exactly what a live interview demands.</p>
+<div class="item question-item" data-question="nt-116">
+<button class="item-head">
+<span class="idx">116</span>
+<span class="item-title">Business says your Power BI dashboard numbers are wrong.</span>
+<svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg>
+</button>
+<div class="item-body">
+<div class="item-body-inner">
+<p><strong>Answer:</strong> Understand which number and the expected result first, then trace visual → DAX → model → Power Query → source, comparing against an independent source to isolate data, calculation, filtering or definition issues.</p>
+<p><strong>Real-life case:</strong> Revenue expected at ₹10 crore but showing ₹9 crore — trace the measure and source data to find where the difference occurs.</p>
+</div>
+</div>
+</div>
+<div class="item question-item" data-question="nt-117">
+<button class="item-head">
+<span class="idx">117</span>
+<span class="item-title">Power BI refresh fails at 7 AM before management needs the report.</span>
+<svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg>
+</button>
+<div class="item-body">
+<div class="item-body-inner">
+<p><strong>Answer:</strong> Check refresh history and error details immediately, isolate source/gateway/credentials/schema/query, communicate the impact, fix it, refresh again, and validate key KPIs before releasing the report.</p>
+<p><strong>Real-life case:</strong> Gateway unavailable — troubleshoot and restore the connection, refresh the model, validate the report.</p>
+</div>
+</div>
+</div>
+<div class="item question-item" data-question="nt-118">
+<button class="item-head">
+<span class="idx">118</span>
+<span class="item-title">Power BI report takes 40 seconds to load.</span>
+<svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg>
+</button>
+<div class="item-body">
+<div class="item-body-inner">
+<p><strong>Answer:</strong> Use Performance Analyzer to find slow visuals, then review DAX, relationships, model size, cardinality, number of visuals, Power Query and source performance — optimize the bottleneck and retest.</p>
+<p><strong>Real-life case:</strong> One visual takes 20 seconds due to a complex DAX measure — optimize that measure and check the improvement.</p>
+</div>
+</div>
+</div>
+<div class="item question-item" data-question="nt-119">
+<button class="item-head">
+<span class="idx">119</span>
+<span class="item-title">Stakeholder wants dashboard tomorrow but hasn't provided clear requirements.</span>
+<svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg>
+</button>
+<div class="item-body">
+<div class="item-body-inner">
+<p><strong>Answer:</strong> Establish the business objective, must-have KPIs and minimum required views quickly, create a simple prototype, confirm it, and focus the first release on highest-value requirements.</p>
+<p><strong>Real-life case:</strong> Deliver a focused exception dashboard (Open Exceptions, Aging, Amount, Portfolio) instead of trying to cover every possible analysis.</p>
+</div>
+</div>
+</div>
+<div class="item question-item" data-question="nt-120">
+<button class="item-head">
+<span class="idx">120</span>
+<span class="item-title">Two stakeholders disagree on Revenue.</span>
+<svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg>
+</button>
+<div class="item-body">
+<div class="item-body-inner">
+<p><strong>Answer:</strong> Document both definitions with sample data, identify the appropriate business owner to approve the official definition, then centralize and document the calculation for future reports.</p>
+<p><strong>Real-life case:</strong> Finance vs. Operations Revenue logic — the approved definition becomes the standard measure in the semantic model.</p>
+</div>
+</div>
+</div>
+<div class="item question-item" data-question="nt-121">
+<button class="item-head">
+<span class="idx">121</span>
+<span class="item-title">Alteryx workflow suddenly produces 20% fewer records.</span>
+<svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg>
+</button>
+<div class="item-body">
+<div class="item-body-inner">
+<p><strong>Answer:</strong> Compare the current run with the last successful run, check record counts after each major step, and investigate filters, joins, duplicates, source changes and date conditions until I find exactly where records were lost.</p>
+<p><strong>Real-life case:</strong> Input has 100,000 records but the Join output has only 80,000 — investigate the join key and unmatched records.</p>
+</div>
+</div>
+</div>
+<div class="item question-item" data-question="nt-122">
+<button class="item-head">
+<span class="idx">122</span>
+<span class="item-title">Operations uses Excel to manage exceptions — design Power Apps + Dataverse + Power Automate + Power BI.</span>
+<svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg>
+</button>
+<div class="item-body">
+<div class="item-body-inner">
+<p><strong>Answer:</strong> Power Apps for users to create/update exceptions, Dataverse to store the records, Power Automate for notifications/approvals, Power BI for management reporting and exception analysis.</p>
+<p><strong>Real-life case:</strong> A reconciliation break is created in Dataverse, reviewed in Power Apps, approved via Power Automate, and shown as updated status in Power BI.</p>
+</div>
+</div>
+</div>
+<div class="item question-item" data-question="nt-123">
+<button class="item-head">
+<span class="idx">123</span>
+<span class="item-title">Different users should see different portfolios in Power BI.</span>
+<svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg>
+</button>
+<div class="item-body">
+<div class="item-body-inner">
+<p><strong>Answer:</strong> Implement dynamic RLS using a user-to-portfolio mapping table — the user's identity determines which portfolios are visible via the security relationship filtering the model.</p>
+<p><strong>Real-life case:</strong> Manager A logs in and sees Portfolio A; Manager B sees Portfolio B, based on the mapping table.</p>
+</div>
+</div>
+</div>
+<div class="item question-item" data-question="nt-124">
+<button class="item-head">
+<span class="idx">124</span>
+<span class="item-title">SQL + Excel + CSV data needs to be combined for Power BI.</span>
+<svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg>
+</button>
+<div class="item-body">
+<div class="item-body-inner">
+<p><strong>Answer:</strong> Use SQL and Alteryx as the data-prep layer — SQL provides enterprise data, Alteryx connects to SQL/Excel/CSV, standardizes and combines the data, validates it, and the clean output feeds the Power BI semantic model and report.</p>
+<p><strong>Real-life case:</strong> SQL provides transactions, Excel provides client mapping, CSV provides daily exceptions — Alteryx combines them into a validated dataset for Power BI.</p>
+</div>
+</div>
+</div>
+<div class="item question-item" data-question="nt-125">
+<button class="item-head">
+<span class="idx">125</span>
+<span class="item-title">Asked to use Copilot with sensitive financial data.</span>
+<svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg>
+</button>
+<div class="item-body">
+<div class="item-body-inner">
+<p><strong>Answer:</strong> Confirm the organization's approved Copilot environment is authorized for that data type first; never put confidential client/financial info into an unapproved AI tool; follow data-classification, privacy and security policy and validate all AI-generated output.</p>
+<p><strong>Real-life case:</strong> Use sanitized or non-sensitive examples where appropriate instead of sending real client transaction details to an unapproved AI tool.</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="item topic-item" data-index="213">
+<button class="item-head">
+<span class="idx">13</span>
+<span class="item-title">PHASE 24 — CROSS-TECHNOLOGY / SOLUTION DESIGN</span>
+<span class="tag">12 Questions</span>
+<svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg>
+</button>
+<div class="item-body">
+<div class="item-body-inner">
+<p class="phase-intro"><strong>What I’ve Learned:</strong> This is the capstone phase — the point where every prior phase's tool gets assigned a fixed, defensible layer in one architecture I can draw and narrate without hesitation: <strong>SQL</strong> (enterprise data source and source-side processing) → <strong>Alteryx</strong> (complex/reusable ETL, cleansing, reconciliation) → <strong>Dataverse</strong> (operational exception storage) → <strong>Power Apps</strong> (interface for operations to manage exceptions) → <strong>Power Automate</strong> (approvals, notifications, orchestration) → <strong>Power BI</strong> (analytics, dashboards, monitoring). I know how to decide *where* to transform data — SQL for large-scale source-side filtering, Alteryx for complex/reusable ETL, Power Query for model-specific shaping, DAX mainly for analytical calculations rather than heavy prep — and the same logic drives my Alteryx-vs-Power-Query decision (one model vs. multiple sources/outputs/automation). I can walk through replacing an Excel-based reporting process end-to-end, automating a monthly management-reporting cycle, and building a reconciliation solution from raw source systems all the way through to exception management in one continuous narrative. I know Power Automate's specific role as the orchestration/workflow layer connecting the other pieces, and I can describe securing the whole stack layer-by-layer (SQL permissions, Alteryx credential/workflow access, Power BI workspace + RLS, Power Apps + Dataverse permissions, Power Automate connection ownership) under one least-privilege principle. Post-deployment, I monitor refresh history, gateway connectivity, Alteryx execution, Power Automate run history, Power Apps errors and data-quality checks so failures surface before users notice stale data. And I close on data lineage and single source of truth: source → transformation → curated dataset → semantic model → report, with documented owners, KPI definitions and validation rules, and one governed measure reused everywhere rather than every team calculating its own version.</p>
+<div class="item question-item" data-question="nt-126">
+<button class="item-head">
+<span class="idx">126</span>
+<span class="item-title">Design an end-to-end BI and automation solution using SQL + Alteryx + Power BI + Power Apps + Power Automate.</span>
+<svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg>
+</button>
+<div class="item-body">
+<div class="item-body-inner">
+<p><strong>Answer:</strong> SQL as the enterprise data source, Alteryx for ETL/cleansing/reconciliation, Dataverse for operational exceptions, Power Apps for users to manage those exceptions, Power Automate for approvals/notifications, Power BI for analytics and reporting — separating data, processing, operational action and reporting into clear layers.</p>
+<p><strong>Real-life case:</strong> SQL provides financial transactions → Alteryx reconciles them → exceptions go to Dataverse → operations manages them in Power Apps → Power Automate handles approval → Power BI reports overall status.</p>
+</div>
+</div>
+</div>
+<div class="item question-item" data-question="nt-127">
+<button class="item-head">
+<span class="idx">127</span>
+<span class="item-title">How would you use SQL, Alteryx and Power BI together?</span>
+<svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg>
+</button>
+<div class="item-body">
+<div class="item-body-inner">
+<p><strong>Answer:</strong> SQL for enterprise data storage and source-side processing, Alteryx for complex/reusable ETL and data prep, Power BI for modeling, analytical calculations and visualization — each layer doing what it's strongest at.</p>
+<p><strong>Real-life case:</strong> SQL stores transactions, Alteryx prepares and reconciles them, Power BI presents matched/unmatched/exception results.</p>
+</div>
+</div>
+</div>
+<div class="item question-item" data-question="nt-128">
+<button class="item-head">
+<span class="idx">128</span>
+<span class="item-title">When would you transform data in SQL, Alteryx, Power Query or DAX?</span>
+<svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg>
+</button>
+<div class="item-body">
+<div class="item-body-inner">
+<p><strong>Answer:</strong> SQL for large-scale source-side filtering/transformation, Alteryx for complex/reusable ETL across multiple sources, Power Query for report/model-specific shaping, DAX mainly for analytical calculations rather than heavy prep — do heavy data prep as early as practical.</p>
+<p><strong>Real-life case:</strong> Filter millions of SQL records in SQL, combine multiple files in Alteryx, shape the dataset in Power Query, calculate YoY growth in DAX.</p>
+</div>
+</div>
+</div>
+<div class="item question-item" data-question="nt-129">
+<button class="item-head">
+<span class="idx">129</span>
+<span class="item-title">How do you decide between Alteryx and Power Query?</span>
+<svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg>
+</button>
+<div class="item-body">
+<div class="item-body-inner">
+<p><strong>Answer:</strong> Depends on the scope/complexity — tightly connected to one Power BI model → Power Query. Reusable workflows, multiple sources, complex processing, automation or multiple outputs → Alteryx.</p>
+<p><strong>Real-life case:</strong> Cleaning one SQL table for one report → Power Query. Combining SQL + Excel + CSV for several downstream processes → Alteryx.</p>
+</div>
+</div>
+</div>
+<div class="item question-item" data-question="nt-130">
+<button class="item-head">
+<span class="idx">130</span>
+<span class="item-title">How would you replace an Excel-based reporting process?</span>
+<svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg>
+</button>
+<div class="item-body">
+<div class="item-body-inner">
+<p><strong>Answer:</strong> Understand the current process and its manual steps, move data prep into SQL or Alteryx, build a governed Power BI semantic model, automate refresh and distribution; add Power Apps + Dataverse if users need to enter operational data.</p>
+<p><strong>Real-life case:</strong> A monthly Excel report requiring manual file consolidation becomes an automated Alteryx pipeline feeding a Power BI dashboard.</p>
+</div>
+</div>
+</div>
+<div class="item question-item" data-question="nt-131">
+<button class="item-head">
+<span class="idx">131</span>
+<span class="item-title">How would you automate a monthly management-reporting process end-to-end?</span>
+<svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg>
+</button>
+<div class="item-body">
+<div class="item-body-inner">
+<p><strong>Answer:</strong> Extract from SQL/files, use Alteryx for cleansing/transformation, validate control totals, load the curated data, refresh Power BI, use Power Automate for notifications, and monitor and validate key KPIs before distribution.</p>
+<p><strong>Real-life case:</strong> At month-end, Alteryx prepares the data automatically, Power BI refreshes the dashboard, Power Automate notifies stakeholders when ready.</p>
+</div>
+</div>
+</div>
+<div class="item question-item" data-question="nt-132">
+<button class="item-head">
+<span class="idx">132</span>
+<span class="item-title">How would you build a reconciliation solution from source systems through dashboard and exception management?</span>
+<svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg>
+</button>
+<div class="item-body">
+<div class="item-body-inner">
+<p><strong>Answer:</strong> Extract from both systems, standardize fields, match in SQL/Alteryx, classify matched/unmatched/partially matched, store exceptions in Dataverse, manage through Power Apps, automate through Power Automate, monitor through Power BI.</p>
+<p><strong>Real-life case:</strong> A mismatch is automatically identified, assigned to operations, investigated through Power Apps, and displayed as an open exception until resolved.</p>
+</div>
+</div>
+</div>
+<div class="item question-item" data-question="nt-133">
+<button class="item-head">
+<span class="idx">133</span>
+<span class="item-title">How would you build a Power Apps + Power BI solution for operational users?</span>
+<svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg>
+</button>
+<div class="item-body">
+<div class="item-body-inner">
+<p><strong>Answer:</strong> Power BI for analysis, Power Apps for operational action — Power BI identifies issues, Power Apps lets users update/resolve the underlying records, Dataverse stores the data, and updates flow back into Power BI.</p>
+<p><strong>Real-life case:</strong> Power BI shows 100 open exceptions; a user selects one, opens Power Apps, updates root cause and status, and the updated status shows up in reporting.</p>
+</div>
+</div>
+</div>
+<div class="item question-item" data-question="nt-134">
+<button class="item-head">
+<span class="idx">134</span>
+<span class="item-title">Where would Power Automate fit into the overall architecture?</span>
+<svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg>
+</button>
+<div class="item-body">
+<div class="item-body-inner">
+<p><strong>Answer:</strong> The workflow and orchestration layer — notifications, approvals, scheduled processes, record updates, and connecting operational actions between Power Apps, Dataverse and other services.</p>
+<p><strong>Real-life case:</strong> Power Apps submits an exception → Power Automate sends approval → Dataverse stores the result → the user gets notified.</p>
+</div>
+</div>
+</div>
+<div class="item question-item" data-question="nt-135">
+<button class="item-head">
+<span class="idx">135</span>
+<span class="item-title">How would you secure the complete solution across SQL, Alteryx, Power BI, Power Apps and Power Automate?</span>
+<svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg>
+</button>
+<div class="item-body">
+<div class="item-body-inner">
+<p><strong>Answer:</strong> Least-privilege at every layer — SQL database permissions, Alteryx credential/workflow access control, Power BI workspace permissions + RLS, Power Apps + Dataverse permissions, Power Automate connection ownership and controlled access.</p>
+<p><strong>Real-life case:</strong> A user only accesses the data and actions required for their role; sensitive portfolio information stays restricted.</p>
+</div>
+</div>
+</div>
+<div class="item question-item" data-question="nt-136">
+<button class="item-head">
+<span class="idx">136</span>
+<span class="item-title">How would you monitor the solution after deployment?</span>
+<svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg>
+</button>
+<div class="item-body">
+<div class="item-body-inner">
+<p><strong>Answer:</strong> Power BI refresh history and performance, gateway connectivity, Alteryx workflow execution, Power Automate run history, Power Apps errors, data-quality checks, and user feedback for recurring failures.</p>
+<p><strong>Real-life case:</strong> If the daily reconciliation workflow fails, monitoring surfaces it before users start relying on a stale dashboard.</p>
+</div>
+</div>
+</div>
+<div class="item question-item" data-question="nt-137">
+<button class="item-head">
+<span class="idx">137</span>
+<span class="item-title">How would you establish data lineage, validation and a single source of truth?</span>
+<svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg>
+</button>
+<div class="item-body">
+<div class="item-body-inner">
+<p><strong>Answer:</strong> Document lineage from source system → transformation → curated dataset → semantic model → report, with data owner, KPI definitions, transformation logic, validation rules, refresh schedule and security all documented. For single source of truth, centralize approved business definitions/calculations in one governed semantic model.</p>
+<p><strong>Real-life case:</strong> If Finance and Operations calculate Revenue differently, align with the business owner on one approved definition, implement it centrally, and reuse the same measure across all reports.</p>
 </div>
 </div>
 </div>
