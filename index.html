@@ -12950,7 +12950,1436 @@ ORDER BY Salary DESC;</code></pre>
 </div>
 </div>
 </div>
-</div><div class="item section-item" data-index="hr-screening">
+</div>
+<div class="item section-item" data-index="creospan">
+<div class="item-head section-head" role="button" tabindex="0" aria-expanded="false">
+<div class="section-head-text">
+<div class="eyebrow">Technical Topics</div>
+<h1>Creospan</h1>
+</div>
+<svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg>
+</div>
+<div class="item-body">
+<div class="item-body-inner section-body-inner">
+<p class="sub">Click a topic to expand it and see the related practice questions.</p>
+<div class="list" id="creospan-topics">
+<div class="item topic-item" data-index="101">
+<button class="item-head">
+<span class="idx">01</span>
+<span class="item-title">Power Apps — Canvas vs Model-Driven &amp; Dataverse Foundations</span>
+<span class="tag">6 Questions</span>
+<svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg>
+</button>
+<div class="item-body">
+<div class="item-body-inner">
+<div class="item question-item" data-question="creospan-1">
+<button class="item-head">
+<span class="idx">01</span>
+<span class="item-title">What is Power Apps and where have you used it?</span>
+<svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg>
+</button>
+<div class="item-body">
+<div class="item-body-inner">
+<p><strong>Say:</strong></p>
+<p>“I'll pick Canvas Apps when I need a custom UI and Model-Driven Apps when the app is data and process heavy.”</p>
+<p>Power Apps is Microsoft's low-code platform for building business applications. It comes in three flavors — Canvas Apps for a fully customizable UI, Model-Driven Apps for data-and-process-driven apps built on Dataverse, and Power Pages for external-facing portals.</p>
+<p>It connects to sources like Dataverse, SharePoint, SQL Server and Excel, and integrates with Power Automate for workflow automation. Example: an employee request app where the employee submits via Power Apps, data lands in Dataverse, Power Automate runs the approval, and Power BI reports on it.</p>
+<pre><code>Power Apps -&gt; Employee submits request
+  |
+  v
+Dataverse -&gt; Stores request
+  |
+  v
+Power Automate -&gt; Sends approval
+  |
+  v
+Manager approves/rejects
+  |
+  v
+Power BI -&gt; Management dashboard</code></pre>
+</div>
+</div>
+</div>
+<div class="item question-item" data-question="creospan-2">
+<button class="item-head">
+<span class="idx">02</span>
+<span class="item-title">Canvas Apps vs Model-Driven Apps — what's the difference?</span>
+<svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg>
+</button>
+<div class="item-body">
+<div class="item-body-inner">
+<p><strong>Say:</strong></p>
+<p>“Canvas Apps are UI-first, Model-Driven Apps are data-first.”</p>
+<p>In Canvas Apps I control exactly where every control sits on the screen — good for task-specific apps like an expense form. Model-Driven Apps are built on Dataverse and auto-generate forms, views, dashboards and navigation — good for complex, relational business processes.</p>
+<p>For a simple expense submission app I'd pick Canvas; for a large case-management system with customers, cases and workflows I'd lean Model-Driven.</p>
+</div>
+</div>
+</div>
+<div class="item question-item" data-question="creospan-3">
+<button class="item-head">
+<span class="idx">03</span>
+<span class="item-title">Walk me through your experience building a Canvas App.</span>
+<svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg>
+</button>
+<div class="item-body">
+<div class="item-body-inner">
+<p><strong>Say:</strong></p>
+<p>“I start from the business process, then the screens, then the data.”</p>
+<p>I identify the required screens, data sources and user roles first, then connect the app to the right data source, build screens/forms, and use Power Fx for validation, filtering and record operations. I bring in Power Automate when a step needs approvals or notifications, then test delegation, performance and security before publishing.</p>
+<pre><code>1. Home screen
+2. New Request screen
+3. My Requests screen
+4. Request Details
+5. Manager Approval screen</code></pre>
+</div>
+</div>
+</div>
+<div class="item question-item" data-question="creospan-4">
+<button class="item-head">
+<span class="idx">04</span>
+<span class="item-title">What are the major components of a Canvas App?</span>
+<svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg>
+</button>
+<div class="item-body">
+<div class="item-body-inner">
+<p><strong>Say:</strong></p>
+<p>“Screens, controls, data sources, forms, galleries, variables, collections and Power Fx.”</p>
+<p>Screens give the app its structure, controls build the UI, galleries display multiple records, forms create or edit a single record, and Power Fx formulas drive behavior. Collections and variables hold temporary app state.</p>
+<p>Example: a Gallery displays requests, a Form creates/edits one, a Button submits it, a Variable tracks the selected item, and Power Automate handles the approval.</p>
+</div>
+</div>
+</div>
+<div class="item question-item" data-question="creospan-5">
+<button class="item-head">
+<span class="idx">05</span>
+<span class="item-title">What is Dataverse?</span>
+<svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg>
+</button>
+<div class="item-body">
+<div class="item-body-inner">
+<p><strong>Say:</strong></p>
+<p>“Dataverse is Microsoft's business data platform — relational tables, security and business rules, built for Power Platform.”</p>
+<p>I'd choose Dataverse over something like Excel or SharePoint whenever the app needs proper relational modeling, role-based security, business rules, and tight integration with Power Apps, Power Automate and Power BI.</p>
+<pre><code>Employee -&gt; Request -&gt; Approval -&gt; Department -&gt; Manager
+(modeled as related Dataverse tables)</code></pre>
+</div>
+</div>
+</div>
+<div class="item question-item" data-question="creospan-6">
+<button class="item-head">
+<span class="idx">06</span>
+<span class="item-title">Dataverse vs SharePoint vs Excel — how do you choose?</span>
+<svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg>
+</button>
+<div class="item-body">
+<div class="item-body-inner">
+<p><strong>Say:</strong></p>
+<p>“It comes down to how relational, secure and scalable the app needs to be.”</p>
+<p>Excel suits small, simple datasets. SharePoint is good for document-centric solutions and moderately complex lists. Dataverse wins when I need real relational data, stronger security, scalability, and integration across Power Apps, Power Automate and Power BI.</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="item topic-item" data-index="102">
+<button class="item-head">
+<span class="idx">02</span>
+<span class="item-title">Power Apps — Formulas, Data &amp; Delegation</span>
+<span class="tag">9 Questions</span>
+<svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg>
+</button>
+<div class="item-body">
+<div class="item-body-inner">
+<div class="item question-item" data-question="creospan-7">
+<button class="item-head">
+<span class="idx">07</span>
+<span class="item-title">How do you connect Power Apps to a data source?</span>
+<svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg>
+</button>
+<div class="item-body">
+<div class="item-body-inner">
+<p><strong>Say:</strong></p>
+<p>“I add the connector in the Data pane, then drive it with Power Fx.”</p>
+<p>I add a data source — Dataverse, SharePoint, SQL Server or Excel — from the Data section, then bind it into galleries and forms. From there I use Filter, LookUp, Patch or SubmitForm to read and write records.</p>
+<pre><code>Items = EmployeeRequests
+
+Filter(EmployeeRequests, Status = "Pending")</code></pre>
+</div>
+</div>
+</div>
+<div class="item question-item" data-question="creospan-8">
+<button class="item-head">
+<span class="idx">08</span>
+<span class="item-title">Which Power Apps formulas do you use most?</span>
+<svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg>
+</button>
+<div class="item-body">
+<div class="item-body-inner">
+<p><strong>Say:</strong></p>
+<p>“Mostly Filter, LookUp, Patch, SubmitForm, Navigate, and Set/UpdateContext.”</p>
+<p>Filter and Search retrieve records based on user input, LookUp grabs a single record, Patch creates or updates records, SubmitForm submits a form, Navigate moves between screens, and Set/UpdateContext manage variables. If and validation functions drive business logic, and Notify gives users feedback.</p>
+</div>
+</div>
+</div>
+<div class="item question-item" data-question="creospan-9">
+<button class="item-head">
+<span class="idx">09</span>
+<span class="item-title">Patch() vs SubmitForm() vs Update() — when do you use each?</span>
+<svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg>
+</button>
+<div class="item-body">
+<div class="item-body-inner">
+<p><strong>Say:</strong></p>
+<p>“SubmitForm when I'm driving an Edit/New Form, Patch when I need granular control.”</p>
+<p>SubmitForm is the simplest path when I'm working with a standard Edit Form or New Form. Patch gives me field-by-field control, which I prefer for custom logic or when I'm updating data outside of a form context.</p>
+<pre><code>// SubmitForm
+SubmitForm(RequestForm)
+
+// Patch
+Patch(
+    EmployeeRequests,
+    Defaults(EmployeeRequests),
+    {
+        Title: txtTitle.Text,
+        Status: "Submitted"
+    }
+)</code></pre>
+</div>
+</div>
+</div>
+<div class="item question-item" data-question="creospan-10">
+<button class="item-head">
+<span class="idx">10</span>
+<span class="item-title">How do you create, update and delete records in Power Apps?</span>
+<svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg>
+</button>
+<div class="item-body">
+<div class="item-body-inner">
+<p><strong>Say:</strong></p>
+<p>“Patch for create/update, Remove for delete.”</p>
+<p>Patch handles both create and update depending on whether I pass Defaults() or an existing record. Remove deletes a record. For form-driven screens, SubmitForm is the simpler alternative for create/update.</p>
+<pre><code>// Create
+Patch(Requests, Defaults(Requests), { Title: txtTitle.Text })
+
+// Update
+Patch(Requests, Gallery1.Selected, { Status: "Approved" })
+
+// Delete
+Remove(Requests, Gallery1.Selected)</code></pre>
+</div>
+</div>
+</div>
+<div class="item question-item" data-question="creospan-11">
+<button class="item-head">
+<span class="idx">11</span>
+<span class="item-title">How do you implement search and filtering in a gallery?</span>
+<svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg>
+</button>
+<div class="item-body">
+<div class="item-body-inner">
+<p><strong>Say:</strong></p>
+<p>“A text input feeding Filter or Search, plus dropdowns for extra criteria.”</p>
+<p>I pair a search box with Filter/Search and add dropdowns or combo boxes for filters like status or department, so the gallery updates live as the manager types or picks a filter.</p>
+<pre><code>Filter(
+    Requests,
+    StartsWith(Title, txtSearch.Text)
+)</code></pre>
+</div>
+</div>
+</div>
+<div class="item question-item" data-question="creospan-12">
+<button class="item-head">
+<span class="idx">12</span>
+<span class="item-title">What is delegation in Power Apps, and why does it matter?</span>
+<svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg>
+</button>
+<div class="item-body">
+<div class="item-body-inner">
+<p><strong>Say:</strong></p>
+<p>“Delegation pushes the query to the data source instead of pulling everything locally.”</p>
+<p>Power Apps has a limit on how many records it can process locally — usually 500 or 2000 depending on settings. If a formula isn't delegable, results can be silently incomplete. For large datasets I stick to delegable functions and delegation-friendly sources like Dataverse or SQL.</p>
+</div>
+</div>
+</div>
+<div class="item question-item" data-question="creospan-13">
+<button class="item-head">
+<span class="idx">13</span>
+<span class="item-title">You hit a delegation warning — how do you resolve it?</span>
+<svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg>
+</button>
+<div class="item-body">
+<div class="item-body-inner">
+<p><strong>Say:</strong></p>
+<p>“First I identify the non-delegable piece, then rewrite it or move the logic upstream.”</p>
+<p>I check which part of the formula triggers the warning, try a delegable equivalent, or push the filtering into the data source itself. For SharePoint sources I also check that the filtered column is indexed.</p>
+</div>
+</div>
+</div>
+<div class="item question-item" data-question="creospan-14">
+<button class="item-head">
+<span class="idx">14</span>
+<span class="item-title">How do you handle errors in Power Apps?</span>
+<svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg>
+</button>
+<div class="item-body">
+<div class="item-body-inner">
+<p><strong>Say:</strong></p>
+<p>“IfError and Errors() for logic, Notify() to tell the user what happened.”</p>
+<p>I wrap risky operations like Patch in IfError, surface a clear message with Notify, and validate inputs before submission so avoidable errors never reach the data layer.</p>
+<pre><code>IfError(
+    Patch(Requests, ...),
+    Notify("Unable to submit request", NotificationType.Error),
+    Notify("Request submitted successfully")
+)</code></pre>
+</div>
+</div>
+</div>
+<div class="item question-item" data-question="creospan-15">
+<button class="item-head">
+<span class="idx">15</span>
+<span class="item-title">How do you validate user input before submission?</span>
+<svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg>
+</button>
+<div class="item-body">
+<div class="item-body-inner">
+<p><strong>Say:</strong></p>
+<p>“Check mandatory fields and business rules, then block the submit if anything fails.”</p>
+<p>I check required fields with IsBlank, validate data types and ranges, and only call SubmitForm/Patch once everything passes — showing a clear Notify message otherwise.</p>
+<pre><code>If(
+    IsBlank(txtReason.Text),
+    Notify("Reason is required"),
+    SubmitForm(RequestForm)
+)</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="item topic-item" data-index="103">
+<button class="item-head">
+<span class="idx">03</span>
+<span class="item-title">Power Apps — Security, Performance &amp; Automation</span>
+<span class="tag">5 Questions</span>
+<svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg>
+</button>
+<div class="item-body">
+<div class="item-body-inner">
+<div class="item question-item" data-question="creospan-16">
+<button class="item-head">
+<span class="idx">16</span>
+<span class="item-title">How do you control user access in a Power Apps solution?</span>
+<svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg>
+</button>
+<div class="item-body">
+<div class="item-body-inner">
+<p><strong>Say:</strong></p>
+<p>“Security lives at the data layer, not by hiding controls in the UI.”</p>
+<p>I don't rely on hiding buttons for security. With Dataverse I use security roles, business units, teams and privileges to control create/read/update/delete access, and separately control which screens or actions a given user sees in the app itself.</p>
+</div>
+</div>
+</div>
+<div class="item question-item" data-question="creospan-17">
+<button class="item-head">
+<span class="idx">17</span>
+<span class="item-title">How do you optimize Power Apps performance?</span>
+<svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg>
+</button>
+<div class="item-body">
+<div class="item-body-inner">
+<p><strong>Say:</strong></p>
+<p>“Delegation, minimal data on load, fewer repeated LookUps.”</p>
+<p>I focus on delegation, loading only the records I need, cutting unnecessary controls, avoiding repeated LookUps, and being deliberate about when I use collections instead of live data sources.</p>
+</div>
+</div>
+</div>
+<div class="item question-item" data-question="creospan-18">
+<button class="item-head">
+<span class="idx">18</span>
+<span class="item-title">How do you integrate Power Apps with Power Automate?</span>
+<svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg>
+</button>
+<div class="item-body">
+<div class="item-body-inner">
+<p><strong>Say:</strong></p>
+<p>“A button calls the flow directly and passes parameters like a request ID.”</p>
+<p>Power Apps can trigger a Power Automate flow from a button or other event, passing values like request ID or employee email. The flow then does the backend work — emails, approvals, Dataverse updates, notifications.</p>
+<pre><code>Power Apps: Submit Request
+   |
+   v
+Power Automate:
+  - Create approval
+  - Email manager
+  - Update status
+  - Notify employee</code></pre>
+</div>
+</div>
+</div>
+<div class="item question-item" data-question="creospan-19">
+<button class="item-head">
+<span class="idx">19</span>
+<span class="item-title">Give a real-world business process you've automated with Power Apps.</span>
+<svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg>
+</button>
+<div class="item-body">
+<div class="item-body-inner">
+<p><strong>Say:</strong></p>
+<p>“An employee request app tying together all four Power Platform pieces.”</p>
+<p>Employees submit requests — equipment, access, etc. — through Power Apps. The request lands in Dataverse. Power Automate finds the right manager and routes an approval. Once decided, the flow updates status and notifies the employee. Power BI connects to Dataverse for management reporting on volumes, approval rates and turnaround time.</p>
+</div>
+</div>
+</div>
+<div class="item question-item" data-question="creospan-20">
+<button class="item-head">
+<span class="idx">20</span>
+<span class="item-title">Design an employee/request approval application end to end.</span>
+<svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg>
+</button>
+<div class="item-body">
+<div class="item-body-inner">
+<p><strong>Say:</strong></p>
+<p>“Dataverse as the data layer, Canvas App as the front end, Automate for approval routing, Power BI for reporting.”</p>
+<p>I'd model Request, Employee, Department and Approval as related Dataverse tables, build a Canvas App for employees to create and track requests, trigger Power Automate on submission to route to the right approver, update the Dataverse record on decision, notify the employee, and connect Power BI to Dataverse for volume, approval-rate, turnaround-time and department-level dashboards.</p>
+<pre><code>Power Apps (Employee UI)
+     |
+     v
+Dataverse (Request Data)
+     |
+     v
+Power Automate (Approval)
+     |
+  +--+--+
+  |     |
+Manager  Notification
+Approval    |
+            v
+        Employee
+
+Dataverse --&gt; Power BI Dashboard</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="item topic-item" data-index="104">
+<button class="item-head">
+<span class="idx">04</span>
+<span class="item-title">Alteryx Designer — Core Workflow &amp; Tools</span>
+<span class="tag">10 Questions</span>
+<svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg>
+</button>
+<div class="item-body">
+<div class="item-body-inner">
+<div class="item question-item" data-question="creospan-21">
+<button class="item-head">
+<span class="idx">21</span>
+<span class="item-title">What is Alteryx Designer, and what have you used it for?</span>
+<svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg>
+</button>
+<div class="item-body">
+<div class="item-body-inner">
+<p><strong>Say:</strong></p>
+<p>“A visual, drag-and-drop data prep and ETL tool.”</p>
+<p>Alteryx lets me connect to multiple sources, clean and transform data, join datasets, aggregate, and prepare the final dataset for Power BI or another target — all built visually, which makes the logic reusable and easier to maintain than a pile of scripts.</p>
+</div>
+</div>
+</div>
+<div class="item question-item" data-question="creospan-22">
+<button class="item-head">
+<span class="idx">22</span>
+<span class="item-title">Walk me through your end-to-end Alteryx workflow.</span>
+<svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg>
+</button>
+<div class="item-body">
+<div class="item-body-inner">
+<p><strong>Say:</strong></p>
+<p>“Input, profile, cleanse, join, filter, aggregate, validate, output.”</p>
+<p>I start with Input Data from sources like Excel, CSV or SQL, profile the data to understand it, cleanse with Data Cleansing and Formula tools, join or union the datasets, apply business-rule Filters, use Select to lock down types/fields, Summarize for aggregation, and validate before writing the final output for Power BI.</p>
+<pre><code>SQL Sales + Excel Targets + Customer Master
+   -&gt; Clean -&gt; Join -&gt; Filter -&gt; Aggregate -&gt; Validate
+   -&gt; Power BI Dataset</code></pre>
+</div>
+</div>
+</div>
+<div class="item question-item" data-question="creospan-23">
+<button class="item-head">
+<span class="idx">23</span>
+<span class="item-title">Which Alteryx tools do you use most commonly?</span>
+<svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg>
+</button>
+<div class="item-body">
+<div class="item-body-inner">
+<p><strong>Say:</strong></p>
+<p>“Input/Output, Select, Filter, Formula, Data Cleansing, Join, Union, Summarize.”</p>
+<p>Beyond the basics I regularly reach for Sort, Sample, Cross Tab and Transpose. Exactly which tools depend on the shape of the transformation, but that core set covers most day-to-day workflows.</p>
+</div>
+</div>
+</div>
+<div class="item question-item" data-question="creospan-24">
+<button class="item-head">
+<span class="idx">24</span>
+<span class="item-title">Join vs Union vs Append Fields — what's the difference?</span>
+<svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg>
+</button>
+<div class="item-body">
+<div class="item-body-inner">
+<p><strong>Say:</strong></p>
+<p>“Join is horizontal on a key, Union is vertical stacking, Append Fields is a Cartesian-style combination.”</p>
+<p>Join combines records horizontally on a matching key — like matching sales to customer info. Union stacks datasets vertically, e.g. combining Jan/Feb/Mar files with the same structure. Append Fields attaches every field from one input onto every record of another.</p>
+</div>
+</div>
+</div>
+<div class="item question-item" data-question="creospan-25">
+<button class="item-head">
+<span class="idx">25</span>
+<span class="item-title">Filter vs Formula in Alteryx — when do you use each?</span>
+<svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg>
+</button>
+<div class="item-body">
+<div class="item-body-inner">
+<p><strong>Say:</strong></p>
+<p>“Filter decides which rows continue; Formula creates or changes values.”</p>
+<p>I'd use Filter to keep only sales greater than 10,000, and Formula to calculate something like profit or a derived category column.</p>
+<pre><code>// Filter
+Sales &gt; 10000
+
+// Formula
+Revenue = Quantity * Price</code></pre>
+</div>
+</div>
+</div>
+<div class="item question-item" data-question="creospan-26">
+<button class="item-head">
+<span class="idx">26</span>
+<span class="item-title">How do you approach data cleansing in Alteryx?</span>
+<svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg>
+</button>
+<div class="item-body">
+<div class="item-body-inner">
+<p><strong>Say:</strong></p>
+<p>“Profile first, then standardize with Data Cleansing, Formula and Select.”</p>
+<p>I profile the data to spot nulls, inconsistent formats, duplicates and invalid values, then standardize with Data Cleansing, Formula and Select, and validate record counts and key business fields after cleansing.</p>
+</div>
+</div>
+</div>
+<div class="item question-item" data-question="creospan-27">
+<button class="item-head">
+<span class="idx">27</span>
+<span class="item-title">How do you handle null or missing values?</span>
+<svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg>
+</button>
+<div class="item-body">
+<div class="item-body-inner">
+<p><strong>Say:</strong></p>
+<p>“It depends on what the null actually means for the business.”</p>
+<p>I don't blanket-replace nulls with zero. A missing sales amount might need investigation, while a missing optional description can stay null. I use Formula or Data Cleansing to apply the right rule per field.</p>
+</div>
+</div>
+</div>
+<div class="item question-item" data-question="creospan-28">
+<button class="item-head">
+<span class="idx">28</span>
+<span class="item-title">How do you remove duplicate records in Alteryx?</span>
+<svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg>
+</button>
+<div class="item-body">
+<div class="item-body-inner">
+<p><strong>Say:</strong></p>
+<p>“The Unique tool for simple cases, Summarize + Group By for complex duplicate definitions.”</p>
+<p>Unique handles duplicates based on selected fields directly. When the definition of 'duplicate' is more nuanced, I use Summarize and Group By to find duplicate keys first, then decide which record to keep.</p>
+</div>
+</div>
+</div>
+<div class="item question-item" data-question="creospan-29">
+<button class="item-head">
+<span class="idx">29</span>
+<span class="item-title">How do you do aggregations in Alteryx?</span>
+<svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg>
+</button>
+<div class="item-body">
+<div class="item-body-inner">
+<p><strong>Say:</strong></p>
+<p>“The Summarize tool — Group By plus Sum, Count, Average, Min, Max.”</p>
+<p>For example, grouping sales by region and calculating total revenue, transaction count and average order value in one Summarize tool.</p>
+<pre><code>Group By: Department
+Sum: Revenue</code></pre>
+</div>
+</div>
+</div>
+<div class="item question-item" data-question="creospan-30">
+<button class="item-head">
+<span class="idx">30</span>
+<span class="item-title">Explain the ETL process using Alteryx.</span>
+<svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg>
+</button>
+<div class="item-body">
+<div class="item-body-inner">
+<p><strong>Say:</strong></p>
+<p>“Extract from sources, transform with cleansing/joins/filters, load to the final destination.”</p>
+<p>I extract from SQL, Excel, CSV or APIs, transform using cleansing, joins, filters and calculations, then load the curated output into SQL, Excel, CSV or a warehouse that Power BI can consume.</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="item topic-item" data-index="105">
+<button class="item-head">
+<span class="idx">05</span>
+<span class="item-title">Alteryx Designer — Performance, Automation &amp; Macros</span>
+<span class="tag">7 Questions</span>
+<svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg>
+</button>
+<div class="item-body">
+<div class="item-body-inner">
+<div class="item question-item" data-question="creospan-31">
+<button class="item-head">
+<span class="idx">31</span>
+<span class="item-title">How do you connect Alteryx to SQL databases?</span>
+<svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg>
+</button>
+<div class="item-body">
+<div class="item-body-inner">
+<p><strong>Say:</strong></p>
+<p>“Input Data tool with a database connection — either pick a table or write SQL directly.”</p>
+<p>I authenticate to the server/database, then either select a table or write a query. For output, I use Output Data to write the transformed result back. Where practical I push filtering and aggregation to SQL to reduce data movement.</p>
+</div>
+</div>
+</div>
+<div class="item question-item" data-question="creospan-32">
+<button class="item-head">
+<span class="idx">32</span>
+<span class="item-title">How do you optimize an Alteryx workflow?</span>
+<svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg>
+</button>
+<div class="item-body">
+<div class="item-body-inner">
+<p><strong>Say:</strong></p>
+<p>“Filter early, select only needed columns, push work to the database.”</p>
+<p>I reduce data volume as early in the workflow as possible — filter early, use Select to drop unneeded columns, avoid redundant joins, push suitable transformations to the database, and remove tools that aren't adding value.</p>
+</div>
+</div>
+</div>
+<div class="item question-item" data-question="creospan-33">
+<button class="item-head">
+<span class="idx">33</span>
+<span class="item-title">How do you handle large datasets in Alteryx?</span>
+<svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg>
+</button>
+<div class="item-body">
+<div class="item-body-inner">
+<p><strong>Say:</strong></p>
+<p>“Cut volume as early as possible, and push heavy lifting to the database.”</p>
+<p>I filter and select columns as early as possible, push filtering/aggregation to SQL when the source supports it, avoid unnecessary intermediate outputs, and consider in-database processing for workloads that suit it.</p>
+</div>
+</div>
+</div>
+<div class="item question-item" data-question="creospan-34">
+<button class="item-head">
+<span class="idx">34</span>
+<span class="item-title">How do you schedule or automate Alteryx workflows?</span>
+<svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg>
+</button>
+<div class="item-body">
+<div class="item-body-inner">
+<p><strong>Say:</strong></p>
+<p>“Alteryx Server (or another enterprise scheduler) runs the workflow on a schedule.”</p>
+<p>A workflow can run at a set time, pick up the latest source data, transform it, and write the output automatically — which then feeds a Power BI refresh.</p>
+<pre><code>6:00 AM -&gt; Alteryx workflow -&gt; SQL + Excel -&gt; Transform -&gt; Output dataset -&gt; Power BI refresh</code></pre>
+</div>
+</div>
+</div>
+<div class="item question-item" data-question="creospan-35">
+<button class="item-head">
+<span class="idx">35</span>
+<span class="item-title">A workflow fails — how do you troubleshoot it?</span>
+<svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg>
+</button>
+<div class="item-body">
+<div class="item-body-inner">
+<p><strong>Say:</strong></p>
+<p>“Find the failing tool, inspect the error, then validate data and connections upstream.”</p>
+<p>I identify which tool threw the error and read the message, then check input data, field names, data types, joins and database connectivity. Comparing record counts between stages usually shows exactly where things went wrong. After the fix, I rerun and validate the output.</p>
+</div>
+</div>
+</div>
+<div class="item question-item" data-question="creospan-36">
+<button class="item-head">
+<span class="idx">36</span>
+<span class="item-title">Standard vs Batch vs Iterative Macros — what's the difference?</span>
+<svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg>
+</button>
+<div class="item-body">
+<div class="item-body-inner">
+<p><strong>Say:</strong></p>
+<p>“Standard packages reusable logic, Batch repeats per input value, Iterative repeats until a condition is met.”</p>
+<p>I'd use a Standard Macro for reusable logic, a Batch Macro when I need to run the same workflow once per value/group, and an Iterative Macro when the process needs to loop until some condition is satisfied.</p>
+</div>
+</div>
+</div>
+<div class="item question-item" data-question="creospan-37">
+<button class="item-head">
+<span class="idx">37</span>
+<span class="item-title">Design an Alteryx workflow that feeds multiple sources into Power BI.</span>
+<svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg>
+</button>
+<div class="item-body">
+<div class="item-body-inner">
+<p><strong>Say:</strong></p>
+<p>“Ingest, cleanse, standardize keys, join, aggregate, validate, then output for Power BI.”</p>
+<p>I'd ingest SQL sales, Excel targets and a customer database, profile and cleanse each, standardize keys like Customer ID and Date, join on the business key, calculate and aggregate the required metrics, validate totals and counts, then output the curated dataset for Power BI modeling and reporting.</p>
+<pre><code>SQL Sales + Excel Targets + Customer DB
+   -&gt; Data Preparation -&gt; Cleansing -&gt; Join -&gt; Formula
+   -&gt; Summarize -&gt; Validation -&gt; Curated Dataset -&gt; Power BI</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="item topic-item" data-index="106">
+<button class="item-head">
+<span class="idx">06</span>
+<span class="item-title">Power Automate</span>
+<span class="tag">8 Questions</span>
+<svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg>
+</button>
+<div class="item-body">
+<div class="item-body-inner">
+<div class="item question-item" data-question="creospan-38">
+<button class="item-head">
+<span class="idx">38</span>
+<span class="item-title">What is Power Automate?</span>
+<svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg>
+</button>
+<div class="item-body">
+<div class="item-body-inner">
+<p><strong>Say:</strong></p>
+<p>“Microsoft's workflow automation platform across the Microsoft 365 / Power Platform ecosystem.”</p>
+<p>It automates business processes across Power Apps, SharePoint, Dataverse, Outlook, Teams and many other connectors — approvals, notifications, data sync, and scheduled processes.</p>
+</div>
+</div>
+</div>
+<div class="item question-item" data-question="creospan-39">
+<button class="item-head">
+<span class="idx">39</span>
+<span class="item-title">Automated vs Instant vs Scheduled flows — what triggers each?</span>
+<svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg>
+</button>
+<div class="item-body">
+<div class="item-body-inner">
+<p><strong>Say:</strong></p>
+<p>“Automated fires on an event, Instant is user-triggered, Scheduled is time-based.”</p>
+<p>Example: a new SharePoint item automatically sends an email (Automated); a Power Apps button runs a flow on demand (Instant); a report generates every morning at a set time (Scheduled).</p>
+</div>
+</div>
+</div>
+<div class="item question-item" data-question="creospan-40">
+<button class="item-head">
+<span class="idx">40</span>
+<span class="item-title">How do you trigger a Power Automate flow from Power Apps?</span>
+<svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg>
+</button>
+<div class="item-body">
+<div class="item-body-inner">
+<p><strong>Say:</strong></p>
+<p>“Call it from a button's OnSelect and pass parameters like a request ID.”</p>
+<p>I add the flow to the app and call it from an event like OnSelect, passing values such as Request ID or employee email. The flow then handles the backend steps — lookup, approval routing, status update, notification.</p>
+<pre><code>MyFlow.Run(RequestID)
+
+Flow receives RequestID -&gt; Get request -&gt; Find manager
+   -&gt; Create approval -&gt; Update status -&gt; Send notification</code></pre>
+</div>
+</div>
+</div>
+<div class="item question-item" data-question="creospan-41">
+<button class="item-head">
+<span class="idx">41</span>
+<span class="item-title">Design an approval workflow in Power Automate.</span>
+<svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg>
+</button>
+<div class="item-body">
+<div class="item-body-inner">
+<p><strong>Say:</strong></p>
+<p>“Trigger on submission, route to the manager, branch on approve/reject, then notify.”</p>
+<p>I trigger the flow when a request is submitted, identify the right approver, and create the approval request. Depending on the decision I update the record in Dataverse/SharePoint and notify the requester — with error handling and an approval history for audit.</p>
+<pre><code>Request Submitted -&gt; Power Automate -&gt; Identify Manager -&gt; Approval Request
+   -&gt; (Approved -&gt; Update Status -&gt; Notify) / (Rejected -&gt; Update Status -&gt; Notify)</code></pre>
+</div>
+</div>
+</div>
+<div class="item question-item" data-question="creospan-42">
+<button class="item-head">
+<span class="idx">42</span>
+<span class="item-title">How do you handle errors in Power Automate?</span>
+<svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg>
+</button>
+<div class="item-body">
+<div class="item-body-inner">
+<p><strong>Say:</strong></p>
+<p>“A Try/Catch pattern using Scopes, plus logging and notifications.”</p>
+<p>I structure the flow with a Try scope for the main process and a Catch scope configured to run after failure, where I log the error, notify the support team, and terminate cleanly. I also check connector retry behavior for transient failures.</p>
+</div>
+</div>
+</div>
+<div class="item question-item" data-question="creospan-43">
+<button class="item-head">
+<span class="idx">43</span>
+<span class="item-title">How do conditions, expressions and variables work together in a flow?</span>
+<svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg>
+</button>
+<div class="item-body">
+<div class="item-body-inner">
+<p><strong>Say:</strong></p>
+<p>“Conditions branch, expressions transform, variables hold state.”</p>
+<p>A condition might check whether a request is approved; an expression like formatDateTime() or concat() reshapes data; a variable tracks a counter or running status across the flow.</p>
+</div>
+</div>
+</div>
+<div class="item question-item" data-question="creospan-44">
+<button class="item-head">
+<span class="idx">44</span>
+<span class="item-title">How do you avoid duplicate flow executions?</span>
+<svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg>
+</button>
+<div class="item-body">
+<div class="item-body-inner">
+<p><strong>Say:</strong></p>
+<p>“Trigger conditions, a status check before processing, and idempotent logic.”</p>
+<p>I check the record's status before acting on it, use a unique business key or request ID to detect repeats, and design the flow so re-running it doesn't produce a duplicate result.</p>
+<pre><code>Request ID: REQ-10025
+
+If Status != Processing -&gt; continue</code></pre>
+</div>
+</div>
+</div>
+<div class="item question-item" data-question="creospan-45">
+<button class="item-head">
+<span class="idx">45</span>
+<span class="item-title">How would you send an email when a business condition is met?</span>
+<svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg>
+</button>
+<div class="item-body">
+<div class="item-body-inner">
+<p><strong>Say:</strong></p>
+<p>“A scheduled flow checks the condition periodically and emails when it's true.”</p>
+<p>I'd find where the condition lives in the data source, use a scheduled flow (not uncontrolled polling) to check it, and send an email or Teams message when the condition is met.</p>
+<pre><code>Daily sales data -&gt; Power Automate -&gt; Check Sales &lt; Target -&gt; Yes -&gt; Email Manager</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="item topic-item" data-index="107">
+<button class="item-head">
+<span class="idx">07</span>
+<span class="item-title">Copilot / AI in the BI Workflow</span>
+<span class="tag">7 Questions</span>
+<svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg>
+</button>
+<div class="item-body">
+<div class="item-body-inner">
+<div class="item question-item" data-question="creospan-46">
+<button class="item-head">
+<span class="idx">46</span>
+<span class="item-title">What is Microsoft Copilot?</span>
+<svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg>
+</button>
+<div class="item-body">
+<div class="item-body-inner">
+<p><strong>Say:</strong></p>
+<p>“Microsoft's family of AI assistants built into 365, Power Platform and beyond.”</p>
+<p>In the Power Platform context, Copilot helps with app development, workflow creation, data analysis, and documentation — using natural language to generate or explain content.</p>
+</div>
+</div>
+</div>
+<div class="item question-item" data-question="creospan-47">
+<button class="item-head">
+<span class="idx">47</span>
+<span class="item-title">How have you used Copilot day-to-day?</span>
+<svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg>
+</button>
+<div class="item-body">
+<div class="item-body-inner">
+<p><strong>Say:</strong></p>
+<p>“As a productivity assistant, not as the final authority.”</p>
+<p>I use it to brainstorm DAX approaches, explain a formula, draft documentation, summarize requirements, or suggest Power Automate logic — then I validate the output against the actual data and business requirement.</p>
+</div>
+</div>
+</div>
+<div class="item question-item" data-question="creospan-48">
+<button class="item-head">
+<span class="idx">48</span>
+<span class="item-title">How can Copilot help with Power BI reporting?</span>
+<svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg>
+</button>
+<div class="item-body">
+<div class="item-body-inner">
+<p><strong>Say:</strong></p>
+<p>“Drafting DAX, explaining measures, and generating narrative summaries.”</p>
+<p>Instead of writing a first-pass summary of a sales dashboard by hand, I can have Copilot draft it and then validate it against the real metrics — same for suggesting or explaining DAX.</p>
+</div>
+</div>
+</div>
+<div class="item question-item" data-question="creospan-49">
+<button class="item-head">
+<span class="idx">49</span>
+<span class="item-title">How can Copilot help with documentation?</span>
+<svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg>
+</button>
+<div class="item-body">
+<div class="item-body-inner">
+<p><strong>Say:</strong></p>
+<p>“First drafts of data dictionaries, DAX explanations and process docs.”</p>
+<p>I give it the relevant context and ask for a first draft — measure documentation, data model notes, workflow write-ups — then review it against the actual implementation.</p>
+</div>
+</div>
+</div>
+<div class="item question-item" data-question="creospan-50">
+<button class="item-head">
+<span class="idx">50</span>
+<span class="item-title">How does AI/Copilot improve BI productivity overall?</span>
+<svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg>
+</button>
+<div class="item-body">
+<div class="item-body-inner">
+<p><strong>Say:</strong></p>
+<p>“It accelerates each phase of the BI lifecycle, with human validation staying constant.”</p>
+<p>It can help structure requirements up front, suggest DAX or transformation approaches during development, generate test scenarios, and draft documentation — while I keep validating business logic, data accuracy and security myself.</p>
+</div>
+</div>
+</div>
+<div class="item question-item" data-question="creospan-51">
+<button class="item-head">
+<span class="idx">51</span>
+<span class="item-title">What are the limitations and risks of using Copilot with business data?</span>
+<svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg>
+</button>
+<div class="item-body">
+<div class="item-body-inner">
+<p><strong>Say:</strong></p>
+<p>“It can sound confident and still be wrong — plus privacy and security concerns.”</p>
+<p>The biggest risk is plausible-but-incorrect output. There's also the question of data security, permissions and exposing sensitive information. Copilot needs to operate inside the org's governance controls, and anything it generates should be validated before it's trusted.</p>
+</div>
+</div>
+</div>
+<div class="item question-item" data-question="creospan-52">
+<button class="item-head">
+<span class="idx">52</span>
+<span class="item-title">How do you validate AI-generated DAX or documentation?</span>
+<svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg>
+</button>
+<div class="item-body">
+<div class="item-body-inner">
+<p><strong>Say:</strong></p>
+<p>“Understand the logic, test it against known data, compare to existing measures.”</p>
+<p>I never assume AI-generated DAX is correct — I test it against sample data and edge cases and compare the result to an existing validated measure. For documentation, I compare the draft to the real implementation before publishing. Copilot is a co-pilot, not the final authority.</p>
+<pre><code>AI Output -&gt; Understand Logic -&gt; Test Against Known Data -&gt; Check Edge Cases
+   -&gt; Compare With Existing Measures -&gt; Business Validation -&gt; Production</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="item topic-item" data-index="108">
+<button class="item-head">
+<span class="idx">08</span>
+<span class="item-title">SharePoint &amp; Dataverse Integration</span>
+<span class="tag">6 Questions</span>
+<svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg>
+</button>
+<div class="item-body">
+<div class="item-body-inner">
+<div class="item question-item" data-question="creospan-53">
+<button class="item-head">
+<span class="idx">53</span>
+<span class="item-title">How do you connect Power BI to SharePoint?</span>
+<svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg>
+</button>
+<div class="item-body">
+<div class="item-body-inner">
+<p><strong>Say:</strong></p>
+<p>“SharePoint Online List connector, then the usual Power Query transform and model.”</p>
+<p>In Power BI Desktop I use Get Data &gt; SharePoint Online List, provide the site URL, select the list, transform in Power Query, build the model, and configure credentials/refresh once published to the Service.</p>
+</div>
+</div>
+</div>
+<div class="item question-item" data-question="creospan-54">
+<button class="item-head">
+<span class="idx">54</span>
+<span class="item-title">What are the limitations of using SharePoint as a Power BI source?</span>
+<svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg>
+</button>
+<div class="item-body">
+<div class="item-body-inner">
+<p><strong>Say:</strong></p>
+<p>“Fine for operational lists, not built to be a high-performance analytical database.”</p>
+<p>Large lists can run into performance and query limitations, and complex relational modeling gets awkward. If the solution needs high scalability or enterprise-grade analytics, I'd move to Dataverse, SQL Server or a proper warehouse instead.</p>
+</div>
+</div>
+</div>
+<div class="item question-item" data-question="creospan-55">
+<button class="item-head">
+<span class="idx">55</span>
+<span class="item-title">Why choose Dataverse over SharePoint for a business app?</span>
+<svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg>
+</button>
+<div class="item-body">
+<div class="item-body-inner">
+<p><strong>Say:</strong></p>
+<p>“Stronger relational modeling, more granular security, and business rules.”</p>
+<p>Dataverse is purpose-built for Power Platform apps — better for solutions with multiple related tables, tighter security requirements, and deeper integration across Power Apps, Power Automate and Power BI.</p>
+</div>
+</div>
+</div>
+<div class="item question-item" data-question="creospan-56">
+<button class="item-head">
+<span class="idx">56</span>
+<span class="item-title">How do you connect Power Apps to Dataverse?</span>
+<svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg>
+</button>
+<div class="item-body">
+<div class="item-body-inner">
+<p><strong>Say:</strong></p>
+<p>“Add Dataverse as a data source, then bind tables to galleries and forms.”</p>
+<p>I add the table, bind it into galleries/forms, and drive it with Power Fx — Filter, LookUp, Patch, SubmitForm. Access is governed by the Dataverse security model underneath the app.</p>
+</div>
+</div>
+</div>
+<div class="item question-item" data-question="creospan-57">
+<button class="item-head">
+<span class="idx">57</span>
+<span class="item-title">How do you manage security in Dataverse?</span>
+<svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg>
+</button>
+<div class="item-body">
+<div class="item-body-inner">
+<p><strong>Say:</strong></p>
+<p>“Security roles and privileges, structured by business units and teams.”</p>
+<p>I control create/read/write/delete/share access through security roles, use business units and teams to structure that access, and consider field-level security for sensitive columns. The principle is to enforce security at the data layer, not by hiding UI elements.</p>
+</div>
+</div>
+</div>
+<div class="item question-item" data-question="creospan-58">
+<button class="item-head">
+<span class="idx">58</span>
+<span class="item-title">Design a full solution: Power Apps + Dataverse + Power Automate + Power BI.</span>
+<svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg>
+</button>
+<div class="item-body">
+<div class="item-body-inner">
+<p><strong>Say:</strong></p>
+<p>“Dataverse as the central data layer, everything else built around it.”</p>
+<p>Power Apps is the front end where users create and track requests. Dataverse stores normalized, related tables — Employees, Requests, Departments, Approvals — with proper security roles. Power Automate handles approval routing, notifications and status updates. Power BI then consumes Dataverse for volume, approval-rate, turnaround-time and department-level dashboards. Security, error handling, delegation and performance get designed in from the start, not bolted on after.</p>
+<pre><code>USER -&gt; Power Apps (Canvas App)
+         |
+         v
+     Dataverse (Requests, Employees, Departments, Approvals)
+       |                  |
+       v                  v
+Power Automate        Power BI
+(Approval,             (KPI Dashboard,
+ Notification,          Trends,
+ Status Update)         Analysis)</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="item topic-item" data-index="109">
+<button class="item-head">
+<span class="idx">09</span>
+<span class="item-title">Power BI Parameters — Power Query, What-if &amp; Field Parameters</span>
+<span class="tag">1 Question</span>
+<svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg>
+</button>
+<div class="item-body">
+<div class="item-body-inner">
+<div class="item question-item" data-question="creospan-59">
+<button class="item-head">
+<span class="idx">59</span>
+<span class="item-title">What types of parameters does Power BI support, and when do you use each?</span>
+<svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg>
+</button>
+<div class="item-body">
+<div class="item-body-inner">
+<p><strong>Say:</strong></p>
+<p>“Power Query parameters for data loading, What-if parameters for scenario analysis, Field parameters for dynamic visuals.”</p>
+<p>Power BI has different types of parameters. Power Query parameters are created under Manage Parameters and are mainly used to dynamically control data sources and transformations — things like environment names, file paths, server names, database names, or a filter value such as a selected year.</p>
+<p>What-if parameters are built from Modeling &gt; New Parameter &gt; Numeric Range and are used for scenario analysis. Power BI creates a parameter table plus a value, so a measure like Adjusted Sales can react to a slicer — for example modeling the impact of a 0% to 20% price increase.</p>
+<p>Field parameters, built from Modeling &gt; New Parameter &gt; Fields, let a user dynamically change what a visual displays — switching a chart between Sales, Profit and Quantity, or between dimensions like Region, Product and Customer, all from a single slicer.</p>
+<p>So the split is: Power Query parameter = control data loading/transformation, What-if parameter = scenario analysis on a measure, Field parameter = swap fields/measures inside a visual.</p>
+<pre><code>Power Query Parameter -&gt; controls data loading/transformation (e.g. SelectedYear)
+What-if Parameter     -&gt; scenario analysis / calculations (e.g. Price Increase 0-20%)
+Field Parameter        -&gt; dynamically swap fields/measures shown in a visual
+
+Example What-if measure:
+Adjusted Sales =
+[Sales] * (1 + 'Price Increase'[Price Increase Value])</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="item topic-item" data-index="110">
+<button class="item-head">
+<span class="idx">10</span>
+<span class="item-title">Connecting Power BI to Excel &amp; Oracle</span>
+<span class="tag">1 Question</span>
+<svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg>
+</button>
+<div class="item-body">
+<div class="item-body-inner">
+<div class="item question-item" data-question="creospan-60">
+<button class="item-head">
+<span class="idx">60</span>
+<span class="item-title">How do you connect Power BI Desktop to Excel and to Oracle, and how would you combine both in one report?</span>
+<svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg>
+</button>
+<div class="item-body">
+<div class="item-body-inner">
+<p><strong>Say:</strong></p>
+<p>“Get Data &gt; Excel Workbook for Excel; Get Data &gt; Oracle Database (Import or DirectQuery) for Oracle; then relate them on a common key.”</p>
+<p>For Excel, I go to Home &gt; Get Data &gt; Excel Workbook, pick the file, select the required sheet/table in Navigator, transform it in Power Query, then Close &amp; Apply and build the model. The flow is Excel -&gt; Power Query -&gt; Data Model -&gt; DAX -&gt; Report.</p>
+<p>For Oracle, I first make sure the Oracle Client/ODAC is installed if needed, then go to Get Data &gt; Oracle database, enter the server and optional service/database details, choose Import or DirectQuery, authenticate, select the required tables/views, transform if needed, then Close &amp; Apply. Import loads data into Power BI's model; DirectQuery instead queries Oracle live whenever the user interacts with the report.</p>
+<p>When a report needs both — say Oracle holds the sales transactions and Excel holds the business-maintained targets — I bring both into the same Power Query/model layer and create a relationship on a common business key such as Product ID, Customer ID or Date, then choose Import or DirectQuery for the Oracle side depending on the reporting requirement.</p>
+<pre><code>Excel  -&gt; Get Data &gt; Excel Workbook -&gt; Power Query -&gt; Data Model -&gt; DAX -&gt; Report
+Oracle -&gt; Get Data &gt; Oracle Database (Import/DirectQuery) -&gt; Power Query -&gt; Data Model
+
+Combined:
+Oracle ---
+          |-- Power Query -&gt; Data Model -&gt; Relationship (e.g. Product ID) -&gt; Report
+Excel  ---</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="item topic-item" data-index="111">
+<button class="item-head">
+<span class="idx">11</span>
+<span class="item-title">Power BI Fundamentals — Publish Artifacts &amp; Core Concepts</span>
+<span class="tag">2 Questions</span>
+<svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg>
+</button>
+<div class="item-body">
+<div class="item-body-inner">
+<div class="item question-item" data-question="creospan-61">
+<button class="item-head">
+<span class="idx">61</span>
+<span class="item-title">When you publish a Power BI report, it becomes two artifacts — Semantic Model and Report. Explain the difference.</span>
+<svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg>
+</button>
+<div class="item-body">
+<div class="item-body-inner">
+<p><strong>Say:</strong></p>
+<p>“The report is the presentation layer; the semantic model is the data and modeling layer behind it.”</p>
+<p>When a Power BI Desktop file is published to the Service, two artifacts are created. The Report holds the visuals, pages, charts, slicers, filters and visual-level configuration. The Semantic Model holds the tables, columns, measures, relationships, calculated columns, the data model, Power Query transformations, and the connection/data-source information.</p>
+<p>For example, if I build a Sales dashboard and publish it, the report is what the audience sees and clicks through, while the semantic model is the engine — tables, relationships and measures — powering those visuals underneath.</p>
+</div>
+</div>
+</div>
+<div class="item question-item" data-question="creospan-62">
+<button class="item-head">
+<span class="idx">62</span>
+<span class="item-title">What are the important areas/concepts you'd break Power BI down into?</span>
+<svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg>
+</button>
+<div class="item-body">
+<div class="item-body-inner">
+<p><strong>Say:</strong></p>
+<p>“Power Query, data modeling, DAX, visualization, Service, Gateway, RLS, Workspace, semantic model, and performance optimization.”</p>
+<p>I'd split it into: Power Query for extraction and transformation; Data Modeling for relationships and star schema (fact/dimension tables); DAX for measures and calculated columns; Visualization for charts, slicers, KPIs and dashboards; Power BI Service for publishing, sharing, refresh and security; Gateway for connecting the Service to on-premises sources; RLS for restricting data by user; Workspace for collaboration and report management; Semantic Model as the centralized data model reports run against; and Performance Optimization spanning DAX, model, Power Query and visuals.</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="item topic-item" data-index="112">
+<button class="item-head">
+<span class="idx">12</span>
+<span class="item-title">Power BI Desktop — Connecting to Sources &amp; Views</span>
+<span class="tag">4 Questions</span>
+<svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg>
+</button>
+<div class="item-body">
+<div class="item-body-inner">
+<div class="item question-item" data-question="creospan-63">
+<button class="item-head">
+<span class="idx">63</span>
+<span class="item-title">What are the steps to connect Power BI to SQL Server?</span>
+<svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg>
+</button>
+<div class="item-body">
+<div class="item-body-inner">
+<p><strong>Say:</strong></p>
+<p>“Get Data &gt; SQL Server, pick Import or DirectQuery, transform, model, then publish and configure the gateway/refresh.”</p>
+<p>I go to Home &gt; Get Data &gt; SQL Server, enter the server name and optionally the database, choose Import or DirectQuery, authenticate, and select the required tables/views. I transform in Power Query, build the relationships and DAX measures, build the report, publish to the Service, then configure gateway/credentials if the server is on-premises and set up scheduled refresh.</p>
+<pre><code>Get Data &gt; SQL Server -&gt; Server/Database -&gt; Import or DirectQuery -&gt; Auth
+  -&gt; Select tables -&gt; Power Query -&gt; Model -&gt; DAX -&gt; Report
+  -&gt; Publish -&gt; Gateway/Credentials -&gt; Scheduled Refresh</code></pre>
+</div>
+</div>
+</div>
+<div class="item question-item" data-question="creospan-64">
+<button class="item-head">
+<span class="idx">64</span>
+<span class="item-title">What are the main tabs/views in Power BI Desktop?</span>
+<svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg>
+</button>
+<div class="item-body">
+<div class="item-body-inner">
+<p><strong>Say:</strong></p>
+<p>“Report View, Data/Table View, Model View, and DAX Query View.”</p>
+<p>Report View is where I build the visuals and pages. Data/Table View lets me inspect the loaded data row by row. Model View is where I create and manage relationships and review the data model. DAX Query View lets me write and run DAX queries directly against the semantic model. Depending on the Desktop version, older material may only reference the first three as the primary views.</p>
+</div>
+</div>
+</div>
+<div class="item question-item" data-question="creospan-65">
+<button class="item-head">
+<span class="idx">65</span>
+<span class="item-title">You know the data is in Excel — walk me through the steps in Power BI Desktop.</span>
+<svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg>
+</button>
+<div class="item-body">
+<div class="item-body-inner">
+<p><strong>Say:</strong></p>
+<p>“Get Data &gt; Excel, pick the sheet/table, clean it in Power Query, model it, then publish.”</p>
+<p>I go to Get Data &gt; Excel, browse to the file, and select the required sheet or table. I use Transform Data rather than a direct load whenever cleanup is needed — removing unnecessary columns, fixing data types, handling nulls, deduping, renaming columns, and merging/appending where required. After Close &amp; Apply I check the model, build relationships, write the DAX measures, build the visuals, validate the report against the source, then publish and set up refresh if needed.</p>
+</div>
+</div>
+</div>
+<div class="item question-item" data-question="creospan-66">
+<button class="item-head">
+<span class="idx">66</span>
+<span class="item-title">What are the steps to connect Power BI to Oracle?</span>
+<svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg>
+</button>
+<div class="item-body">
+<div class="item-body-inner">
+<p><strong>Say:</strong></p>
+<p>“Install the Oracle client if needed, Get Data &gt; Oracle Database, choose Import or DirectQuery, then configure the gateway if it's on-premises.”</p>
+<p>I make sure the Oracle client/driver is installed if required, then go to Get Data &gt; Oracle Database, enter the server/database connection info, authenticate, and select the required tables/views. I choose Import or DirectQuery depending on the requirement, transform in Power Query, build the model, measures and report, then publish. For an on-premises Oracle database, the gateway matters because the Service needs a secure path to reach the org's internal data — so I configure the On-premises Data Gateway, map the source to it, set credentials, and configure scheduled refresh.</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="item topic-item" data-index="113">
+<button class="item-head">
+<span class="idx">13</span>
+<span class="item-title">Power BI Parameters, Paginated Reports &amp; Other Data Sources</span>
+<span class="tag">3 Questions</span>
+<svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg>
+</button>
+<div class="item-body">
+<div class="item-body-inner">
+<div class="item question-item" data-question="creospan-67">
+<button class="item-head">
+<span class="idx">67</span>
+<span class="item-title">What are the steps to create a parameter in Power BI?</span>
+<svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg>
+</button>
+<div class="item-body">
+<div class="item-body-inner">
+<p><strong>Say:</strong></p>
+<p>“Transform Data &gt; Manage Parameters &gt; New Parameter, define its type and current value, then use it in a query.”</p>
+<p>I open Power BI Desktop, go to Home &gt; Transform Data to open Power Query Editor, then Manage Parameters &gt; New Parameter. I fill in the parameter name, description, data type, suggested values and current value, click OK, and then reference the parameter inside my queries/transformations.</p>
+<p>For example, I might create a ServerParameter set to SQLPROD01, and use it to control which SQL Server the query connects to — handy when moving a report between dev, test and production environments.</p>
+</div>
+</div>
+</div>
+<div class="item question-item" data-question="creospan-68">
+<button class="item-head">
+<span class="idx">68</span>
+<span class="item-title">What is a Paginated Report, and what types of reports can you build in the Microsoft BI ecosystem?</span>
+<svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg>
+</button>
+<div class="item-body">
+<div class="item-body-inner">
+<p><strong>Say:</strong></p>
+<p>“A pixel-perfect, printable report format for things like invoices and statements, versus interactive Power BI reports for dashboards.”</p>
+<p>A Paginated Report is built for highly formatted, printable output where exact layout matters — invoices, statements, detailed financial or operational reports, transaction-level reports, or anything that needs to export cleanly to PDF/Excel and flow across many pages, unlike a normal Power BI report.</p>
+<p>Across the ecosystem you can also work with Power BI interactive reports, dashboards, Excel-based reports, and embedded Power BI reports. If management wants an interactive dashboard I'd build a Power BI report; if finance needs a printable invoice or statement, I'd reach for a paginated report instead.</p>
+</div>
+</div>
+</div>
+<div class="item question-item" data-question="creospan-69">
+<button class="item-head">
+<span class="idx">69</span>
+<span class="item-title">What data sources have you connected to, other than Excel, CSV and flat files?</span>
+<svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg>
+</button>
+<div class="item-body">
+<div class="item-body-inner">
+<p><strong>Say:</strong></p>
+<p>“Relational databases like SQL Server and Oracle, plus SharePoint and Dataverse depending on the project.”</p>
+<p>Beyond Excel, CSV and flat files, I've worked with relational databases such as SQL Server and Oracle, and with SharePoint-based data where needed. Within the Power Platform ecosystem I also understand integration with Dataverse. Other common Power BI sources include MySQL, PostgreSQL, Azure SQL and Azure Data Lake — I pick the connector and connectivity mode (Import or DirectQuery) based on the project.</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="item topic-item" data-index="114">
+<button class="item-head">
+<span class="idx">14</span>
+<span class="item-title">Performance Optimization &amp; DAX Modeling</span>
+<span class="tag">2 Questions</span>
+<svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg>
+</button>
+<div class="item-body">
+<div class="item-body-inner">
+<div class="item question-item" data-question="creospan-70">
+<button class="item-head">
+<span class="idx">70</span>
+<span class="item-title">A report takes almost an hour to refresh and feels slow. How do you optimize it?</span>
+<svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg>
+</button>
+<div class="item-body">
+<div class="item-body-inner">
+<p><strong>Say:</strong></p>
+<p>“I troubleshoot layer by layer — source, Power Query, model, DAX, visuals, then refresh strategy — instead of jumping straight to DirectQuery.”</p>
+<p>Step 1, the source: check SQL query performance, row counts, unnecessary columns, indexes, views/stored procs, and whether transformations can be pushed upstream. Step 2, Power Query: drop columns and filter rows early, avoid unnecessary steps, and check that query folding is actually happening. Step 3, the model: use a star schema, trim unnecessary columns, watch high-cardinality fields, avoid unnecessary calculated columns and many-to-many relationships. Step 4, DAX: optimize complex measures, avoid unnecessary iterators, reduce repeated calculations, and use variables. Step 5, visuals: fewer visuals per page, simpler visuals, fewer slicers, and no giant detail tables. Step 6, refresh: for very large datasets, consider incremental refresh, Import vs DirectQuery tradeoffs, and aggregations.</p>
+<p>For tooling I'd reach for Performance Analyzer, DAX Studio, Power Query diagnostics, SQL execution plans, and VertiPaq Analyzer where appropriate. I wouldn't change connectivity mode first — I'd isolate whether the bottleneck is the source, Power Query, model, DAX or visuals, then fix that specific layer.</p>
+</div>
+</div>
+</div>
+<div class="item question-item" data-question="creospan-71">
+<button class="item-head">
+<span class="idx">71</span>
+<span class="item-title">What's the difference between a calculated column and a measure?</span>
+<svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg>
+</button>
+<div class="item-body">
+<div class="item-body-inner">
+<p><strong>Say:</strong></p>
+<p>“A calculated column is computed row-by-row at refresh and stored in the model; a measure is computed dynamically based on filter context.”</p>
+<p>A calculated column increases model size since it's stored per row, and it can be used as a slicer or category. A measure is generally more memory-efficient and is primarily used for aggregations — its result changes based on whatever filters (region, product, year, customer) are currently applied.</p>
+<p>I prefer measures for dynamic business calculations because they respond to filter context and avoid unnecessarily inflating the model.</p>
+<pre><code>// Calculated column
+Profit = Sales[Revenue] - Sales[Cost]
+
+// Measure
+Total Profit = SUM(Sales[Revenue]) - SUM(Sales[Cost])</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="item topic-item" data-index="115">
+<button class="item-head">
+<span class="idx">15</span>
+<span class="item-title">SQL Joins &amp; Customer Activity Queries</span>
+<span class="tag">2 Questions</span>
+<svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg>
+</button>
+<div class="item-body">
+<div class="item-body-inner">
+<div class="item question-item" data-question="creospan-72">
+<button class="item-head">
+<span class="idx">72</span>
+<span class="item-title">How many types of joins are there in SQL?</span>
+<svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg>
+</button>
+<div class="item-body">
+<div class="item-body-inner">
+<p><strong>Say:</strong></p>
+<p>“INNER, LEFT/LEFT OUTER, RIGHT/RIGHT OUTER, FULL OUTER, CROSS, and SELF join.”</p>
+<p>Each returns a different combination of matched and unmatched rows. For example, with a Customers table and a Sales table, a LEFT JOIN returns every customer even if they have no matching sale row — that customer's sales columns come back as NULL.</p>
+</div>
+</div>
+</div>
+<div class="item question-item" data-question="creospan-73">
+<button class="item-head">
+<span class="idx">73</span>
+<span class="item-title">Identify customers who haven't purchased anything in the last 90 days. Write the SQL.</span>
+<svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg>
+</button>
+<div class="item-body">
+<div class="item-body-inner">
+<p><strong>Say:</strong></p>
+<p>“A LEFT JOIN with the date condition inside the JOIN, not the WHERE clause, so unmatched customers still show up.”</p>
+<p>I use a LEFT JOIN from Customers to Sales with the 90-day condition inside the ON clause, then filter for Sales.CustomerID IS NULL — that returns every customer with no matching sale in that window. Putting the date filter in the JOIN rather than the WHERE clause is the key detail, since a WHERE filter would silently turn it into an inner join.</p>
+<p>If instead the ask means 'customers whose most recent purchase is older than 90 days,' I'd group by customer and filter with HAVING MAX(SaleDate) &lt; the cutoff, or NULL for customers with no sales at all — that distinction is worth calling out to the interviewer.</p>
+<pre><code>SELECT c.CustomerID, c.CustomerName
+FROM Customers c
+LEFT JOIN Sales s
+    ON c.CustomerID = s.CustomerID
+    AND s.SaleDate &gt;= DATEADD(DAY, -90, GETDATE())
+WHERE s.CustomerID IS NULL;
+
+-- Alternative: most recent purchase older than 90 days
+SELECT c.CustomerID, c.CustomerName
+FROM Customers c
+LEFT JOIN Sales s
+    ON c.CustomerID = s.CustomerID
+GROUP BY c.CustomerID, c.CustomerName
+HAVING MAX(s.SaleDate) &lt; DATEADD(DAY, -90, GETDATE())
+    OR MAX(s.SaleDate) IS NULL;</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="item topic-item" data-index="116">
+<button class="item-head">
+<span class="idx">16</span>
+<span class="item-title">Power BI Service — Administration &amp; Gateway</span>
+<span class="tag">2 Questions</span>
+<svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg>
+</button>
+<div class="item-body">
+<div class="item-body-inner">
+<div class="item question-item" data-question="creospan-74">
+<button class="item-head">
+<span class="idx">74</span>
+<span class="item-title">What kind of work have you done in Power BI Service, apart from refreshing?</span>
+<svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg>
+</button>
+<div class="item-body">
+<div class="item-body-inner">
+<p><strong>Say:</strong></p>
+<p>“Workspace management, semantic model deployment, RLS, gateway configuration, permissions/apps, and monitoring.”</p>
+<p>Beyond refresh management, that includes workspace management and organizing reports/semantic models, configuring credentials and scheduled refresh, monitoring refresh history, configuring Row-Level Security and assigning users/groups to roles, publishing Power BI Apps and managing sharing/permissions, configuring and troubleshooting gateway connections, supporting dev/test/production deployment, and monitoring for refresh failures or performance issues.</p>
+<p>I'd only claim the specific pieces I've actually done hands-on rather than the full list.</p>
+</div>
+</div>
+</div>
+<div class="item question-item" data-question="creospan-75">
+<button class="item-head">
+<span class="idx">75</span>
+<span class="item-title">Why do you need a Gateway in Power BI?</span>
+<svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg>
+</button>
+<div class="item-body">
+<div class="item-body-inner">
+<p><strong>Say:</strong></p>
+<p>“It's the secure bridge between Power BI Service in the cloud and data sources the Service can't reach directly, like on-prem SQL Server or Oracle.”</p>
+<p>The gateway matters whenever the Service needs secure connectivity to an on-premises or otherwise inaccessible source — common ones being SQL Server, Oracle and file shares. For a cloud-hosted source, a gateway usually isn't required at all.</p>
+<pre><code>On-premises SQL Server -&gt; On-premises Data Gateway -&gt; Power BI Service</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="item section-item" data-index="hr-screening">
 <div aria-expanded="false" class="item-head section-head" role="button" tabindex="0">
 <div class="section-head-text">
 <div class="eyebrow">HR / Screening Round</div>
