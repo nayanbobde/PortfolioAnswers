@@ -14436,6 +14436,119 @@ HAVING MAX(s.SaleDate) &lt; DATEADD(DAY, -90, GETDATE())
 </div>
 </div>
 </div>
+<div class="item topic-item" data-index="200c">
+<button class="item-head">
+<span class="idx">00C</span>
+<span class="item-title">Real Case: Alteryx &amp; Power Apps &amp; Automate</span>
+<span class="tag">Real-Life Scenario</span>
+<svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg>
+</button>
+<div class="item-body">
+<div class="item-body-inner">
+<h3>1. ALTERYX — Real-Life Business Case</h3>
+<p><strong>Scenario: Daily Transaction Reconciliation</strong></p>
+<p>“Let me explain Alteryx with a simple real-life example. Suppose the operations team needs to reconcile daily transactions between two financial systems — for example, a trading system and a custody system.</p>
+<p>First, I would bring the transaction data from both systems into Alteryx, and I might also bring a client or portfolio mapping file from Excel. I would then clean and standardize the data — making sure transaction IDs, dates, quantities and amounts have the correct format.</p>
+<p>Next, I would use the appropriate matching logic, typically a Join based on the approved business key. The records that match would be classified as matched, while records missing from one system or having different values would be identified as exceptions.</p>
+<p>I would then summarize the results — for example, total transactions, matched transactions, unmatched transactions and exception amounts. Before producing the final output, I would validate record counts and control totals against the source.</p>
+<p>Finally, Alteryx would generate a clean reconciliation output containing the transaction, portfolio, match status and exception reason. That output could then be consumed by Power BI.</p>
+<p>So the business benefit is that instead of operations manually comparing thousands of transactions in Excel every morning, Alteryx performs the repetitive preparation and reconciliation consistently and produces a validated dataset for reporting.”</p>
+<p><strong>Remember the flow:</strong><br/>Source → Clean → Match → Identify Exceptions → Validate → Output</p>
+<p>Your preparation specifically uses this Alteryx pattern of Input → Clean → Transform → Join/Union → Validate → Output.</p>
+<h3>2. POWER APPS — Real-Life Business Case</h3>
+<p><strong>Scenario: Operations Team Managing Exceptions</strong></p>
+<p>“Once Alteryx identifies the reconciliation exceptions, I would use Power Apps to give the operations team a simple interface to manage them.</p>
+<p>For example, instead of sending an Excel file containing 200 unmatched transactions to the operations team, I would store those exceptions in Dataverse and build a Canvas App on top of it.</p>
+<p>When the user opens the app, they can see all their open exceptions in a Gallery. They can select an exception and open a Form to see details such as Client, Transaction ID, Amount, Trade Date and Exception Reason.</p>
+<p>The user can investigate the issue, add comments or a root cause, and then update the status to something like ‘Under Investigation’ or ‘Resolved’. For a simple status update, I could use Patch, while SubmitForm can be used for normal form submissions.</p>
+<p>I would also add validation so mandatory information is completed before the record is saved, and I would make sure users only have access to the records they are authorized to manage.</p>
+<p>So instead of operations working with a large Excel spreadsheet, they get a controlled application where they can search, investigate, update and resolve exceptions.”</p>
+<p><strong>Remember the flow:</strong><br/>Alteryx identifies → Dataverse stores → Power Apps manages</p>
+<p>This matches your preparation's exception-management design using Gallery, Form, SubmitForm/Patch and Dataverse.</p>
+<h3>3. POWER AUTOMATE — Real-Life Business Case</h3>
+<p><strong>Scenario: Approval + Notification</strong></p>
+<p>“Now, once the operations user investigates an exception, Power Automate can automate the next step.</p>
+<p>For example, suppose an exception involves a high-value financial transaction and requires manager approval. When the user clicks ‘Submit for Approval’ in Power Apps, the app can trigger a Power Automate flow and pass the Exception ID.</p>
+<p>The flow retrieves the exception details from Dataverse, identifies the appropriate manager and sends an approval request. The manager can approve or reject it.</p>
+<p>If it is approved, Power Automate updates the Dataverse record to ‘Approved’ and can notify the operations user. If it is rejected, it can update the status to ‘Rejected’ and send the reason back to the user.</p>
+<p>I would also include error handling. If the flow fails, I would use a failure path to capture the error and notify the support team rather than allowing the failure to happen silently.</p>
+<p>Finally, Power BI can read the updated exception status and management can see how many exceptions are open, approved, rejected or resolved.</p>
+<p>So Power Automate removes the manual emails and follow-ups and makes the exception process more controlled and traceable.”</p>
+<p><strong>Remember the flow:</strong><br/>Power Apps → Trigger → Get Exception → Manager Approval → Update Dataverse → Notify → Power BI</p>
+<p>This follows the preparation's approval workflow: trigger → get details → identify approver → approval → update record → notify.</p>
+<h3>⭐ The One Story That Connects All 3</h3>
+<p>If the interviewer asks: <strong>“Can you give me an example of how you would use Alteryx, Power Apps and Power Automate together?”</strong></p>
+<p>Say this:</p>
+<p>“Sure. Let me take a reconciliation example.</p>
+<p>Suppose every morning we receive 10,000 transactions from two financial systems. I would use Alteryx to bring the data together, clean and standardize it, match the transactions and identify unmatched or partially matched records. After validating the results, the exceptions would be stored in Dataverse.</p>
+<p>Then I would use Power Apps to give the operations team an interface where they can see their open exceptions, investigate the transaction, add comments or root cause, and update the status.</p>
+<p>If an exception requires manager approval, Power Apps can trigger Power Automate. The flow identifies the appropriate manager, sends the approval request, waits for the response and updates the exception in Dataverse based on the decision.</p>
+<p>Finally, Power BI can consume the same information and show management the overall reconciliation rate, number of open exceptions, exception amount and aging.</p>
+<p>So the complete process is basically Alteryx identifies the problem, Power Apps allows the business user to work on the problem, Power Automate manages the workflow, and Power BI gives management visibility into the outcome.”</p>
+<h3>🔥 One-Line Memory Trick</h3>
+<p>Alteryx = Find the problem<br/>
+Power Apps = Work on the problem<br/>
+Power Automate = Move the problem through the process<br/>
+Power BI = Show the business what happened</p>
+<p>That is the story I would strongly recommend using with the Northern Trust interviewer because it demonstrates technology knowledge + financial-domain understanding + real business application, rather than just definitions.</p>
+<h3>Power Query vs Alteryx — Interview Answer</h3>
+<p>“I would choose Power Query when the transformation is mainly required for a specific Power BI report or semantic model. It is very effective for cleaning, shaping, merging and transforming data before it enters the Power BI model.</p>
+<p>I would choose Alteryx when the requirement is broader — for example, multiple data sources, complex or reusable ETL, reconciliation, automation, or when the prepared output needs to be consumed by multiple downstream processes.</p>
+<p>For example, if I have one SQL table that needs cleaning for one Power BI dashboard, I would normally use Power Query. But if I have SQL transactions + Excel client mapping + CSV exceptions, and I need to reconcile them, validate the output and potentially reuse that process for multiple reports, I would use Alteryx.</p>
+<p>So my decision is not based on which tool is better. It is based on the scope of the requirement: Power Query for model-specific transformation, Alteryx for reusable multi-source ETL and complex data workflows.”</p>
+<p><strong>Easy way to remember</strong><br/>Power Query = Prepare data for my Power BI model.<br/>Alteryx = Build a reusable data workflow for the business.</p>
+<p><strong>Real-life Northern Trust example:</strong></p>
+<p>SQL Transactions + Excel Mapping + CSV Exceptions<br/>
+↓<br/>
+Alteryx — Clean + Join + Reconcile + Validate<br/>
+↓<br/>
+Power BI — Reporting</p>
+<p>Whereas:</p>
+<p>SQL Transaction Table<br/>
+↓<br/>
+Power Query — Clean/Shape<br/>
+↓<br/>
+Power BI Model<br/>
+↓<br/>
+Dashboard</p>
+</div>
+</div>
+</div>
+<div class="item topic-item" data-index="200d">
+<button class="item-head">
+<span class="idx">00D</span>
+<span class="item-title">Northern Trust — Company Detail</span>
+<span class="tag">Company Background</span>
+<svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg>
+</button>
+<div class="item-body">
+<div class="item-body-inner">
+<h3>1. Company Overview</h3>
+<ul>
+<li>Northern Trust is a 130-year-old financial services organization.</li>
+<li>Approximately 20,000 employees worldwide.</li>
+<li>Headquartered in Chicago.</li>
+<li>Three major business areas:
+<ul>
+<li>Asset servicing — corporate and institutional clients.</li>
+<li>Investment management — one of the largest and fastest-growing investment managers.</li>
+<li>Wealth management — high-net-worth individuals and families.</li>
+</ul>
+</li>
+<li>Northern Trust opened an operations center in Tempe, Arizona, around five years before this interview.</li>
+<li>Tempe office had approximately 800 employees at the time of the interview.</li>
+</ul>
+<h3>2. Northern Trust Core Values</h3>
+<p>The three core values mentioned are:</p>
+<ul>
+<li>Service</li>
+<li>Expertise</li>
+<li>Integrity</li>
+</ul>
+<p>These values form the foundation for Northern Trust's culture and commitment to diversity, equity and inclusion.</p>
+</div>
+</div>
+</div>
 <div class="item topic-item" data-index="200b">
 <button class="item-head">
 <span class="idx">00B</span>
