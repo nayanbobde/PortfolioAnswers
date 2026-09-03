@@ -2530,6 +2530,189 @@ df = pd.read_sql(
 </div>
 </div></div>
 </div></div></div>
+<div class="item">
+<button class="item-head"><span class="idx">D</span><span class="item-title">Resume Based Questions</span><span class="tag">20 Questions</span><svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg></button>
+<div class="item-body"><div class="item-body-inner">
+<div class="item question-item" data-question="resume-q1">
+<button class="item-head"><span class="idx">01</span><span class="item-title">Tell me about yourself.</span><svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg></button>
+<div class="item-body"><div class="item-body-inner">
+<p>I'm a Data Analyst and Power BI Developer with around 2.5 years of experience, mainly working in Retail and Supply Chain analytics. My core skills are SQL, Power BI, DAX, Power Query and Excel, and I've worked on 6+ dashboards covering sales, inventory, allocation and finance. I've handled datasets with 500K+ records and 20,000+ SKUs, and my work has involved data modeling, KPI development, validation, reconciliation, UAT and production support. I've also worked closely with cross-functional teams to understand requirements and convert them into reporting solutions.</p>
+</div></div>
+</div>
+<div class="item question-item" data-question="resume-q2">
+<button class="item-head"><span class="idx">02</span><span class="item-title">Walk me through your current project.</span><svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg></button>
+<div class="item-body"><div class="item-body-inner">
+<p>In my recent role at Cognizant, I worked on enterprise reporting solutions for Retail, Supply Chain, Finance and FP&amp;A teams. The data came from different business sources, and I worked mainly with SQL and Power BI to prepare, model and analyze the data. I built KPIs around revenue, gross margin, inventory, WOC, stockouts, allocation accuracy, Actual vs Budget and Fiscal YTD. I also worked on data validation and reconciliation between source data, SQL outputs and Power BI reports. Apart from development, I was involved in requirements gathering, UAT, deployment and production support.</p>
+</div></div>
+</div>
+<div class="item question-item" data-question="resume-q3">
+<button class="item-head"><span class="idx">03</span><span class="item-title">What exactly did you personally build?</span><svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg></button>
+<div class="item-body"><div class="item-body-inner">
+<p>My main contribution was on the hands-on BI development side. I worked on SQL data preparation and validation, built Star Schema and semantic models, created DAX measures and KPIs, and developed Power BI dashboards with drill-down reporting. I also implemented Dynamic RLS, supported UAT and production deployment, and worked with stakeholders to define and validate KPIs. So my contribution covered the complete reporting lifecycle rather than only creating visuals.</p>
+</div></div>
+</div>
+<div class="item question-item" data-question="resume-q4">
+<button class="item-head"><span class="idx">04</span><span class="item-title">Explain your most complex dashboard.</span><svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg></button>
+<div class="item-body"><div class="item-body-inner">
+<p>One of the more complex areas I worked on was inventory and allocation reporting because it involved a large number of SKUs and multiple business dimensions such as stores, distribution centers and regions. I used SQL for data preparation and Power BI for the semantic model and reporting. The dashboard included KPIs such as Inventory Value, WOC, In-Stock %, Stockout Rate, Sell-Through and Allocation Accuracy, with drill-down from executive-level KPIs to transaction-level details. I also included validation and reconciliation checks to make sure the reported numbers matched the underlying data.</p>
+</div></div>
+</div>
+<div class="item question-item" data-question="resume-q5">
+<button class="item-head"><span class="idx">05</span><span class="item-title">How did you achieve the 30% stockout reduction?</span><svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg></button>
+<div class="item-body"><div class="item-body-inner">
+<p>I would describe it as contributing to the reduction rather than saying the dashboard alone caused it. I analyzed inventory, sales and allocation data using SQL and Power BI to identify allocation gaps and stockout patterns. The reporting helped the business identify where inventory was not being allocated effectively and where stockout risks were occurring. These insights supported better inventory and allocation decisions, contributing to around a 30% reduction in stockouts.</p>
+</div></div>
+</div>
+<div class="item question-item" data-question="resume-q6">
+<button class="item-head"><span class="idx">06</span><span class="item-title">How did you measure the 10% allocation accuracy improvement?</span><svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg></button>
+<div class="item-body"><div class="item-body-inner">
+<p>Allocation accuracy was one of the KPIs I tracked in the reporting solution. I compared the expected or planned allocation against the actual allocation and used the KPI to identify allocation gaps across stores and distribution locations. By analyzing these trends and highlighting exceptions through Power BI, the business could identify areas where allocation needed improvement. Over time, this analysis contributed to around a 10% improvement in allocation accuracy.</p>
+<p><strong>If asked for the exact formula:</strong> "The exact business formula was based on the project's allocation rules, so I would follow the agreed business definition rather than assume a generic formula."</p>
+</div></div>
+</div>
+<div class="item question-item" data-question="resume-q7">
+<button class="item-head"><span class="idx">07</span><span class="item-title">Write a query for duplicate records.</span><svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg></button>
+<div class="item-body"><div class="item-body-inner">
+<pre><code class="language-sql">SELECT
+    CustomerID,
+    OrderID,
+    COUNT(*) AS DuplicateCount
+FROM Orders
+GROUP BY
+    CustomerID,
+    OrderID
+HAVING COUNT(*) &gt; 1;</code></pre>
+<p><strong>Say:</strong> "I group the records by the business key and use HAVING COUNT greater than one to identify duplicates."</p>
+<p>If the interviewer asks how I would actually remove duplicates, I'd mention <code>ROW_NUMBER()</code> rather than immediately deleting data.</p>
+</div></div>
+</div>
+<div class="item question-item" data-question="resume-q8">
+<button class="item-head"><span class="idx">08</span><span class="item-title">Write a running-total query.</span><svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg></button>
+<div class="item-body"><div class="item-body-inner">
+<pre><code class="language-sql">SELECT
+    SaleDate,
+    SalesAmount,
+    SUM(SalesAmount) OVER (
+        ORDER BY SaleDate
+        ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW
+    ) AS RunningSales
+FROM Sales
+ORDER BY SaleDate;</code></pre>
+<p><strong>Say:</strong> "I'm using a window function here. It calculates the cumulative sales from the beginning up to the current date."</p>
+</div></div>
+</div>
+<div class="item question-item" data-question="resume-q9">
+<button class="item-head"><span class="idx">09</span><span class="item-title">How would you optimize a query for 500K+ / millions of records?</span><svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg></button>
+<div class="item-body"><div class="item-body-inner">
+<p>First, I would check the execution plan to identify expensive scans, joins or sorts. Then I would select only the required columns, filter data as early as possible, and make sure joins are performed on appropriate keys. I would also check indexing and avoid unnecessary transformations at the reporting layer. For Power BI, I prefer pushing heavy filtering and aggregation to SQL and using optimized SQL views, so the semantic model receives only the required data.</p>
+</div></div>
+</div>
+<div class="item question-item" data-question="resume-q10">
+<button class="item-head"><span class="idx">10</span><span class="item-title">Explain your data model.</span><svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg></button>
+<div class="item-body"><div class="item-body-inner">
+<p>I generally use a Star Schema with a central fact table containing the transactional or measurable data and dimension tables providing descriptive information. For example, depending on the business area, the fact could contain sales, inventory or expense transactions, while dimensions could include Date, Product, Store, Region or Department. The relationships are normally one-to-many from dimensions to the fact table. This makes the model easier to understand, improves filtering behavior and provides a better foundation for DAX and reporting.</p>
+</div></div>
+</div>
+<div class="item question-item" data-question="resume-q11">
+<button class="item-head"><span class="idx">11</span><span class="item-title">Why Star Schema?</span><svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg></button>
+<div class="item-body"><div class="item-body-inner">
+<p>I prefer Star Schema because it separates business events from descriptive attributes. It makes relationships simpler, reduces unnecessary complexity and provides better performance and predictable filter behavior in Power BI. It also makes DAX easier to write and maintain because dimensions are used for filtering and the fact table contains the measurable business data.</p>
+</div></div>
+</div>
+<div class="item question-item" data-question="resume-q12">
+<button class="item-head"><span class="idx">12</span><span class="item-title">CALCULATE vs FILTER?</span><svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg></button>
+<div class="item-body"><div class="item-body-inner">
+<p><strong>Say:</strong> "CALCULATE changes the filter context in which an expression is evaluated, while FILTER returns a table containing only the rows that meet a condition. FILTER is often used inside CALCULATE when I need more specific row-level filtering."</p>
+<pre><code class="language-dax">Sales Previous Year =
+CALCULATE(
+    [Total Sales],
+    DATEADD('Date'[Date], -1, YEAR)
+)</code></pre>
+<p>"Here CALCULATE modifies the filter context so Total Sales is evaluated for the previous year."</p>
+</div></div>
+</div>
+<div class="item question-item" data-question="resume-q13">
+<button class="item-head"><span class="idx">13</span><span class="item-title">SUM vs SUMX?</span><svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg></button>
+<div class="item-body"><div class="item-body-inner">
+<p><strong>Say:</strong> "SUM is a simple aggregation of a column, while SUMX is an iterator. SUMX evaluates an expression row by row and then adds the results together."</p>
+<pre><code class="language-dax">Total Sales =
+SUM(Sales[SalesAmount])</code></pre>
+<p>versus:</p>
+<pre><code class="language-dax">Total Sales =
+SUMX(
+    Sales,
+    Sales[Quantity] * Sales[UnitPrice]
+)</code></pre>
+<p><strong>Strong interview line:</strong> "If I already have the required numeric column, I prefer SUM. If I need to calculate something for every row before aggregating, I use SUMX."</p>
+</div></div>
+</div>
+<div class="item question-item" data-question="resume-q14">
+<button class="item-head"><span class="idx">14</span><span class="item-title">Write Fiscal YTD.</span><svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg></button>
+<div class="item-body"><div class="item-body-inner">
+<p>A common approach for an April–March fiscal year is:</p>
+<pre><code class="language-dax">Fiscal YTD Sales =
+TOTALYTD(
+    [Total Sales],
+    'Date'[Date],
+    "03/31"
+)</code></pre>
+<p><strong>Say:</strong> "The important point is that the fiscal year-end has to match the organization's fiscal calendar. I use a proper Date dimension and define the fiscal year accordingly."</p>
+<p>I would not blindly say April–March unless that was the fiscal calendar in the specific project being discussed.</p>
+</div></div>
+</div>
+<div class="item question-item" data-question="resume-q15">
+<button class="item-head"><span class="idx">15</span><span class="item-title">Explain filter context.</span><svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg></button>
+<div class="item-body"><div class="item-body-inner">
+<p><strong>Say:</strong> "Filter context is the set of filters that determines which data a DAX measure evaluates. It can come from slicers, visual filters, page filters, relationships or DAX functions such as CALCULATE. For example, if a report is filtered to one region and one month, the measure evaluates only the data within those filters."</p>
+<p>If asked about row context: "Row context means DAX is evaluating the expression for the current row, which is commonly seen with calculated columns and iterator functions such as SUMX."</p>
+</div></div>
+</div>
+<div class="item question-item" data-question="resume-q16">
+<button class="item-head"><span class="idx">16</span><span class="item-title">How would you troubleshoot incorrect Power BI numbers?</span><svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg></button>
+<div class="item-body"><div class="item-body-inner">
+<p>I would troubleshoot layer by layer rather than immediately changing the DAX. First I would check the visual filters and slicers, then the DAX and filter context, followed by relationships in the model. After that I would check Power Query transformations and finally the SQL or source data. I would compare record counts, duplicates, NULLs and control totals at each stage and reconcile the final Power BI number back to the source.</p>
+</div></div>
+</div>
+<div class="item question-item" data-question="resume-q17">
+<button class="item-head"><span class="idx">17</span><span class="item-title">Explain your 3-layer validation process.</span><svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg></button>
+<div class="item-body"><div class="item-body-inner">
+<p><strong>Say:</strong> "My validation process had three main layers: source, SQL and Power BI. First, I validated the source data by checking record counts, duplicates, NULLs and business rules. Second, I validated the SQL output after transformations and aggregations, including control totals and reconciliation. Third, I validated the Power BI semantic model, DAX measures and final KPIs against the SQL results. If there was a mismatch, I traced it backward through each layer until I identified the root cause."</p>
+<p><strong>If asked for an example:</strong> "For example, if the Power BI Revenue KPI didn't match the source, I would first compare the source record count and revenue total with SQL. If SQL was correct, I would check the Power Query transformations, relationships and finally the DAX measure and report filters. This helps isolate whether the issue is in the source, transformation, model or calculation."</p>
+</div></div>
+</div>
+<div class="item question-item" data-question="resume-q18">
+<button class="item-head"><span class="idx">18</span><span class="item-title">How would you design a reconciliation solution?</span><svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg></button>
+<div class="item-body"><div class="item-body-inner">
+<p><strong>Say:</strong> "First, I would identify the two systems being reconciled and understand the business matching rules. Then I would extract the required data and standardize important fields such as IDs, dates and data types. I would match the records using the agreed business keys and classify them as matched, unmatched or partially matched. I would then create an exception dataset containing the mismatches and validate record counts, duplicates, NULLs and control totals. Finally, I would expose the reconciliation results through Power BI so the business can monitor exceptions and trends."</p>
+<p><strong>If asked about Trade &amp; Settlement specifically:</strong> "For a trade and settlement scenario, I could compare trade records between an internal transaction system and a settlement or custody source, identify failed or unmatched transactions and report the exceptions by status, amount, date or aging."</p>
+</div></div>
+</div>
+<div class="item question-item" data-question="resume-q19">
+<button class="item-head"><span class="idx">19</span><span class="item-title">Tell me about a production issue you solved.</span><svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg></button>
+<div class="item-body"><div class="item-body-inner">
+<p>One production issue I worked on was a Power BI Gateway refresh failure where the dashboard was not receiving the latest data. I first checked the refresh history, error details, Gateway status and connectivity. After identifying the refresh issue, I restored the connection and validated the refreshed data against the previous allocation records. I also added a Last Refreshed indicator and an additional validation check so that users could clearly see whether the data was current.</p>
+<p><strong>If asked "What did you learn?":</strong> "I learned that production support is not only about fixing the immediate issue; it's also important to add monitoring or validation so the same issue is easier to detect in the future."</p>
+</div></div>
+</div>
+<div class="item question-item" data-question="resume-q20">
+<button class="item-head"><span class="idx">20</span><span class="item-title">How would you automate a manual financial reporting process?</span><svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg></button>
+<div class="item-body"><div class="item-body-inner">
+<p>First, I would understand the existing manual process and identify where Excel-based preparation, consolidation or validation is happening. I would move the heavy data preparation and business logic into SQL or an ETL layer, create a governed Power BI semantic model, and automate the refresh and distribution process. I would also build validation checks for record counts and control totals before the report is released. If there are operational exceptions requiring user action, I could use Power Apps and Power Automate for exception management and notifications.</p>
+</div></div>
+</div>
+<div class="item question-item" data-question="resume-q-top5">
+<button class="item-head"><span class="idx">★</span><span class="item-title">5 Answers to Know Perfectly</span><svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg></button>
+<div class="item-body"><div class="item-body-inner">
+<p>These five answers demonstrate Power BI + SQL + data quality + production support + automation + financial reporting thinking:</p>
+<p><strong>1. 3-layer validation:</strong> Source → SQL → Power BI</p>
+<p><strong>2. Reconciliation:</strong> Extract → Standardize → Match → Matched/Unmatched/Partial → Exceptions → Validate → Report</p>
+<p><strong>3. Incorrect Power BI numbers:</strong> Visual → DAX → Relationships → Power Query → SQL/Source</p>
+<p><strong>4. Production issue:</strong> Gateway refresh failure → troubleshoot → restore → validate → add monitoring</p>
+<p><strong>5. Automation:</strong> Manual Excel → SQL/ETL → governed semantic model → Power BI → automated refresh/notification</p>
+</div></div>
+</div>
+</div></div>
+</div>
 </div></div></div>
 <div class="item" data-index="workdash">
 <button class="item-head"><span class="idx">02</span><span class="item-title">WORK EXPERIENCE &amp; DASHBOARDS CREATED BY ME</span><span class="tag">Projects</span><svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg></button>
