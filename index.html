@@ -17420,8 +17420,58 @@ LEAD()</code></pre>
 </div>
 <p class="sub">Click a topic to expand it and see the related practice questions.</p>
 <div class="list" id="office-handson-topics">
+<div class="item topic-item" data-index="oh-0">
+<button class="item-head"><span class="idx">01</span><span class="item-title">What is the data about</span><span class="tag">Overview</span><svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg></button>
+<div class="item-body"><div class="item-body-inner">
+<h3>1. What is the data about?</h3>
+<ul>
+<li>Sales transactions over 2013–2014.</li>
+<li>Measures include Sales, Profit, COGS, Units Sold, Discounts, Sale Price, Gross Sales.</li>
+<li>Dimensions include Date, Product, Country, Segment.</li>
+<li>Main purpose: understand sales performance and profitability.</li>
+</ul>
+<h3>2. What would I check first?</h3>
+<ul>
+<li><strong>Total Sales</strong> → How much revenue are we generating?</li>
+<li><strong>Total Profit</strong> → How much money are we making?</li>
+<li><strong>Profit Margin %</strong> → Is revenue translating into profit?</li>
+<li><strong>COGS</strong> → How much are we spending to generate sales?</li>
+<li><strong>Units Sold</strong> → Volume/performance.</li>
+<li><strong>Average Selling Price (ASP)</strong> → Pricing performance.</li>
+<li><strong>Sales Growth / YoY</strong> → Are we growing?</li>
+<li><strong>Sales by Product</strong> → Which products drive revenue?</li>
+<li><strong>Sales by Country</strong> → Which markets perform best?</li>
+<li><strong>Sales by Segment</strong> → Which customer/business segment contributes most?</li>
+</ul>
+<p>The supplied dashboard specifically organizes the analysis around monthly sales/profit, product sales, product profitability, country sales, and country × segment sales.</p>
+<h3>3. What decisions can stakeholders make?</h3>
+<ul>
+<li><strong>Product:</strong> Which products should we promote, grow, or review?</li>
+<li><strong>Country:</strong> Which markets need more investment?</li>
+<li><strong>Segment:</strong> Which customer segments generate the most revenue?</li>
+<li><strong>Pricing:</strong> Is pricing supporting healthy margins?</li>
+<li><strong>Cost:</strong> Where is COGS reducing profitability?</li>
+<li><strong>Growth:</strong> Which months/periods are driving or slowing growth?</li>
+<li><strong>Profitability:</strong> Focus resources on products/markets with strong profit, not just high sales.</li>
+</ul>
+<h3>4. Most important stakeholder KPIs ⭐</h3>
+<p>For a Sales/Business Head, I'd put these at the top:</p>
+<ol>
+<li>Total Sales</li>
+<li>Total Profit</li>
+<li>Profit Margin %</li>
+<li>YoY Sales Growth %</li>
+<li>Units Sold</li>
+<li>Average Selling Price</li>
+<li>COGS</li>
+<li>Sales by Product</li>
+<li>Sales by Country</li>
+<li>Sales by Segment</li>
+</ol>
+</div></div>
+</div>
 <div class="item topic-item" data-index="oh-1">
-<button class="item-head"><span class="idx">01</span><span class="item-title">Data Profiling — Excel</span><span class="tag">Step 1</span><svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg></button>
+<button class="item-head"><span class="idx">02</span><span class="item-title">Data Profiling — Excel</span><span class="tag">Step 1</span><svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg></button>
 <div class="item-body"><div class="item-body-inner">
 <p>Before touching Power Query, I profiled the raw source data directly in Excel:</p>
 <ul>
@@ -17433,7 +17483,7 @@ LEAD()</code></pre>
 </div></div>
 </div>
 <div class="item topic-item" data-index="oh-2">
-<button class="item-head"><span class="idx">02</span><span class="item-title">Power Query — Data Cleaning</span><span class="tag">Step 2</span><svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg></button>
+<button class="item-head"><span class="idx">03</span><span class="item-title">Power Query — Data Cleaning</span><span class="tag">Step 2</span><svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg></button>
 <div class="item-body"><div class="item-body-inner">
 <p>Core cleaning steps applied in Power Query:</p>
 <ul>
@@ -17453,7 +17503,7 @@ Dimensions</code></pre>
 </div></div>
 </div>
 <div class="item topic-item" data-index="oh-3">
-<button class="item-head"><span class="idx">03</span><span class="item-title">Fact &amp; Dimension Tables</span><span class="tag">Step 3</span><svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg></button>
+<button class="item-head"><span class="idx">04</span><span class="item-title">Fact &amp; Dimension Tables</span><span class="tag">Step 3</span><svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg></button>
 <div class="item-body"><div class="item-body-inner">
 <p><strong>FactSales</strong> — kept:</p>
 <ul>
@@ -17476,7 +17526,7 @@ Dimensions</code></pre>
 </div></div>
 </div>
 <div class="item topic-item" data-index="oh-4">
-<button class="item-head"><span class="idx">04</span><span class="item-title">Data Model</span><span class="tag">Star Schema</span><svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg></button>
+<button class="item-head"><span class="idx">05</span><span class="item-title">Data Model</span><span class="tag">Star Schema</span><svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg></button>
 <div class="item-body"><div class="item-body-inner">
 <p>Created a Star Schema with FactSales at the center:</p>
 <pre><code class="language-text">             DimProduct
@@ -17488,7 +17538,7 @@ DimCountry — FactSales — DimSegment
 </div></div>
 </div>
 <div class="item topic-item" data-index="oh-5">
-<button class="item-head"><span class="idx">05</span><span class="item-title">Date Table</span><span class="tag">DAX</span><svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg></button>
+<button class="item-head"><span class="idx">06</span><span class="item-title">Date Table</span><span class="tag">DAX</span><svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg></button>
 <div class="item-body"><div class="item-body-inner">
 <pre><code class="language-dax">DimDate =
 CALENDAR(
@@ -17513,7 +17563,7 @@ YEAR(DimDate[Date]) * 100 + MONTH(DimDate[Date])</code></pre>
 </div></div>
 </div>
 <div class="item topic-item" data-index="oh-6">
-<button class="item-head"><span class="idx">06</span><span class="item-title">Core DAX Measures</span><span class="tag">7 Measures</span><svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg></button>
+<button class="item-head"><span class="idx">07</span><span class="item-title">Core DAX Measures</span><span class="tag">7 Measures</span><svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg></button>
 <div class="item-body"><div class="item-body-inner">
 <pre><code class="language-dax">Total Sales = SUM(FactSales[Sales])
 
@@ -17533,7 +17583,7 @@ DIVIDE([Total Sales], [Total Units Sold])</code></pre>
 </div></div>
 </div>
 <div class="item topic-item" data-index="oh-7">
-<button class="item-head"><span class="idx">07</span><span class="item-title">Time Intelligence</span><span class="tag">5 Measures</span><svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg></button>
+<button class="item-head"><span class="idx">08</span><span class="item-title">Time Intelligence</span><span class="tag">5 Measures</span><svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg></button>
 <div class="item-body"><div class="item-body-inner">
 <pre><code class="language-dax">PY Sales =
 CALCULATE(
@@ -17566,7 +17616,7 @@ CALCULATE(
 </div></div>
 </div>
 <div class="item topic-item" data-index="oh-8">
-<button class="item-head"><span class="idx">08</span><span class="item-title">Filter Context &amp; Advanced DAX</span><span class="tag">Practice</span><svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg></button>
+<button class="item-head"><span class="idx">09</span><span class="item-title">Filter Context &amp; Advanced DAX</span><span class="tag">Practice</span><svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg></button>
 <div class="item-body"><div class="item-body-inner">
 <p><strong>Practiced:</strong> <code>CALCULATE()</code>, <code>ALL()</code>, <code>ALLSELECTED()</code>, <code>ALLEXCEPT()</code>, <code>KEEPFILTERS()</code>, <code>FILTER()</code>.</p>
 <p><strong>Concepts to know cold:</strong> Row Context, Filter Context, Context Transition.</p>
@@ -17588,7 +17638,7 @@ DIVIDE(
 </div></div>
 </div>
 <div class="item topic-item" data-index="oh-9">
-<button class="item-head"><span class="idx">09</span><span class="item-title">Executive Dashboard</span><span class="tag">Build</span><svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg></button>
+<button class="item-head"><span class="idx">10</span><span class="item-title">Executive Dashboard</span><span class="tag">Build</span><svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg></button>
 <div class="item-body"><div class="item-body-inner">
 <p><strong>Built:</strong> 5 KPI Cards, Sales Trend Line, Donut Chart, Bar Chart, Year Slicer, Dynamic Title.</p>
 <p><strong>Bugs fixed:</strong></p>
@@ -17600,7 +17650,7 @@ DIVIDE(
 </div></div>
 </div>
 <div class="item topic-item" data-index="oh-10">
-<button class="item-head"><span class="idx">10</span><span class="item-title">Interactivity</span><span class="tag">Drillthrough &amp; Tooltips</span><svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg></button>
+<button class="item-head"><span class="idx">11</span><span class="item-title">Interactivity</span><span class="tag">Drillthrough &amp; Tooltips</span><svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg></button>
 <div class="item-body"><div class="item-body-inner">
 <p><strong>Drillthrough:</strong></p>
 <pre><code class="language-text">Executive Summary
@@ -17622,7 +17672,7 @@ Product Detail</code></pre>
 </div></div>
 </div>
 <div class="item topic-item" data-index="oh-11">
-<button class="item-head"><span class="idx">11</span><span class="item-title">Incremental Refresh</span><span class="tag">3 Steps</span><svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg></button>
+<button class="item-head"><span class="idx">12</span><span class="item-title">Incremental Refresh</span><span class="tag">3 Steps</span><svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg></button>
 <div class="item-body"><div class="item-body-inner">
 <p><strong>Step 1 — Create Parameters</strong></p>
 <p>Power Query → Manage Parameters → New Parameter</p>
@@ -17646,7 +17696,7 @@ Date &lt; RangeEnd</code></pre>
 </div></div>
 </div>
 <div class="item topic-item" data-index="oh-12">
-<button class="item-head"><span class="idx">12</span><span class="item-title">RLS</span><span class="tag">Static &amp; Dynamic</span><svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg></button>
+<button class="item-head"><span class="idx">13</span><span class="item-title">RLS</span><span class="tag">Static &amp; Dynamic</span><svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg></button>
 <div class="item-body"><div class="item-body-inner">
 <p><strong>Static:</strong></p>
 <pre><code class="language-dax">[Country] = "France"</code></pre>
@@ -17661,7 +17711,7 @@ Country</code></pre>
 </div></div>
 </div>
 <div class="item topic-item" data-index="oh-13">
-<button class="item-head"><span class="idx">13</span><span class="item-title">Power BI Service / Refresh</span><span class="tag">Practice</span><svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg></button>
+<button class="item-head"><span class="idx">14</span><span class="item-title">Power BI Service / Refresh</span><span class="tag">Practice</span><svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg></button>
 <div class="item-body"><div class="item-body-inner">
 <p><strong>Practiced:</strong> Manual Refresh, Scheduled Refresh, Incremental Refresh.</p>
 <p><strong>Flow to understand:</strong></p>
@@ -17677,7 +17727,7 @@ Refresh</code></pre>
 </div></div>
 </div>
 <div class="item topic-item" data-index="oh-14">
-<button class="item-head"><span class="idx">14</span><span class="item-title">Workspace Management</span><span class="tag">Roles</span><svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg></button>
+<button class="item-head"><span class="idx">15</span><span class="item-title">Workspace Management</span><span class="tag">Roles</span><svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg></button>
 <div class="item-body"><div class="item-body-inner">
 <p><strong>Know the roles:</strong> Viewer, Contributor, Member, Admin.</p>
 <p><strong>Also know:</strong> Workspace permissions ≠ Semantic model permissions — a user's workspace role doesn't automatically determine their access to the underlying semantic model.</p>
