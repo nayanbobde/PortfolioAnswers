@@ -17540,26 +17540,44 @@ DimCountry — FactSales — DimSegment
 <div class="item topic-item" data-index="oh-5">
 <button class="item-head"><span class="idx">06</span><span class="item-title">Date Table</span><span class="tag">DAX</span><svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg></button>
 <div class="item-body"><div class="item-body-inner">
-<pre><code class="language-dax">DimDate =
-CALENDAR(
-    DATE(2013,9,1),
-    DATE(2014,12,31)
-)</code></pre>
-<p><strong>Columns added:</strong></p>
-<pre><code class="language-dax">Year = YEAR(DimDate[Date])
-
-Quarter = "Q" &amp; FORMAT(DimDate[Date], "Q")
-
-Month Number = MONTH(DimDate[Date])
-
-Month Name = FORMAT(DimDate[Date], "MMMM")
-
-Year-Month = FORMAT(DimDate[Date], "MMM YYYY")
-
-YearMonthSort =
-YEAR(DimDate[Date]) * 100 + MONTH(DimDate[Date])</code></pre>
-<p>Then: <strong>Year-Month → Sort by Column → YearMonthSort</strong>, so the axis renders in chronological order instead of alphabetical.</p>
-<p>Finally, marked DimDate as the model's Date Table.</p>
+<h3>Create Calendar Table — Table View</h3>
+<p><strong>Step 1 — Open Table View</strong></p>
+<p>Open Power BI Desktop. On the left side, click Table view (table icon).</p>
+<p><strong>Step 2 — Create New Table</strong></p>
+<p>Go to Table tools at the top → New table. In the formula bar, enter:</p>
+<pre><code class="language-dax">DimDate = CALENDARAUTO()</code></pre>
+<p>Press Enter. Power BI automatically creates the Date column.</p>
+<p><strong>Step 3 — Create Year</strong></p>
+<p>Go to: Table tools → New column. Enter:</p>
+<pre><code class="language-dax">Year = YEAR(DimDate[Date])</code></pre>
+<p><strong>Step 4 — Create Quarter</strong></p>
+<p>New column:</p>
+<pre><code class="language-dax">Quarter = "Q" &amp; FORMAT(DimDate[Date], "Q")</code></pre>
+<p><strong>Step 5 — Create Month Number</strong></p>
+<pre><code class="language-dax">Month Number = MONTH(DimDate[Date])</code></pre>
+<p><strong>Step 6 — Create Month Name</strong></p>
+<pre><code class="language-dax">Month Name = FORMAT(DimDate[Date], "MMMM")</code></pre>
+<p><strong>Step 7 — Create Year-Month</strong></p>
+<pre><code class="language-dax">Year-Month = FORMAT(DimDate[Date], "MMM YYYY")</code></pre>
+<p><strong>Step 8 — Create YearMonthSort</strong></p>
+<pre><code class="language-dax">YearMonthSort =
+YEAR(DimDate[Date]) * 100
++ MONTH(DimDate[Date])</code></pre>
+<p><strong>Final DimDate columns</strong></p>
+<p>You should have:</p>
+<div class="table-wrap"><table><thead><tr><th>Column</th><th>Purpose</th></tr></thead><tbody>
+<tr><td>Date</td><td>Actual date</td></tr>
+<tr><td>Year</td><td>2013, 2014</td></tr>
+<tr><td>Quarter</td><td>Q1, Q2, Q3, Q4</td></tr>
+<tr><td>Month Number</td><td>1–12</td></tr>
+<tr><td>Month Name</td><td>January, February...</td></tr>
+<tr><td>Year-Month</td><td>Sep 2013, Oct 2013...</td></tr>
+<tr><td>YearMonthSort</td><td>201309, 201310...</td></tr>
+</tbody></table></div>
+<p><strong>Step 9 — Sort Year-Month</strong></p>
+<p>Select: Year-Month → Column tools → Sort by column → YearMonthSort</p>
+<p><strong>Step 10 — Mark as Date Table</strong></p>
+<p>Go to: Table tools → Mark as date table → Date. Select the Date column → OK.</p>
 </div></div>
 </div>
 <div class="item topic-item" data-index="oh-6">
