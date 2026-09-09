@@ -17405,6 +17405,288 @@ LEAD()</code></pre>
 </div>
 </div>
 </div>
+<div class="item section-item" data-index="office-solution-handson">
+<div aria-expanded="false" class="item-head section-head" role="button" tabindex="0">
+<div class="section-head-text">
+<div class="eyebrow">Office Solution Hands-on</div>
+<h1>Power BI Hands-on — Final Revision Cheat Sheet</h1>
+</div>
+<svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg>
+</div>
+<div class="item-body">
+<div class="item-body-inner section-body-inner">
+<div class="mis-dashboard-image-wrap" style="margin:12px 0 16px;">
+<img src="images/sample-financials-sales-profitability-dashboard.png" alt="Sample Financials - Sales and Profitability Power BI dashboard with Executive Summary KPI cards, Sales and Profit by Month trend, Sales by Segment donut chart, Sales by Product bar chart, and Sales vs Profit by Quarter chart" style="max-width:100%;height:auto;display:block;"/>
+</div>
+<p class="sub">Click a topic to expand it and see the related practice questions.</p>
+<div class="list" id="office-handson-topics">
+<div class="item topic-item" data-index="oh-1">
+<button class="item-head"><span class="idx">01</span><span class="item-title">Data Profiling — Excel</span><span class="tag">Step 1</span><svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg></button>
+<div class="item-body"><div class="item-body-inner">
+<p>Before touching Power Query, I profiled the raw source data directly in Excel:</p>
+<ul>
+<li><strong>Discount Band:</strong> 53 "None" values identified → classified as "No Discount".</li>
+<li><strong>Units Sold:</strong> 36 non-integer values identified and reviewed.</li>
+<li>Verified the source's Sales, Gross Sales, and Profit formulas made sense before trusting them downstream.</li>
+<li>Confirmed source totals matched before starting any transformation, so I had a known-good control total to reconcile against later.</li>
+</ul>
+</div></div>
+</div>
+<div class="item topic-item" data-index="oh-2">
+<button class="item-head"><span class="idx">02</span><span class="item-title">Power Query — Data Cleaning</span><span class="tag">Step 2</span><svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg></button>
+<div class="item-body"><div class="item-body-inner">
+<p>Core cleaning steps applied in Power Query:</p>
+<ul>
+<li>Replaced "None" → "No Discount" in Discount Band.</li>
+<li>Corrected data types across all columns.</li>
+<li>Handled blanks and nulls.</li>
+<li>Removed unnecessary columns.</li>
+<li>Removed duplicates where required.</li>
+</ul>
+<p><strong>Final query structure:</strong></p>
+<pre><code class="language-text">Staging
+   ↓
+FactSales
+   ↓
+Dimensions</code></pre>
+<p>I also fixed a "Reference breaks when source query was trimmed" issue — when the staging query's columns were trimmed down, the downstream referenced queries broke because they depended on columns that no longer existed, so I re-pointed the references after finalizing the staging query's shape.</p>
+</div></div>
+</div>
+<div class="item topic-item" data-index="oh-3">
+<button class="item-head"><span class="idx">03</span><span class="item-title">Fact &amp; Dimension Tables</span><span class="tag">Step 3</span><svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg></button>
+<div class="item-body"><div class="item-body-inner">
+<p><strong>FactSales</strong> — kept:</p>
+<ul>
+<li>Date</li>
+<li>Product</li>
+<li>Country</li>
+<li>Segment</li>
+<li>Discount Band</li>
+<li>Units Sold</li>
+<li>Sale Price</li>
+<li>Gross Sales</li>
+<li>Discounts</li>
+<li>Sales</li>
+<li>COGS</li>
+<li>Profit</li>
+</ul>
+<p><strong>DimProduct</strong> — Product, Manufacturing Price</p>
+<p><strong>DimCountry</strong> — Country</p>
+<p><strong>DimSegment</strong> — Segment</p>
+</div></div>
+</div>
+<div class="item topic-item" data-index="oh-4">
+<button class="item-head"><span class="idx">04</span><span class="item-title">Data Model</span><span class="tag">Star Schema</span><svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg></button>
+<div class="item-body"><div class="item-body-inner">
+<p>Created a Star Schema with FactSales at the center:</p>
+<pre><code class="language-text">             DimProduct
+                 |
+DimCountry — FactSales — DimSegment
+                 |
+               DimDate</code></pre>
+<p><strong>Relationships:</strong> 1 → * (one-to-many), Single direction, from each dimension into FactSales.</p>
+</div></div>
+</div>
+<div class="item topic-item" data-index="oh-5">
+<button class="item-head"><span class="idx">05</span><span class="item-title">Date Table</span><span class="tag">DAX</span><svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg></button>
+<div class="item-body"><div class="item-body-inner">
+<pre><code class="language-dax">DimDate =
+CALENDAR(
+    DATE(2013,9,1),
+    DATE(2014,12,31)
+)</code></pre>
+<p><strong>Columns added:</strong></p>
+<pre><code class="language-dax">Year = YEAR(DimDate[Date])
+
+Quarter = "Q" &amp; FORMAT(DimDate[Date], "Q")
+
+Month Number = MONTH(DimDate[Date])
+
+Month Name = FORMAT(DimDate[Date], "MMMM")
+
+Year-Month = FORMAT(DimDate[Date], "MMM YYYY")
+
+YearMonthSort =
+YEAR(DimDate[Date]) * 100 + MONTH(DimDate[Date])</code></pre>
+<p>Then: <strong>Year-Month → Sort by Column → YearMonthSort</strong>, so the axis renders in chronological order instead of alphabetical.</p>
+<p>Finally, marked DimDate as the model's Date Table.</p>
+</div></div>
+</div>
+<div class="item topic-item" data-index="oh-6">
+<button class="item-head"><span class="idx">06</span><span class="item-title">Core DAX Measures</span><span class="tag">7 Measures</span><svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg></button>
+<div class="item-body"><div class="item-body-inner">
+<pre><code class="language-dax">Total Sales = SUM(FactSales[Sales])
+
+Total Profit = SUM(FactSales[Profit])
+
+Total COGS = SUM(FactSales[COGS])
+
+Total Units Sold = SUM(FactSales[Units Sold])
+
+Total Transactions = COUNTROWS(FactSales)
+
+Profit Margin % =
+DIVIDE([Total Profit], [Total Sales])
+
+Average Selling Price =
+DIVIDE([Total Sales], [Total Units Sold])</code></pre>
+</div></div>
+</div>
+<div class="item topic-item" data-index="oh-7">
+<button class="item-head"><span class="idx">07</span><span class="item-title">Time Intelligence</span><span class="tag">5 Measures</span><svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg></button>
+<div class="item-body"><div class="item-body-inner">
+<pre><code class="language-dax">PY Sales =
+CALCULATE(
+    [Total Sales],
+    SAMEPERIODLASTYEAR(DimDate[Date])
+)</code></pre>
+<pre><code class="language-dax">Sales Growth % =
+DIVIDE(
+    [Total Sales] - [PY Sales],
+    [PY Sales]
+)</code></pre>
+<pre><code class="language-dax">Sales YTD =
+TOTALYTD(
+    [Total Sales],
+    DimDate[Date]
+)</code></pre>
+<pre><code class="language-dax">Sales MTD =
+TOTALMTD(
+    [Total Sales],
+    DimDate[Date]
+)</code></pre>
+<pre><code class="language-dax">Running Total Sales =
+CALCULATE(
+    [Total Sales],
+    FILTER(
+        ALLSELECTED(DimDate[Date]),
+        DimDate[Date] &lt;= MAX(DimDate[Date])
+    )
+)</code></pre>
+</div></div>
+</div>
+<div class="item topic-item" data-index="oh-8">
+<button class="item-head"><span class="idx">08</span><span class="item-title">Filter Context &amp; Advanced DAX</span><span class="tag">Practice</span><svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg></button>
+<div class="item-body"><div class="item-body-inner">
+<p><strong>Practiced:</strong> <code>CALCULATE()</code>, <code>ALL()</code>, <code>ALLSELECTED()</code>, <code>ALLEXCEPT()</code>, <code>KEEPFILTERS()</code>, <code>FILTER()</code>.</p>
+<p><strong>Concepts to know cold:</strong> Row Context, Filter Context, Context Transition.</p>
+<p><strong>Ranking:</strong></p>
+<pre><code class="language-dax">Product Sales Rank =
+RANKX(
+    ALL(DimProduct[Product]),
+    [Total Sales]
+)</code></pre>
+<p><strong>Contribution:</strong></p>
+<pre><code class="language-dax">Product Contribution % =
+DIVIDE(
+    [Total Sales],
+    CALCULATE(
+        [Total Sales],
+        ALL(DimProduct)
+    )
+)</code></pre>
+</div></div>
+</div>
+<div class="item topic-item" data-index="oh-9">
+<button class="item-head"><span class="idx">09</span><span class="item-title">Executive Dashboard</span><span class="tag">Build</span><svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg></button>
+<div class="item-body"><div class="item-body-inner">
+<p><strong>Built:</strong> 5 KPI Cards, Sales Trend Line, Donut Chart, Bar Chart, Year Slicer, Dynamic Title.</p>
+<p><strong>Bugs fixed:</strong></p>
+<ul>
+<li>Unsorted date axis → fixed by sorting Year-Month by YearMonthSort.</li>
+<li>A raw column used instead of a measure → replaced with the Total Sales measure.</li>
+<li>Wrong donut field → corrected to the right dimension field.</li>
+</ul>
+</div></div>
+</div>
+<div class="item topic-item" data-index="oh-10">
+<button class="item-head"><span class="idx">10</span><span class="item-title">Interactivity</span><span class="tag">Drillthrough &amp; Tooltips</span><svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg></button>
+<div class="item-body"><div class="item-body-inner">
+<p><strong>Drillthrough:</strong></p>
+<pre><code class="language-text">Executive Summary
+      ↓
+Right-click Product
+      ↓
+Drillthrough
+      ↓
+Product Detail</code></pre>
+<p><strong>Tooltip:</strong> created a Trend Tooltip page.</p>
+<p><strong>Also practiced:</strong> Conditional Formatting, Dynamic Title, Slicers.</p>
+<p><strong>Dynamic title:</strong></p>
+<pre><code class="language-dax">Page Title =
+"Sales Overview — "
+&amp; SELECTEDVALUE(
+    DimDate[Year],
+    "All Years"
+)</code></pre>
+</div></div>
+</div>
+<div class="item topic-item" data-index="oh-11">
+<button class="item-head"><span class="idx">11</span><span class="item-title">Incremental Refresh</span><span class="tag">3 Steps</span><svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg></button>
+<div class="item-body"><div class="item-body-inner">
+<p><strong>Step 1 — Create Parameters</strong></p>
+<p>Power Query → Manage Parameters → New Parameter</p>
+<ul>
+<li><strong>RangeStart</strong> — Type: Date/Time — Value: 1/9/2013 12:00:00 AM</li>
+<li><strong>RangeEnd</strong> — Type: Date/Time — Value: 1/1/2015 12:00:00 AM</li>
+</ul>
+<p><strong>Step 2 — Filter FactSales</strong></p>
+<p>Select: FactSales → Date → Date Filters → Custom Filter</p>
+<p>Set:</p>
+<pre><code class="language-text">Date >= RangeStart
+AND
+Date &lt; RangeEnd</code></pre>
+<p>✅ Check: 700 rows</p>
+<p><strong>Step 3 — Enable Incremental Refresh</strong></p>
+<p>Right-click: FactSales → Incremental refresh</p>
+<p>Turn on: Incrementally refresh this table → On</p>
+<p>Set: Store rows in the last: 2 Years · Refresh rows in the last: 1 Month</p>
+<p>Leave other options unchecked → Apply.</p>
+<p><strong>Interview explanation:</strong> "I use RangeStart and RangeEnd parameters to filter the fact table, then configure Incremental Refresh so Power BI doesn't need to refresh the entire historical dataset every time."</p>
+</div></div>
+</div>
+<div class="item topic-item" data-index="oh-12">
+<button class="item-head"><span class="idx">12</span><span class="item-title">RLS</span><span class="tag">Static &amp; Dynamic</span><svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg></button>
+<div class="item-body"><div class="item-body-inner">
+<p><strong>Static:</strong></p>
+<pre><code class="language-dax">[Country] = "France"</code></pre>
+<p><strong>Dynamic:</strong> create a SecurityMapping table:</p>
+<pre><code class="language-text">SecurityMapping
+----------------
+UserEmail
+Country</code></pre>
+<p>Filter:</p>
+<pre><code class="language-dax">[UserEmail] = USERPRINCIPALNAME()</code></pre>
+<p><strong>Test:</strong> Modeling → View As. Tested with different users.</p>
+</div></div>
+</div>
+<div class="item topic-item" data-index="oh-13">
+<button class="item-head"><span class="idx">13</span><span class="item-title">Power BI Service / Refresh</span><span class="tag">Practice</span><svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg></button>
+<div class="item-body"><div class="item-body-inner">
+<p><strong>Practiced:</strong> Manual Refresh, Scheduled Refresh, Incremental Refresh.</p>
+<p><strong>Flow to understand:</strong></p>
+<pre><code class="language-text">Desktop
+   ↓
+Publish
+   ↓
+Power BI Service
+   ↓
+Semantic Model
+   ↓
+Refresh</code></pre>
+</div></div>
+</div>
+<div class="item topic-item" data-index="oh-14">
+<button class="item-head"><span class="idx">14</span><span class="item-title">Workspace Management</span><span class="tag">Roles</span><svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg></button>
+<div class="item-body"><div class="item-body-inner">
+<p><strong>Know the roles:</strong> Viewer, Contributor, Member, Admin.</p>
+<p><strong>Also know:</strong> Workspace permissions ≠ Semantic model permissions — a user's workspace role doesn't automatically determine their access to the underlying semantic model.</p>
+</div></div>
+</div>
+</div>
+</div>
+</div>
+</div>
 <div class="search-section">
 <h2 class="search-heading">Search Questions</h2>
 <div class="search-box">
