@@ -4368,6 +4368,188 @@ RANKX(
 </div>
 </div>
 </div>
+<div class="item section-item" data-index="cushman-interview">
+<div aria-expanded="false" class="item-head section-head" role="button" tabindex="0">
+<div class="section-head-text">
+<div class="eyebrow">Company Interview Prep</div>
+<h1>Cushman &amp; Wakefield Interview</h1>
+</div>
+<svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg>
+</div>
+<div class="item-body">
+<div class="item-body-inner section-body-inner">
+<p class="sub">Click a topic to expand it and see the related practice questions.</p>
+<div class="list" id="cushman-topics">
+<div class="item topic-item" data-index="cw-1">
+<button class="item-head"><span class="idx">01</span><span class="item-title">MS Fabric Project and Hands-On</span><span class="tag">Project Story</span><svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg></button>
+<div class="item-body"><div class="item-body-inner">
+<p>I recently worked on a hands-on Microsoft Fabric project where I went through the complete data flow. I created a Fabric workspace and Lakehouse, ingested CSV data, and used Data Pipelines for data processing and movement. I then loaded the processed data into a Fabric Warehouse and used SQL to validate record counts, data types, NULLs and relationships. I also handled a date data-type issue using SQL and TRY_CONVERT. After that, I created the Star Schema and Power BI semantic model and worked with Import, DirectQuery and the basics of Direct Lake before building the Power BI report. So I got practical exposure to the end-to-end Fabric architecture, not just the Power BI reporting layer.</p>
+<h3>Swiggy Food-Ordering Analytics — End-to-End Fabric Project</h3>
+<p>I would like to explain one of the end-to-end data analytics projects I have worked on, which was based on a Swiggy food-ordering dataset using Microsoft Fabric, SQL and Power BI.</p>
+<p>The main objective of the project was to build a complete analytics solution starting from raw data ingestion and ending with a Power BI dashboard. We wanted to bring the complete data engineering and reporting workflow into Microsoft Fabric.</p>
+<p>We started with multiple CSV files containing order-related data. The first step was to create a dedicated Fabric workspace for the project. Within the workspace, we created a Lakehouse, which was our initial storage and processing layer. We ingested the raw CSV files into the Lakehouse and performed the required data processing and cleaning.</p>
+<p>The dataset had multiple tables. We had one central Fact Orders table and four dimension tables — Date, Dish, Location and Restaurant. So, from a modeling perspective, we followed a Star Schema. The Fact Orders table contained transactional information such as price, rating and rating count, along with keys such as Date ID, Location ID, Restaurant ID and Food or Dish ID. These keys were used to connect the fact table with the corresponding dimension tables.</p>
+<p>Once the raw data was ingested into the Lakehouse, we used Fabric Data Pipelines for the data movement and processing activities. The data was converted into the appropriate table format and then moved from the Lakehouse into the Fabric Data Warehouse. We created a separate schema called Swiggy Project in the warehouse and loaded the required tables under that schema.</p>
+<p>After loading the data into the warehouse, one of the important activities we performed was data validation using SQL. Before building the Power BI semantic model, we wanted to make sure that the data was reliable and that there were no data-quality issues.</p>
+<p>We checked the data types of the columns, record counts and NULL values. We also specifically checked the joining columns because the data types of keys need to be compatible between the fact and dimension tables. For example, Date ID in the Fact Orders table needs to be compatible with Date ID in the Date dimension, and similarly for Restaurant ID, Location ID and Dish ID.</p>
+<p>During this validation, we identified an issue with the Order Date column in the Date dimension. The date was coming into the warehouse as a string instead of an actual Date data type. Since we wanted to use this field later for Power BI time-based analysis, we needed to correct it.</p>
+<p>Instead of directly changing the existing column in this particular workflow, we created a new Date-type column called Order Date New. We then used SQL with the <code>TRY_CONVERT</code> function to convert the original string date into a proper Date value. After that, we ran another SQL validation query to check whether the conversion had generated any NULL values. Since no NULL records were returned, we confirmed that the conversion was successful.</p>
+<p>Once the warehouse data was validated, we moved to the Power BI semantic modeling layer. We created the semantic model on top of the Fabric data and established the required relationships between the fact and dimension tables. The overall model followed the Star Schema approach, with Fact Orders at the center and Date, Dish, Location and Restaurant as dimensions.</p>
+<p>We also looked at different Power BI connectivity and storage options such as Import and DirectQuery. In a Fabric environment, I would also consider Direct Lake depending on the architecture and reporting requirements. The key difference is that Import loads data into the Power BI model, DirectQuery sends queries back to the underlying source, while Direct Lake is designed to work directly with Fabric data in OneLake.</p>
+<p>After creating and validating the semantic model, the next layer was the Power BI reporting layer. Here we created the required measures and business calculations using DAX and then developed interactive reports and dashboards. We could analyze the Swiggy data from different perspectives such as orders, restaurants, dishes, locations, ratings and date-based trends.</p>
+<p>For the report, we can use slicers and filters for dimensions such as state, city, restaurant, food category and date. We can also create different measures for analyzing order counts, average ratings and other business metrics.</p>
+<p>Finally, the completed Power BI report and semantic model were published into the Fabric workspace so that the reporting solution could be consumed from the Fabric environment.</p>
+<p>So, overall, the project gave me an understanding of the complete end-to-end flow — starting with raw CSV data, ingesting it into a Fabric Lakehouse, processing and validating the data, using Data Pipelines to move it into a Fabric Warehouse, modeling it using a Star Schema, creating the Power BI semantic model, applying DAX and finally building and publishing the Power BI reports.</p>
+<p><strong>The biggest learning for me from this project</strong> was understanding how Microsoft Fabric brings data engineering, data warehousing and Power BI together into a unified analytics platform, rather than treating ingestion, transformation, storage and visualization as completely separate systems.</p>
+</div></div>
+</div>
+<div class="item topic-item" data-index="cw-2">
+<button class="item-head"><span class="idx">02</span><span class="item-title">Understanding of Fabric</span><span class="tag">Concept</span><svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg></button>
+<div class="item-body"><div class="item-body-inner">
+<p>I understand Microsoft Fabric as an evolution from a traditional Power BI architecture into an end-to-end analytics platform. Traditionally, my understanding of Power BI is mainly around connecting to sources, transforming data using Power Query or SQL, creating a semantic model with a star schema, writing DAX measures, applying RLS and then building reports. Fabric extends this architecture by bringing the data engineering, data integration, storage, warehousing and BI layers together in one platform.</p>
+<p>The foundation of Fabric is OneLake. I understand OneLake as the unified logical data lake for the organization. Instead of having multiple disconnected copies of data across different systems, Fabric provides a common storage foundation that different workloads can work with.</p>
+<p>From an end-to-end perspective, I would think of the architecture as: source systems such as ERP, SQL Server, files or APIs, then Fabric Data Factory for ingestion and orchestration, followed by OneLake. From there, we can organize the data using a Medallion architecture — Bronze, Silver and Gold. Bronze would contain the raw source data, Silver would contain cleaned and validated data, and Gold would contain curated, business-ready data for analytics.</p>
+<p>For example, in a reporting project, I could bring spend, budget, exchange-rate, organizational and HR-related data into the Bronze layer. Then in Silver I would handle things such as data-type standardization, duplicate handling, key validation, currency standardization and organizational mapping. Finally, in Gold I would create curated fact and dimension tables such as FactSpend, DimDate, DimDepartment, DimCostCenter and organizational dimensions. That Gold layer could then feed the Power BI semantic model.</p>
+<p>I also understand the difference between a Lakehouse and a Warehouse. A Lakehouse is more suitable when we have data-engineering requirements, larger-scale data and potentially structured as well as unstructured data, with Spark and SQL capabilities. A Warehouse is more focused on structured relational analytics and SQL-based BI workloads. They can also work together depending on the architecture.</p>
+<p>Coming from a Power BI background, an important concept for me is that Fabric does not replace Power BI, DAX or RLS. Power BI remains the semantic and reporting layer. So after the curated Gold data is prepared, I can still build a star schema, create DAX measures such as Total Spend, Budget, Variance, YTD and YoY%, and implement dynamic RLS using a mapping table.</p>
+<p>Another Fabric concept I understand is Direct Lake. Traditionally, Power BI can use Import or DirectQuery. Direct Lake is a Fabric-native approach where the semantic model can work directly with data stored in OneLake, particularly when the data is already in Fabric. I understand that Direct Lake should not simply be described as a faster version of DirectQuery; it is a different Fabric storage-mode approach designed around OneLake data.</p>
+<p>If I relate this to the type of Power BI and SQL reporting solution I have worked with, the traditional architecture might be SQL Server, SQL views, Power BI, DAX, RLS and reports. In Fabric, I could modernize that into:</p>
+<pre><code class="language-text">Sources → Data Factory → OneLake → Bronze → Silver → Gold
+        → Power BI Semantic Model → DAX/RLS → Power BI Reports</code></pre>
+<p>This gives a more integrated architecture and allows the curated data to potentially be reused for other analytical workloads as well.</p>
+<p>So, the biggest advantage I see in Fabric is not simply that it has more features. It is architectural unification. Instead of treating ingestion, storage, transformation, engineering and reporting as completely separate platforms, Fabric brings these capabilities together around OneLake, with Power BI as an integrated BI workload.</p>
+<p>At the same time, I would not claim that I have years of production Fabric development experience. My stronger hands-on experience is with Power BI, SQL, Power Query and DAX. My Fabric knowledge is around understanding the architecture and how concepts such as OneLake, Data Factory, Lakehouse, Warehouse, Medallion architecture and Direct Lake can be applied to modernize the reporting solutions I already understand. That is the direction in which I am building my Fabric expertise.</p>
+</div></div>
+</div>
+<div class="item topic-item" data-index="cw-3">
+<button class="item-head"><span class="idx">03</span><span class="item-title">Traditional vs Fabric Architecture</span><span class="tag">Comparison</span><svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg></button>
+<div class="item-body"><div class="item-body-inner">
+<p>In a traditional Power BI architecture, the focus is mainly on the BI layer — we connect to sources like SQL Server or Excel, perform transformations using SQL or Power Query, build a Power BI semantic model with a star schema, create DAX measures and RLS, and then publish the report.</p>
+<p>With Microsoft Fabric, the architecture becomes much more end-to-end. We can use Data Factory for ingestion, OneLake as the centralized storage layer, Lakehouse or Warehouse for transformation and serving, and then Power BI for the semantic model and reporting. So the major difference is that traditional Power BI focuses mainly on the reporting and semantic layer, while Fabric integrates the entire analytics platform around it.</p>
+<p>If I compare traditional Power BI with Microsoft Fabric, I would say the biggest difference is the scope of the architecture.</p>
+<p>In a traditional Power BI implementation, Power BI is primarily focused on the BI and reporting layer. For example, I may have data coming from ERP systems, Excel files or SQL Server. That data could be processed through SQL or ETL, and then Power Query can be used for additional transformation. After that, I build a Power BI semantic model, generally following a star schema with fact and dimension tables. Then I create DAX measures, implement security such as RLS, build reports and publish them to the Power BI Service.</p>
+<p>So, a simplified traditional architecture would be:</p>
+<pre><code class="language-text">Source systems → SQL/ETL → Power Query → Power BI Model
+             → DAX/RLS → Power BI Report → Business</code></pre>
+<p>The limitation is not that this architecture is bad. It works very well for BI and reporting. The point is that the ingestion, storage, engineering, transformation and reporting layers may be handled using different technologies or platforms.</p>
+<p>With Fabric, Microsoft brings these capabilities together into one integrated analytics platform. The architecture could become:</p>
+<pre><code class="language-text">Source Systems → Fabric Data Factory → OneLake
+             → Lakehouse/Warehouse → Curated Data
+             → Power BI Semantic Model → DAX/RLS → Report</code></pre>
+<p><strong>The first major difference is data ingestion.</strong> In a traditional environment, I might use SQL Server ETL, SSIS or other integration tools to move data. In Fabric, I can use Data Factory pipelines and dataflows to ingest data from different sources and orchestrate the movement of data into Fabric.</p>
+<p><strong>The second major difference is storage.</strong> In the traditional architecture, data may exist in SQL Server, data warehouses, files and Power BI's own imported model, potentially resulting in multiple copies. Fabric introduces OneLake, which provides a unified logical data lake across the Fabric environment. Different Fabric workloads can work with data stored in this common foundation.</p>
+<p><strong>The third difference is data processing and engineering.</strong> Instead of doing most of the transformation inside Power Query or SQL Server before Power BI, Fabric gives us options such as Lakehouse, Warehouse, Data Factory and Data Engineering. For example, I could use a Lakehouse when I have broader data-engineering requirements, large-scale data or structured and unstructured data. If my requirement is primarily structured relational analytics and SQL-based BI, I could use a Fabric Warehouse.</p>
+<p>Another important difference is that Fabric allows us to implement a Medallion architecture. I can organize the data into <strong>Bronze → Silver → Gold</strong>. Bronze contains the raw source data. Silver contains cleaned and validated data. Gold contains curated, business-ready data that can be consumed by analytics and reporting.</p>
+<p>For example, if I were modernizing a financial reporting solution, I could bring spend, budget, exchange rates and organizational data into the Bronze layer. In Silver, I could handle duplicate records, data-type standardization, key validation, currency standardization and organizational mappings. Then in Gold, I could create business-ready tables such as FactSpend, DimDate, DimDepartment, DimCostCenter and DimOrganization.</p>
+<p>At that point, my Power BI knowledge still remains very relevant. I would create the Power BI semantic model on top of the curated data, build my star schema, create DAX measures such as Total Spend, Budget, Variance, Variance %, YTD and YoY%, and implement RLS where required. So Fabric does not replace Power BI, DAX or RLS. Power BI remains an important workload within Fabric.</p>
+<p>Another Fabric-specific concept is Direct Lake. In traditional Power BI, I would commonly think about Import or DirectQuery. With Fabric, Direct Lake provides a Fabric-native way for Power BI semantic models to work with data stored in OneLake. So if my data is already in Fabric, Direct Lake can be considered as another way of building the semantic layer over that data.</p>
+<p>So if I take a traditional reporting project and modernize it, I would think about it like this:</p>
+<p><strong>Traditional:</strong></p>
+<pre><code class="language-text">Sources
+↓
+SQL Server / ETL
+↓
+SQL Views
+↓
+Power BI
+↓
+DAX
+↓
+RLS
+↓
+Report</code></pre>
+<p><strong>Fabric:</strong></p>
+<pre><code class="language-text">Sources
+↓
+Fabric Data Factory
+↓
+OneLake
+↓
+Bronze
+↓
+Silver
+↓
+Gold
+↓
+Power BI Semantic Model
+↓
+DAX + RLS
+↓
+Power BI Report
+↓
+Business</code></pre>
+<p>The biggest advantage is therefore architectural unification. I don't see Fabric as something that makes Power BI obsolete. Instead, I see it as extending the Power BI ecosystem into the upstream data platform. My Power BI and SQL experience gives me the foundation for the semantic and reporting layer, while Fabric allows me to understand and work with ingestion, centralized storage, data engineering and data serving as part of the same architecture.</p>
+<p><strong>Final way of explaining the difference:</strong> "Traditional Power BI is primarily the BI and reporting layer, whereas Fabric provides the broader end-to-end analytics platform around Power BI — with Data Factory for ingestion, OneLake for storage, Lakehouse/Warehouse for data processing and serving, and Power BI for the semantic model and reporting."</p>
+</div></div>
+</div>
+<div class="item topic-item" data-index="cw-4">
+<button class="item-head"><span class="idx">04</span><span class="item-title">Latest Update in Power BI</span><span class="tag">AI / Fabric</span><svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg></button>
+<div class="item-body"><div class="item-body-inner">
+<p>One recent change in Microsoft Fabric is that it is becoming more agentic, meaning AI agents can help build Power BI solutions, not just analyze data. For example, AI can help create semantic models and reports, and MCP (Model Context Protocol) allows the AI agent to interact with Power BI tools. So, instead of analysts doing everything manually, AI can act as an assistant. But the analyst is still responsible for the business logic, data quality, security, and validating the results. I see AI as a way to make BI development faster, while keeping human control over the final solution.</p>
+</div></div>
+</div>
+<div class="item topic-item" data-index="cw-5">
+<button class="item-head"><span class="idx">05</span><span class="item-title">Why do you fit this BI role?</span><span class="tag">Behavioral</span><svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg></button>
+<div class="item-body"><div class="item-body-inner">
+<p><strong>30-second answer:</strong></p>
+<p>"I believe I fit this BI role because I have hands-on experience with Power BI, SQL, DAX, Power Query and Excel, and I have worked across the complete BI lifecycle — from understanding business requirements and preparing and validating data to data modeling, dashboard development, RLS, UAT and production support. I also focus on understanding the business requirement behind the report rather than just building visuals. Along with my existing BI foundation, I am actively developing my Microsoft Fabric and AI knowledge, which I believe is important for the future direction of BI."</p>
+<p><strong>Deep answer — 3–5 minutes:</strong></p>
+<p>I believe I am a good fit for this BI role because my experience covers both the technical and business sides of Business Intelligence.</p>
+<p>From a technical perspective, I have hands-on experience with Power BI, SQL, DAX, Power Query and Excel. My experience is not limited to creating visuals. I have worked through different stages of the BI lifecycle — understanding business requirements, extracting and preparing data, validating the data, creating data models and relationships, developing DAX measures, implementing security such as RLS, supporting UAT and moving solutions into production.</p>
+<p>For me, one of the most important parts of BI is data validation. A dashboard can look very good, but if the numbers are incorrect, it does not provide business value. So I try to understand where the data is coming from, how it is transformed, how the calculations are defined and whether the final Power BI numbers reconcile with the source.</p>
+<p>I also have experience working with business requirements and translating them into reports and KPIs. I don't see Power BI simply as a visualization tool. I see it as a complete process where I first understand what the business wants to measure, then prepare the data, build the right model, create the calculations and finally present the information in a way that helps users make decisions.</p>
+<p>Another reason I believe I fit the role is that I am developing my knowledge beyond traditional Power BI. I understand the direction toward Microsoft Fabric, where Power BI becomes part of a broader analytics platform involving Data Factory, OneLake, Lakehouse, Warehouse and AI capabilities. So my existing Power BI and SQL foundation gives me a good base to move toward modern BI architecture.</p>
+<p>I also try to use AI as a learning and productivity tool. For example, I can use AI to understand a DAX function, explore different SQL approaches or troubleshoot a Power BI issue, but I don't blindly accept the output. I validate it against the data and understand the reasoning.</p>
+<p>So overall, I would say my fit comes from a combination of hands-on Power BI and SQL skills, data validation, business understanding, stakeholder communication and my willingness to continuously learn technologies such as Fabric and AI.</p>
+<p><strong>Key line to remember:</strong> "I don't just build Power BI reports; I work across the BI lifecycle from requirement understanding and data validation to modeling, reporting, security and production."</p>
+</div></div>
+</div>
+<div class="item topic-item" data-index="cw-6">
+<button class="item-head"><span class="idx">06</span><span class="item-title">What do you understand about Cushman &amp; Wakefield?</span><span class="tag">Company</span><svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg></button>
+<div class="item-body"><div class="item-body-inner">
+<p><strong>30-second answer:</strong></p>
+<p>"From my understanding, Cushman &amp; Wakefield is a global commercial real estate services organization, operating across areas such as Global Occupier Services, Asset Services, Capital Markets, Valuation &amp; Advisory, and Project &amp; Development Services. What interests me from a BI perspective is that C&amp;W is also focusing on technology, enterprise data and AI to improve business and client decisions. So I see this as an environment where BI is not just about reporting numbers, but about turning large amounts of business data into actionable insights."</p>
+<p><strong>Deep answer — 3–5 minutes:</strong></p>
+<p>From my understanding, Cushman &amp; Wakefield is a global commercial real estate services organization. It operates across multiple areas of the real estate business, including Global Occupier Services, Asset Services, Capital Markets, Valuation &amp; Advisory, and Project &amp; Development Services.</p>
+<p>What I find particularly relevant from a BI perspective is the scale and diversity of the business. When an organization operates across different services, regions and business functions, there can be a large amount of operational, financial and client-related data.</p>
+<p>That creates an important role for Business Intelligence because the objective is not simply to put data into dashboards. The objective is to bring different data sources together, make the information reliable and consistent, define meaningful KPIs and then provide business users with information they can use for decision-making.</p>
+<p>I also understand that Cushman &amp; Wakefield is investing in technology and data through its Technology &amp; Data Solutions strategy and AI+ initiatives. The company's technology direction emphasizes enterprise data foundations, business collaboration, agile delivery and adoption of AI.</p>
+<p>That is something I connect with because my background is in Power BI and SQL, but I am also interested in how BI is evolving into a broader data and AI environment.</p>
+<p>So if I join a BI role at C&amp;W, I would want to understand not only how a report is built, but also what business decision the report supports, where the underlying data comes from, how the KPI is defined, how access is controlled and how the insight can ultimately help the business.</p>
+<p>That is what makes the opportunity interesting to me — the combination of a large global business, data, BI, technology and the increasing use of AI.</p>
+<p><strong>Key line to remember:</strong> "What interests me about C&amp;W is the combination of a global, data-rich business with its increasing focus on technology, enterprise data and AI."</p>
+</div></div>
+</div>
+<div class="item topic-item" data-index="cw-7">
+<button class="item-head"><span class="idx">07</span><span class="item-title">How do you see AI + Power BI + AI Agents improving the role?</span><span class="tag">AI</span><svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg></button>
+<div class="item-body"><div class="item-body-inner">
+<p><strong>30-second answer:</strong></p>
+<p>"I see AI making BI development and analysis faster rather than replacing the BI analyst. Power BI Copilot can help with things like DAX, report creation and summarization, while AI agents can allow business users to interact with governed data using natural language. The important part is that the semantic model remains the trusted business layer, and the analyst is still responsible for data quality, business logic, security and validating the AI-generated results."</p>
+<p><strong>Deep answer — 3–5 minutes:</strong></p>
+<p>I see AI as the next layer in the evolution of Business Intelligence. Traditionally, a business user has a question, then approaches a BI analyst. The analyst writes SQL or DAX, analyzes the data, creates or modifies a report and provides the insight.</p>
+<p>With AI capabilities in Power BI and Fabric, some of that interaction can become much more conversational and automated.</p>
+<p>For example, Power BI Copilot can assist analysts with understanding semantic models, generating or explaining DAX, creating report content and summarizing information. This can reduce the amount of repetitive development work and allow analysts to spend more time on business analysis.</p>
+<p>The next step is AI agents. Instead of the business user always depending on an analyst for every question, an AI or Data Agent can interact with governed data and answer questions in natural language.</p>
+<p>For example, a business user could ask: <em>"What caused the increase in operating cost in APAC this quarter?"</em> The agent can use the Power BI semantic model and appropriate data source to generate a query and provide an answer.</p>
+<p>But I think the most important part is the semantic model. I would not think of AI as simply connecting directly to raw data. The semantic model provides the business context — relationships, measures, KPIs and definitions. If the semantic model is poorly designed or the business definitions are incorrect, AI can potentially produce misleading results.</p>
+<p>So the role of the BI analyst actually becomes more important in some areas. We need to make sure the underlying data is trustworthy, KPIs are correctly defined, relationships are correct and security such as RLS is properly implemented.</p>
+<p>This is also where I see my existing BI experience being useful. For example, if I have experience implementing Dynamic RLS, I understand that an AI interface should not become a way to bypass the existing security model. The underlying data access still needs to be governed.</p>
+<p>I also see AI as a learning partner for myself. If AI generates a DAX measure or SQL query, I would not simply copy and use it. I would execute it, compare the result with expected numbers and understand why the solution works. If the AI makes a mistake, I would try to understand the mistake so I can improve my own knowledge.</p>
+<p>So ultimately, I see the future architecture as something like:</p>
+<pre><code class="language-text">Source Systems → Data Platform → Power BI Semantic Model → Power BI/AI → Business User</code></pre>
+<p>AI becomes an additional intelligence and interaction layer on top of governed BI data.</p>
+<p>My role as a BI analyst would evolve from simply producing reports to building trustworthy data and semantic models, defining business KPIs, validating AI-generated insights and helping business users get more value from their data.</p>
+<p>So my overall view is that AI will make BI development and analysis faster, but it doesn't remove the need for human ownership of business logic, data quality, security and validation.</p>
+<p><strong>Key line to remember:</strong> "I don't see AI replacing the BI analyst; I see it reducing repetitive work and allowing the analyst to focus more on trusted data, business logic, validation and decision-making."</p>
+<h3>3-Part Closing Flow</h3>
+<p>If given 1–2 minutes to explain interest in the role, connect all three: <strong>"I bring the BI foundation → I understand the business environment → I understand where BI is going with AI."</strong></p>
+<p>That gives a natural story: You → Power BI/SQL experience → C&amp;W business → Fabric/AI → future of BI.</p>
+</div></div>
+</div>
+</div>
+</div>
+</div>
+</div>
 <div class="item section-item" data-index="pbi-hands-on">
 <div aria-expanded="false" class="item-head section-head" role="button" tabindex="0">
 <div class="section-head-text">
