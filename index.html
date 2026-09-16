@@ -4546,6 +4546,1118 @@ Business</code></pre>
 <p>That gives a natural story: You → Power BI/SQL experience → C&amp;W business → Fabric/AI → future of BI.</p>
 </div></div>
 </div>
+<div class="item topic-item" data-index="cw-8">
+<button class="item-head"><span class="idx">08</span><span class="item-title">Data Platform Tooling — dbt, ADF, Snowflake, Synapse &amp; SCD</span><span class="tag">Tech Deep-Dive</span><svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg></button>
+<div class="item-body"><div class="item-body-inner">
+<p>These are tools I haven't used hands-on in production, but I understand exactly where each one would sit relative to the SQL Views, Star Schema and validation approach I already use — so here's how I'd honestly position each one if asked.</p>
+<div class="item question-item" data-question="cw8-q1">
+<button class="item-head"><span class="idx">01</span><span class="item-title">Where would dbt fit in my project, and what is it used for?</span><svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg></button>
+<div class="item-body"><div class="item-body-inner">
+<p><strong>Where it fits:</strong> dbt is a transformation-layer tool that sits between raw ingested data (Bronze/Silver in Fabric, or staging tables in SQL Server) and the curated, business-ready layer. It would replace or formalize the SQL Views I already build — <code>vw_currency_conversion</code>, <code>vw_kpi_master</code>, <code>vw_revenue_standard</code> — with a governed, testable, version-controlled transformation framework.</p>
+<p><strong>What it's used for:</strong> writing modular SQL transformation models (staging → intermediate → mart) where each model is just a <code>SELECT</code> statement. dbt compiles and runs these against the warehouse, handles dependency ordering automatically through <code>ref()</code>, materializes models as views/tables/incremental tables, and provides built-in data tests (<code>unique</code>, <code>not_null</code>, <code>relationships</code>, <code>accepted_values</code>) plus auto-generated documentation and a visual lineage graph.</p>
+<p><strong>Where used (connectivity/data flow):</strong> dbt doesn't store data itself — it connects to and runs SQL inside a warehouse.</p>
+<pre><code class="language-text">Source Systems → Ingestion (ADF / Fabric Data Factory)
+             → Raw/Staging tables in warehouse
+             → dbt (staging models → intermediate models → mart/fact/dim models)
+             → Power BI semantic model</code></pre>
+<p><strong>Why used:</strong> version control (Git) for transformation logic, automated tests that catch data-quality issues before they reach a report, and documentation/lineage that shows exactly which upstream table feeds which downstream KPI — solving the same problem my 3-layer validation and manually maintained mapping document solve today, but in a more governed, CI/CD-friendly way.</p>
+<p><strong>What we do under dbt:</strong> set up the project and define sources in YAML, build staging models (1:1 with source, light cleaning), intermediate models (joins/business logic), mart models (fact/dim tables), write schema and custom SQL tests, generate docs (<code>dbt docs generate</code>), run models (<code>dbt run</code>) on a schedule via dbt Cloud or an orchestrator, and use incremental models for large fact tables and snapshots for SCD Type 2.</p>
+<p><strong>Real mapping:</strong> In the SAR project, <code>vw_currency_conversion</code> and <code>vw_kpi_master</code> could become dbt staging/mart models instead of hand-maintained views — I'd get automatic lineage (see every downstream report affected before I change the logic) and automated tests (e.g. assert <code>ConvertedAmount</code> is never null, assert the exchange-rate join always finds a match) replacing manual reconciliation checks.</p>
+</div></div>
+</div>
+<div class="item question-item" data-question="cw8-q2">
+<button class="item-head"><span class="idx">02</span><span class="item-title">Where would Azure Data Factory (ADF) fit, and what is it used for?</span><svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg></button>
+<div class="item-body"><div class="item-body-inner">
+<p><strong>Where it fits:</strong> ADF sits at the ingestion/orchestration layer, before data lands in the warehouse. In my projects, it would formalize the "Data Engineering team's ETL process" that I consumed as an input — I received data already loaded into SQL Server; ADF is the tool that would have actually done that loading.</p>
+<p><strong>What it's used for:</strong> orchestrating and automating data-movement pipelines — Copy Activity for moving data from sources like on-prem SQL Server, Blob Storage, SFTP or APIs into a Lakehouse/Warehouse/Data Lake; Data Flows for visual, Spark-based transformations without writing code; and triggers (schedule, event, tumbling window) for automated recurring runs. An Integration Runtime connects securely to on-prem sources, conceptually similar to the Power BI Gateway I already work with.</p>
+<p><strong>Where used (connectivity/data flow):</strong></p>
+<pre><code class="language-text">Source Systems (ERP, SQL Server, files, APIs)
+             → ADF (Copy Activity / Data Flow, triggered on schedule)
+             → ADLS Gen2 / SQL Warehouse / Fabric Lakehouse
+             → Downstream transformation (SQL Views / dbt)
+             → Power BI</code></pre>
+<p><strong>Why used:</strong> replaces manual/ad-hoc data loading with a governed, monitorable, schedulable pipeline — giving visibility through pipeline run history and failure alerting, similar to how I already check SSIS job status and Gateway refresh history.</p>
+<p><strong>What we do under ADF:</strong> create Linked Services (connections to source and sink), Datasets (schema pointers), Pipelines (chains of activities), Data Flows (joins/filters/aggregations — the Spark-based equivalent of Power Query), configure triggers, and monitor runs through the ADF Monitor tab.</p>
+<p><strong>Real mapping:</strong> In the Inventory project, the Data Engineering team's ETL process that loaded JDA, PO and sales data into SQL Server is exactly the kind of pipeline ADF orchestrates. If I owned that layer, I'd build a daily-triggered ADF pipeline with Copy Activities per source, running before my 6 AM Gateway refresh, with failure alerts feeding into the same kind of Last Refreshed validation I already built downstream.</p>
+</div></div>
+</div>
+<div class="item question-item" data-question="cw8-q3">
+<button class="item-head"><span class="idx">03</span><span class="item-title">Where would Snowflake fit, and how does it compare to SQL Server?</span><svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg></button>
+<div class="item-body"><div class="item-body-inner">
+<p><strong>Where it fits:</strong> Snowflake is a cloud-native data warehouse — an alternative to SQL Server, Fabric Warehouse or Synapse as the place where my SQL Views and star schema would actually run.</p>
+<p><strong>What it's used for:</strong> storing and querying structured and semi-structured data at scale, with independently scalable "virtual warehouses" (compute clusters), so multiple workloads — BI reporting, ad-hoc analysis, data science — don't compete for the same compute the way they would on a single shared SQL Server instance.</p>
+<p><strong>Where used (connectivity/data flow):</strong></p>
+<pre><code class="language-text">Source Systems → ELT tool (ADF / Fivetran) loads raw data into Snowflake (RAW schema)
+             → dbt transforms (staging → mart schemas, within Snowflake)
+             → Power BI (Snowflake connector — Import or DirectQuery)</code></pre>
+<p><strong>Why used:</strong> elastic compute that scales up/down on demand (pay only for what's used), native support for semi-structured data (JSON/VARIANT columns) without heavy upfront schema design, strict separation of storage and compute so one runaway query doesn't slow down everyone else's reports, and built-in time travel / zero-copy cloning for safe testing.</p>
+<p><strong>What we do under Snowflake:</strong> size virtual warehouses appropriately per workload, organize databases/schemas (RAW → STAGING → ANALYTICS — conceptually the same as my Bronze/Silver/Gold framing), write standard ANSI SQL that's very close to the T-SQL I already write, and manage role-based access control — conceptually similar to my Dynamic RLS work, but enforced at the warehouse/table level instead of the Power BI model level.</p>
+<p><strong>Real mapping:</strong> my SQL Server-based <code>vw_kpi_master</code> approach maps directly onto a Snowflake ANALYTICS-schema view or table. The SQL logic I already write is largely transferable — what changes is the platform (elastic, cloud-native compute), not the modeling approach (Star Schema, KPI logic, validation), which stays the same.</p>
+</div></div>
+</div>
+<div class="item question-item" data-question="cw8-q4">
+<button class="item-head"><span class="idx">04</span><span class="item-title">Where would Azure Synapse Analytics fit?</span><svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg></button>
+<div class="item-body"><div class="item-body-inner">
+<p><strong>Where it fits:</strong> Synapse is Microsoft's earlier unified analytics platform — combining a data warehouse (dedicated/serverless SQL pools), Spark-based big-data processing, and Data Factory-style pipelines in one workspace. It would sit exactly where SQL Server plus ADF currently sit in my project, just combined into a single workspace.</p>
+<p><strong>What it's used for:</strong> large-scale SQL-based data warehousing, Spark notebooks for big-data transformation, and built-in pipeline orchestration — essentially SQL Server, ADF and some Databricks-like Spark capability, unified.</p>
+<p><strong>Where used (connectivity/data flow):</strong></p>
+<pre><code class="language-text">Source Systems → Synapse Pipelines (ADF-equivalent)
+             → ADLS Gen2
+             → Synapse SQL Pool / Spark Pool (transformation, star schema)
+             → Power BI (native Synapse connector, same Import/DirectQuery pattern)</code></pre>
+<p><strong>Why used:</strong> unifies ingestion, big-data transformation and warehousing under a single workspace, security model and monitoring surface, and scales to much larger data volumes than a single SQL Server instance.</p>
+<p><strong>What we do under Synapse:</strong> provision a dedicated or serverless SQL pool, build the same fact/dimension Star Schema I already design, write T-SQL — the same language I already use daily — for views and procedures, optionally use Spark notebooks for heavier transformations, and orchestrate via built-in Synapse Pipelines using the same activity types as ADF.</p>
+<p><strong>Real mapping:</strong> Synapse SQL pools use T-SQL, so my existing SQL Views, Star Schema design and the DAX/Power BI layer on top transfer almost unchanged — the difference is purely infrastructure (a cloud-scale MPP warehouse vs. on-prem SQL Server), not the analytical approach.</p>
+</div></div>
+</div>
+<div class="item question-item" data-question="cw8-q5">
+<button class="item-head"><span class="idx">05</span><span class="item-title">ELT vs ETL — how does my SSIS/ETL experience map to ELT?</span><svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg></button>
+<div class="item-body"><div class="item-body-inner">
+<p><strong>ETL</strong> (what SSIS does) = Extract, Transform, Load — the transform happens in a dedicated engine, before the data is loaded into the destination.</p>
+<p><strong>ELT</strong> = Extract, Load, Transform — raw data is loaded first, then transformed using the destination's own compute (SQL, Spark or dbt) after it has already landed.</p>
+<p><strong>Why the shift:</strong> cloud warehouses have cheap, elastic, far more scalable compute than a single dedicated ETL server, so it's more efficient to load raw data first and transform it in-warehouse rather than pre-transform it in a separate ETL tool. This also keeps a full copy of untransformed raw data available for re-processing if the business logic ever changes.</p>
+<p><strong>Where used:</strong> SSIS (ETL) sits between source and destination, doing the transform in-flight. In an ELT world, that same transform logic moves into dbt models or SQL views that run inside the warehouse, after a simple Copy Activity (ADF / Fabric Data Factory) has already landed the raw data.</p>
+<p><strong>Real mapping:</strong> the SSIS pipelines the Data Engineering team ran on my projects were doing ETL — extract-transform-load from source systems into SQL Server. But the SQL Views I built afterward — <code>vw_currency_conversion</code>, <code>vw_kpi_master</code> — are actually already an ELT-style pattern: I never modified the raw loaded data, I transformed it downstream via views on top of the already-landed tables. So I've effectively already been doing ELT-style transformation — just without dbt's testing, lineage and version-control layer on top of it.</p>
+</div></div>
+</div>
+<div class="item question-item" data-question="cw8-q6">
+<button class="item-head"><span class="idx">06</span><span class="item-title">What are Slowly Changing Dimensions (SCD), and where's the gap in my project?</span><svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg></button>
+<div class="item-body"><div class="item-body-inner">
+<p><strong>What it is:</strong> a technique for handling changes to dimension attributes over time — for example, a customer's region changes, or a department gets renamed — and deciding whether to overwrite the old value or preserve history.</p>
+<p><strong>Types:</strong> SCD Type 1 overwrites with no history kept. SCD Type 2 inserts a new row with effective/expiry dates or a current-flag, preserving full history. SCD Type 3 adds a "previous value" column, keeping only one prior value. SCD Type 0 never changes at all (e.g. an original signup date).</p>
+<p><strong>Where the gap is in my project:</strong> my dimension tables — DimProduct, DimStore, DimDepartment, DimCostCenter — have all effectively been treated as SCD Type 1 in practice. I refresh the full dimension on each load, so if a store's region changed, the old region value is simply overwritten and historical reports would silently reflect the new region even for old transactions.</p>
+<p><strong>Why it matters:</strong> for reporting where "what did this look like at the time" matters — like which region a store belonged to when a sale happened — Type 1 can quietly distort historical trend analysis. Type 2 would be the correct approach for an attribute like DimStore.Region if the business needed accurate point-in-time historical reporting.</p>
+<p><strong>How tools implement it:</strong> dbt has a built-in "snapshot" feature purpose-built for SCD Type 2 — it periodically checks the source table for changes and automatically maintains <code>valid_from</code>/<code>valid_to</code> columns and one row per historical version, without me hand-writing custom <code>MERGE</code> logic.</p>
+<p><strong>Real mapping:</strong> if asked to add SCD Type 2 to my existing project, I'd add <code>valid_from</code>/<code>valid_to</code> date columns and an <code>is_current</code> flag to a dimension like DimStore, and use a <code>MERGE</code> statement — or a dbt snapshot — to insert a new row instead of updating in place whenever a tracked attribute changes.</p>
+</div></div>
+</div>
+<div class="item question-item" data-question="cw8-q7">
+<button class="item-head"><span class="idx">07</span><span class="item-title">What are reusable dbt models, and how does that relate to my SQL Views approach?</span><svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg></button>
+<div class="item-body"><div class="item-body-inner">
+<p><strong>What it means:</strong> instead of one-off queries or monolithic SQL scripts, dbt models are designed to be modular and composable — a staging model cleans one source table once, and multiple downstream models reference that same staging model via <code>ref()</code> rather than each re-writing the same cleaning logic.</p>
+<p><strong>Why reusable:</strong> it follows the DRY principle (Don't Repeat Yourself). If the currency-conversion logic changes, I update it in one model, and every downstream fact table or report that references it via <code>ref()</code> automatically picks up the fix — with dbt's lineage graph showing exactly which reports are affected before I even make the change.</p>
+<p><strong>Real mapping:</strong> this is conceptually identical to why I use SQL Views today — <code>vw_currency_conversion</code>, <code>vw_kpi_master</code> — centralizing business logic once so every consuming report or model stays consistent instead of duplicating the calculation everywhere. dbt would just formalize this same principle I already apply through Views, adding version control, automated testing and a visual dependency graph on top of it.</p>
+</div></div>
+</div>
+</div></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="item section-item" data-index="air-arabia">
+<div aria-expanded="false" class="item-head section-head" role="button" tabindex="0">
+<div class="section-head-text">
+<div class="eyebrow">Company Interview Prep</div>
+<h1>Air Arabia Interview</h1>
+</div>
+<svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg>
+</div>
+<div class="item-body">
+<div class="item-body-inner section-body-inner">
+<p class="sub">Click a topic to expand it and see the related practice questions.</p>
+<div class="list" id="air-arabia-topics">
+<div class="item topic-item" data-index="aa-1">
+<button class="item-head"><span class="idx">01</span><span class="item-title">Air Arabia — Company &amp; Domain Overview</span><span class="tag">Domain</span><svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg></button>
+<div class="item-body"><div class="item-body-inner">
+<p>From a domain perspective, I understand Air Arabia as a low-cost carrier, where the business is driven by passenger demand, route performance, aircraft capacity and operational efficiency. The key data areas are revenue and bookings, flight operations, capacity and network planning, and costs and profitability.</p>
+<p>Key KPIs include passenger volume, seat load factor, revenue per passenger, aircraft utilization, on-time performance, delays, cancellations and route profitability. As a data analyst, I would analyze route-wise revenue and load factor, passenger trends, operational performance and costs to identify business patterns.</p>
+<h3>About Air Arabia</h3>
+<p>Air Arabia is a major low-cost carrier group based in the UAE, with its main operations centered around a multi-hub model. The group operates across markets including the UAE, Morocco, Egypt and Pakistan, connecting the Middle East, North Africa, Asia and Europe.</p>
+<p>What I find interesting about Air Arabia is its value-focused and cost-efficient operating model. The company focuses on providing affordable air travel while maintaining operational efficiency and expanding its network.</p>
+<p>According to the company's 2025 results, Air Arabia carried around 21.8 million passengers, operated across 219 destinations, and added 30 new routes during the year. Its 2025 revenue exceeded AED 7.78 billion, while the average seat load factor reached 85%.</p>
+</div></div>
+</div>
+<div class="item topic-item" data-index="aa-2">
+<button class="item-head"><span class="idx">02</span><span class="item-title">Airline EDA Project — Python + Power BI</span><span class="tag">Project Story</span><svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg></button>
+<div class="item-body"><div class="item-body-inner">
+<p>I did both. Python was mainly used for deeper exploratory analysis and data preparation — understanding distributions, cleaning and transforming fields, creating age groups, analyzing flight status, Top-N categories and time-based patterns. Power BI was then used to convert the analysis into an interactive business-facing dashboard with KPIs, comparative visuals and slicers. So Python helped me investigate the data, while Power BI helped me communicate the findings interactively.</p>
+<p>I worked on an airline passenger EDA project using Python and Pandas with around 98,000 records. I performed data profiling, checked missing values and data types, standardized columns, converted departure dates into datetime, created age groups, and analyzed passenger demographics and flight status. I performed Top-N analysis across nationalities and airports and created reusable plotting functions with dynamic parameters. I also analyzed cancellations, delays and on-time flights by day, month and over time, using bar charts, pie charts and line plots. This project gave me hands-on experience in the complete Python data-analysis workflow from raw data preparation to visualization and insights.</p>
+<h3>Building the Power BI Dashboard</h3>
+<p>After understanding the data through Python, I built a Power BI exploratory dashboard. The dashboard was designed to give a quick overview of bookings, ticket prices, passenger demographics, travel behavior and airline performance.</p>
+<p>At the top, I created KPI cards for Total Bookings, Total Ticket Price, Average Passenger Age, Total Distance, Average Flight Duration and Average Ticket Price. For example, Total Bookings was calculated using a distinct count of Booking ID, Total Ticket Price using Sum, and Average Passenger Age and Average Flight Duration using Average. I also created an explicit DAX measure for Average Ticket Price.</p>
+<p>Then I created different visual analyses. I analyzed Ticket Price by Airline, Ticket Price by Departure City, Bookings by Travel Class, Ticket Price by Payment Method, Bookings by Payment Method, and Ticket Price by Passenger Age Group. I used bar charts, funnel charts, treemaps, donut charts and column/bar charts depending on the type of comparison.</p>
+<p>I also added an Airline slicer in dropdown format so users could select an airline and have the dashboard visuals and KPI values update accordingly. I worked on dashboard formatting as well, including card formatting, titles, labels, borders, transparency, rounded corners, alignment and consistent formatting using Format Painter.</p>
+<p>So my overall workflow was Python-based data exploration and preparation → identify business questions and KPIs → Power BI data loading → KPI creation → analytical visuals → slicer/interactivity → formatting → final dashboard and insights.</p>
+</div></div>
+</div>
+<div class="item topic-item" data-index="aa-3">
+<button class="item-head"><span class="idx">03</span><span class="item-title">Modern Data Architecture — The Big Picture</span><span class="tag">ELT</span><svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg></button>
+<div class="item-body"><div class="item-body-inner">
+<p>Before the individual answers, memorize this single architecture — every tool below is just one box in it:</p>
+<pre><code class="language-text">Source Systems (SQL Server, APIs, Files, SaaS apps)
+        ↓
+Azure Data Factory (ADF)  ──  orchestration + ingestion (the "E" and "L")
+        ↓
+Snowflake / Azure Synapse Analytics  ──  cloud data warehouse (storage + compute)
+        ↓
+dbt  ──  transformation layer (the "T") — raw → staging → fact/dimension models
+        ↓
+Power BI  ──  semantic model, DAX, RLS, reports</code></pre>
+<p>This is the modern ELT pattern (vs. traditional ETL with SSIS), and once you can draw this, every question below becomes "where does X sit in this picture and what does it actually do there."</p>
+</div></div>
+</div>
+<div class="item topic-item" data-index="aa-3b">
+<button class="item-head"><span class="idx">04</span><span class="item-title">Python Known by Me</span><span class="tag">Python</span><svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg></button>
+<div class="item-body"><div class="item-body-inner">
+<h3>Why do you use Python in data analytics/data engineering?</h3>
+<p><strong>1–2 Minute Interview Answer</strong></p>
+<p>"I use Python mainly for data cleaning, transformation, exploratory analysis, KPI preparation and analysis when I need more flexibility than SQL or Power BI alone. My main library for tabular data is Pandas, and I have hands-on experience using Python in my Inventory Optimization project.</p>
+<p>In that project, I started with warehouse and sales data and used Python to prepare the data before reporting. I first loaded the CSV or Excel data using Pandas and profiled the datasets using the shape, columns, data types and summary statistics. Then I checked data quality issues such as null values, duplicate records, inconsistent column names and date formats.</p>
+<p>After profiling, I cleaned the data—for example, handling missing revenue values based on the business rule, removing confirmed duplicates, converting date columns using pd.to_datetime(), and standardizing column names such as NetRevenue to Revenue.</p>
+<p>Then I performed transformations and analysis using Pandas. I used groupby() to analyze revenue by brand, store and month, and filtered inventory conditions such as low stock against safety stock and high or low Weeks of Cover. I also worked with inventory KPIs such as Stock on Hand, Stock on Order, Weeks of Cover, inventory turnover, stockout and sell-through.</p>
+<p>For analysis, I used descriptive statistics and outlier analysis, and I also worked with a three-period rolling revenue forecast to understand expected sales trends. After the calculations and validation, I prepared the output for Excel and Power BI, where the final KPIs and inventory insights could be presented through dashboards.</p>
+<p>So my overall Python workflow is: Source Data → Profiling → Cleaning → Transformation → KPI Calculation → Analysis/Forecasting → Validation → Excel/Power BI. I use SQL when the data is already in the database and database-side processing is more efficient, while Python gives me flexibility for analytical processing and more complex data manipulation."</p>
+<p><strong>Business Scenario</strong></p>
+<p>"For example, suppose I receive warehouse and sales data for several stores and SKUs. I would load the files into Pandas, profile the data, check nulls and duplicates, standardize dates and columns, and then combine the required datasets. After that I could calculate inventory KPIs such as WOC, turnover, stockout and sell-through, identify SKUs where SOH is below safety stock, analyze revenue trends and create a rolling forecast. Finally, I would validate the totals against the source and export the prepared dataset for Excel or Power BI reporting."</p>
+</div></div>
+</div>
+<div class="item topic-item" data-index="aa-4">
+<button class="item-head"><span class="idx">05</span><span class="item-title">dbt — Concept &amp; SAR Positioning</span><span class="tag">Transformation</span><svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg></button>
+<div class="item-body"><div class="item-body-inner">
+<p><strong>Where it fits:</strong> dbt sits after raw data has already landed in the warehouse (Snowflake/Synapse/Fabric). It doesn't extract or load data — it only transforms data that's already there, using plain SQL SELECT statements.</p>
+<p><strong>What it's used for:</strong></p>
+<ul>
+<li><strong>Transformation</strong> — each dbt "model" is a .sql file with a SELECT statement; dbt compiles it and runs it as a table/view in the warehouse. You chain models together (raw → staging → intermediate → mart) instead of writing one giant stored procedure.</li>
+<li><strong>Tests</strong> — you declare tests in YAML (not_null, unique, relationships, accepted values) and dbt runs them automatically before/after a build, so a bad join or duplicate key fails the pipeline instead of silently reaching Power BI.</li>
+<li><strong>Documentation</strong> — dbt auto-generates a searchable docs site from your model definitions and column descriptions.</li>
+<li><strong>Lineage</strong> — because every model explicitly references (<code>ref()</code>) the models it depends on, dbt can draw the full column-to-column lineage graph automatically — no manual documentation needed.</li>
+</ul>
+<p><strong>Connectivity / data flow:</strong> dbt connects directly to the warehouse (Snowflake/Synapse) via a connection profile — it doesn't move data between systems, it just issues SQL against tables that are already loaded there. ADF (or Fivetran/Airbyte) handles getting data into the warehouse; dbt handles what happens once it's there.</p>
+<p><strong>How I'd say it in an interview:</strong></p>
+<p>"My transformation experience has been in SQL Server — SSIS packages and SQL Views doing the cleaning, joins, and business logic before Power BI. dbt formalizes that exact same idea — SQL-based transformation — but adds version control, automated testing, and auto-generated lineage/documentation on top of it. Conceptually I already do the 'staging → validated → reporting-ready' pattern with SQL views like vw_kpi_master; dbt is the same discipline with better tooling around it, and I'd pick it up quickly."</p>
+<h3>Where dbt would have fit in my SAR project</h3>
+<p><strong>Real scenario:</strong> vw_currency_conversion and vw_kpi_master were hand-written SQL views living only in SQL Server, with no automated test that a currency conversion was actually correct, and no way to see "which downstream reports break if I change this view" without manually grepping.</p>
+<p><strong>How dbt would have improved it:</strong></p>
+<ul>
+<li>Each view becomes a dbt model: stg_transactions.sql → int_currency_converted.sql → fct_spend.sql. The dependency chain is explicit via ref(), so if finance says "the exchange rate logic needs to change," I immediately see every downstream model that's affected — instead of hoping I remembered every view that touched currency.</li>
+<li>I'd add tests directly on int_currency_converted: not_null on ConvertedAmount, plus a custom test asserting ConvertedAmount is never null when LocalAmount isn't — this would have caught the exact "does conversion introduce NULLs" check I was doing manually with a second validation query, except it now runs automatically on every build instead of me remembering to run it.</li>
+<li>Documentation/lineage would have been auto-generated instead of living only in my head or a Word doc — useful during the UAT handover when finance stakeholders asked "where does this number actually come from."</li>
+</ul>
+<p><strong>One-line for the interview:</strong> "My vw_currency_conversion view was doing exactly what a dbt model does — I just didn't have automated tests or lineage on top of it. dbt would have turned that manual validation step into something that runs on every deploy."</p>
+</div></div>
+</div>
+<div class="item topic-item" data-index="aa-5">
+<button class="item-head"><span class="idx">06</span><span class="item-title">Azure Data Factory (ADF) — Concept &amp; SAR Positioning</span><span class="tag">Ingestion</span><svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg></button>
+<div class="item-body"><div class="item-body-inner">
+<p><strong>Where it fits:</strong> ADF sits at the very front — it's the orchestration/ingestion layer that moves data from source systems into the warehouse or lake.</p>
+<p><strong>What it's used for:</strong></p>
+<ul>
+<li>Building pipelines (a sequence of activities) that copy data from sources (on-prem SQL Server via a self-hosted integration runtime, APIs, Blob/Data Lake, SaaS connectors) into a target (Synapse, Snowflake via connector, Lakehouse).</li>
+<li>Data Flows — a low-code visual transformation canvas inside ADF (similar spirit to SSIS's data flow) for simple cleaning before landing.</li>
+<li>Scheduling/triggers — time-based, event-based (new file lands), or tumbling-window triggers so pipelines run automatically.</li>
+<li>Orchestration — chaining multiple activities/pipelines together, with dependency conditions, retries, and failure alerts.</li>
+</ul>
+<p><strong>Connectivity / data flow:</strong> ADF connects to sources via linked services (connection strings/credentials) and datasets (the actual tables/files), and writes into a sink — typically a Lakehouse/Warehouse/Blob storage — then triggers downstream processing (dbt run, stored proc, Databricks notebook).</p>
+<p><strong>How I'd say it in an interview:</strong></p>
+<p>"ADF is the cloud equivalent of what SSIS does on-prem — moving and orchestrating data between systems on a schedule. My hands-on exposure is through the DP-600 certification, where I worked with Data Factory pipelines inside Fabric for ingestion. My production experience is SSIS-based orchestration, which maps directly onto the same concepts — linked services are like SSIS connection managers, pipelines are like SSIS packages, and triggers are like SQL Agent jobs."</p>
+<h3>Where ADF would have fit in my SAR project</h3>
+<p><strong>Real scenario:</strong> The SAR data came from multiple regional financial systems, and getting that data into SQL Server was handled upstream by a separate data engineering process I didn't own — I picked up the pipeline at the SQL Server layer.</p>
+<p><strong>How ADF would have improved it:</strong></p>
+<ul>
+<li>ADF would be the piece that actually pulls from each regional system (via linked services — different connection per region), lands it into a Bronze/staging area, and triggers the SQL view refresh once landing is confirmed complete — replacing whatever manual/opaque process was feeding SQL Server before my layer even started.</li>
+<li>A tumbling-window trigger tied to each region's business-day close would solve a real problem I did have: currency conversion used "previous month's closing rate" as a fallback when the current month's rate wasn't published yet. ADF could orchestrate "don't trigger the SAR refresh pipeline until all regions have landed," instead of the pipeline running on a fixed clock and potentially picking up partial data.</li>
+<li>This is also exactly the scenario behind the "Gateway refresh failure" production issue I dealt with — ADF's built-in retry/alerting on failed activities would have caught a broken regional feed before Power BI silently served stale numbers, rather than me discovering it after the fact and adding a Last Refreshed indicator as a reactive fix.</li>
+</ul>
+<p><strong>One-line for the interview:</strong> "ADF would sit upstream of where my SQL views started — orchestrating the multi-region ingestion and only triggering the SAR refresh once all regions have actually landed, which would have prevented some of the stale-data timing issues I had to catch manually."</p>
+<p><strong>Important:</strong> If asked "Have you used ADF in production?" — don't say yes if you haven't. Say: "My production experience has primarily been SQL Server and SSIS. I have hands-on learning exposure to Data Factory through my Microsoft/Fabric work, so I understand pipelines, ingestion and orchestration, but I wouldn't claim extensive production ADF experience."</p>
+</div></div>
+</div>
+<div class="item topic-item" data-index="aa-6">
+<button class="item-head"><span class="idx">07</span><span class="item-title">Snowflake — Concept &amp; SAR Positioning</span><span class="tag">Cloud Warehouse</span><svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg></button>
+<div class="item-body"><div class="item-body-inner">
+<p><strong>Where it fits:</strong> Snowflake is the cloud data warehouse itself — the storage + compute layer that sits between ingestion (ADF/Fivetran) and transformation (dbt), and that Power BI ultimately queries.</p>
+<p><strong>What it's used for:</strong></p>
+<ul>
+<li>Storing raw and transformed data in a fully managed, separated storage/compute architecture — you can scale compute (warehouses) up/down independently of storage, and pause compute when idle to save cost.</li>
+<li>Running the SQL that dbt generates against it (Snowflake is one of the most common dbt targets).</li>
+<li>Native support for semi-structured data (JSON/Parquet via VARIANT columns), time travel (querying historical table states), and zero-copy cloning for dev/test environments.</li>
+<li>Power BI connects to it via Import or DirectQuery, same as it would to SQL Server.</li>
+</ul>
+<p><strong>How I'd say it in an interview:</strong></p>
+<p>"Snowflake plays the same role in this architecture that SQL Server plays in mine — the queryable data store Power BI connects to. The differences are architectural: separated storage/compute for elastic scaling, and native support for semi-structured data. I haven't worked hands-on with Snowflake specifically, but the SQL itself — joins, CTEs, window functions, views — is the same skill I already use daily; it's mostly the platform-specific administration (warehouses, cloning, time travel) that would be new to me."</p>
+<h3>Where Snowflake would have fit in my SAR project</h3>
+<p><strong>Real scenario:</strong> SAR ran entirely on-prem SQL Server. Compute for the currency-conversion joins and the nightly aggregations was fixed — same server capacity whether it was a light Tuesday refresh or month-end close with every region reconciling simultaneously.</p>
+<p><strong>How Snowflake would have improved it:</strong></p>
+<ul>
+<li>Separated storage/compute means I could scale up a warehouse specifically for month-end close (when reconciliation volume spikes across all regions) and scale it back down the rest of the month — instead of provisioning on-prem hardware for the worst-case load year-round.</li>
+<li>Zero-copy cloning would have been genuinely useful during UAT: clone the production SAR schema instantly for the finance team to test against without touching production, then discard it — versus the manual "restore a backup to a test server" process that on-prem UAT usually requires.</li>
+<li>Time travel could replace part of the validation process — if a stakeholder disputed a number, I could query the exact state of a table as of a specific timestamp instead of relying solely on the mapping document to trace it back.</li>
+</ul>
+<p><strong>One-line for the interview:</strong> "Snowflake would mainly have helped with the month-end compute spike and made UAT environments faster to spin up — the SQL logic itself, joins and views, would translate over almost unchanged."</p>
+</div></div>
+</div>
+<div class="item topic-item" data-index="aa-7">
+<button class="item-head"><span class="idx">08</span><span class="item-title">Azure Synapse Analytics — Concept &amp; SAR Positioning</span><span class="tag">Cloud Warehouse</span><svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg></button>
+<div class="item-body"><div class="item-body-inner">
+<p><strong>Where it fits:</strong> Synapse is Microsoft's answer to the same layer Snowflake occupies — a cloud data warehouse — but bundled together with Spark-based big-data processing and pipeline orchestration (it actually embeds a version of ADF pipelines inside it) in one workspace.</p>
+<p><strong>What it's used for:</strong></p>
+<ul>
+<li><strong>Dedicated SQL pools</strong> — MPP (massively parallel processing) SQL warehouse for structured, large-scale relational analytics — the direct evolution of Azure SQL Data Warehouse.</li>
+<li><strong>Serverless SQL pools</strong> — query files directly in a Data Lake without loading them first (pay per query, not per always-on compute).</li>
+<li><strong>Spark pools</strong> — for data-engineering-heavy transformation (Python/Scala/SQL notebooks) at larger scale than pure SQL can handle efficiently.</li>
+<li><strong>Synapse Pipelines</strong> — same ADF-style orchestration, built in.</li>
+</ul>
+<p><strong>How I'd say it in an interview:</strong></p>
+<p>"Synapse is essentially Microsoft's unified version of 'warehouse + Spark + pipelines' in one workspace — it sits in the same position as Snowflake, but with more of the ingestion and big-data engineering built in rather than being separate tools. Microsoft Fabric is actually the next evolution of this same idea, unifying it further around OneLake — and that's the direction I've been building toward through DP-600, even though my production hands-on is still SQL Server-based."</p>
+<h3>Where Synapse would have fit in my SAR project</h3>
+<p><strong>Real scenario:</strong> Same as Snowflake conceptually, but since SAR was already a Microsoft-stack shop (SQL Server, Power BI, on-prem gateway), Synapse would have been the more natural cloud migration path than introducing a third-party warehouse.</p>
+<p><strong>How Synapse would have improved it:</strong></p>
+<ul>
+<li>Migrating FactSpend and the dimension tables into a dedicated SQL pool keeps the exact same T-SQL I already know (views, joins, stored procs) — the lowest-friction cloud migration of the options here.</li>
+<li>Serverless SQL pools would be useful for the raw regional exports before they're even loaded — query CSV/Parquet exports sitting in a Data Lake directly for ad-hoc validation, without needing to load them into a table first just to spot-check a number.</li>
+<li>Since Synapse bundles pipeline orchestration in the same workspace, the ADF-style ingestion and the warehouse itself live together — one workspace instead of stitching SQL Server + a separate orchestration tool.</li>
+</ul>
+<p><strong>One-line for the interview:</strong> "Given SAR was already fully Microsoft-stack, Synapse would have been the natural next step — same T-SQL skill set, but with elastic compute and built-in orchestration instead of a fixed on-prem SQL Server box."</p>
+</div></div>
+</div>
+<div class="item topic-item" data-index="aa-8">
+<button class="item-head"><span class="idx">09</span><span class="item-title">ELT vs ETL — Bridging from SSIS</span><span class="tag">Architecture</span><svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg></button>
+<div class="item-body"><div class="item-body-inner">
+<p>This is the one you can speak about most confidently, because the concept is identical to what you've already done — only the order of operations changes.</p>
+<p><strong>ETL (what you've done):</strong> Extract from source → Transform in the pipeline/staging area (SSIS data flow, or before loading) → Load the already-clean data into the destination.</p>
+<p><strong>ELT (the modern cloud pattern):</strong> Extract from source → Load the raw data into the warehouse/lake as-is → Transform it afterward, inside the warehouse, using the warehouse's own compute (this is exactly where dbt sits).</p>
+<p><strong>Why the switch happened:</strong> Cloud warehouses (Snowflake/Synapse/Fabric) got cheap and fast enough that it's now more efficient to just dump raw data in and let the warehouse's own massively parallel compute do the transformation, rather than transforming it in a separate ETL engine first. It also means the raw, untransformed data is always available for re-processing if the business logic changes later.</p>
+<p><strong>How I'd say it in an interview:</strong> "In my SSIS work, transformation happened in the pipeline before the data landed — that's ETL. The modern pattern is ELT: land the raw data first, then transform it in-warehouse using SQL — which is exactly what dbt does. Conceptually I already think this way — I push heavy transformation into SQL views close to the source rather than doing everything in Power Query — so ELT is a natural extension of that same instinct, just moved one layer further upstream."</p>
+<h3>Where ELT vs ETL fits in my SAR project</h3>
+<p><strong>Real scenario:</strong> SAR's actual flow was ETL: data engineering transformed/landed data before it reached my SQL Server layer, and I did further transformation in SQL views before Power Query and the model ever saw it. Every transformation step was "clean first, then move forward."</p>
+<p><strong>How ELT would change it:</strong> Under ELT, raw regional data lands in the warehouse (Snowflake/Synapse) completely untransformed first. Then vw_currency_conversion-equivalent logic runs inside the warehouse via dbt models, using the warehouse's own compute instead of SQL Server's. Concrete benefit for SAR specifically: when the fiscal-year logic or currency rate policy changed (which finance did ask for periodically), under ETL I'd have to re-run the whole ingestion pipeline to reprocess history. Under ELT, the raw untransformed data is already sitting there — I just re-run the transformation models against it, which is faster and doesn't require going back to the source systems at all.</p>
+<p><strong>One-line for the interview:</strong> "My SSIS/SQL-views approach was ETL — transform before it lands. ELT would mean landing the raw regional data untouched first, so if the currency-conversion rule changes later, I re-run the transformation against data I already have instead of re-pulling from source."</p>
+</div></div>
+</div>
+<div class="item topic-item" data-index="aa-9">
+<button class="item-head"><span class="idx">10</span><span class="item-title">Slowly Changing Dimensions (SCD)</span><span class="tag">Data Modeling</span><svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg></button>
+<div class="item-body"><div class="item-body-inner">
+<p><strong>What it is:</strong> A technique for handling changes to dimension attributes over time (e.g., a customer's address changes, an employee changes department) without losing history.</p>
+<p>The two types worth knowing cold:</p>
+<ul>
+<li><strong>SCD Type 1</strong> — overwrite the old value. No history kept. Use when you only care about the current state (e.g., correcting a typo).</li>
+<li><strong>SCD Type 2</strong> — insert a new row for the change, keep the old row, and use StartDate/EndDate (or a IsCurrent flag) to track which row was active when. This preserves full history — critical when historical reports need to reflect "what was true at the time," not "what's true now."</li>
+</ul>
+<p><strong>Where it fits in the pipeline:</strong> SCD logic lives in the transformation layer — in dbt, this is typically implemented with a built-in snapshot feature (<code>dbt snapshot</code>) that automatically detects changes in a source table and maintains Type 2 history for you, rather than you hand-writing the merge logic.</p>
+<p><strong>How I'd say it in an interview:</strong> "I haven't implemented SCD Type 2 hands-on, but I understand the concept clearly — it's about preserving history when a dimension attribute changes, using effective-dated rows instead of overwriting. In dbt this is handled through snapshots, which automate exactly that pattern. My current dimension tables have generally been Type 1 — I overwrite because the projects I've worked on didn't have a hard requirement to preserve historical attribute values — but I'd apply Type 2 wherever the business genuinely needs 'as it was on that date' reporting, like tracking a customer's region history for accurate historical trend analysis."</p>
+<h3>Where SCD fits in my SAR project</h3>
+<p><strong>Real scenario:</strong> DimDepartment, DimCostCenter, and the org-hierarchy dimensions in SAR were almost certainly Type 1 in practice — if a department got renamed or moved under a different functional area mid-year, the dimension table would just reflect the current structure.</p>
+<p><strong>Why this is a real gap, not a theoretical one:</strong> If finance leadership asked "show me Q2 spend using the org structure as it existed in Q2" (a completely normal FP&amp;A request — org restructures happen mid-year all the time), a Type 1 dimension can't answer that correctly — it would retroactively apply today's org structure to historical spend, silently producing the wrong number for a variance/prior-year comparison.</p>
+<p><strong>How SCD Type 2 (via dbt snapshots) would improve it:</strong> Snapshot DimDepartment and DimCostCenter with StartDate/EndDate/IsCurrent columns. FactSpend transactions join to the dimension row that was active on the transaction date, not the current one. This directly protects the accuracy of the Fiscal YTD / Prior Year Comparison measures I built — those measures are only trustworthy if the dimension attributes used for the comparison were also correct for that period.</p>
+<p><strong>One-line for the interview:</strong> "My dimensions were Type 1 in practice. For SAR specifically, that's a real risk if a department gets reorganized mid-year — Prior Year Comparison would silently use today's org structure instead of the structure that was actually true back then. SCD Type 2 via dbt snapshots would fix that."</p>
+</div></div>
+</div>
+<div class="item topic-item" data-index="aa-10">
+<button class="item-head"><span class="idx">11</span><span class="item-title">Reusable dbt Models &amp; Dependency Tracking</span><span class="tag">Best Practice</span><svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg></button>
+<div class="item-body"><div class="item-body-inner">
+<p><strong>What it means:</strong> In dbt, you don't repeat the same SQL logic across multiple models — you build layered, reusable models:</p>
+<ul>
+<li><strong>Staging models</strong> — one per source table, doing only light cleaning (renaming, type casting) — the foundation everything else builds on.</li>
+<li><strong>Intermediate models</strong> — reusable business logic (e.g., a int_orders_joined_customers model) that multiple downstream models can reference instead of re-joining the same tables repeatedly.</li>
+<li><strong>Mart models</strong> — the final fact/dimension tables Power BI actually connects to, built by referencing (ref()) the staging/intermediate models above them.</li>
+<li><strong>Macros</strong> (dbt's equivalent of reusable functions, written in Jinja+SQL) — for logic you'd otherwise copy-paste across many models, like a standard currency-conversion snippet or a consistent date-spine.</li>
+</ul>
+<p><strong>Why it matters:</strong> Change the business logic once in a reusable model/macro, and every downstream model that references it updates automatically on the next dbt run — versus hunting down and fixing five duplicated SQL views by hand.</p>
+<p><strong>How I'd say it in an interview:</strong> "This is exactly the same principle behind why I centralize business logic in SQL views like vw_kpi_master instead of repeating the same joins and calculations across multiple reports — one change propagates everywhere instead of needing five manual updates. dbt's staging → intermediate → mart layering and its macros just formalize that same 'single source of truth' discipline with built-in dependency tracking, so I'd be applying a habit I already have, in a new tool."</p>
+<h3>Where this fits in my SAR project</h3>
+<p><strong>Real scenario:</strong> vw_kpi_master was my attempt at exactly this — centralizing KPI logic in one place so every downstream report used the same definition instead of five different SQL queries computing "Variance %" slightly differently.</p>
+<p><strong>How dbt formalizes it further:</strong></p>
+<ul>
+<li>Staging layer: one model per raw source table (stg_transactions, stg_budget, stg_exchange_rates, stg_org_mapping) — light cleaning only.</li>
+<li>Intermediate layer: int_currency_converted (reusable currency logic), int_fiscal_calendar_mapped (reusable fiscal-year logic) — each referenced by multiple downstream marts instead of copy-pasted.</li>
+<li>Mart layer: fct_spend, dim_department, etc. — the actual tables the Power BI semantic model connects to.</li>
+<li>Macros: a reusable Jinja macro for "convert to fiscal year" or "apply currency rate" that gets called everywhere that logic is needed, instead of the same CASE WHEN block appearing in three different views.</li>
+</ul>
+<p><strong>Concrete improvement:</strong> When finance changed the fiscal year-end assumption or asked for a new currency-rate rule, I'd change it in one macro or intermediate model, and every mart that referenced it — and every report built on those marts — updates automatically on the next run. Under my actual SQL-views approach, I had to manually track down and update every view that touched that logic.</p>
+<p><strong>One-line for the interview:</strong> "vw_kpi_master was my manual version of a reusable dbt model — one source of truth for KPI logic. dbt's layering and macros would have made that pattern explicit and dependency-tracked, so a fiscal-year rule change propagates automatically instead of me manually hunting down every view that needs updating."</p>
+<h3>Closing gap-analysis line</h3>
+<p>"My hands-on depth is in SQL Server, SSIS, and Power BI — and I've built strong discipline there around SQL-based transformation, validation, and reusable logic. The cloud/ELT stack — dbt, ADF, Snowflake, Synapse — represents the same underlying concepts on modern tooling, which I've been deliberately building toward through the DP-600 certification. I'd rather be upfront that my production experience is on-prem-first than overstate cloud tools I haven't shipped with yet."</p>
+</div></div>
+</div>
+<div class="item topic-item" data-index="aa-11">
+<button class="item-head"><span class="idx">12</span><span class="item-title">SQL — Explain Your Last Query</span><span class="tag">SQL</span><svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg></button>
+<div class="item-body"><div class="item-body-inner">
+<h3>"Tell me about the last SQL query you wrote for work"</h3>
+<p><strong>Direct Answer:</strong></p>
+<p>"One of the recent SQL queries I worked on was for the Spend Analysis Report, where the business wanted to understand actual spending against budget and prior-year performance across regions, departments and cost centers.</p>
+<p>I worked with the transaction/spend data and joined it with the budget, organizational mapping and date-related data. I used joins, aggregations and conditional logic to prepare a reporting dataset, which was then consumed by Power BI for Actual Spend, Budget, Variance %, Fiscal YTD and Prior Year analysis."</p>
+<p><strong>Go Deeper — if they ask what exactly you did:</strong></p>
+<p>"I used SQL Views to centralize the preparation and business logic before Power BI. I also handled things like currency conversion, fiscal-calendar mapping and validation checks.</p>
+<p>After generating the SQL output, I reconciled the results against the source data and then validated them again in Power BI. So SQL was not just for extracting data; it was also part of the data-quality and reporting layer."</p>
+<p>Your SAR architecture was essentially financial source systems → SQL Server → SQL Views such as currency conversion/KPI preparation → Power Query → Power BI semantic model, with Fiscal YTD, Budget, Variance and Dynamic RLS handled in the reporting layer.</p>
+<p><strong>If they ask: "What tables were involved?"</strong></p>
+<p>"The main datasets were the spend or transaction data, budget data, exchange-rate data, and organizational mapping. I also used dimension information such as Date, Region, Department and Cost Center for reporting."</p>
+<p><strong>If they ask: "What SQL concepts did you use?"</strong></p>
+<p>"Mainly JOINs, GROUP BY, aggregate functions, CASE WHEN, date filtering and SQL Views. Depending on the requirement, I also used CTEs and window functions for more complex analysis."</p>
+<p><strong>If they ask: "Why SQL View?"</strong></p>
+<p>"I preferred putting reusable preparation and business logic into SQL Views so that Power BI received a cleaner and more consistent dataset. It also helped centralize the logic and improve maintainability."</p>
+<p>This is much more credible than saying you simply wrote a query to "get sales."</p>
+<h3>If they ask you to explain the query technically</h3>
+<pre><code class="language-sql">SELECT
+    d.FiscalYear,
+    d.FiscalMonth,
+    r.Region,
+    dept.Department,
+    cc.CostCenter,
+    SUM(s.ActualSpend) AS ActualSpend,
+    SUM(s.Budget) AS Budget
+FROM SpendData s
+LEFT JOIN DimDate d
+    ON s.DateKey = d.DateKey
+LEFT JOIN DimRegion r
+    ON s.RegionKey = r.RegionKey
+LEFT JOIN DimDepartment dept
+    ON s.DepartmentKey = dept.DepartmentKey
+LEFT JOIN DimCostCenter cc
+    ON s.CostCenterKey = cc.CostCenterKey
+GROUP BY
+    d.FiscalYear,
+    d.FiscalMonth,
+    r.Region,
+    dept.Department,
+    cc.CostCenter;</code></pre>
+<p>Then explain it in 3 sentences: "SpendData is my base transaction dataset. I use LEFT JOINs to bring the reporting attributes from the dimensions while preserving the spend records. Then I aggregate Actual Spend and Budget at the required fiscal, regional, departmental and cost-center level."</p>
+<p>Don't memorize the exact SQL as if this was literally your last query. Memorize the business problem + tables + concepts. If they ask you to write SQL live, you can build it naturally.</p>
+</div></div>
+</div>
+<div class="item topic-item" data-index="aa-12">
+<button class="item-head"><span class="idx">13</span><span class="item-title">Interview Prep Priorities &amp; Story Flow</span><span class="tag">Strategy</span><svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg></button>
+<div class="item-body"><div class="item-body-inner">
+<h3>Priority order for the cloud/ELT topics</h3>
+<div class="table-wrap"><table><thead><tr><th>Priority</th><th>Topic</th><th>Likelihood</th><th>Why</th></tr></thead><tbody>
+<tr><td>🔴 1</td><td>ETL vs ELT</td><td>Very High</td><td>Connects directly to your SSIS + SQL experience</td></tr>
+<tr><td>🔴 2</td><td>ADF</td><td>Very High</td><td>Common Microsoft data-engineering topic</td></tr>
+<tr><td>🔴 3</td><td>SQL Views / transformation layer</td><td>Very High</td><td>Directly matches your SAR experience</td></tr>
+<tr><td>🔴 4</td><td>dbt</td><td>High</td><td>Modern transformation/ELT tool</td></tr>
+<tr><td>🔴 5</td><td>Snowflake</td><td>High</td><td>Common cloud DW interview topic</td></tr>
+<tr><td>🔴 6</td><td>Synapse</td><td>High</td><td>Important for Microsoft ecosystem</td></tr>
+<tr><td>🟠 7</td><td>SCD Type 1 vs Type 2</td><td>Medium-High</td><td>Common data-modeling question</td></tr>
+<tr><td>🟠 8</td><td>Reusable dbt models</td><td>Medium</td><td>More likely if interviewer goes deeper into dbt</td></tr>
+<tr><td>🟡 9</td><td>dbt snapshots</td><td>Medium</td><td>Advanced dbt</td></tr>
+<tr><td>🟡 10</td><td>Snowflake Time Travel / cloning</td><td>Lower</td><td>Tool-specific detail</td></tr>
+</tbody></table></div>
+<h3>Broader interview priority — Tier 1: MUST KNOW</h3>
+<ol>
+<li>SQL Joins</li>
+<li>GROUP BY / HAVING</li>
+<li>CTE</li>
+<li>Window Functions</li>
+<li>CASE WHEN</li>
+<li>SQL Views</li>
+<li>Duplicates / NULLs</li>
+<li>Query optimization</li>
+<li>Power BI Star Schema</li>
+<li>Relationships/Cardinality</li>
+<li>DAX CALCULATE</li>
+<li>Filter context</li>
+<li>YTD / Prior Year / YoY</li>
+<li>Power Query</li>
+<li>Data validation/reconciliation</li>
+<li>Why a particular visual</li>
+<li>RLS</li>
+<li>Wrong number troubleshooting</li>
+<li>Performance troubleshooting</li>
+<li>Explain your SAR project end-to-end</li>
+</ol>
+<h3>Tier 2 — HIGH PRIORITY</h3>
+<ol start="21">
+<li>ETL vs ELT</li>
+<li>ADF</li>
+<li>dbt</li>
+<li>Snowflake</li>
+<li>Synapse</li>
+<li>SCD Type 1/2</li>
+<li>Incremental Refresh</li>
+<li>Import vs DirectQuery</li>
+<li>Direct Lake</li>
+<li>Gateway/refresh</li>
+<li>Drill-down vs drill-through</li>
+<li>UAT</li>
+<li>Data-quality checks</li>
+<li>SQL vs Power Query transformations</li>
+</ol>
+<h3>Tier 3 — Prepare if time permits</h3>
+<ol start="35">
+<li>dbt snapshots</li>
+<li>dbt macros</li>
+<li>Snowflake Time Travel</li>
+<li>Zero-copy cloning</li>
+<li>Synapse serverless vs dedicated SQL pool</li>
+<li>Spark</li>
+<li>Advanced Fabric architecture</li>
+</ol>
+<h3>Your strongest interview story</h3>
+<p>The whole interview should connect like this:</p>
+<pre><code class="language-text">Business requirement
+↓
+Multiple financial data sources
+↓
+SQL Server
+↓
+SQL Views — joins, validation, currency/business logic
+↓
+Power Query — final shaping
+↓
+Star Schema
+↓
+DAX — Actual, Budget, Prior Year, Variance, Fiscal YTD
+↓
+Power BI visuals + drill-down
+↓
+Dynamic RLS
+↓
+Validation → UAT → Production</code></pre>
+<p>That is your core story. Your answers should repeatedly come back to this rather than giving disconnected textbook definitions.</p>
+</div></div>
+</div>
+<div class="item topic-item" data-index="aa-13">
+<button class="item-head"><span class="idx">14</span><span class="item-title">Python for Data Transformation</span><span class="tag">11 Questions</span><svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg></button>
+<div class="item-body"><div class="item-body-inner">
+<div class="item question-item" data-question="aa-q1">
+<button class="item-head"><span class="idx">01</span><span class="item-title">Why do you use Python in data analytics/data engineering?</span><svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg></button>
+<div class="item-body"><div class="item-body-inner">
+<p>"I use Python mainly when the transformation or analysis becomes more flexible or repetitive than what I would comfortably handle in SQL or Power BI. I primarily use Pandas for data cleaning, transformation, validation and exploratory analysis.</p>
+<p>For example, in a financial reporting process, I could use Python to read Excel or CSV files, standardize column names and data types, handle missing values, identify duplicates and perform validations before the data moves into the reporting layer.</p>
+<p>In my Cognizant work, SQL was my primary tool for database-side transformations and reporting datasets, while Python was useful for analytical and data-processing tasks. I generally prefer to perform heavy database transformations in SQL when the data is already in SQL Server, rather than unnecessarily moving large datasets into Python.</p>
+<p>So my approach is to use SQL where database processing is appropriate, Python for flexible data transformation or analysis, and Power BI for semantic modeling and reporting."</p>
+<p><strong>Business scenario:</strong> "Suppose Finance sends a monthly Excel file with inconsistent column names, nulls and duplicate records. I could use Pandas to standardize and validate the file, generate an exception output and then load the clean data into the reporting process."</p>
+</div></div>
+</div>
+<div class="item question-item" data-question="aa-q2">
+<button class="item-head"><span class="idx">02</span><span class="item-title">How do you read a CSV/Excel/database file using Pandas?</span><svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg></button>
+<div class="item-body"><div class="item-body-inner">
+<p>"With Pandas, I would use <code>read_csv()</code> for CSV files and <code>read_excel()</code> for Excel files. For database data, I would establish a database connection and use <code>read_sql()</code> to execute a query and return the result as a DataFrame.</p>
+<p>Before transformation, I would inspect the columns, data types, record count and sample records. I don't immediately start transforming the data because I first want to understand the structure and identify potential data-quality issues."</p>
+<pre><code class="language-python">import pandas as pd
+
+df = pd.read_excel("spend_data.xlsx")
+
+print(df.shape)
+print(df.dtypes)
+print(df.head())</code></pre>
+</div></div>
+</div>
+<div class="item question-item" data-question="aa-q3">
+<button class="item-head"><span class="idx">03</span><span class="item-title">Series vs DataFrame</span><svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg></button>
+<div class="item-body"><div class="item-body-inner">
+<p>"A Pandas Series is essentially a one-dimensional labeled array, while a DataFrame is a two-dimensional tabular structure containing rows and columns.</p>
+<p>For example, a single Department column can be represented as a Series, while the complete spend dataset containing Department, Region, Cost Center, Amount and Date would be a DataFrame.</p>
+<p>In practical data analysis, I would normally work with DataFrames because business datasets contain multiple related columns."</p>
+<p><strong>Business scenario:</strong> "<code>df['Department']</code> returns a Series, while <code>df[['Department','Region','Spend']]</code> returns a DataFrame."</p>
+</div></div>
+</div>
+<div class="item question-item" data-question="aa-q4">
+<button class="item-head"><span class="idx">04</span><span class="item-title">How do you handle null values?</span><svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg></button>
+<div class="item-body"><div class="item-body-inner">
+<p>"I don't automatically replace every null with zero because the correct treatment depends on the business meaning of the missing value.</p>
+<p>First, I identify where nulls exist and how many records are affected. Then I determine whether the field is mandatory, optional or derived.</p>
+<p>For example, if Department is mandatory and is null, I would flag that record as a data-quality exception rather than blindly assigning a department. If a numeric field legitimately has no value and the business defines it as zero, then I can replace it with zero."</p>
+<p><strong>Business scenario:</strong> "Missing Cost Center → exception. Missing optional description → potentially leave null. Missing spend amount → investigate rather than automatically converting to zero."</p>
+</div></div>
+</div>
+<div class="item question-item" data-question="aa-q5">
+<button class="item-head"><span class="idx">05</span><span class="item-title">How do you remove duplicates?</span><svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg></button>
+<div class="item-body"><div class="item-body-inner">
+<p>"First I define what makes a record unique from a business perspective. Then I identify duplicates using the appropriate business key before deciding whether they should actually be removed.</p>
+<p>For example, in a transaction dataset, Transaction ID may be the unique key. I would identify duplicate Transaction IDs and investigate whether they represent true duplicates or legitimate multiple transactions.</p>
+<p>If they are genuine duplicates, I can use Pandas <code>drop_duplicates()</code>. But in a financial report, I would validate the effect on control totals before removing anything."</p>
+<pre><code class="language-python">duplicates = df[df.duplicated('TransactionID', keep=False)]</code></pre>
+<p>Then investigate before deletion.</p>
+</div></div>
+</div>
+<div class="item question-item" data-question="aa-q6">
+<button class="item-head"><span class="idx">06</span><span class="item-title">How do you merge two DataFrames?</span><svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg></button>
+<div class="item-body"><div class="item-body-inner">
+<p>"I use Pandas <code>merge()</code> when I need to combine two DataFrames based on a common business key. Conceptually, it is similar to a SQL JOIN.</p>
+<p>For example, in a spend dataset, I could have transactions in one DataFrame and department mapping in another. I would merge them using Department ID.</p>
+<p>Before merging, I check whether the key is unique on the dimension side because duplicate keys can unexpectedly multiply transaction rows."</p>
+<pre><code class="language-python">result = spend.merge(
+    department,
+    on='DepartmentID',
+    how='left'
+)</code></pre>
+</div></div>
+</div>
+<div class="item question-item" data-question="aa-q7">
+<button class="item-head"><span class="idx">07</span><span class="item-title">Difference between merge(), concat() and join()</span><svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg></button>
+<div class="item-body"><div class="item-body-inner">
+<p>"I remember them based on the purpose. <code>merge()</code> combines datasets using matching keys, similar to a SQL JOIN. <code>concat()</code> is mainly used to combine datasets by stacking rows or columns. <code>join()</code> is another way of combining DataFrames, commonly using indexes or a specified key.</p>
+<p>For example, combining January and February files with the same structure would normally use <code>concat()</code>. Combining transactions with department mapping would use <code>merge()</code>.</p>
+<p>The important point is to choose based on whether I need to add rows or related attributes."</p>
+<p><strong>Business scenario:</strong> "Monthly files → concat(). Transaction + Department → merge(). Index-based combination → join()."</p>
+</div></div>
+</div>
+<div class="item question-item" data-question="aa-q8">
+<button class="item-head"><span class="idx">08</span><span class="item-title">How do you perform groupby aggregation?</span><svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg></button>
+<div class="item-body"><div class="item-body-inner">
+<p>"I use <code>groupby()</code> when I need to aggregate data by one or more business dimensions. It is conceptually similar to SQL GROUP BY.</p>
+<p>For example, for SAR I could group spending by Region and Department and calculate total spend.</p>
+<p>I would also validate the aggregated result against the source control total to ensure that the transformation didn't accidentally exclude or duplicate records."</p>
+<pre><code class="language-python">result = df.groupby(
+    ['Region', 'Department']
+)['ActualSpend'].sum().reset_index()</code></pre>
+</div></div>
+</div>
+<div class="item question-item" data-question="aa-q9">
+<button class="item-head"><span class="idx">09</span><span class="item-title">How do you filter rows using multiple conditions?</span><svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg></button>
+<div class="item-body"><div class="item-body-inner">
+<p>"In Pandas, I use boolean conditions and combine them using operators such as <code>&amp;</code> for AND and <code>|</code> for OR. I normally put each condition inside parentheses for clarity.</p>
+<p>For example, I could filter SAR transactions for a particular fiscal year and region.</p>
+<p>I would make sure the date and categorical columns have the correct data types before filtering."</p>
+<pre><code class="language-python">filtered = df[
+    (df['Region'] == 'North') &amp;
+    (df['FiscalYear'] == 2026)
+]</code></pre>
+</div></div>
+</div>
+<div class="item question-item" data-question="aa-q10">
+<button class="item-head"><span class="idx">10</span><span class="item-title">How would you process 1 million+ records efficiently?</span><svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg></button>
+<div class="item-body"><div class="item-body-inner">
+<p>"My first approach would be to avoid moving unnecessarily large datasets into Python. If the source is SQL Server, I would push filtering, aggregation and heavy transformations into SQL wherever possible.</p>
+<p>If Python processing is genuinely required, I would select only required columns, filter early, use vectorized Pandas operations instead of row-by-row processing, and consider chunking for very large files.</p>
+<p>This follows the same principle I use in Power BI and SQL: reduce data early and perform processing at the layer where it is most efficient."</p>
+<p><strong>Business scenario:</strong> "Instead of loading 10 million rows and filtering to one fiscal year in Python, I would first filter the SQL query to the required period and columns."</p>
+</div></div>
+</div>
+<div class="item question-item" data-question="aa-q11">
+<button class="item-head"><span class="idx">11</span><span class="item-title">Sales file has nulls, duplicates and invalid dates. How would you clean it?</span><svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg></button>
+<div class="item-body"><div class="item-body-inner">
+<p>"I would handle it in a controlled sequence rather than immediately deleting bad records.</p>
+<p>First, I would profile the dataset — record count, columns, data types and null percentage. Then I would standardize column names and convert the date column to a proper date type.</p>
+<p>Next, I would identify duplicate records using the business key and investigate whether they are genuine duplicates. I would identify nulls in mandatory fields and create exception records where appropriate.</p>
+<p>For invalid dates, I would convert them using error handling so invalid values become identifiable rather than silently accepted.</p>
+<p>After cleaning, I would validate record counts and important business totals against the source. Only after those checks pass would I allow the data to feed reporting."</p>
+<p><strong>Business scenario:</strong> "100,000 sales records → 2,000 duplicate candidates → investigate → remove confirmed duplicates → 500 invalid dates → exception report → validate total sales → publish clean dataset."</p>
+</div></div>
+</div>
+</div></div>
+</div>
+<div class="item topic-item" data-index="aa-14">
+<button class="item-head"><span class="idx">15</span><span class="item-title">ETL / ELT Pipeline Concepts</span><span class="tag">9 Questions</span><svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg></button>
+<div class="item-body"><div class="item-body-inner">
+<div class="item question-item" data-question="aa-q12">
+<button class="item-head"><span class="idx">01</span><span class="item-title">What is ETL?</span><svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg></button>
+<div class="item-body"><div class="item-body-inner">
+<p>"ETL stands for Extract, Transform and Load. Data is extracted from the source, transformed according to business and data-quality rules, and then loaded into the target system.</p>
+<p>My practical experience is primarily aligned with this traditional approach through SQL Server and SSIS. Data would be extracted from source systems, transformed through the ETL process or SQL layer, validated and then made available for reporting.</p>
+<p>The main advantage is that the target receives data that has already gone through the required transformation and validation."</p>
+<p><strong>Business scenario:</strong> "Source financial files → SSIS extraction → cleaning and transformation → SQL Server → Power BI reporting."</p>
+</div></div>
+</div>
+<div class="item question-item" data-question="aa-q13">
+<button class="item-head"><span class="idx">02</span><span class="item-title">What is ELT?</span><svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg></button>
+<div class="item-body"><div class="item-body-inner">
+<p>"ELT means Extract, Load and Transform. Instead of performing all transformation before loading, we first load the raw or relatively raw data into a scalable warehouse or lake, and then perform transformations inside that platform.</p>
+<p>This is common in modern cloud architectures because platforms such as Snowflake, Synapse and Fabric provide scalable compute.</p>
+<p>My production experience is more ETL-oriented with SQL Server and SSIS, but the transformation concepts are transferable. In an ELT architecture, a tool such as dbt can perform SQL-based transformation after the data has landed."</p>
+<p><strong>Business scenario:</strong> "Regional financial data → cloud warehouse → staging → transformation models → fact/dimension → Power BI."</p>
+</div></div>
+</div>
+<div class="item question-item" data-question="aa-q14">
+<button class="item-head"><span class="idx">03</span><span class="item-title">ETL vs ELT</span><svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg></button>
+<div class="item-body"><div class="item-body-inner">
+<p>"The main difference is where transformation happens. In ETL, transformation happens before the data is loaded into the target. In ELT, raw data is loaded first and transformed inside the target platform.</p>
+<p>I have more direct production experience with ETL through SSIS and SQL Server. ELT is the modern cloud pattern I understand conceptually through my cloud/Fabric learning.</p>
+<p>I would choose based on the architecture, data volume, platform capabilities, governance and business requirements rather than assuming one approach is always better."</p>
+<p><strong>Business scenario:</strong> "SSIS-based SQL Server workflow → ETL. Cloud warehouse + dbt transformation → ELT."</p>
+</div></div>
+</div>
+<div class="item question-item" data-question="aa-q15">
+<button class="item-head"><span class="idx">04</span><span class="item-title">What are the typical stages of a data pipeline?</span><svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg></button>
+<div class="item-body"><div class="item-body-inner">
+<p>"I generally think about a pipeline in seven stages: Source, Ingestion, Staging, Transformation, Validation, Warehouse or Semantic Layer, and Reporting.</p>
+<p>For example, financial source systems provide transactions and budget data. The ingestion layer brings the data into the platform, staging stores it in a controlled form, transformation applies business logic, validation checks the output, and the final data is modeled for reporting.</p>
+<p>In my SAR work, SQL Server and SQL Views were important transformation and preparation layers before Power BI."</p>
+<pre><code class="language-text">Source → Ingestion → Staging → Transformation → Validation → Warehouse/Model → Power BI</code></pre>
+</div></div>
+</div>
+<div class="item question-item" data-question="aa-q16">
+<button class="item-head"><span class="idx">05</span><span class="item-title">What is a staging layer?</span><svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg></button>
+<div class="item-body"><div class="item-body-inner">
+<p>"A staging layer is an intermediate area where source data is landed before final business transformation and reporting. It helps separate raw ingestion from business logic.</p>
+<p>I can use it to standardize data types, column names, perform initial validation and prepare data for downstream transformation.</p>
+<p>The benefit is that if there is a problem in the final report, I can trace the data through the different layers rather than having everything mixed together."</p>
+<p><strong>Business scenario:</strong> "Regional finance files land in staging first, then currency, organizational mapping and business rules are applied before the final reporting model."</p>
+</div></div>
+</div>
+<div class="item question-item" data-question="aa-q17">
+<button class="item-head"><span class="idx">06</span><span class="item-title">What is incremental loading? Full load vs incremental load</span><svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg></button>
+<div class="item-body"><div class="item-body-inner">
+<p>"Incremental loading means processing only new or changed records instead of reprocessing the entire dataset every time.</p>
+<p>For example, if yesterday's table contains 10 million records and today's source has only 50,000 new or changed records, an incremental process would process those 50,000 rather than all 10 million.</p>
+<p>It improves processing time and reduces unnecessary source and target workload."</p>
+<p>"A full load processes the complete source dataset every time, while an incremental load processes only new or changed data. Full load is simpler and can be appropriate for small datasets or initial loads. Incremental loading is generally more efficient for large datasets where only a small percentage changes. The important part of incremental loading is having a reliable change indicator and handling updates, deletes and failed runs correctly."</p>
+<p><strong>Business scenario:</strong> "Use CreatedDate, ModifiedDate or another watermark to identify records changed since the last successful load. Initial SAR load → full load. Daily finance refresh → incremental load based on the approved change timestamp."</p>
+</div></div>
+</div>
+<div class="item question-item" data-question="aa-q18">
+<button class="item-head"><span class="idx">07</span><span class="item-title">What is CDC (Change Data Capture)?</span><svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg></button>
+<div class="item-body"><div class="item-body-inner">
+<p>"CDC stands for Change Data Capture. It is a mechanism for identifying changes such as inserts, updates and sometimes deletes in a source system so downstream processes don't have to reload the entire dataset.</p>
+<p>CDC can be useful when the source is large and changes frequently.</p>
+<p>For example, instead of extracting the complete customer or transaction table every day, I could consume only the records that were inserted or modified since the previous extraction."</p>
+<p><strong>Business scenario:</strong> "10 million-row source with only 20,000 daily changes → CDC allows downstream processing to focus on those changes."</p>
+</div></div>
+</div>
+<div class="item question-item" data-question="aa-q19">
+<button class="item-head"><span class="idx">08</span><span class="item-title">Daily pipeline failed halfway. How do you restart without duplicates?</span><svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg></button>
+<div class="item-body"><div class="item-body-inner">
+<p>"I would first identify exactly where the failure occurred and whether the previous step committed successfully. I wouldn't simply rerun the complete pipeline without checking, because that could duplicate already-loaded records.</p>
+<p>I would design the pipeline to be restartable using checkpoints, batch IDs, watermarks or staging tables. Before inserting into the target, I would use the business key or appropriate merge/upsert logic to ensure that already-processed records aren't inserted again.</p>
+<p>I would then rerun from the failed stage, validate source-to-target counts and totals, and document the failure and recovery."</p>
+<p><strong>Business scenario:</strong> "500K records → 300K successfully loaded → pipeline fails → identify completed batch → restart remaining 200K → use business-key validation/upsert → reconcile final 500K."</p>
+</div></div>
+</div>
+<div class="item question-item" data-question="aa-q20">
+<button class="item-head"><span class="idx">09</span><span class="item-title">Explain a data warehouse architecture end-to-end.</span><svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg></button>
+<div class="item-body"><div class="item-body-inner">
+<p>"I normally visualize the architecture as Source → Ingestion → Staging → Transformation → Data Warehouse → Fact and Dimensions → Semantic Layer → Reporting.</p>
+<p>Source systems can be ERP databases, APIs, Excel or CSV files. An ingestion tool such as ADF or Fabric Data Factory moves the data into the platform.</p>
+<p>The staging layer holds the incoming data. The transformation layer applies cleaning and business rules. The warehouse stores structured analytical data, usually organized into fact and dimension tables.</p>
+<p>Then the semantic layer defines relationships, measures and business logic, and Power BI consumes that layer for reporting.</p>
+<p>Data-quality checks should happen throughout the process, not only at the end."</p>
+<p><strong>Business scenario:</strong> "Regional finance systems → ingestion → staging → transformation → FactSpend + dimensions → semantic model → Power BI."</p>
+</div></div>
+</div>
+</div></div>
+</div>
+<div class="item topic-item" data-index="aa-15">
+<button class="item-head"><span class="idx">16</span><span class="item-title">dbt — Rapid-Fire Q&amp;A</span><span class="tag">8 Questions</span><svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg></button>
+<div class="item-body"><div class="item-body-inner">
+<div class="item question-item" data-question="aa-q21">
+<button class="item-head"><span class="idx">01</span><span class="item-title">What is dbt?</span><svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg></button>
+<div class="item-body"><div class="item-body-inner">
+<p>"dbt is primarily a SQL-based transformation tool used in modern ELT architectures. It doesn't normally extract data from source systems or act as the primary ingestion tool. Instead, data is already present in the warehouse, and dbt transforms it into structured models.</p>
+<p>A typical dbt project can have staging models, intermediate transformations and final fact or dimension models.</p>
+<p>What makes dbt useful is that it adds capabilities around SQL transformations such as testing, documentation, dependency management and lineage.</p>
+<p>My professional transformation experience is primarily SQL Server, SQL Views and SSIS rather than dbt, but the underlying SQL transformation concepts are familiar to me."</p>
+<p><strong>Business scenario:</strong> "SAR transaction data → staging model → currency/business transformation → fact spend model → Power BI."</p>
+</div></div>
+</div>
+<div class="item question-item" data-question="aa-q22">
+<button class="item-head"><span class="idx">02</span><span class="item-title">Why is dbt used?</span><svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg></button>
+<div class="item-body"><div class="item-body-inner">
+<p>"dbt is useful because it brings software-engineering discipline to SQL transformations. Instead of having disconnected SQL scripts, transformations can be organized into reusable models with dependencies, tests, documentation and lineage.</p>
+<p>For example, if currency-conversion logic is used by several financial reports, I can centralize it in a reusable transformation model instead of duplicating the logic.</p>
+<p>That is conceptually similar to why I used reusable SQL Views in my SAR work."</p>
+<p><strong>Business scenario:</strong> "One currency-conversion model feeds multiple downstream finance models, reducing duplicated business logic."</p>
+</div></div>
+</div>
+<div class="item question-item" data-question="aa-q23">
+<button class="item-head"><span class="idx">03</span><span class="item-title">dbt vs traditional ETL tools</span><svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg></button>
+<div class="item-body"><div class="item-body-inner">
+<p>"Traditional ETL tools such as SSIS are commonly used for extracting, moving and transforming data as part of an end-to-end pipeline. dbt is more focused on the transformation part of a modern ELT architecture, where data has already landed in the warehouse.</p>
+<p>So I wouldn't consider dbt a direct replacement for every ETL tool.</p>
+<p>For example, an ingestion tool could move data into a warehouse, and dbt could then transform that data into validated fact and dimension models."</p>
+<p><strong>Business scenario:</strong> "ADF/Fabric Data Factory → ingestion; dbt → transformation; Power BI → reporting."</p>
+</div></div>
+</div>
+<div class="item question-item" data-question="aa-q24">
+<button class="item-head"><span class="idx">04</span><span class="item-title">What is a dbt model?</span><svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg></button>
+<div class="item-body"><div class="item-body-inner">
+<p>"A dbt model is essentially a SQL transformation that dbt manages as part of the project. The SQL defines how the source or upstream models should be transformed into a reporting-ready dataset.</p>
+<p>Models can be layered — for example, staging models for basic cleaning, intermediate models for business logic and final mart models for analytics.</p>
+<p>Conceptually, this is similar to creating SQL Views for reusable transformation logic, but dbt provides additional dependency and deployment management."</p>
+<p><strong>Business scenario:</strong> "stg_transactions → int_currency_conversion → fct_spend."</p>
+</div></div>
+</div>
+<div class="item question-item" data-question="aa-q25">
+<button class="item-head"><span class="idx">05</span><span class="item-title">What are dbt tests?</span><svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg></button>
+<div class="item-body"><div class="item-body-inner">
+<p>"dbt tests are automated checks used to validate the quality and integrity of transformed data. Common tests include not-null, unique, accepted-values and relationships.</p>
+<p>For example, if Department ID should never be null, I can test that automatically. If Transaction ID must be unique, I can test that as well.</p>
+<p>This fits closely with the validation discipline I already use in my work, where I perform duplicate checks, missing-record checks, reconciliation and business-rule validation."</p>
+<p><strong>Business scenario:</strong> "Before the spend model reaches Power BI, test Transaction ID uniqueness, Department ID validity and required financial fields."</p>
+</div></div>
+</div>
+<div class="item question-item" data-question="aa-q26">
+<button class="item-head"><span class="idx">06</span><span class="item-title">What is data lineage?</span><svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg></button>
+<div class="item-body"><div class="item-body-inner">
+<p>"Data lineage shows how data moves and transforms from its source to the final output. It helps answer questions such as where a KPI came from and which downstream objects depend on a particular transformation.</p>
+<p>This is particularly useful in financial reporting because stakeholders may ask where a number originated.</p>
+<p>In my SAR work, I followed the data manually through source → SQL → Power BI during validation. A lineage capability makes that dependency more visible and easier to maintain."</p>
+<p><strong>Business scenario:</strong> "Finance sees Variance % in Power BI → trace it back through semantic model → fact spend → transformation → source transaction/budget data."</p>
+</div></div>
+</div>
+<div class="item question-item" data-question="aa-q27">
+<button class="item-head"><span class="idx">07</span><span class="item-title">What is ref() in dbt?</span><svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg></button>
+<div class="item-body"><div class="item-body-inner">
+<p>"<code>ref()</code> is used in dbt to reference another dbt model rather than hardcoding its physical table name. It allows dbt to understand dependencies between models and build them in the correct order.</p>
+<p>It also makes environments easier to manage because dbt can resolve the appropriate database and schema.</p>
+<p>Conceptually, it supports the same principle I follow when I centralize reusable business logic instead of hardcoding the same logic in multiple reports."</p>
+<pre><code class="language-sql">SELECT *
+FROM {{ ref('stg_transactions') }}</code></pre>
+</div></div>
+</div>
+<div class="item question-item" data-question="aa-q28">
+<button class="item-head"><span class="idx">08</span><span class="item-title">Have you worked with dbt?</span><svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg></button>
+<div class="item-body"><div class="item-body-inner">
+<p>"My professional hands-on experience has primarily been with SQL Server, SSIS, SQL Views, Power Query and Power BI rather than dbt. I don't want to overstate that experience.</p>
+<p>However, I understand dbt's transformation approach, including models, tests, documentation, lineage and incremental processing.</p>
+<p>The underlying SQL concepts are already familiar to me because I have worked with joins, aggregations, CTEs, window functions, views and data validation. So I see dbt as a tool I can transition into rather than a completely new concept."</p>
+<p><strong>Business scenario:</strong> "In SAR, my reusable SQL Views played a similar conceptual role to transformation models by centralizing business logic before Power BI."</p>
+</div></div>
+</div>
+</div></div>
+</div>
+<div class="item topic-item" data-index="aa-16">
+<button class="item-head"><span class="idx">17</span><span class="item-title">Azure Data Factory / Fabric — Rapid-Fire Q&amp;A</span><span class="tag">5 Questions</span><svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg></button>
+<div class="item-body"><div class="item-body-inner">
+<div class="item question-item" data-question="aa-q29">
+<button class="item-head"><span class="idx">01</span><span class="item-title">What is Azure Data Factory?</span><svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg></button>
+<div class="item-body"><div class="item-body-inner">
+<p>"Azure Data Factory is a cloud-based data integration and orchestration service. It is mainly used to connect to different data sources, move data, schedule pipelines and orchestrate dependent processing activities.</p>
+<p>A pipeline can contain activities such as Copy, Lookup, ForEach and Execute Pipeline. ADF can also use triggers and monitoring to automate recurring data workflows.</p>
+<p>My production experience is more aligned with SSIS, while my ADF/Fabric exposure comes from Microsoft certification and hands-on learning. The concepts are familiar because both involve data movement, orchestration, dependencies and scheduling."</p>
+<p><strong>Business scenario:</strong> "SQL Server → ADF Copy Activity → cloud warehouse → transformation → Power BI."</p>
+</div></div>
+</div>
+<div class="item question-item" data-question="aa-q30">
+<button class="item-head"><span class="idx">02</span><span class="item-title">What is a pipeline?</span><svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg></button>
+<div class="item-body"><div class="item-body-inner">
+<p>"A pipeline is a logical workflow that organizes a sequence of data integration or processing activities. It defines what should happen, in what order, and under which conditions.</p>
+<p>For example, a daily pipeline could first copy source data, then perform a validation, then trigger transformation, and finally notify the team if something fails.</p>
+<p>This is similar conceptually to an SSIS package or workflow, although the platform capabilities differ."</p>
+<p><strong>Business scenario:</strong> "Extract → validate → load → transform → quality check → notify."</p>
+</div></div>
+</div>
+<div class="item question-item" data-question="aa-q31">
+<button class="item-head"><span class="idx">03</span><span class="item-title">Linked Service vs Dataset</span><svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg></button>
+<div class="item-body"><div class="item-body-inner">
+<p>"A linked service defines the connection information to a data source or destination, while a dataset represents the specific data structure or data being accessed through that connection.</p>
+<p>For example, the linked service might define the connection to SQL Server, while the dataset identifies the particular table or file being used.</p>
+<p>I remember it simply as Linked Service = where/how to connect; Dataset = what data I'm accessing."</p>
+<p><strong>Business scenario:</strong> "SQL Server connection → Linked Service; Finance transaction table → Dataset."</p>
+</div></div>
+</div>
+<div class="item question-item" data-question="aa-q32">
+<button class="item-head"><span class="idx">04</span><span class="item-title">Copy Activity vs Mapping Data Flow</span><svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg></button>
+<div class="item-body"><div class="item-body-inner">
+<p>"Copy Activity is primarily used to move data from a source to a destination. Mapping Data Flow is designed for visual transformation and data-processing logic.</p>
+<p>If I only need to move SQL Server data into a warehouse, Copy Activity may be sufficient. If I need more complex transformations inside the pipeline, Mapping Data Flow can be considered.</p>
+<p>However, I would still evaluate whether heavy transformation should happen in SQL or the warehouse rather than automatically doing everything in the pipeline."</p>
+<p><strong>Business scenario:</strong> "SQL Server → Warehouse with no transformation → Copy Activity. Multiple transformation rules → Mapping Data Flow or warehouse-side SQL."</p>
+</div></div>
+</div>
+<div class="item question-item" data-question="aa-q33">
+<button class="item-head"><span class="idx">05</span><span class="item-title">How would you design a daily ingestion pipeline?</span><svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg></button>
+<div class="item-body"><div class="item-body-inner">
+<p>"I would first understand the source, volume, frequency and business key. Then I would design the pipeline with ingestion, staging, validation, transformation and target-loading steps.</p>
+<p>For a daily process, I would prefer incremental loading if the source supports a reliable change indicator. I would add failure handling, retries, logging and monitoring.</p>
+<p>Before marking the pipeline successful, I would validate record counts and key business totals. I would also make the process restartable so a failure doesn't require blindly rerunning the entire load."</p>
+<p><strong>Business scenario:</strong> "Daily finance source → incremental extract → staging → validation → transformation → warehouse → reconciliation → Power BI refresh."</p>
+</div></div>
+</div>
+</div></div>
+</div>
+<div class="item topic-item" data-index="aa-17">
+<button class="item-head"><span class="idx">18</span><span class="item-title">Data Quality &amp; Validation</span><span class="tag">7 Questions</span><svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg></button>
+<div class="item-body"><div class="item-body-inner">
+<div class="item question-item" data-question="aa-q34">
+<button class="item-head"><span class="idx">01</span><span class="item-title">What is data quality?</span><svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg></button>
+<div class="item-body"><div class="item-body-inner">
+<p>"Data quality means ensuring that data is reliable and fit for the business purpose. I normally look at dimensions such as completeness, accuracy, consistency, validity, uniqueness and timeliness.</p>
+<p>In reporting, good data quality is especially important because even a technically correct dashboard can provide the wrong business conclusion if the underlying data is incomplete or incorrectly mapped.</p>
+<p>In my Cognizant work, I used source-to-SQL-to-Power BI validation and exception reporting to identify issues before they reached business users."</p>
+<p><strong>Business scenario:</strong> "Finance dashboard shows ₹10 crore spend. I would verify that the source records, SQL aggregation and Power BI KPI all reconcile to the expected ₹10 crore."</p>
+</div></div>
+</div>
+<div class="item question-item" data-question="aa-q35">
+<button class="item-head"><span class="idx">02</span><span class="item-title">Explain your 3-layer data validation and reconciliation approach.</span><svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg></button>
+<div class="item-body"><div class="item-body-inner">
+<p>"I used a three-layer validation approach: first I validated the source data, then the SQL output, and finally the Power BI report.</p>
+<p>At the source layer, I checked record counts, nulls, duplicates, mandatory fields and basic business rules.</p>
+<p>At the SQL layer, I validated joins, aggregations, mappings and business calculations. I also compared source and transformed totals to make sure records weren't accidentally lost or duplicated.</p>
+<p>At the Power BI layer, I validated the semantic model, relationships, DAX measures and visual-level numbers against the SQL output.</p>
+<p>If there was a mismatch, I followed a structured path rather than changing the DAX immediately: Source → SQL → Power Query → Model/Relationships → DAX → Visual.</p>
+<p>This gave me confidence that the final KPI was not only technically calculated but also reconciled back to the source."</p>
+<p><strong>Business scenario:</strong> "Source Actual Spend = ₹50M → SQL View = ₹50M → Power BI KPI = ₹50M. If Power BI shows ₹48M, I trace the issue backward through the model, DAX and SQL rather than assuming the source is wrong."</p>
+</div></div>
+</div>
+<div class="item question-item" data-question="aa-q36">
+<button class="item-head"><span class="idx">03</span><span class="item-title">How do you identify duplicate records?</span><svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg></button>
+<div class="item-body"><div class="item-body-inner">
+<p>"I first define the expected business key and determine the expected grain of the dataset. Then I group or count records by that key to identify values appearing more than once.</p>
+<p>I don't immediately delete duplicates because multiple records may be legitimate.</p>
+<p>For example, if a transaction ID should be unique but appears three times, I investigate whether they are duplicate loads, amendments or legitimate line items.</p>
+<p>After identifying confirmed duplicates, I either remove them at the transformation stage or flag them through an exception report."</p>
+<p><strong>Business scenario:</strong> "Transaction ID 10025 appears three times → check source timestamps, transaction type and business rules → determine whether it's a true duplicate."</p>
+</div></div>
+</div>
+<div class="item question-item" data-question="aa-q37">
+<button class="item-head"><span class="idx">04</span><span class="item-title">How do you identify missing records, and what happens when source/target counts don't match?</span><svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg></button>
+<div class="item-body"><div class="item-body-inner">
+<p>"I normally use record-count reconciliation and key-based comparison. I compare the source and target counts first, then identify exactly which keys are missing.</p>
+<p>For example, if the source has 100,000 transactions and SQL has 99,500, I don't stop at the 500-record difference. I identify the missing IDs and investigate whether they were filtered, rejected, failed during ingestion or lost through a join.</p>
+<p>This is why I prefer exception reporting rather than relying only on overall record counts.</p>
+<p>I would first determine whether the difference is expected or an actual defect. Some pipelines intentionally filter invalid or irrelevant records, so equal counts aren't always mandatory. I would check the transformation filters, rejected records, duplicate handling, join behavior, incremental-load logic and pipeline failures, then reconcile the actual missing or additional records and compare business totals. Only after understanding the difference would I decide whether the pipeline is correct or needs fixing."</p>
+<pre><code class="language-sql">SELECT s.TransactionID
+FROM Source s
+LEFT JOIN Target t
+    ON s.TransactionID = t.TransactionID
+WHERE t.TransactionID IS NULL;</code></pre>
+<p><strong>Business scenario:</strong> "Source = 1,000,000, Target = 999,500 → identify 500 records → determine whether they were legitimately rejected or accidentally lost."</p>
+</div></div>
+</div>
+<div class="item question-item" data-question="aa-q38">
+<button class="item-head"><span class="idx">05</span><span class="item-title">How do you validate business rules?</span><svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg></button>
+<div class="item-body"><div class="item-body-inner">
+<p>"I convert the business requirement into explicit validation rules and test the data against those rules.</p>
+<p>For example, if Finance defines a transaction as eligible only when it meets a particular status, date or organizational condition, I implement that rule in SQL or the transformation layer and then validate both included and excluded records.</p>
+<p>I also confirm the KPI definition with stakeholders during requirements gathering and UAT because a technically correct formula can still be wrong if the business definition is different."</p>
+<p><strong>Business scenario:</strong> "Budget variance = Actual − Budget. I would validate that the SQL output and Power BI measure follow the agreed definition and sign convention."</p>
+</div></div>
+</div>
+<div class="item question-item" data-question="aa-q39">
+<button class="item-head"><span class="idx">06</span><span class="item-title">How do you build an exception report?</span><svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg></button>
+<div class="item-body"><div class="item-body-inner">
+<p>"I create an exception dataset containing the failed record, the relevant business key, the failed validation and ideally the reason for failure.</p>
+<p>For example, the exception could contain Transaction ID, Department, Amount, Validation Type and Exception Reason.</p>
+<p>This is more useful than simply saying 'data quality failed' because the business or data team can directly investigate the affected records.</p>
+<p>I have used this approach for missing records, duplicates, KPI mismatches and business-rule violations."</p>
+<div class="table-wrap"><table><thead><tr><th>Transaction ID</th><th>Issue</th><th>Reason</th></tr></thead><tbody>
+<tr><td>10025</td><td>Duplicate</td><td>Duplicate business key</td></tr>
+<tr><td>10031</td><td>Missing mapping</td><td>Cost Center not found</td></tr>
+<tr><td>10042</td><td>Invalid</td><td>Invalid date</td></tr>
+</tbody></table></div>
+</div></div>
+</div>
+<div class="item question-item" data-question="aa-q40">
+<button class="item-head"><span class="idx">07</span><span class="item-title">How would you test a data pipeline / what checks would you perform before production?</span><svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg></button>
+<div class="item-body"><div class="item-body-inner">
+<p>"I would test a data pipeline at multiple levels rather than only checking whether the pipeline completed successfully.</p>
+<p>First, I would validate the schema and data types. Then I would check record counts, nulls, duplicates and referential integrity. After that, I would perform source-to-target reconciliation and compare important aggregations or control totals.</p>
+<p>I would also test business rules, incremental-load behavior, error handling and boundary cases.</p>
+<p>Finally, I would validate the downstream reporting output and perform regression testing to make sure existing KPIs haven't changed unexpectedly.</p>
+<p>Before production, I would validate both technical correctness and business correctness — technically checking schema, data types, nulls, duplicates, referential integrity, pipeline execution and performance, and from a business perspective validating record counts, financial totals, KPI calculations, business rules and stakeholder-approved outputs. I would also confirm error handling, logging and rollback or recovery procedures where applicable. For my reporting work, UAT and source-to-Power BI reconciliation were important parts of the release process."</p>
+<p><strong>Business scenario:</strong> "Source 1M records → target count → duplicate check → null check → key reconciliation → total amount reconciliation → business-rule check → Power BI validation."</p>
+</div></div>
+</div>
+</div></div>
+</div>
+<div class="item topic-item" data-index="aa-18">
+<button class="item-head"><span class="idx">19</span><span class="item-title">Dimensional Modeling</span><span class="tag">5 Questions</span><svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg></button>
+<div class="item-body"><div class="item-body-inner">
+<div class="item question-item" data-question="aa-q41">
+<button class="item-head"><span class="idx">01</span><span class="item-title">What is dimensional modeling?</span><svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg></button>
+<div class="item-body"><div class="item-body-inner">
+<p>"Dimensional modeling is a way of organizing analytical data into fact tables and dimension tables so that reporting and analysis are easier and more efficient.</p>
+<p>The fact table normally contains measurable business events, while dimensions provide descriptive context such as Date, Department, Region or Cost Center.</p>
+<p>In my SAR project, the spend data was modeled around a fact table with dimensions such as Date, Region, Department, Cost Center, Currency and organizational hierarchy.</p>
+<p>This structure also made Power BI relationships and DAX calculations easier to manage."</p>
+<p><strong>Business scenario:</strong> "FactSpend → DimDate, DimDepartment, DimRegion, DimCostCenter, DimCurrency."</p>
+</div></div>
+</div>
+<div class="item question-item" data-question="aa-q42">
+<button class="item-head"><span class="idx">02</span><span class="item-title">Fact vs Dimension table</span><svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg></button>
+<div class="item-body"><div class="item-body-inner">
+<p>"A fact table stores business events or transactions at a defined grain and usually contains numeric measures and foreign keys to dimensions. For SAR, the fact would represent spend transactions, with values such as spend amount and keys pointing to Date, Department, Cost Center, Region and Currency. The most important thing is to define the grain clearly before designing the fact table.</p>
+<p>A dimension table contains descriptive attributes used to analyze facts. Examples include Date, Department, Region, Cost Center, Currency and organizational hierarchy. Dimensions allow business users to slice and analyze measures from different perspectives — for example, the same Actual Spend measure can be analyzed by Region, Department or Cost Center without changing the underlying fact.</p>
+<p>I avoid putting descriptive attributes repeatedly into the fact table because that increases redundancy and makes the model harder to maintain."</p>
+<p><strong>Business scenario:</strong> "FactSpend[Amount] + DimDepartment[DepartmentName]."</p>
+</div></div>
+</div>
+<div class="item question-item" data-question="aa-q43">
+<button class="item-head"><span class="idx">03</span><span class="item-title">What is a Star Schema? Star vs Snowflake Schema</span><svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg></button>
+<div class="item-body"><div class="item-body-inner">
+<p>"A Star Schema has a central fact table connected directly to dimension tables around it. The dimensions are generally denormalized enough to support simple and efficient analytical queries.</p>
+<p>For my SAR reporting, the central spend fact could connect to Date, Department, Region, Cost Center, Currency and organizational dimensions.</p>
+<p>I prefer Star Schema for Power BI because relationships are easier to understand, filter propagation is more predictable and DAX becomes easier to manage.</p>
+<p>In a Snowflake Schema, dimensions are further normalized into additional related tables. Star Schema is usually simpler for BI reporting because there are fewer relationships and the business model is easier to understand. I generally prefer Star Schema for Power BI unless there is a clear reason to normalize dimensions further."</p>
+<pre><code class="language-text">DimDate
+   ↓
+FactSpend ← DimDepartment
+   ↑
+DimRegion / DimCostCenter / DimCurrency</code></pre>
+<p><strong>Business scenario:</strong> "Department and Region directly connected to FactSpend → Star. Department → Business Unit → Region → more normalized structure → Snowflake."</p>
+</div></div>
+</div>
+<div class="item question-item" data-question="aa-q44">
+<button class="item-head"><span class="idx">04</span><span class="item-title">What is grain, and why is defining it important?</span><svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg></button>
+<div class="item-body"><div class="item-body-inner">
+<p>"Grain defines exactly what one row in a fact table represents. It is one of the first things I establish before building a model.</p>
+<p>For example, one row could represent one transaction, one invoice line, one daily department spend record or one monthly department budget.</p>
+<p>If the grain isn't clear, we can accidentally mix different levels of data and create duplicate counts or incorrect aggregations.</p>
+<p>Incorrect grain is one of the common causes of inaccurate reporting. If two datasets have different grains and I join them directly, I can multiply rows and inflate measures. For example, if spend is transaction-level and budget is monthly department-level, joining them directly can repeat the monthly budget for every transaction. So I define the grain first and design the model or aggregation accordingly."</p>
+<p><strong>Business scenario:</strong> "If FactSpend is at transaction level, I should not directly combine it with a monthly budget table without handling the different grains correctly. Transaction-level Actuals + monthly Budget → don't directly join at transaction level; create the appropriate dimensional/aggregation relationship."</p>
+</div></div>
+</div>
+<div class="item question-item" data-question="aa-q45">
+<button class="item-head"><span class="idx">05</span><span class="item-title">SCD Type 1 vs Type 2 (dimensional-modeling framing)</span><svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg></button>
+<div class="item-body"><div class="item-body-inner">
+<p>"Slowly Changing Dimensions manage changes to dimension attributes over time.</p>
+<p>Type 1 overwrites the old value, so it keeps only the current state. Type 2 creates a new dimension record and preserves the old version using effective dates or a current flag.</p>
+<p>For example, if a department moves from one region to another and Finance needs historical reporting according to the structure that existed at that time, Type 2 would be appropriate.</p>
+<p>In my actual project experience, I would not claim a production Type 2 implementation where there wasn't one. My focus has been on the reporting model and business requirements."</p>
+<p><strong>Business scenario:</strong> "Department belongs to Region A in 2025 and Region B in 2026, but historical 2025 reporting must remain Region A → SCD Type 2."</p>
+</div></div>
+</div>
+</div></div>
+</div>
+<div class="item topic-item" data-index="aa-19">
+<button class="item-head"><span class="idx">20</span><span class="item-title">Snowflake / Data Warehouse Concepts</span><span class="tag">5 Questions</span><svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg></button>
+<div class="item-body"><div class="item-body-inner">
+<div class="item question-item" data-question="aa-q46">
+<button class="item-head"><span class="idx">01</span><span class="item-title">What is a data warehouse? OLTP vs OLAP</span><svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg></button>
+<div class="item-body"><div class="item-body-inner">
+<p>"A data warehouse is a centralized analytical data platform designed to store integrated and historical data for reporting and analysis.</p>
+<p>Unlike an operational system, which is optimized primarily for day-to-day transactions, a warehouse is designed for analytical queries across large datasets.</p>
+<p>OLTP systems are optimized for transactional operations such as inserts and updates, while OLAP systems are optimized for analytical queries, aggregations and reporting. For example, an ERP transaction system is generally OLTP, while a data warehouse used for management reporting is OLAP. I wouldn't normally run large analytical reporting queries directly against a busy transactional system because that can affect operational performance."</p>
+<p><strong>Business scenario:</strong> "Finance + sales + operational data → warehouse → standardized analytical model → Power BI. ERP transaction database → source; analytical warehouse → reporting; Power BI → semantic layer."</p>
+</div></div>
+</div>
+<div class="item question-item" data-question="aa-q47">
+<button class="item-head"><span class="idx">02</span><span class="item-title">What is Snowflake, and why does it separate compute and storage?</span><svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg></button>
+<div class="item-body"><div class="item-body-inner">
+<p>"Snowflake is a cloud data platform commonly used for data warehousing and analytics. One of its important architectural characteristics is the separation of storage and compute, which allows compute resources to scale independently.</p>
+<p>It supports SQL-based analytics and can handle structured and semi-structured data.</p>
+<p>My professional hands-on experience is stronger with SQL Server, so I would describe Snowflake as conceptual/cloud-platform knowledge rather than claim production Snowflake experience.</p>
+<p>Separating storage and compute allows compute resources to be scaled independently based on workload. For example, a company may need significantly more compute during month-end financial reporting but much less during normal periods. That provides more flexibility than having storage and processing capacity tightly tied together."</p>
+<p><strong>Business scenario:</strong> "Raw data lands in Snowflake → SQL/dbt transformations → analytical models → Power BI. Finance month-end close → temporarily increase compute → complete heavy aggregation → scale back after processing."</p>
+</div></div>
+</div>
+<div class="item question-item" data-question="aa-q48">
+<button class="item-head"><span class="idx">03</span><span class="item-title">How do you optimize warehouse queries?</span><svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg></button>
+<div class="item-body"><div class="item-body-inner">
+<p>"I start by understanding the query plan and identifying where the workload is coming from. Then I look at unnecessary columns, filters, joins, aggregations and repeated processing.</p>
+<p>I try to filter early, avoid selecting unnecessary data, use appropriate keys and indexes or platform-specific optimization features, and aggregate at the right stage.</p>
+<p>This follows the same SQL optimization principles I already use with SQL Server and Power BI: reduce data volume, simplify joins and avoid unnecessary processing."</p>
+<p><strong>Business scenario:</strong> "Slow spend query → inspect joins → filter fiscal period earlier → select required columns → aggregate at correct grain → retest."</p>
+</div></div>
+</div>
+<div class="item question-item" data-question="aa-q49">
+<button class="item-head"><span class="idx">04</span><span class="item-title">What is Azure Synapse?</span><svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg></button>
+<div class="item-body"><div class="item-body-inner">
+<p>"Azure Synapse is Microsoft's analytics platform combining data warehousing, SQL, Spark-based processing and pipeline capabilities.</p>
+<p>From a simple architecture perspective, Synapse can play the cloud warehouse role while also providing capabilities for big-data processing and orchestration."</p>
+<p>Don't go too deep unless asked.</p>
+</div></div>
+</div>
+<div class="item question-item" data-question="aa-q50">
+<button class="item-head"><span class="idx">05</span><span class="item-title">What is SCD? (Quick definition)</span><svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg></button>
+<div class="item-body"><div class="item-body-inner">
+<p>"Slowly Changing Dimension is a technique for managing changes in dimension attributes over time.</p>
+<p>Type 1 overwrites the existing value, so history is not maintained. Type 2 creates a new record with effective dates or a current flag, so historical values are preserved."</p>
+<p><strong>If they ask: "Have you implemented Type 2?"</strong> "I understand the concept and where it is required, but my project dimensions were primarily handled as Type 1 because we didn't have a requirement to preserve historical organizational attributes. For a requirement like historical department or cost-center reporting, I would use Type 2." That's exactly the kind of honest answer we want.</p>
+</div></div>
+</div>
+</div></div>
+</div>
+<div class="item topic-item" data-index="aa-20">
+<button class="item-head"><span class="idx">21</span><span class="item-title">Git &amp; Version Control</span><span class="tag">4 Questions</span><svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg></button>
+<div class="item-body"><div class="item-body-inner">
+<div class="item question-item" data-question="aa-q51">
+<button class="item-head"><span class="idx">01</span><span class="item-title">What is Git?</span><svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg></button>
+<div class="item-body"><div class="item-body-inner">
+<p>"Git is a distributed version-control system used to track changes to code, scripts and other project files. It allows developers to work independently through branches and then integrate their changes through a controlled process.</p>
+<p>In a data project, Git can be used to manage SQL scripts, Python code, transformation logic and configuration files.</p>
+<p>The main benefit is traceability — you can see what changed, who changed it and when."</p>
+<p><strong>Business scenario:</strong> "Developer creates a feature branch → updates SQL transformation → commits changes → pull request → review → merge."</p>
+</div></div>
+</div>
+<div class="item question-item" data-question="aa-q52">
+<button class="item-head"><span class="idx">02</span><span class="item-title">Git vs GitHub</span><svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg></button>
+<div class="item-body"><div class="item-body-inner">
+<p>"Git is the version-control technology, while GitHub is a platform that hosts Git repositories and provides collaboration features such as pull requests, reviews and issue tracking.</p>
+<p>So Git handles version history locally, while GitHub provides a collaborative environment around those repositories."</p>
+<p><strong>Business scenario:</strong> "Git tracks changes to SQL code; GitHub hosts the repository and supports team review."</p>
+</div></div>
+</div>
+<div class="item question-item" data-question="aa-q53">
+<button class="item-head"><span class="idx">03</span><span class="item-title">What is a branch?</span><svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg></button>
+<div class="item-body"><div class="item-body-inner">
+<p>"A branch is an independent line of development that allows a developer to work on a change without directly modifying the main production code.</p>
+<p>For example, I could create a feature branch for a new Finance KPI, develop and test the SQL logic there, and then raise a pull request for review.</p>
+<p>This reduces the risk of untested changes directly reaching the main branch."</p>
+</div></div>
+</div>
+<div class="item question-item" data-question="aa-q54">
+<button class="item-head"><span class="idx">04</span><span class="item-title">Explain your Git workflow.</span><svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg></button>
+<div class="item-body"><div class="item-body-inner">
+<p>"My typical collaborative workflow would be to pull the latest code, create a feature branch, make the required changes, test them locally, commit the changes with a meaningful message and push the branch. Then I would raise a pull request for peer review before merging into the main branch.</p>
+<p>For a SQL or reporting change, I would also validate the output against expected results before requesting approval.</p>
+<p>The important part is that code changes are reviewed and traceable rather than directly modifying shared production code."</p>
+<p><strong>Business scenario:</strong> "New SAR KPI → feature branch → SQL change → test → commit → pull request → review → merge → deployment."</p>
+</div></div>
+</div>
+</div></div>
+</div>
+<div class="item topic-item" data-index="aa-21">
+<button class="item-head"><span class="idx">22</span><span class="item-title">Stakeholder &amp; Requirements</span><span class="tag">4 Questions</span><svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg></button>
+<div class="item-body"><div class="item-body-inner">
+<div class="item question-item" data-question="aa-q55">
+<button class="item-head"><span class="idx">01</span><span class="item-title">How do you gather requirements?</span><svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg></button>
+<div class="item-body"><div class="item-body-inner">
+<p>"I start by understanding the business problem rather than immediately discussing visuals or technical implementation.</p>
+<p>I identify who will use the report, what decisions they need to make, the required KPIs, dimensions, filters, frequency and level of detail.</p>
+<p>Then I clarify KPI definitions, data sources, business rules, security requirements and expected refresh frequency. I document the agreed requirements and validate the understanding with stakeholders before development.</p>
+<p>During development, I use sample outputs or prototypes to confirm that the interpretation is correct before moving to UAT."</p>
+<p><strong>Business scenario:</strong> "For SAR, I would clarify Actual Spend, Budget, Prior Year, Variance %, Fiscal YTD, organizational breakdown and currency requirements before building the dashboard."</p>
+</div></div>
+</div>
+<div class="item question-item" data-question="aa-q56">
+<button class="item-head"><span class="idx">02</span><span class="item-title">What if two stakeholders give conflicting requirements?</span><svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg></button>
+<div class="item-body"><div class="item-body-inner">
+<p>"I would first understand why the requirements differ rather than choosing one immediately. Often the stakeholders are looking at the same KPI from different business perspectives.</p>
+<p>I would document the two definitions, identify the business impact and involve the appropriate business owner to agree on the final definition.</p>
+<p>Once agreed, I would document the decision so that the same conflict doesn't appear again during UAT.</p>
+<p>I would never silently implement one interpretation when the KPI definition is disputed."</p>
+<p><strong>Business scenario:</strong> "Finance says Variance = Actual − Budget, while another team expects Budget − Actual → clarify sign convention → confirm business owner → document agreed definition → implement consistently."</p>
+</div></div>
+</div>
+<div class="item question-item" data-question="aa-q57">
+<button class="item-head"><span class="idx">03</span><span class="item-title">How do you define KPIs?</span><svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg></button>
+<div class="item-body"><div class="item-body-inner">
+<p>"I define a KPI by first understanding the business question it needs to answer. Then I identify the numerator, denominator if applicable, filters, grain, time period and business rules.</p>
+<p>I confirm the definition with the stakeholder and validate it against sample records.</p>
+<p>For example, in SAR, Variance % needs a clear definition of Actual versus Budget, the treatment of zero or missing budget and the fiscal period being used.</p>
+<p>Once agreed, I implement the logic consistently in SQL or DAX depending on where the calculation belongs."</p>
+<p><strong>Business scenario:</strong> "Variance % = (Actual − Budget) / Budget, with the agreed treatment for zero Budget."</p>
+</div></div>
+</div>
+<div class="item question-item" data-question="aa-q58">
+<button class="item-head"><span class="idx">04</span><span class="item-title">How do you conduct UAT?</span><svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg></button>
+<div class="item-body"><div class="item-body-inner">
+<p>"I start UAT by providing stakeholders with the agreed requirements and test scenarios. I ask them to validate important KPIs, filters, drill-downs, business rules and expected results.</p>
+<p>If they identify an issue, I reproduce it, determine whether it is a data issue, transformation issue, model issue or calculation issue, fix it and retest.</p>
+<p>I also keep track of UAT findings and confirm closure before production deployment."</p>
+<p><strong>Business scenario:</strong> "Finance validates Actual Spend for a selected department → expected ₹X → dashboard shows ₹Y → investigate SQL/model/DAX → fix → retest → stakeholder confirms."</p>
+</div></div>
+</div>
+</div></div>
+</div>
+<div class="item topic-item" data-index="aa-22">
+<button class="item-head"><span class="idx">23</span><span class="item-title">Root Cause &amp; Production Support</span><span class="tag">3 Questions</span><svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg></button>
+<div class="item-body"><div class="item-body-inner">
+<p>The recommended sequence: Understand → Reproduce → Source → Ingestion → Transformation → Target → Business Logic → Root Cause → Fix → Validate → Document.</p>
+<div class="item question-item" data-question="aa-q59">
+<button class="item-head"><span class="idx">01</span><span class="item-title">Dashboard suddenly shows incorrect numbers. How do you investigate?</span><svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg></button>
+<div class="item-body"><div class="item-body-inner">
+<p>"I don't immediately change the DAX. I first reproduce the issue and determine exactly which KPI or filter combination is incorrect.</p>
+<p>Then I trace the number backward through the report visual, DAX measure, relationships, Power Query, SQL output and finally the source data.</p>
+<p>For example, if Actual Spend suddenly increases, I would check whether the source changed, whether duplicate records entered SQL, whether a join multiplied rows, whether Power Query changed the dataset, or whether the DAX filter context is incorrect.</p>
+<p>Once I identify the root cause, I fix it, validate the KPI against the source and document the issue and preventive action."</p>
+<p><strong>Business scenario:</strong> "Power BI Actual Spend suddenly increases 20% → check DAX → relationships → SQL row count → duplicate transactions → identify duplicate load → correct → reconcile."</p>
+</div></div>
+</div>
+<div class="item question-item" data-question="aa-q60">
+<button class="item-head"><span class="idx">02</span><span class="item-title">Pipeline completed successfully but output is incorrect. What do you check?</span><svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg></button>
+<div class="item-body"><div class="item-body-inner">
+<p>"A successful pipeline execution only tells me that the technical activities completed; it doesn't guarantee that the business output is correct.</p>
+<p>I would check the source data first, then ingestion completeness, transformation rules, joins, filters and target counts.</p>
+<p>I would compare control totals and sample records between source and target. If the target is correct, I would then check the semantic or reporting layer.</p>
+<p>The key is to separate pipeline execution success from data correctness."</p>
+<p><strong>Business scenario:</strong> "Pipeline says Success but spend is 15% lower → source count → staging → transformation filter → join → target aggregation → identify incorrect filter."</p>
+</div></div>
+</div>
+<div class="item question-item" data-question="aa-q61">
+<button class="item-head"><span class="idx">03</span><span class="item-title">Users report missing data. How do you identify the root cause?</span><svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg></button>
+<div class="item-body"><div class="item-body-inner">
+<p>"First I would ask what data is missing — specific records, a department, a date range or an entire dataset. Then I reproduce the issue using the same filters.</p>
+<p>I would trace the data from Power BI back to SQL and the source. I would check relationships, RLS, filters, Power Query steps, SQL joins and source availability.</p>
+<p>For example, if only one department is missing, I would check the Department mapping and security filters rather than treating it as a general refresh problem.</p>
+<p>After identifying the root cause, I would fix it, validate the affected records and check whether other users or reports are impacted."</p>
+<p><strong>Business scenario:</strong> "Only Finance Department B missing → check department mapping → SQL join → Power BI relationship/RLS → identify root cause → fix → test with affected user."</p>
+</div></div>
+</div>
+</div></div>
+</div>
 </div>
 </div>
 </div>
