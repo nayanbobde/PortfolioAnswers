@@ -5390,8 +5390,223 @@ Vendor</code></pre>
 </div>
 </div></div>
 </div>
+<div class="item" data-index="pp-gov-topics-wrap">
+<button class="item-head"><span class="idx">04</span><span class="item-title">Governance, ALM &amp; Advanced Power Platform — Extended Answers</span><span class="tag">Interview Answers</span><svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg></button>
+<div class="item-body"><div class="item-body-inner">
+<p class="sub">Click a topic to expand it and see the related practice paragraph.</p>
+<div class="list" id="pp-gov-topics">
+<div class="item topic-item" data-index="pp-gov-1">
+<button class="item-head"><span class="idx">01</span><span class="item-title">Power Platform Governance / ALM</span><span class="tag">Interview Paragraph</span><svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg></button>
+<div class="item-body"><div class="item-body-inner">
+<p>&ldquo;I have worked with the Power Platform ALM approach where the solution is packaged and moved across environments rather than making changes directly in production. I understand the Dev, UAT and Production separation, solution-based deployment, connection references and environment variables. For deployment automation, I understand the use of Power Platform pipelines or Azure DevOps-based CI/CD to move managed solutions between environments while keeping environment-specific configuration separate.&rdquo;</p>
+<h4>If they ask what your environment strategy is:</h4>
+<p>&ldquo;My preferred approach is Dev for development and unit testing, UAT for business validation and testing, and Production for the approved solution. Developers work in Dev, changes are packaged into a solution, tested in UAT and then promoted to Production after approval.&rdquo;</p>
+</div></div>
+</div>
+<div class="item topic-item" data-index="pp-gov-2">
+<button class="item-head"><span class="idx">02</span><span class="item-title">DLP Policies</span><span class="tag">Interview Paragraph</span><svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg></button>
+<div class="item-body"><div class="item-body-inner">
+<p>&ldquo;I understand DLP policies as a governance mechanism to control which connectors can be used together and prevent business data from being exposed through inappropriate connectors. For example, I would categorize approved business connectors separately from connectors that could create data leakage risks. This becomes particularly important when Power Apps and Power Automate are integrating Dataverse with external APIs or third-party services.&rdquo;</p>
+<h4>Relate it to your project:</h4>
+<p>&ldquo;In my inventory solution, because I use Dataverse, Power Automate, email and an external API, I would consider DLP policies while designing the production environment so that the required integrations are allowed but uncontrolled data movement is restricted.&rdquo;</p>
+</div></div>
+</div>
+<div class="item topic-item" data-index="pp-gov-3">
+<button class="item-head"><span class="idx">03</span><span class="item-title">Environment Variables &amp; Connection References</span><span class="tag">Interview Paragraph</span><svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg></button>
+<div class="item-body"><div class="item-body-inner">
+<p>&ldquo;I understand the difference between environment variables and connection references. Environment variables are useful for configuration values that change between environments, such as API URLs or configuration parameters. Connection references allow flows and apps to use connections without hardcoding the individual connection details. This makes the same solution easier to deploy from Dev to UAT and Production.&rdquo;</p>
+<h4>Strong example:</h4>
+<pre><code class="language-text">DEV  → Dev API URL
+UAT  → UAT API URL
+PROD → Production API URL</code></pre>
+<p>The application logic stays the same; the environment-specific configuration changes.</p>
+</div></div>
+</div>
+<div class="item topic-item" data-index="pp-gov-4">
+<button class="item-head"><span class="idx">04</span><span class="item-title">Troubleshooting Power BI, Power Apps &amp; Power Automate</span><span class="tag">Interview Paragraph</span><svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg></button>
+<div class="item-body"><div class="item-body-inner">
+<p>&ldquo;For troubleshooting, I first isolate whether the issue is in the application layer, data layer, automation layer or platform/service layer. In Power Apps I check formulas, controls, data sources and delegation issues. In Power Automate I check the run history, trigger, inputs, outputs and failed actions. In Power BI I check Power Query, data model relationships, DAX, refresh history and gateway issues. If the issue is platform-level, such as a service or connector problem, I collect the evidence and escalate it appropriately.&rdquo;</p>
+<h4>Very strong line:</h4>
+<p>&ldquo;I don't immediately assume the platform is the problem; I first identify exactly which layer is failing.&rdquo;</p>
+</div></div>
+</div>
+<div class="item topic-item" data-index="pp-gov-5">
+<button class="item-head"><span class="idx">05</span><span class="item-title">GenAI &amp; Agentic AI</span><span class="tag">Interview Paragraph</span><svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg></button>
+<div class="item-body"><div class="item-body-inner">
+<p>&ldquo;I have been working with the newer GenAI capabilities around Power Platform, particularly AI prompts and Copilot Studio. In my inventory solution, I used an AI prompt to extract structured information from a packing-slip image and used a Copilot Studio agent for conversational inventory search. I understand the difference between traditional automation, where the workflow follows predefined steps, and agentic scenarios where the agent can interpret a user's request, use configured tools or data sources and take an authorized action.&rdquo;</p>
+<p>Your project specifically includes AI Prompt extraction and a Copilot Studio inventory agent.</p>
+</div></div>
+</div>
+<div class="item topic-item" data-index="pp-gov-6">
+<button class="item-head"><span class="idx">06</span><span class="item-title">Power BI — Data Modelling / Star Schema</span><span class="tag">Interview Paragraph</span><svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg></button>
+<div class="item-body"><div class="item-body-inner">
+<p>&ldquo;Power BI is one of my primary areas, and I normally start with the data model rather than immediately building visuals. I prefer a star schema with fact and dimension tables, clear relationships and appropriate filter direction. I separate transactional measures from descriptive dimensions and build reusable DAX measures on top of the semantic model. This gives better performance, maintainability and consistent reporting.&rdquo;</p>
+<h4>If asked about your approach:</h4>
+<pre><code class="language-text">FactSales
+   │
+   ├── DimDate
+   ├── DimProduct
+   ├── DimStore
+   └── DimCustomer</code></pre>
+</div></div>
+</div>
+<div class="item topic-item" data-index="pp-gov-7">
+<button class="item-head"><span class="idx">07</span><span class="item-title">Power Query / M</span><span class="tag">Interview Paragraph</span><svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg></button>
+<div class="item-body"><div class="item-body-inner">
+<p>&ldquo;I use Power Query for data ingestion and transformation before the data reaches the semantic model. My approach is to perform appropriate cleaning, type conversion, filtering, merging, deduplication and shaping in Power Query, while keeping analytical calculations that belong in the semantic layer as DAX measures. I also pay attention to query folding because pushing transformations back to the source can improve refresh performance.&rdquo;</p>
+</div></div>
+</div>
+<div class="item topic-item" data-index="pp-gov-8">
+<button class="item-head"><span class="idx">08</span><span class="item-title">Advanced DAX</span><span class="tag">Interview Paragraph</span><svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg></button>
+<div class="item-body"><div class="item-body-inner">
+<p>&ldquo;For DAX, I work with measures rather than relying heavily on calculated columns. I am comfortable with filter context, row context, CALCULATE, iterators, time intelligence, variables and ranking patterns. When a KPI gives an unexpected result, I don't just change the formula—I check the underlying filter context and relationships to understand why the measure is behaving that way.&rdquo;</p>
+<h4>Example:</h4>
+<p>&ldquo;For example, for a sales or inventory KPI, I would create a reusable measure and then use CALCULATE when I need to modify the filter context for a specific business scenario.&rdquo;</p>
+</div></div>
+</div>
+<div class="item topic-item" data-index="pp-gov-9">
+<button class="item-head"><span class="idx">09</span><span class="item-title">Row-Level Security — RLS</span><span class="tag">Interview Paragraph</span><svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg></button>
+<div class="item-body"><div class="item-body-inner">
+<p>&ldquo;I understand RLS as a way of restricting the rows a user can see based on their role or business attributes. I would typically create a security mapping structure, relate the user identity to the appropriate business dimension and use DAX filtering to restrict the data. After implementing RLS, I validate it using 'View As' and also test the actual Power BI Service user experience.&rdquo;</p>
+<h4>Example:</h4>
+<pre><code class="language-text">Regional Manager
+       ↓
+Region = South
+       ↓
+Only South region data visible</code></pre>
+</div></div>
+</div>
+<div class="item topic-item" data-index="pp-gov-10">
+<button class="item-head"><span class="idx">10</span><span class="item-title">Power BI Performance Tuning</span><span class="tag">Interview Paragraph</span><svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg></button>
+<div class="item-body"><div class="item-body-inner">
+<p>&ldquo;For Power BI performance tuning, I look at the entire chain rather than only the visual. I check the data model, relationship design, unnecessary columns, high-cardinality fields, DAX measures, Power Query transformations and source queries. I also use tools such as Performance Analyzer to identify slow visuals and then optimize the underlying measure or model.&rdquo;</p>
+<h4>Strong line:</h4>
+<p>&ldquo;I prefer fixing the root cause in the model rather than trying to optimize every visual individually.&rdquo;</p>
+</div></div>
+</div>
+<div class="item topic-item" data-index="pp-gov-11">
+<button class="item-head"><span class="idx">11</span><span class="item-title">Power BI Service / Publishing / Gateway</span><span class="tag">Interview Paragraph</span><svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg></button>
+<div class="item-body"><div class="item-body-inner">
+<p>&ldquo;After developing the report in Power BI Desktop, I publish it to the appropriate Power BI workspace and configure the semantic model and refresh settings in the Service. For on-premises data sources, I understand the role of the on-premises data gateway in securely connecting Power BI Service to the data source and supporting scheduled refresh. I also understand that credentials, gateway mapping and refresh history need to be validated after deployment.&rdquo;</p>
+<h4>Flow:</h4>
+<pre><code class="language-text">Power BI Desktop
+       ↓
+Publish
+       ↓
+Power BI Service
+       ↓
+Gateway
+       ↓
+Data Source
+       ↓
+Scheduled Refresh</code></pre>
+</div></div>
+</div>
+<div class="item topic-item" data-index="pp-gov-12">
+<button class="item-head"><span class="idx">12</span><span class="item-title">Dataverse — Tables &amp; Relationships</span><span class="tag">Interview Paragraph</span><svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg></button>
+<div class="item-body"><div class="item-body-inner">
+<p>&ldquo;I have worked with Dataverse as the common data layer for Power Apps and Power Automate. I understand how to design tables around business entities and create relationships between them. In my inventory solution, for example, Purchase Order is the parent and Purchase Order Items are the child records, giving me a one-to-many relationship.&rdquo;</p>
+<p>Your project explicitly uses the Purchase Order → Purchase Order Items parent-child design.</p>
+</div></div>
+</div>
+<div class="item topic-item" data-index="pp-gov-13">
+<button class="item-head"><span class="idx">13</span><span class="item-title">Dataverse — Business Rules</span><span class="tag">Interview Paragraph</span><svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg></button>
+<div class="item-body"><div class="item-body-inner">
+<p>&ldquo;I use business rules and application-level validation to make sure users cannot create inconsistent business data. For example, in my inventory application, once a vendor is selected, the available products are restricted to products associated with that vendor. I also use appropriate required fields, relationships and status values to maintain data consistency.&rdquo;</p>
+<p>Your documented solution includes the one PO → one vendor rule and vendor-specific product filtering.</p>
+</div></div>
+</div>
+<div class="item topic-item" data-index="pp-gov-14">
+<button class="item-head"><span class="idx">14</span><span class="item-title">Dataverse — Security Roles</span><span class="tag">Interview Paragraph</span><svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg></button>
+<div class="item-body"><div class="item-body-inner">
+<p>&ldquo;I understand Dataverse security as a combination of users, teams, security roles, privileges and access levels. In an enterprise implementation, I would define roles according to business responsibilities—for example, an administrator may have broader access while an operational user may only create or update the records required for their process. I would also consider business units and ownership when designing the security model.&rdquo;</p>
+<h4>Example:</h4>
+<pre><code class="language-text">Admin
+ └── Full access
+Procurement User
+ └── Vendors + Purchase Orders
+Warehouse User
+ └── Inventory + Receiving</code></pre>
+</div></div>
+</div>
+<div class="item topic-item" data-index="pp-gov-15">
+<button class="item-head"><span class="idx">15</span><span class="item-title">Dataverse — Business Process Flows</span><span class="tag">Interview Paragraph</span><svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg></button>
+<div class="item-body"><div class="item-body-inner">
+<p>&ldquo;Business Process Flows are useful when the business process has clearly defined stages that users need to follow. For example, an inventory process could move through Draft, Submitted, Approved, Ordered, Received and Completed stages. The BPF provides users with a guided process while the underlying automation can still be handled by Power Automate.&rdquo;</p>
+</div></div>
+</div>
+<div class="item topic-item" data-index="pp-gov-16">
+<button class="item-head"><span class="idx">16</span><span class="item-title">Dataverse — Plug-ins / Custom APIs</span><span class="tag">Interview Paragraph</span><svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg></button>
+<div class="item-body"><div class="item-body-inner">
+<p>This one is important: don't claim deep hands-on experience unless you really have it.</p>
+<p>Use:</p>
+<p>&ldquo;I understand where plug-ins and custom APIs fit into Dataverse architecture. When business logic needs to execute server-side and consistently regardless of which application performs the operation, a plug-in can be appropriate. For more complex integrations or custom operations, custom APIs can expose reusable business logic. My stronger hands-on experience is currently around Dataverse tables, relationships, Power Apps and Power Automate, but I understand how plug-ins and custom APIs fit into an enterprise architecture.&rdquo;</p>
+<p>This answer is actually safer and more credible than pretending you wrote plug-ins.</p>
+</div></div>
+</div>
+<div class="item topic-item" data-index="pp-gov-17">
+<button class="item-head"><span class="idx">17</span><span class="item-title">SDLC / Agile</span><span class="tag">Interview Paragraph</span><svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg></button>
+<div class="item-body"><div class="item-body-inner">
+<p>&ldquo;I follow an SDLC approach rather than treating Power Platform development as simply building an app. I start with requirements, design the data model and solution architecture, develop in Dev, perform unit testing, move through UAT, incorporate business feedback and then deploy the approved solution to Production. In Agile, I would break the work into user stories and deliver functionality incrementally through sprints.&rdquo;</p>
+<h4>Your project:</h4>
+<pre><code class="language-text">Requirement
+    ↓
+Design
+    ↓
+Development
+    ↓
+Testing
+    ↓
+UAT
+    ↓
+Deployment
+    ↓
+Support
+    ↓
+Continuous Improvement</code></pre>
+</div></div>
+</div>
+<div class="item topic-item" data-index="pp-gov-18">
+<button class="item-head"><span class="idx">18</span><span class="item-title">Full Solution Delivery Lifecycle</span><span class="tag">Interview Paragraph</span><svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg></button>
+<div class="item-body"><div class="item-body-inner">
+<p>If they ask: "Can you work independently across the full lifecycle?"</p>
+<p>Say:</p>
+<p>&ldquo;Yes. I can work from requirement understanding through solution design, Dataverse modelling, Power Apps development, Power Automate automation, integration, testing, deployment and post-production support. I also understand that production delivery isn't finished when development is complete—the solution needs monitoring, troubleshooting, governance and continuous improvement.&rdquo;</p>
+</div></div>
+</div>
+<div class="item topic-item" data-index="pp-gov-19">
+<button class="item-head"><span class="idx">19</span><span class="item-title">Power Apps — Mandatory Hands-on Experience</span><span class="tag">Interview Paragraph</span><svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg></button>
+<div class="item-body"><div class="item-body-inner">
+<p>This is the most important paragraph for the role.</p>
+<p>I have hands-on experience with Power Apps, particularly Canvas Apps, Model-driven Apps and mobile scenarios. In my inventory management solution, I used a Model-driven App for vendor management and a Canvas App for purchase-order creation. I worked with forms, galleries, controls, Dataverse data sources, filtering, validation, parent-child records and user-driven business logic. I also built a mobile receiving experience where users capture packing-slip images and scan asset barcodes. So my understanding is not limited to creating basic forms—I have used Power Apps as the application layer of an end-to-end business process.</p>
+<p>Your project demonstrates Model-driven App, Canvas App and mobile Power App usage.</p>
+</div></div>
+</div>
+<div class="item topic-item" data-index="pp-gov-20">
+<button class="item-head"><span class="idx">20</span><span class="item-title">Power Automate — Mandatory Hands-on Experience</span><span class="tag">Interview Paragraph</span><svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg></button>
+<div class="item-body"><div class="item-body-inner">
+<p>I have hands-on experience using Power Automate as the workflow and integration layer of a Power Platform solution. In my inventory project, the Canvas App triggers the flow when a purchase order is submitted. The flow processes the order, generates the purchase-order document, sends the PDF to the vendor through email, and also handles external API integration. I have worked with triggers, actions, conditions, dynamic content, JSON processing and application-to-flow integration. I understand Power Automate not just as an email automation tool, but as an orchestration layer connecting Power Apps, Dataverse, APIs, documents and business processes.</p>
+<p>Your documented solution explicitly uses Power Automate for PO processing, PDF generation, email and external API integration.</p>
+</div></div>
+</div>
+<div class="item topic-item" data-index="pp-gov-21">
+<button class="item-head"><span class="idx">21</span><span class="item-title">One Combined Paragraph — "How strong are you in Power Platform?"</span><span class="tag">Interview Paragraph</span><svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg></button>
+<div class="item-body"><div class="item-body-inner">
+<p>This is the one I would memorize:</p>
+<p>My strongest experience is around building business solutions using Power BI, Power Apps, Power Automate and Dataverse. I have worked on end-to-end Power Platform scenarios where Power Apps provides the user experience, Dataverse acts as the common data layer and Power Automate handles workflow and integration. I understand solution-based ALM, environment separation, connection references, environment variables and DLP concepts. On the application side, I have worked with Canvas Apps, Model-driven Apps, Dataverse relationships, validation and mobile scenarios. On the automation side, I have worked with app-triggered flows, API integration, JSON processing, document generation and email automation. I also have exposure to AI prompts and Copilot Studio for GenAI and conversational scenarios. Alongside that, Power BI is my primary analytics specialization, covering data modelling, Power Query, DAX, reporting and Power BI Service. So I can work across the application, automation, analytics and data layers rather than treating each Power Platform component in isolation.</p>
+<h4>Your strongest positioning</h4>
+<p>If you want the interviewer to remember one architecture, use:</p>
+<p>&ldquo;Power Apps → Dataverse → Power Automate → API/Business Process → Power BI/Copilot → End User&rdquo;</p>
+<p>And describe your role as:</p>
+<p>&ldquo;I work across the full Power Platform solution lifecycle—from data modelling and application development to automation, integration, reporting, AI capabilities, ALM and production support.&rdquo;</p>
+<p>That positioning is particularly strong because your actual project already demonstrates the core Power Apps + Dataverse + Power Automate + API + AI/Copilot integration rather than isolated feature demos.</p>
+</div></div>
+</div>
+</div>
+</div></div>
+</div>
 <div class="item" data-index="ae-2">
-<button class="item-head"><span class="idx">04</span><span class="item-title">Anglo-Eastern — Company Understanding &amp; Role Fit</span><span class="tag">Company Research</span><svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg></button>
+<button class="item-head"><span class="idx">05</span><span class="item-title">Anglo-Eastern — Company Understanding &amp; Role Fit</span><span class="tag">Company Research</span><svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg></button>
 <div class="item-body"><div class="item-body-inner">
 <p>From my understanding, Anglo-Eastern is a global independent ship-management company, and the business is much broader than just managing ships. The main areas include technical ship management, crew management, newbuilding supervision, cruise and leisure management, and sustainability and performance services. Anglo-Eastern manages a large and diverse fleet including bulk carriers, tankers, container ships, gas carriers, LNG vessels, offshore vessels and passenger ships.</p>
 <p>From a business perspective, the company has to manage a lot of operational data around vessels, maintenance, procurement, crew, voyages, safety, compliance, financial performance and vessel performance. One thing I found particularly relevant to this role is that Anglo-Eastern already puts significant emphasis on digitalisation and data-driven decision making. Its client portal, my.angloeastern, provides visibility into areas such as operational and technical performance, financial reporting, OPEX, crew information and procurement. The company also uses technology partnerships and systems such as JiBe and fleet-optimisation solutions to improve operational visibility and automation.</p>
@@ -5415,7 +5630,7 @@ Vendor</code></pre>
 </div></div>
 </div>
 <div class="item" data-index="ae-3">
-<button class="item-head"><span class="idx">05</span><span class="item-title">Power Platform — End-to-End Inventory Management Solution</span><span class="tag">Project Deep-Dive</span><svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg></button>
+<button class="item-head"><span class="idx">06</span><span class="item-title">Power Platform — End-to-End Inventory Management Solution</span><span class="tag">Project Deep-Dive</span><svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg></button>
 <div class="item-body"><div class="item-body-inner">
 <h3>1. Overall Solution – Complete Power Platform Story</h3>
 <p>The solution is a complete end-to-end inventory management system built 100% using Microsoft Power Platform.</p>
