@@ -4426,6 +4426,749 @@ RANKX(
 </div>
 </div>
 </div>
+<div class="item section-item" data-index="anglo-eastern-interview">
+<div aria-expanded="false" class="item-head section-head" role="button" tabindex="0">
+<div class="section-head-text">
+<div class="eyebrow">Company Interview Prep</div>
+<h1>Anglo Eastern Interview</h1>
+</div>
+<svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg>
+</div>
+<div class="item-body">
+<div class="item-body-inner section-body-inner">
+<p class="sub">Click a topic to expand it and see the related practice questions.</p>
+<div class="list" id="anglo-eastern-topics">
+<div class="item" data-index="ae-1">
+<button class="item-head"><span class="idx">01</span><span class="item-title">Power Apps &amp; Power Automate — Project Explanation</span><span class="tag">Interview Answer</span><svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg></button>
+<div class="item-body"><div class="item-body-inner">
+
+<p>Your project is an end-to-end Inventory Management Solution covering vendor management → purchase order → automation → receiving → asset tagging → inventory allocation.</p>
+<p class="sub">60–90 second interview answer</p>
+<h4>Power Apps Interview Explanation</h4>
+<p>I built an end-to-end inventory management solution using Microsoft Power Platform, mainly using Power Apps, Power Automate and Dataverse.</p>
+<p>The business process starts with vendor management, where I used a Model-driven App to maintain vendor information. For the actual inventory ordering process, I built a Canvas App where users can select a vendor, add multiple items and quantities, save an order as a draft and finally submit the purchase order.</p>
+<p>On submission, I maintain a parent-child relationship in Dataverse between the Purchase Order and Purchase Order Items. I then use Power Automate as the orchestration layer. The flow processes the submitted order, generates a purchase-order PDF and sends it to the vendor automatically through email. So the user doesn't have to manually generate the document or send the email.</p>
+<p>I also integrated an external product catalog through Power Automate. The Canvas App calls a flow, the flow communicates with a third-party API, receives the JSON response, processes the required fields and returns the product information back to Power Apps.</p>
+<p>For the receiving process, I used a mobile Power App. The user can take a picture of the packing slip, an AI prompt extracts the order and asset information, and then the user scans the physical asset tag using the barcode scanner. Once receiving is completed, the asset record is created in Dataverse with an Available status.</p>
+<p>Finally, I used Copilot Studio to provide a conversational inventory experience, where users can ask for available assets and the agent can query Dataverse and update an asset when authorized.</p>
+<p>So the main architecture is: Power Apps for the user experience, Dataverse as the common data layer, Power Automate for workflow and integration, and AI/API capabilities for intelligent processing.</p>
+<p>If he specifically asks: "What exactly did you do in Power Automate?"</p>
+<p>This is the answer I would memorize:</p>
+<h4>Power Automate Deep-Dive Answer</h4>
+<p>I used Power Automate mainly as an orchestration and integration layer between Power Apps, Dataverse, external APIs and email/document processing.</p>
+<p>One important flow is triggered from the Canvas App when the user submits a purchase order. The order and its line items are processed, the purchase-order document is generated, and the generated PDF is attached to an email that is automatically sent to the vendor.</p>
+<p>I also created an integration flow where Power Apps passes the request to Power Automate. The flow calls a third-party catalog API, receives the response in JSON, processes the response and sends the required product information back to Power Apps.</p>
+<p>So I see Power Automate as the layer that handles processes that should happen outside the immediate Power Apps UI — things like workflow orchestration, API calls, document generation, email notifications and potentially approvals.</p>
+<p>The file specifically describes Power Automate in these two roles: purchase-order automation and third-party API integration.</p>
+<pre><code class="language-text">                 ┌──────────────────┐
+                 │   Model-driven   │
+                 │       App        │
+                 │ Vendor Management│
+                 └────────┬─────────┘
+                          │
+                          ▼
+┌──────────────┐    ┌──────────────┐
+│  Canvas App  │───►│  Dataverse   │
+│ Order Mgmt   │    │ Common Data  │
+└──────┬───────┘    └──────┬───────┘
+       │                    │
+       │ Trigger            │
+       ▼                    │
+┌──────────────────┐        │
+│ Power Automate   │────────┘
+│   Orchestration  │
+└──────┬───────────┘
+       │
+       ├────► Generate PO PDF
+       │
+       ├────► Email Vendor
+       │
+       └────► Third-party API
+                    │
+                    ▼
+                  JSON
+                    │
+                    ▼
+               Power Apps</code></pre>
+<p>The important thing to communicate is:</p>
+<p>"Power Apps handles interaction, Dataverse handles business data, and Power Automate handles business processes and integrations."</p>
+<p>That one sentence makes your understanding much clearer than simply saying "I know Power Automate."</p>
+<h4>5 Things the Interviewer May Drill Into</h4>
+<p>Be ready to explain these:</p>
+<h4>1. Canvas App → Power Automate</h4>
+<ul>
+<li>Why call a flow instead of doing everything in Power Apps?</li>
+<li>How does Power Apps pass parameters to the flow?</li>
+<li>What does the flow return?</li>
+</ul>
+<h4>2. Power Automate → API</h4>
+<ul>
+<li>How do you call an external API?</li>
+<li>What is JSON?</li>
+<li>How do you parse the API response?</li>
+<li>How do you handle API failures?</li>
+</ul>
+<h4>3. Dataverse</h4>
+<ul>
+<li>Purchase Order vs Purchase Order Items</li>
+<li>One-to-many relationship</li>
+<li>Why Dataverse instead of Excel?</li>
+<li>How do you maintain data integrity?</li>
+</ul>
+<h4>4. Automation</h4>
+<ul>
+<li>Trigger</li>
+<li>Actions</li>
+<li>Conditions</li>
+<li>Variables</li>
+<li>Apply to each</li>
+<li>Error handling</li>
+<li>Notifications/approvals</li>
+</ul>
+<h4>5. Real business scenario</h4>
+<ul>
+<li>User submits PO</li>
+<li>Flow processes it</li>
+<li>PDF generated</li>
+<li>Vendor receives email</li>
+<li>Vendor ships inventory</li>
+<li>Mobile app receives inventory</li>
+<li>Asset gets barcode</li>
+<li>Dataverse gets updated</li>
+</ul>
+<p>Your project explicitly demonstrates this complete sequence, including the Canvas App → Power Automate → API → JSON → Power Apps integration pattern.</p>
+<p>Most important: don't present yourself as someone who only followed a tutorial. Explain the business requirement → design decision → implementation → outcome for each component. That will make your Power Platform knowledge sound much more practical in an interview.</p>
+</div></div>
+</div>
+<div class="item" data-index="natural-paragraph-power-platform">
+<button class="item-head"><span class="idx">02</span><span class="item-title">Natural Paragraph — Power Platform</span><span class="tag">Interview Answers</span><svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg></button>
+<div class="item-body"><div class="item-body-inner">
+<p class="sub">Click a topic to expand it and see the related practice paragraph.</p>
+<div class="list" id="pp-natural-topics">
+<div class="item topic-item" data-index="pp-nat-1">
+<button class="item-head"><span class="idx">01</span><span class="item-title">Power Automate 🔥</span><span class="tag">Interview Paragraph</span><svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg></button>
+<div class="item-body"><div class="item-body-inner">
+<p>I have worked with Power Automate mainly for automating business workflows and connecting different parts of a Power Platform solution. I understand both Cloud Flows and Desktop Flows, although my main focus is Cloud Flows. I have worked with different trigger types such as Dataverse-based triggers, instant/manual triggers and scheduled triggers, and then used actions, conditions, Apply to each and Do Until depending on the business requirement. For example, when a new request is created in Dataverse, a flow can automatically validate the record, identify the required approver, send an approval, update the request status and notify the user through email or Teams. For reliability, I use Scopes and Configure Run After for error handling, and I understand how retry policies can be used for temporary failures. I also consider duplicate execution, concurrency and idempotency, especially when large numbers of records are involved. For larger datasets, I avoid unnecessary Apply to each loops and design the flow to process data efficiently. I also understand authentication and connections, connection references, service accounts and why a flow may work for one user but fail for another because of permissions or connection ownership. When troubleshooting, I check the trigger history, inputs and outputs, failed actions, connection status and run-after configuration. For Dataverse scenarios, I can trigger flows when records are created or modified and use the flow to perform approvals, notifications, updates and integrations with external systems or APIs. So I look at Power Automate not just as a sequence of actions, but as a reliable workflow and orchestration layer with proper error handling, security and performance considerations.</p>
+</div></div>
+</div>
+<div class="item topic-item" data-index="pp-nat-2">
+<button class="item-head"><span class="idx">02</span><span class="item-title">Power Apps 🔥</span><span class="tag">Interview Paragraph</span><svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg></button>
+<div class="item-body"><div class="item-body-inner">
+<p>I understand Power Apps as the application layer of the Power Platform, and I have worked with the concepts required to build business applications using both Canvas Apps and Model-driven Apps. Canvas Apps provide more control over the user interface and are useful when we need a customized experience, while Model-driven Apps are more suitable for Dataverse-driven business applications where forms, views, relationships and business processes are important. I understand how to connect Power Apps with Dataverse and other data sources and use Power Fx for formulas, filtering, validation, navigation and business logic. One important area I focus on is delegation, because when working with large datasets we should push filtering and querying to the data source instead of bringing unnecessary records into the app. I also understand how delegation warnings can affect results and how to optimize formulas and data retrieval. For validation, I can validate mandatory fields, data types, duplicate records and business conditions before submitting data. I also understand role-based access, where application visibility and Dataverse security should work together rather than relying only on UI-level controls. For responsive Canvas Apps, I would use containers, flexible layouts and relative sizing rather than designing only for one screen size. I can also call Power Automate from Power Apps and pass parameters such as Request ID, User ID or selected values to start a workflow. For example, in a service-request application, the user creates and submits a request through Canvas App, the data is stored in Dataverse, Power Automate handles the approval process, and the application displays the updated status. I also consider duplicate submissions and record conflicts so that the application remains reliable in a multi-user environment.</p>
+</div></div>
+</div>
+<div class="item topic-item" data-index="pp-nat-3">
+<button class="item-head"><span class="idx">03</span><span class="item-title">Dataverse 🔥</span><span class="tag">Interview Paragraph</span><svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg></button>
+<div class="item-body"><div class="item-body-inner">
+<p>I understand Dataverse as the transactional and business-data layer of a Power Platform solution. I have worked with the concepts of tables, columns, primary keys, relationships, choice fields, lookups and business rules, and I understand how to design the data model based on the business requirement instead of creating one large table. For example, in a request-management solution I could have Request, Employee, Department and Approval tables, with appropriate one-to-many relationships between them. I understand the difference between 1 and N relationships and when each relationship is required. Dataverse is useful for enterprise applications because it provides structured relational data, security, auditing and integration with Power Apps and Power Automate. I also understand the difference between Dataverse and SharePoint: SharePoint can work well for document-centric or simpler list-based solutions, whereas Dataverse is more suitable when we need relational business data, stronger application security, business logic and enterprise Power Platform applications. On security, I understand security roles, business units, teams and record-level access, and how permissions should be designed according to the organization's access model. I also understand business rules for validations and conditional behavior, and Business Process Flows for guiding users through standardized business stages. To prevent duplicate records, I would use appropriate keys, duplicate detection or validation logic depending on the scenario. From an integration perspective, Power Apps can create and update Dataverse records, Power Automate can trigger from Dataverse changes and update related tables, and Power BI can consume the Dataverse data for reporting. For enterprise design, I would focus on normalized tables, appropriate relationships, ownership and security, naming standards, data quality and scalability.</p>
+</div></div>
+</div>
+<div class="item topic-item" data-index="pp-nat-4">
+<button class="item-head"><span class="idx">04</span><span class="item-title">ALM / Governance 🔥</span><span class="tag">Interview Paragraph</span><svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg></button>
+<div class="item-body"><div class="item-body-inner">
+<p>For enterprise Power Platform development, I understand that building the application is only one part; proper ALM and governance are equally important. I would normally separate the environments into DEV, UAT and PROD so development and testing do not directly affect production. I understand the purpose of Solutions for packaging and moving Power Apps, Power Automate flows, Dataverse components and other solution-aware components between environments. I also understand the difference between unmanaged and managed solutions: unmanaged solutions are generally used during development, while managed solutions are appropriate for controlled deployment into downstream environments. For environment-specific configuration, I would use environment variables instead of hardcoding URLs, IDs or other values, and connection references help separate the application from individual user connections. For example, the same solution can move from DEV to UAT to PROD while the environment-specific API endpoint or connection is changed through configuration rather than modifying the application itself. I understand deployment through Power Platform Pipelines and the concept of CI/CD using tools such as Azure DevOps when a more automated enterprise deployment process is required. I also understand governance areas such as DLP policies, where administrators can control which connectors can be used together and reduce the risk of inappropriate data movement. In production, I would follow proper security roles, least-privilege access, naming standards, environment strategy, solution management, connection management and change control. I would also document the architecture, dependencies and deployment process so that another team can support the solution. My approach is to make the solution not only functional but also maintainable, secure and deployable across the complete development lifecycle.</p>
+</div></div>
+</div>
+<div class="item topic-item" data-index="pp-nat-5">
+<button class="item-head"><span class="idx">05</span><span class="item-title">AI Builder / Copilot / GenAI</span><span class="tag">Interview Paragraph</span><svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg></button>
+<div class="item-body"><div class="item-body-inner">
+<p>I see AI as an extension of the Power Platform rather than something separate from the application and automation layer. I understand AI Builder use cases such as document processing, invoice or form extraction, classification and prediction, where information can be extracted from unstructured documents and then passed into Power Automate for further processing. For example, if a business receives a PDF invoice or operational document, AI Builder can extract important fields, Power Automate can validate the information and then create or update a Dataverse record and trigger an approval process. I also understand how Copilot can assist in Power Apps and Power Automate by helping users create applications, formulas or flows using natural language, while Copilot Studio can be used to build conversational agents that interact with business data and processes. From a GenAI perspective, I understand that we need to consider prompt quality, grounding, hallucination, data privacy, access control and human validation, especially when AI is working with enterprise or sensitive information. I would not allow AI-generated output to directly perform critical business actions without appropriate validation and controls. For an enterprise solution, I would combine AI Builder or Copilot capabilities with Dataverse, Power Automate and Power BI so that AI supports the workflow rather than operating as an isolated feature. For example, an AI-based document-processing flow could extract information, validate it against Dataverse data, route exceptions for human approval and finally update the business record and reporting layer. I am also interested in agentic AI because it can move beyond simple question answering toward executing business tasks, but I would still apply proper authentication, permissions, auditability and human oversight.</p>
+</div></div>
+</div>
+</div>
+</div></div>
+</div>
+<div class="item" data-index="ae-2">
+<button class="item-head"><span class="idx">03</span><span class="item-title">Anglo-Eastern — Company Understanding &amp; Role Fit</span><span class="tag">Company Research</span><svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg></button>
+<div class="item-body"><div class="item-body-inner">
+<p>From my understanding, Anglo-Eastern is a global independent ship-management company, and the business is much broader than just managing ships. The main areas include technical ship management, crew management, newbuilding supervision, cruise and leisure management, and sustainability and performance services. Anglo-Eastern manages a large and diverse fleet including bulk carriers, tankers, container ships, gas carriers, LNG vessels, offshore vessels and passenger ships.</p>
+<p>From a business perspective, the company has to manage a lot of operational data around vessels, maintenance, procurement, crew, voyages, safety, compliance, financial performance and vessel performance. One thing I found particularly relevant to this role is that Anglo-Eastern already puts significant emphasis on digitalisation and data-driven decision making. Its client portal, my.angloeastern, provides visibility into areas such as operational and technical performance, financial reporting, OPEX, crew information and procurement. The company also uses technology partnerships and systems such as JiBe and fleet-optimisation solutions to improve operational visibility and automation.</p>
+<p>I also understand that fleet performance is an important area. Anglo-Eastern's Fleet Performance Centre analyses fleet data to identify trends and translate them into actionable insights for improving voyage and machinery performance.</p>
+<p>Coming to where I would fit, I see this role sitting exactly at the intersection of business processes, data and automation.</p>
+<p>My strongest area is Power BI, SQL and data analytics. I can contribute by building reliable semantic models, Power Query transformations, DAX measures, dashboards and KPI reporting for areas such as vessel performance, procurement, finance, maintenance or operational performance.</p>
+<p>At the same time, I see Power Apps and Power Automate as the layer that can turn those insights into business processes. For example, if a maintenance or procurement process is currently handled through emails and Excel, I could see a solution where Power Apps provides the business interface, Dataverse stores the operational information, Power Automate handles approvals and notifications, and Power BI provides management reporting.</p>
+<p>So rather than looking at Power BI, Power Apps and Power Automate as separate technologies, I would look at them as one business solution:</p>
+<pre><code class="language-text">Power Apps → Dataverse → Power Automate → Power BI</code></pre>
+<p>For example, a vessel maintenance request could be submitted through Power Apps, stored in Dataverse, routed for approval through Power Automate, and then reported in Power BI with KPIs such as open requests, turnaround time, SLA compliance and requests by vessel.</p>
+<p>That's where I believe I can add value: taking a business requirement, understanding the data behind it, building the reporting layer, and progressively using Power Platform automation to reduce manual work and improve visibility and governance.</p>
+<h4>If he asks: "Where exactly will you fit in Fleet IT / Supply Chain?"</h4>
+<p>Give this shorter answer:</p>
+<p>&ldquo;I see myself primarily as the bridge between business users, data and automation. On the reporting side, I can own Power BI, SQL, data modelling, DAX and data quality. On the process side, I can use Power Apps and Power Automate with Dataverse to digitise manual processes such as procurement requests, approvals, maintenance requests or operational workflows. So the value I would bring is not just creating a dashboard, but connecting the operational process, data and reporting into one scalable solution.&rdquo;</p>
+<p>That answer fits the JD particularly well because the role sits within Fleet IT's IT Operations &amp; Supply Chain function and explicitly combines Power BI with Power Apps, Power Automate, Dataverse, governance and business-process improvement.</p>
+<h4>One company-specific point worth remembering</h4>
+<p>If he asks "What impressed you about Anglo-Eastern?", don't give a generic answer like "It's a reputed company."</p>
+<p>Mention the digitalisation + data angle:</p>
+<p>&ldquo;One thing that stood out to me is that Anglo-Eastern is already using technology and fleet data to improve operational performance. The Fleet Performance Centre uses fleet-wide data to identify trends, while the my.angloeastern platform provides clients with operational, technical, financial, crew and procurement visibility. So I see this role as an opportunity to contribute to an organization where data and automation are directly connected to real maritime operations.&rdquo;</p>
+<p>That is much more convincing because it shows you actually researched their business, not just the Power Platform JD.</p>
+</div></div>
+</div>
+<div class="item" data-index="ae-3">
+<button class="item-head"><span class="idx">04</span><span class="item-title">Power Platform — End-to-End Inventory Management Solution</span><span class="tag">Project Deep-Dive</span><svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg></button>
+<div class="item-body"><div class="item-body-inner">
+<h3>1. Overall Solution – Complete Power Platform Story</h3>
+<p>The solution is a complete end-to-end inventory management system built 100% using Microsoft Power Platform.</p>
+<p>It combines multiple Power Platform capabilities into one integrated solution:</p>
+<ul>
+<li>Model-driven App</li>
+<li>Canvas App</li>
+<li>Mobile App</li>
+<li>Barcode Scanner</li>
+<li>Power Automate Cloud Flow</li>
+<li>Third-party API integration</li>
+<li>AI Prompts</li>
+<li>Copilot Studio Agent</li>
+<li>Microsoft 365 Copilot</li>
+<li>Dataverse</li>
+<li>Parent-child data relationships</li>
+<li>PDF generation</li>
+<li>Email automation</li>
+<li>JSON parsing</li>
+<li>Inventory management</li>
+<li>Vendor management</li>
+<li>Purchase-order management</li>
+<li>Inventory receiving</li>
+<li>Asset tagging</li>
+<li>Conversational inventory management</li>
+</ul>
+<h4>Overall business flow</h4>
+<pre><code class="language-text">Vendor Management → Inventory Ordering → Purchase Order → Vendor Email → Shipment/Receiving → Packing Slip Processing → AI Extraction → Asset Tagging → Inventory Creation → Copilot-based Inventory Search &amp; Allocation</code></pre>
+<p>The important concept is that different Power Platform components work together against the same Dataverse data to create one complete business solution.</p>
+<h3>2. Step 1 – Vendor Management</h3>
+<p>The first requirement is simple:</p>
+<p>&ldquo;You cannot order inventory unless you have vendors from whom you can purchase the inventory.&rdquo;</p>
+<p>Therefore, the first component built was a Model-driven App for Vendor Management.</p>
+<h4>2.1 Model-driven App</h4>
+<p>The Model-driven App manages vendor information and provides the standard enterprise-style data management experience.</p>
+<p>The app contains:</p>
+<ul>
+<li>Vendor details</li>
+<li>Vendor records</li>
+<li>Ability to edit vendor information</li>
+<li>Ability to save updated information</li>
+</ul>
+<p>Example — a vendor can be edited:</p>
+<pre><code class="language-text">Existing vendor → Edit → Change name to &quot;Bob the Builder&quot; → Save</code></pre>
+<p>The updated information is then stored.</p>
+<h3>3. Generative Pages</h3>
+<p>One interesting part of the Vendor Management application is that the UI was enhanced using Generative Pages. The presenter emphasizes that this was not built using traditional pro-code development.</p>
+<h4>Development approach</h4>
+<p>Instead of manually writing all the code:</p>
+<ol>
+<li>Open the generative-page wizard.</li>
+<li>Describe the desired experience.</li>
+<li>Specify the required components.</li>
+<li>Let the AI generate the initial implementation.</li>
+<li>Iterate several times.</li>
+<li>Refine the generated result.</li>
+</ol>
+<p>The result is a more polished vendor-management experience while still running on the underlying Power Platform architecture.</p>
+<h4>Important point</h4>
+<p>Although code exists underneath the generated experience, the developer did not manually write the pro-code implementation. This demonstrates how generative AI can accelerate Power Platform development.</p>
+<h3>4. Classic Model-driven Experience</h3>
+<p>The solution also retains the traditional Model-driven App experience — a Classic Vendor View that provides the normal Model-driven App interface with the expected:</p>
+<ul>
+<li>Vendor records</li>
+<li>Data views</li>
+<li>Editing</li>
+<li>Standard model-driven functionality</li>
+</ul>
+<h4>Key idea</h4>
+<p>The solution essentially combines:</p>
+<pre><code class="language-text">Traditional Model-driven App functionality + Generative AI-enhanced UI</code></pre>
+<p>So organizations can choose between the standard interface and a more AI-generated experience.</p>
+<h3>5. Step 2 – Inventory Ordering</h3>
+<p>Once vendors are available, the next requirement is:</p>
+<p>&ldquo;Allow users to order inventory from vendors.&rdquo;</p>
+<p>For this, the solution uses a Canvas App.</p>
+<h3>6. Canvas App – Inventory Ordering System</h3>
+<p>The Canvas App functions as the inventory ordering system. The homepage provides a customized user experience.</p>
+<h4>6.1 AI-Assisted App Design</h4>
+<p>The presenter explains that a Large Language Model such as Copilot was used to help with the design. AI was used for:</p>
+<ul>
+<li>Generating design ideas</li>
+<li>Creating the visual concept</li>
+<li>Creating/editing images</li>
+<li>Improving the appearance of the homepage</li>
+</ul>
+<p>The important distinction is that AI was not necessarily used to build the entire Canvas App automatically. Instead, AI helped with:</p>
+<pre><code class="language-text">Design → Visual concept → Image generation/editing → UI refinement</code></pre>
+<h3>7. Creating a New Purchase Order</h3>
+<p>The user can select <strong>Create New Order</strong>. For example:</p>
+<p><strong>Item:</strong> Access Points</p>
+<p><strong>Reason:</strong> I'm doing a demo</p>
+<p><strong>Vendor:</strong> Dell</p>
+<p>After selecting the vendor, the user can select <strong>Add Items</strong>.</p>
+<h3>8. Editable Grid</h3>
+<p>The Canvas App provides an editable grid experience. Users can add inventory items and specify quantities. For example:</p>
+<ul>
+<li>Access Point → Quantity: 3</li>
+<li>Laptop → Quantity: 1</li>
+</ul>
+<h4>Important business rule</h4>
+<p>The items displayed are restricted based on the selected vendor. For example, if Vendor = Dell, then Available items = Items that can be purchased from Dell.</p>
+<h3>9. One Purchase Order → One Vendor</h3>
+<p>An important business rule implemented in the solution is:</p>
+<p>&ldquo;One purchase order can only be associated with one vendor at a time.&rdquo;</p>
+<p>Therefore, once the vendor is selected, the items shown are filtered to the items available from that vendor. This maintains the correct purchase-order/vendor relationship.</p>
+<h3>10. Save Draft Functionality</h3>
+<p>The user does not necessarily need to complete an order immediately. The system supports <strong>Save Draft</strong>, which allows the user to:</p>
+<ol>
+<li>Start creating an order.</li>
+<li>Save incomplete information.</li>
+<li>Return later.</li>
+<li>Continue working on the order.</li>
+<li>Submit it when all required information is available.</li>
+</ol>
+<h3>11. Approval Process</h3>
+<p>The solution can also be extended with an approval process. For example:</p>
+<pre><code class="language-text">User creates order → Submit → Manager approval → Vendor</code></pre>
+<p>The presenter notes that approval wasn't necessarily enabled in the demonstrated version, but the architecture allows it to be introduced. This is a good example of how Power Automate can be added to the business process.</p>
+<h3>12. Submit Order</h3>
+<p>When the user selects <strong>Submit Order</strong>, multiple actions happen behind the scenes.</p>
+<h4>Step 1 – Save Parent Data</h4>
+<p>The main purchase-order record is saved.</p>
+<h4>Step 2 – Save Child Data</h4>
+<p>The individual order items are saved. This creates a Parent → Child data relationship. For example:</p>
+<p><strong>Parent (Purchase Order):</strong> Contains Order ID, Vendor, Reason, Order information</p>
+<p><strong>Children (Purchase Order Items):</strong> Contains Product, Quantity, Other item information</p>
+<p>Therefore:</p>
+<pre><code class="language-text">Purchase Order 1001
+  ↓
+Access Point × 3
+  ↓
+Laptop × 1</code></pre>
+<h3>13. Automatic Purchase Order PDF Generation</h3>
+<p>After submission, the system automatically generates an actual PDF purchase order. The PDF contains information such as:</p>
+<ul>
+<li>Company/vendor information</li>
+<li>Logo</li>
+<li>Items being ordered</li>
+<li>Order information</li>
+</ul>
+<p>The generated PDF is then attached to an email.</p>
+<h3>14. Automatic Email to Vendor</h3>
+<p>The purchase-order process is automated:</p>
+<pre><code class="language-text">Submit Order
+  ↓
+Generate Purchase Order PDF
+  ↓
+Attach PDF to Email
+  ↓
+Send Email to Vendor</code></pre>
+<p>Therefore, the vendor receives the purchase order directly without the user manually downloading and emailing it.</p>
+<h3>15. AI-Assisted HTML/PDF Generation</h3>
+<p>The presenter also explains that an LLM was used to generate the HTML used for the purchase-order document. Normally, manually creating the HTML layout could take significant time. Instead:</p>
+<pre><code class="language-text">Raw requirements/code → Large Language Model → HTML</code></pre>
+<p>The presenter notes that the AI-generated HTML/PDF structure took seconds instead of approximately an hour of manual work.</p>
+<h4>Key lesson</h4>
+<p>LLMs can be used as a productivity accelerator for:</p>
+<ul>
+<li>HTML generation</li>
+<li>Document formatting</li>
+<li>PDF layouts</li>
+<li>UI design</li>
+<li>Code generation</li>
+<li>Data transformation</li>
+</ul>
+<h3>16. My Orders Screen</h3>
+<p>The Canvas App also contains <strong>My Orders</strong>, which allows users to view and navigate through their different orders. Users can:</p>
+<ul>
+<li>View orders</li>
+<li>Navigate between orders</li>
+<li>Track their order information</li>
+</ul>
+<h3>17. Manage Items</h3>
+<p>The Canvas App also provides <strong>Manage Items</strong>, which manages the inventory products that can be ordered from different vendors. The solution goes beyond manually entering products — it integrates with an external API.</p>
+<h3>18. Third-Party API Integration</h3>
+<p>When the user selects <strong>Add an Item → Add From Online Catalog</strong>, the Canvas App triggers a Power Automate Cloud Flow.</p>
+<h4>Flow</h4>
+<pre><code class="language-text">Canvas App
+  ↓
+Power Automate Cloud Flow
+  ↓
+Third-party Vendor API
+  ↓
+API returns product information
+  ↓
+Power Automate / Power Apps processes response
+  ↓
+Products displayed in Canvas App</code></pre>
+<h3>19. Real API Integration</h3>
+<p>The API used in the demonstration is a test API, but it behaves like a real external API. The flow retrieves available computer equipment. For example, <em>iPad Mini 2021 – Starlight</em> can be retrieved from the online catalog. The user does not need to:</p>
+<ul>
+<li>Open the vendor catalog</li>
+<li>Search manually</li>
+<li>Copy the product</li>
+<li>Paste the product into Power Apps</li>
+</ul>
+<p>Instead, the API handles the retrieval.</p>
+<h3>20. JSON Parsing</h3>
+<p>The API integration also introduces JSON parsing. The API returns data in JSON format. The solution demonstrates how to:</p>
+<ul>
+<li>Call an API</li>
+<li>Receive JSON</li>
+<li>Parse JSON</li>
+<li>Extract required fields</li>
+<li>Display the information inside Power Apps</li>
+</ul>
+<p>An interesting implementation choice is that some of the parsing happens on the Power Apps side. The presenter notes that this is technically harder but useful as a learning opportunity.</p>
+<h3>21. Training / Development Philosophy</h3>
+<p>The presenter explains that the demonstrated solution was also used as a training example. Students start with blank white screens and build the complete solution interactively. The instructor does not simply provide a fixed script — instead, the class can modify the implementation. For example, students could ask:</p>
+<p>&ldquo;Instead of using a form, can we use individual controls with Patch?&rdquo;</p>
+<p>Then the implementation can be changed accordingly.</p>
+<h4>Important concept</h4>
+<p>The solution is not tied to one implementation pattern. The same business requirement can be implemented using different Power Apps techniques.</p>
+<h3>22. Step 3 – Inventory Receiving</h3>
+<p>After an order is placed:</p>
+<pre><code class="language-text">Vendor ships inventory → Company receives inventory</code></pre>
+<p>The company receives a Packing Slip. Now the system needs to:</p>
+<ol>
+<li>Read the packing slip.</li>
+<li>Identify the items.</li>
+<li>Process the received inventory.</li>
+<li>Assign asset tags.</li>
+<li>Add the assets into the inventory system.</li>
+</ol>
+<p>For this scenario, a Mobile Power App is used.</p>
+<h3>23. Mobile App</h3>
+<p>The mobile app is appropriate because inventory receiving usually happens:</p>
+<ul>
+<li>At the loading dock</li>
+<li>In a storeroom</li>
+<li>In a warehouse</li>
+<li>At the receiving area</li>
+</ul>
+<p>The employee may not have access to a desktop computer while physically receiving inventory. Therefore, a Mobile Power App is used for the receiving process.</p>
+<h3>24. Test Order Receiving</h3>
+<p>The user opens <strong>Test Order Receiving</strong> and starts the receiving process. The app asks: "Which packing slip do you want to process?" The user selects the appropriate packing slip.</p>
+<h3>25. Capture Packing Slip Photo</h3>
+<p>The app provides <strong>Take a Photo</strong>. The user photographs the packing slip. Then:</p>
+<pre><code class="language-text">Take Photo → Use Photo</code></pre>
+<p>The captured image is sent for processing.</p>
+<h3>26. AI Prompt for Packing Slip Processing</h3>
+<p>The image is passed to an AI Prompt. The AI prompt extracts structured information from the packing slip. The solution is designed to work with packing slips that follow a reasonably normal format. The presenter also mentions that the concept can handle different situations such as:</p>
+<ul>
+<li>Torn-up photos</li>
+<li>Handwritten information</li>
+<li>Different packing-slip layouts</li>
+</ul>
+<p>The demonstrated example is intentionally kept simple.</p>
+<h3>27. AI Data Extraction</h3>
+<p>The AI processes the packing-slip image and extracts information such as Order Number and Asset Information. The extracted information is then returned to the Power App.</p>
+<h3>28. Gallery of Extracted Items</h3>
+<p>The mobile application displays a gallery containing the items extracted from the order. For example, the application can identify:</p>
+<ul>
+<li>Laptop</li>
+<li>Other computer equipment</li>
+<li>Serial numbers</li>
+<li>Other asset information</li>
+</ul>
+<p>The user can then work through the items one by one.</p>
+<h3>29. Asset Tagging</h3>
+<p>The next step is assigning an asset tag to each physical item. Example: Laptop serial number 742798. The user places an asset sticker/tag on the physical laptop, then selects <strong>Scan Asset</strong>.</p>
+<h3>30. Barcode Scanner</h3>
+<p>The Power App opens the Barcode Scanner. The user scans the asset tag and the barcode is captured automatically. This eliminates manual entry of asset-tag information.</p>
+<h3>31. Auto Scan</h3>
+<p>The app also supports <strong>Auto Scan</strong>. Instead of manually initiating each scan, auto-scan can make the receiving process faster. This is useful when processing multiple assets sequentially.</p>
+<h3>32. Completing Inventory Receiving</h3>
+<p>The user repeats the process for each item:</p>
+<pre><code class="language-text">Identify item → Attach asset tag → Scan barcode → Move to next item</code></pre>
+<p>Once all items have been processed, <strong>Finished</strong> becomes available and the user selects it.</p>
+<h3>33. Inventory Table Creation</h3>
+<p>When the receiving process is completed, the application takes all the received items and creates records in the Inventory Table. Important distinction: the assets are not left only in the Order table — instead, Order data and Inventory data are treated separately.</p>
+<h3>34. Inventory Status</h3>
+<p>When the assets are created in the Inventory table, their status is set to <strong>Available</strong>, because the physical items have now been:</p>
+<ul>
+<li>Received</li>
+<li>Processed</li>
+<li>Asset-tagged</li>
+<li>Added to inventory</li>
+</ul>
+<p>Therefore:</p>
+<pre><code class="language-text">Received Asset → Inventory Table → Status = Available</code></pre>
+<h3>35. End of Receiving Process</h3>
+<p>The complete receiving workflow becomes:</p>
+<pre><code class="language-text">Purchase Order
+  ↓
+Vendor ships items
+  ↓
+Packing Slip
+  ↓
+Mobile App
+  ↓
+Take Photo
+  ↓
+AI Prompt
+  ↓
+Extract Order + Asset Data
+  ↓
+Display Items
+  ↓
+Attach Asset Tags
+  ↓
+Barcode Scan
+  ↓
+Finish
+  ↓
+Create Inventory Records
+  ↓
+Status = Available</code></pre>
+<p>This provides an end-to-end digital receiving process.</p>
+<h3>36. Step 4 – Copilot Studio Inventory Agent</h3>
+<p>The final part of the solution focuses on how users interact with the inventory. The presenter could have created another Power App. However, instead of building another traditional application, the solution uses a Copilot Studio Agent.</p>
+<h3>37. Copilot Studio Agent</h3>
+<p>The agent was created using Microsoft Copilot Studio. The agent is called <strong>Test Inventory</strong>. It is then surfaced through Microsoft 365 Copilot / Agent Store. The user searches "Test Inventory" and opens the agent inside Microsoft 365.</p>
+<h3>38. Conversational Inventory Management</h3>
+<p>Instead of navigating through screens, the user can simply chat with the agent. The user can ask questions such as:</p>
+<p>&ldquo;Are there any UniFi access points available?&rdquo;</p>
+<p>The agent processes the request and searches the inventory information.</p>
+<h3>39. Agent + Dataverse</h3>
+<p>Under the hood, the Copilot Studio Agent follows its configured instructions. It uses:</p>
+<ul>
+<li>Knowledge</li>
+<li>Dataverse information</li>
+<li>Dataverse tables</li>
+<li>Configured tools</li>
+</ul>
+<p>to answer the user's request. The agent checks the Dataverse tables for assets whose status is <strong>Available</strong>.</p>
+<h3>40. Example – Finding Available Access Points</h3>
+<p>User asks:</p>
+<p>&ldquo;Are there any UniFi access points available?&rdquo;</p>
+<p>The agent:</p>
+<ol>
+<li>Understands the request.</li>
+<li>Uses its configured instructions.</li>
+<li>Searches its knowledge/data source.</li>
+<li>Looks into Dataverse.</li>
+<li>Checks inventory records.</li>
+<li>Filters for available assets.</li>
+<li>Returns the matching assets.</li>
+</ol>
+<p>This produces a conversational inventory-search experience.</p>
+<h3>41. Requesting an Asset</h3>
+<p>The user can then continue the conversation. For example:</p>
+<p>&ldquo;Yes, I want one.&rdquo;</p>
+<p>The agent interprets the user's request and uses a Dataverse Tool to update the appropriate inventory record.</p>
+<h3>42. Updating Inventory Through the Agent</h3>
+<p>The Dataverse tool can grab the relevant record and/or update the record so that the selected asset is assigned to the user. The idea is that the user does not need to manually open the inventory application and locate the record. Instead:</p>
+<pre><code class="language-text">Chat → Find Asset → Request Asset → Update Dataverse</code></pre>
+<h3>43. Possible Workflow After Asset Allocation</h3>
+<p>Once the asset is requested, the solution could trigger additional workflows. For example, <strong>Approval</strong>:</p>
+<pre><code class="language-text">User requests asset → Manager approval</code></pre>
+<p>or <strong>Delivery Queue</strong>:</p>
+<pre><code class="language-text">User requests asset → Asset placed in delivery queue → Someone delivers asset</code></pre>
+<p>The exact workflow can be customized according to the organization's business requirements.</p>
+<h3>44. Complete Power Platform Architecture</h3>
+<p>The entire solution brings multiple Power Platform components together.</p>
+<h4>Components</h4>
+<table>
+<thead><tr><th>Component</th><th>Purpose</th></tr></thead>
+<tbody>
+<tr><td>Model-driven App</td><td>Vendor management</td></tr>
+<tr><td>Generative Pages</td><td>AI-assisted vendor UI</td></tr>
+<tr><td>Canvas App</td><td>Inventory ordering</td></tr>
+<tr><td>Power Automate</td><td>Business process automation</td></tr>
+<tr><td>Third-party API</td><td>Online product catalog</td></tr>
+<tr><td>JSON Parsing</td><td>Process API response</td></tr>
+<tr><td>AI Prompt</td><td>Extract data from packing slips</td></tr>
+<tr><td>Mobile Power App</td><td>Inventory receiving</td></tr>
+<tr><td>Barcode Scanner</td><td>Asset tagging</td></tr>
+<tr><td>Dataverse</td><td>Central business data</td></tr>
+<tr><td>Copilot Studio</td><td>Conversational inventory agent</td></tr>
+<tr><td>Microsoft 365 Copilot</td><td>User-facing agent experience</td></tr>
+<tr><td>PDF Generation</td><td>Purchase order document</td></tr>
+<tr><td>Email Automation</td><td>Send PO to vendor</td></tr>
+</tbody></table>
+<h3>45. End-to-End Business Process</h3>
+<p>The complete solution can be understood as four major stages.</p>
+<h4>Stage 1 — Vendor Management</h4>
+<pre><code class="language-text">Vendor
+  ↓
+Model-driven App
+  ↓
+Vendor Records</code></pre>
+<h4>Stage 2 — Ordering</h4>
+<pre><code class="language-text">User
+  ↓
+Canvas App
+  ↓
+Select Vendor
+  ↓
+Select Items
+  ↓
+Create Purchase Order
+  ↓
+Parent + Child Records
+  ↓
+Generate PDF
+  ↓
+Power Automate
+  ↓
+Email Vendor</code></pre>
+<h4>Stage 3 — Receiving</h4>
+<pre><code class="language-text">Vendor Ships Inventory
+  ↓
+Packing Slip
+  ↓
+Mobile App
+  ↓
+Take Photo
+  ↓
+AI Prompt
+  ↓
+Extract Order / Asset Information
+  ↓
+Barcode Scanner
+  ↓
+Asset Tag
+  ↓
+Create Inventory Records
+  ↓
+Status = Available</code></pre>
+<h4>Stage 4 — Conversational Inventory Management</h4>
+<pre><code class="language-text">User
+  ↓
+Copilot Studio Agent
+  ↓
+Dataverse
+  ↓
+Find Available Assets
+  ↓
+User Requests Asset
+  ↓
+Dataverse Tool
+  ↓
+Update Asset Record
+  ↓
+Optional Approval / Delivery Workflow</code></pre>
+<h3>46. Most Important Technical Concepts From the Solution</h3>
+<h4>Power Apps</h4>
+<p>Two major Power Apps approaches are demonstrated:</p>
+<ul>
+<li><strong>Model-driven App</strong> — Used for Vendor Management</li>
+<li><strong>Canvas App</strong> — Used for Inventory Ordering</li>
+<li><strong>Mobile Canvas Experience</strong> — Used for Inventory Receiving + Barcode Scanning</li>
+</ul>
+<h3>47. Dataverse</h3>
+<p>Dataverse acts as the common data layer. It stores information such as:</p>
+<ul>
+<li>Vendors</li>
+<li>Orders</li>
+<li>Order items</li>
+<li>Inventory</li>
+<li>Assets</li>
+<li>Status</li>
+<li>Asset assignments</li>
+</ul>
+<p>The important architecture concept is:</p>
+<p>&ldquo;Multiple Power Platform applications can work against the same Dataverse data.&rdquo;</p>
+<h3>48. Power Automate</h3>
+<p>Power Automate is used for automation and integration. Examples include:</p>
+<p><strong>Purchase Order:</strong></p>
+<pre><code class="language-text">Power App → Power Automate → Generate/Process PO → Email Vendor</code></pre>
+<p><strong>Online Catalog:</strong></p>
+<pre><code class="language-text">Power App → Power Automate → Third-party API → Return Products</code></pre>
+<p>Power Automate therefore acts as an important integration/orchestration layer.</p>
+<h3>49. AI Prompts</h3>
+<p>AI Prompts are used for document/image understanding. Example:</p>
+<pre><code class="language-text">Packing Slip Image → AI Prompt → Structured Data</code></pre>
+<p>This reduces manual data entry.</p>
+<h3>50. Copilot Studio</h3>
+<p>Copilot Studio is used to create a conversational agent. It allows users to:</p>
+<ul>
+<li>Search inventory</li>
+<li>Ask inventory questions</li>
+<li>Find available assets</li>
+<li>Request an asset</li>
+<li>Trigger data updates</li>
+<li>Potentially initiate workflows</li>
+</ul>
+<h3>51. External API Integration</h3>
+<p>The solution demonstrates how Power Platform can communicate with systems outside Power Platform. Architecture:</p>
+<pre><code class="language-text">Power Apps
+  ↓
+Power Automate
+  ↓
+External API
+  ↓
+JSON
+  ↓
+Parse Response
+  ↓
+Power Apps</code></pre>
+<p>This is important because real enterprise Power Platform implementations frequently need integration with external systems.</p>
+<h3>52. AI + Automation + Low-Code Combination</h3>
+<p>One of the biggest themes of the entire solution is that Power Platform isn't just about creating a simple form. The solution combines:</p>
+<ul>
+<li>Low-code application development</li>
+<li>Automation</li>
+<li>AI</li>
+<li>API Integration</li>
+<li>Dataverse</li>
+<li>Conversational AI</li>
+</ul>
+<p>to create a complete business application.</p>
+<h3>53. Development Productivity</h3>
+<p>The presenter repeatedly demonstrates that AI can accelerate development. AI was used for:</p>
+<ul>
+<li>UI design</li>
+<li>Image generation/editing</li>
+<li>HTML generation</li>
+<li>PDF layout</li>
+<li>Packing-slip extraction</li>
+<li>Conversational interaction</li>
+</ul>
+<p>The underlying philosophy is:</p>
+<p>&ldquo;Use AI to reduce repetitive development work while keeping the overall business solution within the Power Platform ecosystem.&rdquo;</p>
+<h3>54. Custom / Bespoke Business Solutions</h3>
+<p>A major conclusion of the solution is that Power Platform can be used to create custom solutions specifically designed around an organization's business processes. Instead of forcing the company to use a generic application, organizations can create solutions focused specifically on:</p>
+<ul>
+<li>Their vendors</li>
+<li>Their purchasing process</li>
+<li>Their inventory</li>
+<li>Their receiving process</li>
+<li>Their asset-management process</li>
+<li>Their employee workflows</li>
+</ul>
+<h3>55. Final Power Platform Story</h3>
+<p>The strongest way to understand the project is:</p>
+<p>&ldquo;One business process, multiple Power Platform capabilities, one common data layer.&rdquo;</p>
+<p>Full story:</p>
+<pre><code class="language-text">Vendor Management → Model-driven App
+  ↓
+Inventory Ordering → Canvas App
+  ↓
+Order Automation → Power Automate
+  ↓
+External Catalog → API + JSON
+  ↓
+Purchase Order → PDF + Email
+  ↓
+Inventory Receiving → Mobile App
+  ↓
+Packing Slip Processing → AI Prompt
+  ↓
+Asset Identification → Barcode Scanner
+  ↓
+Inventory Creation → Dataverse
+  ↓
+Inventory Search → Copilot Studio Agent
+  ↓
+Asset Allocation → Dataverse Tool
+  ↓
+Additional Business Actions → Power Automate / Approval / Delivery Workflow</code></pre>
+<h3>56. Interview-Level Explanation</h3>
+<p>If you need to explain this project in an interview, the core story is:</p>
+<p>&ldquo;I would design an end-to-end inventory management solution using Power Platform. Vendor management would be handled through a Model-driven App, while users would create purchase orders through a Canvas App. The order would maintain a parent-child relationship between the purchase order and its line items. Power Automate would automate purchase-order processing, generate the PO document, and email it to the vendor.&rdquo;</p>
+<p>&ldquo;For receiving, I would use a mobile Power App where the user captures the packing slip. An AI prompt extracts the order and asset information from the image, and the user can then scan asset tags using the barcode scanner. Once receiving is completed, the assets are created in Dataverse with an Available status.&rdquo;</p>
+<p>&ldquo;Finally, I could expose the inventory through a Copilot Studio agent. Users could ask conversational questions such as which access points are available, and the agent could query Dataverse and, when authorized, use a Dataverse tool to update the selected asset. This demonstrates how Model-driven Apps, Canvas Apps, Power Automate, AI, APIs, Dataverse, barcode scanning, and Copilot Studio can work together as one end-to-end Power Platform solution.&rdquo;</p>
+<p>This keeps the original solution's sequence while making the architecture and implementation much easier to explain.</p>
+</div></div>
+</div>
+</div>
+</div>
+</div>
+</div>
 <div class="item section-item" data-index="pbi-hands-on">
 <div aria-expanded="false" class="item-head section-head" role="button" tabindex="0">
 <div class="section-head-text">
@@ -13460,7 +14203,7 @@ LEAD()</code></pre>
 <div class="item" data-index="office-solution-handson">
 <button class="item-head"><span class="idx">01</span><span class="item-title">Power BI Hands-on — Final Revision Cheat Sheet</span><span class="tag">Office Solution Hands-on</span><svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg></button>
 <div class="item-body">
-<div class="item-body-inner section-body-inner">
+<div class="item-body-inner">
 <div class="mis-dashboard-image-wrap" style="margin:12px 0 16px;">
 <img src="images/sample-financials-sales-profitability-dashboard.png" alt="Sample Financials - Sales and Profitability Power BI dashboard with Executive Summary KPI cards, Sales and Profit by Month trend, Sales by Segment donut chart, Sales by Product bar chart, and Sales vs Profit by Quarter chart" style="max-width:100%;height:auto;display:block;"/>
 </div>
@@ -13804,7 +14547,7 @@ Refresh</code></pre>
 <div class="item" data-index="mis-domain">
 <button class="item-head"><span class="idx">02</span><span class="item-title">MIS Domain — Reporting, Excel &amp; Automation</span><span class="tag">MIS Domain</span><svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg></button>
 <div class="item-body">
-<div class="item-body-inner section-body-inner">
+<div class="item-body-inner">
 <div class="mis-dashboard-image-wrap" style="margin:12px 0 16px;">
 <img src="images/spend-analysis-mis-dashboard-excel.png" alt="Spend Analysis MIS Dashboard in Excel showing Total Spend, Budget, Variance, Budget Utilization, Prior Year Spend, Total Transactions, monthly spend trend, spend by department, spend by cost category, spend by region, top 10 vendors, headcount trend, key insights and action items" style="max-width:100%;height:auto;display:block;"/>
 </div>
@@ -14274,7 +15017,7 @@ Refresh</code></pre>
 <div class="item" data-index="northern-trust">
 <button class="item-head"><span class="idx">03</span><span class="item-title">Northern Trust</span><span class="tag">Technical Topics</span><svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg></button>
 <div class="item-body">
-<div class="item-body-inner section-body-inner">
+<div class="item-body-inner">
 <div class="northern-trust-image-wrap" style="margin:12px 0 16px;">
 <img src="images/northern-trust-dashboard.png" alt="Northern Trust dashboards: Power BI Investment Operations Control Tower, Alteryx reconciliation workflow, Power Apps exception management, Power Automate exception workflow, and data model ERD" style="max-width:100%;height:auto;display:block;"/>
 </div>
@@ -16380,7 +17123,7 @@ Dashboard</p>
 <div class="item" data-index="creospan">
 <button class="item-head"><span class="idx">04</span><span class="item-title">Creospan</span><span class="tag">Technical Topics</span><svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg></button>
 <div class="item-body">
-<div class="item-body-inner section-body-inner">
+<div class="item-body-inner">
 <p class="sub">Click a topic to expand it and see the related practice questions.</p>
 <div class="list" id="creospan-topics">
 <div class="item topic-item" data-index="101">
@@ -17802,7 +18545,7 @@ HAVING MAX(s.SaleDate) &lt; DATEADD(DAY, -90, GETDATE())
 <div class="item" data-index="cushman-interview">
 <button class="item-head"><span class="idx">05</span><span class="item-title">Cushman &amp; Wakefield Interview</span><span class="tag">Company Interview Prep</span><svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg></button>
 <div class="item-body">
-<div class="item-body-inner section-body-inner">
+<div class="item-body-inner">
 <p class="sub">Click a topic to expand it and see the related practice questions.</p>
 <div class="list" id="cushman-topics">
 <div class="item topic-item" data-index="cw-1">
@@ -18073,7 +18816,7 @@ Business</code></pre>
 <div class="item" data-index="air-arabia">
 <button class="item-head"><span class="idx">06</span><span class="item-title">Air Arabia Interview</span><span class="tag">Company Interview Prep</span><svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg></button>
 <div class="item-body">
-<div class="item-body-inner section-body-inner">
+<div class="item-body-inner">
 <p class="sub">Click a topic to expand it and see the related practice questions.</p>
 <div class="list" id="air-arabia-topics">
 <div class="item topic-item" data-index="aa-1">
