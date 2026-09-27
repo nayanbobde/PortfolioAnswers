@@ -4540,8 +4540,820 @@ RANKX(
 <p>Most important: don't present yourself as someone who only followed a tutorial. Explain the business requirement → design decision → implementation → outcome for each component. That will make your Power Platform knowledge sound much more practical in an interview.</p>
 </div></div>
 </div>
+<div class="item" data-index="top-priority-architecture-flow">
+<button class="item-head"><span class="idx">02</span><span class="item-title">🔥 TOP PRIORITY — PROJECT ARCHITECTURE &amp; FLOW</span><span class="tag">Interview Answers</span><svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg></button>
+<div class="item-body"><div class="item-body-inner">
+<h3>Project Architecture &amp; Flow — Core Questions</h3>
+<h4>1. Explain your project architecture end to end.</h4>
+<p><strong>Answer:</strong></p>
+<p>&ldquo;I built an end-to-end inventory management solution using Power Platform. I used a Model-driven App for vendor management, a Canvas App for purchase-order creation, Dataverse as the central data layer, and Power Automate for workflow automation and external integration.&rdquo;</p>
+<p>&ldquo;When a user creates and submits a purchase order from the Canvas App, the PO and its line items are stored in Dataverse. Power Automate then processes the order, generates the PO document and sends it to the vendor through email.&rdquo;</p>
+<p>&ldquo;Once the inventory is received, a mobile Power App is used to capture the packing slip, extract asset information using AI, scan asset tags and create the inventory records in Dataverse. Finally, Copilot Studio provides conversational access to the inventory.&rdquo;</p>
+<p>The source describes the same four-stage architecture: vendor management, ordering, receiving and conversational inventory management.</p>
+<h4>2. Why did you use both Model-driven App and Canvas App?</h4>
+<p><strong>Answer:</strong></p>
+<p>&ldquo;I used them for different business requirements. Vendor management is mainly data-centric, so a Model-driven App was suitable because it provides a structured interface for managing Dataverse records.&rdquo;</p>
+<p>&ldquo;Purchase-order creation required a highly customized user experience with custom controls, item selection and an editable grid, so I used a Canvas App.&rdquo;</p>
+<p>Deep points:</p>
+<ul>
+<li>Model-driven → data-centric business process.</li>
+<li>Canvas → highly customized UI.</li>
+<li>Both work with the same Dataverse backend.</li>
+</ul>
+<p>Your project specifically uses the Model-driven App for vendor management and Canvas App for inventory ordering.</p>
+<h4>3. Why did you choose Dataverse?</h4>
+<p><strong>Answer:</strong></p>
+<p>&ldquo;Dataverse acts as the common data layer for the entire solution. I needed multiple applications and flows to work with the same business data, including vendors, purchase orders, order items and inventory.&rdquo;</p>
+<p>&ldquo;It also allows me to create relationships such as Purchase Order to Purchase Order Items and maintain a structured business data model.&rdquo;</p>
+<p>Your solution stores vendors, orders, order items, inventory, assets, statuses and assignments in Dataverse.</p>
+<h4>4. Explain the Purchase Order data model.</h4>
+<p><strong>Answer:</strong></p>
+<p>&ldquo;I designed the purchase order using a parent-child structure. The Purchase Order is the parent record and Purchase Order Items are the child records.&rdquo;</p>
+<p>&ldquo;For example, one purchase order can have one vendor and multiple line items such as three access points and one laptop. When the order is submitted, the parent PO record and the corresponding child item records are saved in Dataverse.&rdquo;</p>
+<p>The project explicitly describes this parent-child relationship.</p>
+<p>Draw this:</p>
+<pre><code class="language-text">Purchase Order
+      │
+      ├── PO Item 1
+      ├── PO Item 2
+      ├── PO Item 3
+      └── PO Item 4</code></pre>
+<h4>5. Walk me through what happens when the user clicks "Submit Order."</h4>
+<p><strong>Answer:</strong></p>
+<p>&ldquo;First, the purchase-order information is saved. Then the order-item information is saved as child records. Once the order data is available, Power Automate processes the order. It generates the purchase-order document, attaches it to an email and sends it to the vendor.&rdquo;</p>
+<p>&ldquo;So the user only needs to submit the order; the downstream processing is automated.&rdquo;</p>
+<p>This submit → PDF → email sequence is explicitly documented in your project.</p>
+<h4>6. Why use Power Automate instead of doing everything inside Power Apps?</h4>
+<p><strong>Answer:</strong></p>
+<p>&ldquo;Power Apps is primarily responsible for the user interaction, whereas Power Automate is better suited for backend business processes and integrations.&rdquo;</p>
+<p>&ldquo;In my solution, Power Automate handles things like purchase-order processing, document generation, email notification and external API integration. This keeps the Canvas App focused on the user experience.&rdquo;</p>
+<p>Strong line to remember:</p>
+<p>&ldquo;Power Apps handles interaction; Power Automate handles orchestration.&rdquo;</p>
+<h3>🔥 Power Automate Questions</h3>
+<h4>7. What exactly did you use Power Automate for?</h4>
+<p><strong>Answer:</strong></p>
+<p>&ldquo;I used Power Automate mainly as an orchestration and integration layer. One flow is involved in the purchase-order process, where the submitted order is processed, the PO document is generated and the vendor receives it through email.&rdquo;</p>
+<p>&ldquo;I also used Power Automate to integrate the Canvas App with a third-party product catalog API. The flow calls the API, receives JSON data, processes it and returns the required information to Power Apps.&rdquo;</p>
+<p>The project identifies these two major Power Automate patterns.</p>
+<h4>8. How does Power Apps trigger Power Automate?</h4>
+<p><strong>Answer:</strong></p>
+<p>&ldquo;The Canvas App invokes the flow when the user performs the relevant action, such as submitting an order or requesting products from the online catalog. The app can pass the required parameters to the flow, the flow performs the backend processing and then returns the required result.&rdquo;</p>
+<p>Your documented API flow is:</p>
+<pre><code class="language-text">Canvas App
+     ↓
+Power Automate
+     ↓
+Third-party API
+     ↓
+JSON response
+     ↓
+Power Apps</code></pre>
+<h4>9. Explain your Power Automate API integration.</h4>
+<p><strong>Answer:</strong></p>
+<p>&ldquo;The Canvas App sends the request to Power Automate. Power Automate then communicates with the third-party catalog API. The API returns product information in JSON format. I process that response and return the required product information to Power Apps, where it can be displayed to the user.&rdquo;</p>
+<p>Architecture:</p>
+<pre><code class="language-text">Power Apps
+    ↓
+Power Automate
+    ↓
+External API
+    ↓
+JSON
+    ↓
+Parse / process
+    ↓
+Power Apps</code></pre>
+<p>This exact integration pattern is documented in your project.</p>
+<h4>10. What is JSON parsing and why did you need it?</h4>
+<p><strong>Answer:</strong></p>
+<p>&ldquo;The external API returns data in JSON format. JSON is a structured data format, so I need to extract the fields that are relevant to my application, such as product name or product information, and then make those values available to Power Apps.&rdquo;</p>
+<p>Your project specifically identifies receiving, parsing and extracting fields from JSON.</p>
+<h4>11. What happens if the API doesn't return the expected data?</h4>
+<p>Interview-ready answer:</p>
+<p>&ldquo;I would validate the API response before processing it. I would check whether the response is successful and whether the required fields are present. If the response is invalid, I would handle the failure separately and return an appropriate message to Power Apps rather than allowing the application to fail silently.&rdquo;</p>
+<p>This is a good design answer. Your source demonstrates the API integration, but it does not document a specific error-handling implementation, so don't claim that you already implemented advanced retry/error scopes unless you actually did.</p>
+<h4>12. How would you handle failures in Power Automate?</h4>
+<p><strong>Answer:</strong></p>
+<p>&ldquo;I would separate the flow into logical stages and use appropriate failure handling. For example, if PDF generation or email fails, I would capture the failure, log the relevant information and notify the appropriate user or support team.&rdquo;</p>
+<p>&ldquo;For external APIs, I would also consider timeout handling, response validation and retry behavior.&rdquo;</p>
+<p>If they ask deeper, mention:</p>
+<ul>
+<li>Try/Catch pattern using Scopes</li>
+<li>Configure run after</li>
+<li>Retry policy</li>
+<li>Error notification</li>
+<li>Logging</li>
+<li>Response validation</li>
+</ul>
+<h3>🔥 Canvas App Questions</h3>
+<h4>13. Why did you use Canvas App for purchase orders?</h4>
+<p><strong>Answer:</strong></p>
+<p>&ldquo;The purchase-order screen required a customized user experience. Users need to select a vendor, add products, enter quantities, work with an editable grid and save or submit the order. Canvas Apps give me more control over that type of UI.&rdquo;</p>
+<p>Your project specifically describes the editable-grid purchase-order experience.</p>
+<h4>14. How did you implement vendor-specific products?</h4>
+<p><strong>Answer:</strong></p>
+<p>&ldquo;The business rule is that one purchase order belongs to one vendor. Once the user selects the vendor, I restrict the available products to products that can be purchased from that vendor. This prevents users from selecting an invalid product-vendor combination.&rdquo;</p>
+<p>The vendor filtering/business rule is explicitly described in the project.</p>
+<h4>15. How does Save Draft work conceptually?</h4>
+<p><strong>Answer:</strong></p>
+<p>&ldquo;The user can start building the purchase order without completing it. Instead of submitting it immediately, the user can save the current information and continue later. The order remains incomplete until the user finally submits it.&rdquo;</p>
+<p>Your source specifically includes Save Draft functionality.</p>
+<h4>16. Why use Patch instead of a Form?</h4>
+<p>This is a very likely follow-up because your source specifically discusses this implementation choice.</p>
+<p><strong>Answer:</strong></p>
+<p>&ldquo;A Form control is useful when I want standard create and edit behavior, but Patch gives me more control over exactly how and when records are created or updated.&rdquo;</p>
+<p>&ldquo;For a customized application like my purchase-order screen, Patch can be useful for saving the parent PO and then creating multiple child PO item records.&rdquo;</p>
+<p>Key concept:</p>
+<pre><code class="language-text">Patch()
+   ↓
+Create / Update Dataverse record</code></pre>
+<p>Don't claim you used Patch everywhere unless that is actually how your implementation works.</p>
+<h4>17. How would you save the parent and child records?</h4>
+<p><strong>Answer:</strong></p>
+<p>&ldquo;I would first create or save the Purchase Order parent record and obtain its identifier. Then I would create the related Purchase Order Item records using that parent reference. This establishes the relationship between the PO and its line items.&rdquo;</p>
+<h4>18. How would you prevent duplicate submission?</h4>
+<p><strong>Answer:</strong></p>
+<p>&ldquo;I would control the Submit button state while the submission is in progress, validate the order before submission, and maintain a clear order status. After a successful submission, I would prevent the same draft from being submitted again.&rdquo;</p>
+<h3>🔥 Dataverse Questions</h3>
+<h4>19. What tables did you have?</h4>
+<p><strong>Answer:</strong></p>
+<p>&ldquo;The main business entities were vendors, purchase orders, purchase-order items, products and inventory/assets. The purchase order and purchase-order items have a parent-child relationship, while inventory maintains the actual received assets and their status.&rdquo;</p>
+<p>Your project explicitly identifies these Dataverse entities.</p>
+<h4>20. Why separate Order data and Inventory data?</h4>
+<p><strong>Answer:</strong></p>
+<p>&ldquo;Because an order represents what we requested from the vendor, whereas inventory represents the physical assets that were actually received and are available for use.&rdquo;</p>
+<p>&ldquo;Separating them gives us a cleaner business model and allows inventory status to reflect the actual lifecycle of the physical asset.&rdquo;</p>
+<p>Your project specifically emphasizes that assets are not left only in the Order table and are instead created in Inventory.</p>
+<h4>21. What happens when inventory is received?</h4>
+<p><strong>Answer:</strong></p>
+<p>&ldquo;The receiving process identifies the order and assets from the packing slip, the user scans the physical asset tag, and after receiving is completed, the asset is created in the Inventory table with an Available status.&rdquo;</p>
+<h4>22. Why use Dataverse instead of Excel?</h4>
+<p><strong>Answer:</strong></p>
+<p>&ldquo;This is a transactional business application with multiple related entities, relationships, multiple applications and automation. Dataverse is designed for structured business data and allows Power Apps, Power Automate and Copilot capabilities to work against the same data layer.&rdquo;</p>
+<p>Strong interview phrase:</p>
+<p>&ldquo;Excel is primarily a spreadsheet; Dataverse provides a structured application data platform.&rdquo;</p>
+<h3>🔥 Mobile Power App + AI</h3>
+<h4>23. Why did you use a mobile Power App?</h4>
+<p><strong>Answer:</strong></p>
+<p>&ldquo;Inventory receiving happens physically in places such as a warehouse, loading dock or receiving area. A mobile app is more appropriate because the employee can capture the packing slip and scan the asset tag directly at the point of receiving.&rdquo;</p>
+<p>This is directly aligned with your project.</p>
+<h4>24. Explain the packing-slip process.</h4>
+<p><strong>Answer:</strong></p>
+<p>&ldquo;The user opens the mobile receiving app, selects the relevant order, takes a photo of the packing slip and sends the image for AI processing. The AI prompt extracts information such as the order number and asset information. The extracted items are then displayed in the app so the user can process each physical asset.&rdquo;</p>
+<h4>25. Why use AI for the packing slip?</h4>
+<p><strong>Answer:</strong></p>
+<p>&ldquo;Without AI, the user would have to manually enter information from the packing slip. The AI prompt converts the image into structured information, reducing manual data entry and making the receiving process faster.&rdquo;</p>
+<h4>26. Explain the barcode scanning process.</h4>
+<p><strong>Answer:</strong></p>
+<p>&ldquo;After identifying an asset, the user attaches an asset tag to the physical item and uses the barcode scanner in the mobile Power App to capture the asset-tag value. This avoids manually typing the asset identifier.&rdquo;</p>
+<h3>🔥 Copilot Questions</h3>
+<h4>27. Why did you use Copilot Studio?</h4>
+<p><strong>Answer:</strong></p>
+<p>&ldquo;Instead of requiring users to navigate through the inventory application, I wanted to provide a conversational way to search inventory. The user can ask something like, 'Are there any UniFi access points available?' The agent can use Dataverse information to find matching available assets.&rdquo;</p>
+<h4>28. Can the Copilot update Dataverse?</h4>
+<p><strong>Answer:</strong></p>
+<p>&ldquo;Yes, in this solution the agent can use a configured Dataverse tool to update the relevant inventory record when the user requests an asset and the action is authorized.&rdquo;</p>
+<h3>🔥 Scenario-Based Questions</h3>
+<p>These are very important for a 2–3 year Power Platform interview.</p>
+<h4>29. What if a user selects the wrong vendor?</h4>
+<p><strong>Answer:</strong></p>
+<p>&ldquo;I would make the vendor selection a key input to the purchase order and filter the products based on that vendor. I would also validate the vendor before allowing submission.&rdquo;</p>
+<h4>30. What if the user doesn't finish the PO?</h4>
+<p><strong>Answer:</strong></p>
+<p>&ldquo;The user can save the order as a draft and continue working on it later. I would maintain a draft status so incomplete orders are clearly separated from submitted orders.&rdquo;</p>
+<h4>31. What if the vendor email fails?</h4>
+<p><strong>Answer:</strong></p>
+<p>&ldquo;The order should not silently appear successful. I would capture the email failure, log the error and notify the appropriate user or support team so the PO can be resent or investigated.&rdquo;</p>
+<h4>32. What if the API is unavailable?</h4>
+<p><strong>Answer:</strong></p>
+<p>&ldquo;I would handle the API failure separately from the normal path. The flow should validate the response, handle timeout or failure conditions and return a meaningful error to Power Apps rather than displaying incomplete product information.&rdquo;</p>
+<h4>33. What if two users request the same asset?</h4>
+<p><strong>Answer:</strong></p>
+<p>&ldquo;I would use the inventory status as the source of truth and validate availability before allocation. Once one request successfully updates the asset status, another request should no longer be able to allocate that same available asset.&rdquo;</p>
+<p>This is a good design-level answer; don't claim concurrency controls were implemented unless they were.</p>
+<h4>34. What if the packing slip contains incorrect information?</h4>
+<p><strong>Answer:</strong></p>
+<p>&ldquo;I wouldn't blindly trust AI extraction. I would display the extracted information to the receiving user for validation before creating the final inventory record. The user can verify the physical item and barcode before completing receiving.&rdquo;</p>
+<p>That's a strong enterprise answer because it introduces human validation.</p>
+<h3>🔥 Power Automate Technical Follow-ups</h3>
+<h4>35. What is a trigger?</h4>
+<p>&ldquo;A trigger is the event that starts a Power Automate flow. Depending on the business process, it could be a Power Apps request, a Dataverse event, a scheduled event or another connector event.&rdquo;</p>
+<h4>36. What is an action?</h4>
+<p>&ldquo;An action is an operation performed after the flow starts, such as creating a Dataverse record, calling an API, generating content or sending an email.&rdquo;</p>
+<h4>37. What is a condition?</h4>
+<p>&ldquo;A condition allows the flow to make a decision based on business logic. For example, if an order requires approval, the flow can follow one path for approval required and another path when approval isn't required.&rdquo;</p>
+<h4>38. What is Apply to each?</h4>
+<p>&ldquo;Apply to each is used when I need to process multiple records or items individually. For example, if a purchase order contains multiple line items, I may need to process each item in the collection.&rdquo;</p>
+<h4>39. What are variables used for?</h4>
+<p>&ldquo;Variables allow the flow to temporarily store and manipulate values during execution. They can be useful for counters, strings, arrays or values that need to change during the flow.&rdquo;</p>
+<h4>40. What is a Power Automate approval?</h4>
+<p><strong>Answer:</strong></p>
+<p>&ldquo;An approval allows a business process to pause and wait for an authorized person to approve or reject an action. For example, after a user submits a purchase order, Power Automate could send it to a manager for approval before sending the final PO to the vendor.&rdquo;</p>
+<p>Your project identifies this as an extension of the PO architecture, although the demonstrated version did not necessarily have approval enabled.</p>
+<h3>🔥 The 10 Questions I Would Prioritize Most</h3>
+<p>If you have limited preparation time, memorize these first:</p>
+<table>
+<thead><tr><th>Priority</th><th>Question</th></tr></thead>
+<tbody>
+<tr><td>🔥 1</td><td>Explain your project architecture end-to-end</td></tr>
+<tr><td>🔥 2</td><td>What happens when Submit Order is clicked?</td></tr>
+<tr><td>🔥 3</td><td>Why Canvas App vs Model-driven App?</td></tr>
+<tr><td>🔥 4</td><td>Why Dataverse?</td></tr>
+<tr><td>🔥 5</td><td>What exactly did you use Power Automate for?</td></tr>
+<tr><td>🔥 6</td><td>Explain Canvas App → Power Automate → API</td></tr>
+<tr><td>🔥 7</td><td>Explain your Purchase Order parent-child relationship</td></tr>
+<tr><td>🔥 8</td><td>How did you generate PO and email vendor?</td></tr>
+<tr><td>🔥 9</td><td>Explain mobile receiving + AI + barcode scanning</td></tr>
+<tr><td>🔥 10</td><td>What happens if a flow/API/email fails?</td></tr>
+</tbody></table>
+<h3>🧠 One Master Flow to Memorize</h3>
+<p>If the interviewer says: "Okay, explain the complete flow once again." Say:</p>
+<p>&ldquo;Vendor is first maintained through the Model-driven App. The user then opens the Canvas App and creates a purchase order by selecting a vendor, products and quantities. The PO is stored in Dataverse with its child line items. When the user submits it, Power Automate processes the order, generates the PO document and emails it to the vendor.&rdquo;</p>
+<p>&ldquo;When the vendor ships the inventory, the receiving employee uses the mobile Power App to capture the packing slip. AI extracts the order and asset information, and the employee scans the physical asset tag. After receiving is completed, the asset is created in Dataverse with Available status.&rdquo;</p>
+<p>&ldquo;Finally, Copilot Studio can provide conversational inventory search and, when authorized, update the asset record. So the complete architecture is Power Apps for user interaction, Dataverse for centralized business data, Power Automate for orchestration and integration, and AI/Copilot for intelligent processing and interaction.&rdquo;</p>
+<p>That gives you a very strong 2-minute project explanation while naturally demonstrating knowledge of Power Apps + Power Automate + Dataverse + API integration + AI.</p>
+<h3>One Important Interview Rule</h3>
+<p>Don't say:</p>
+<p>&ldquo;❌ "I know Power Automate triggers, actions, conditions, loops..."&rdquo;</p>
+<p>Instead say:</p>
+<p>&ldquo;✅ "I used Power Automate to orchestrate my purchase-order process and API integration, and I understand how triggers, actions, conditions, iterations and error handling fit into those workflows."&rdquo;</p>
+<p>That sounds like project experience, rather than memorized terminology.</p>
+<h3>Answer Bank — 5 Core Areas</h3>
+<p>Below is an interview-ready answer bank for all 5 areas, aligned with the inventory solution: Canvas App + Dataverse + Power Automate + external API + JSON + PDF/email + mobile receiving. The documented architecture specifically uses Power Automate as the orchestration/integration layer and the Canvas App → Flow → API → JSON → Power Apps pattern.</p>
+<h3>1. Canvas App → Power Automate</h3>
+<h4>Q1. Why would you call Power Automate instead of doing everything inside Power Apps?</h4>
+<p>Interview answer:</p>
+<p>&ldquo;I use Power Apps mainly for the user interface and user interaction, while Power Automate is better suited for background processes, integrations and workflow orchestration.&rdquo;</p>
+<p>&ldquo;For example, in my inventory solution, when the user submits a purchase order from the Canvas App, I don't want the app to handle every backend operation itself. I trigger a Power Automate flow, which can process the order, generate the PO document, send the email to the vendor and also communicate with external APIs.&rdquo;</p>
+<p>&ldquo;This gives better separation between the presentation layer and the business-process/integration layer.&rdquo;</p>
+<p>Deeper points — Power Apps:</p>
+<ul>
+<li>User interaction</li>
+<li>Forms</li>
+<li>Galleries</li>
+<li>Buttons</li>
+<li>Validation</li>
+<li>Data entry</li>
+<li>Immediate UI updates</li>
+</ul>
+<p>Power Automate:</p>
+<ul>
+<li>Business workflows</li>
+<li>Email</li>
+<li>Approvals</li>
+<li>External API calls</li>
+<li>Document processing</li>
+<li>Notifications</li>
+<li>Background processing</li>
+</ul>
+<p>Your project example:</p>
+<pre><code class="language-text">User
+ ↓
+Canvas App
+ ↓
+Submit Order
+ ↓
+Power Automate
+ ↓
+Generate PO PDF
+ ↓
+Email Vendor</code></pre>
+<p>Your project specifically describes Power Automate as the orchestration layer for PO processing and API integration.</p>
+<p>If interviewer asks: "Why not just use Patch?" Say:</p>
+<p>&ldquo;Patch is very useful for directly creating or updating Dataverse records from Power Apps. But when the requirement involves multiple downstream operations such as document generation, API integration, email or approval, I prefer Power Automate because it separates those workflow responsibilities from the Canvas App.&rdquo;</p>
+<h4>Q2. How does Power Apps pass parameters to Power Automate?</h4>
+<p>Interview answer:</p>
+<p>&ldquo;I add the Power Automate flow as a data source in Power Apps. The flow exposes inputs that Power Apps can pass when calling it. From a button or other control, I can invoke the flow and pass values such as Order ID, Vendor ID, user information or other required parameters.&rdquo;</p>
+<p>Conceptually:</p>
+<pre><code class="language-text">Power Apps
+    ↓
+Flow.Run(OrderID, VendorID, ...)
+    ↓
+Power Automate
+    ↓
+Process request</code></pre>
+<p>For your project:</p>
+<pre><code class="language-text">Canvas App
+   │
+   │ Order ID / Order details
+   ▼
+Power Automate
+   │
+   ├── Process PO
+   ├── Generate PDF
+   └── Send Email</code></pre>
+<p>Good interview line:</p>
+<p>&ldquo;I try to pass identifiers rather than unnecessarily passing large datasets. For example, I can pass the Purchase Order ID and let the flow retrieve the related records from Dataverse.&rdquo;</p>
+<p>That sounds much more production-oriented.</p>
+<h4>Q3. What does Power Automate return to Power Apps?</h4>
+<p>Interview answer:</p>
+<p>&ldquo;The flow can return a response back to Power Apps, typically containing a status, message or required output data.&rdquo;</p>
+<p>For example:</p>
+<pre><code class="language-text">Power Apps
+   ↓
+Call Flow
+   ↓
+Power Automate
+   ↓
+Process
+   ↓
+Return Response
+   ↓
+Power Apps</code></pre>
+<p>Example response:</p>
+<pre><code class="language-text">Status = Success
+Message = &quot;Purchase Order created successfully&quot;
+PONumber = &quot;PO-1001&quot;</code></pre>
+<p>Then Power Apps can display: "Purchase Order PO-1001 created successfully."</p>
+<p>Your API example — your documented design also follows:</p>
+<pre><code class="language-text">Canvas App
+     ↓
+Power Automate
+     ↓
+Third-party API
+     ↓
+JSON response
+     ↓
+Process response
+     ↓
+Power Apps</code></pre>
+<p>The returned product information can then be displayed in the Canvas App.</p>
+<h3>2. Power Automate → External API</h3>
+<h4>Q4. How do you call an external API from Power Automate?</h4>
+<p>Interview answer:</p>
+<p>&ldquo;I use Power Automate as the integration layer. The flow sends an HTTP/API request to the external system, receives the response, processes it and then returns the required data to Power Apps or stores it in Dataverse.&rdquo;</p>
+<p>Your architecture:</p>
+<pre><code class="language-text">Canvas App
+     ↓
+Power Automate
+     ↓
+Third-party API
+     ↓
+JSON Response
+     ↓
+Parse JSON
+     ↓
+Power Apps / Dataverse</code></pre>
+<p>Your project specifically uses a third-party product catalog API and processes the returned product information.</p>
+<p>Interview example:</p>
+<p>&ldquo;In my project, the user selected 'Add From Online Catalog'. That triggered a Power Automate flow. The flow communicated with the third-party catalog API, received product information in JSON format, processed the response and made the product information available to Power Apps.&rdquo;</p>
+<h4>Q5. What is JSON?</h4>
+<p>Interview answer:</p>
+<p>&ldquo;JSON stands for JavaScript Object Notation. It is a lightweight data format commonly used for exchanging structured information between applications and APIs.&rdquo;</p>
+<p>Example:</p>
+<pre><code class="language-text">{
+  &quot;productId&quot;: 101,
+  &quot;productName&quot;: &quot;iPad Mini&quot;,
+  &quot;quantity&quot;: 5,
+  &quot;vendor&quot;: &quot;Dell&quot;
+}</code></pre>
+<p>Here:</p>
+<pre><code class="language-text">productId     → 101
+productName   → iPad Mini
+quantity      → 5
+vendor        → Dell</code></pre>
+<p>In your project, the external API returns product information in JSON format, which the Power Platform solution processes before displaying the relevant information in Power Apps.</p>
+<p>Very good interview line:</p>
+<p>&ldquo;JSON basically provides a structured contract between my Power Platform solution and the external API.&rdquo;</p>
+<h4>Q6. How do you parse a JSON response?</h4>
+<p>Interview answer:</p>
+<p>&ldquo;If the API returns a complex JSON structure, I use Parse JSON in Power Automate. I provide a schema so Power Automate understands the structure and exposes the individual properties as dynamic content.&rdquo;</p>
+<p>Example API response:</p>
+<pre><code class="language-text">{
+  &quot;product&quot;: {
+    &quot;id&quot;: 101,
+    &quot;name&quot;: &quot;iPad Mini&quot;,
+    &quot;price&quot;: 45000
+  }
+}</code></pre>
+<p>After parsing, I can access:</p>
+<pre><code class="language-text">product.id
+product.name
+product.price</code></pre>
+<p>Flow:</p>
+<pre><code class="language-text">HTTP/API Call
+      ↓
+JSON Response
+      ↓
+Parse JSON
+      ↓
+Extract fields
+      ↓
+Power Apps / Dataverse</code></pre>
+<p>Your project explicitly demonstrates calling the API, receiving JSON, parsing/extracting fields and displaying the information in Power Apps.</p>
+<h4>Q7. How do you handle API failures?</h4>
+<p>Interview answer:</p>
+<p>&ldquo;I don't assume that every API call will succeed. I design the flow with error handling so that if the API fails, times out or returns an unexpected response, I can capture the failure and provide an appropriate response to the application or user.&rdquo;</p>
+<p>Typical approach:</p>
+<pre><code class="language-text">Call API
+   ↓
+Success?
+ ┌─┴─┐
+Yes  No
+ ↓    ↓
+Parse  Log error
+JSON   ↓
+ ↓    Return failure
+Return
+data</code></pre>
+<p>Things I would check:</p>
+<ul>
+<li>HTTP status code</li>
+<li>Timeout</li>
+<li>Invalid response</li>
+<li>Authentication failure</li>
+<li>Missing fields</li>
+<li>API unavailable</li>
+<li>Unexpected JSON structure</li>
+</ul>
+<p>Interview-ready example:</p>
+<p>&ldquo;For example, if the catalog API is unavailable, I would prevent the Canvas App from assuming the products were retrieved successfully. The flow can return a failure status and message, and the application can show something like 'Unable to retrieve catalog at this time.'&rdquo;</p>
+<p>Important for your interview: your project notes do not explicitly document a completed API error-handling implementation. So don't say "I implemented retry policies and comprehensive error logging" unless you actually did it. Instead say "For production, I would add retry and failure handling around the API call." That's technically honest and still demonstrates knowledge.</p>
+<h3>3. Dataverse</h3>
+<h4>Q8. What is the difference between Purchase Order and Purchase Order Items?</h4>
+<p>Interview answer:</p>
+<p>&ldquo;The Purchase Order is the parent record, while Purchase Order Items are the child records representing the individual products and quantities within that order.&rdquo;</p>
+<p>Example:</p>
+<pre><code class="language-text">Purchase Order
+PO-1001
+Vendor: Dell
+Reason: Inventory Purchase
+Date: 27-Sep-2026
+
+Purchase Order Items
+PO-1001
+ ├── Laptop       × 1
+ ├── Access Point × 3
+ └── Monitor      × 2</code></pre>
+<p>So:</p>
+<pre><code class="language-text">Purchase Order
+       │
+       ├── PO Item 1
+       ├── PO Item 2
+       └── PO Item 3</code></pre>
+<p>Your solution explicitly uses this parent-child relationship.</p>
+<h4>Q9. Explain the one-to-many relationship.</h4>
+<p>Interview answer:</p>
+<p>&ldquo;One Purchase Order can contain many Purchase Order Items, but each Purchase Order Item belongs to one Purchase Order. Therefore, it's a one-to-many relationship.&rdquo;</p>
+<pre><code class="language-text">Purchase Order
+      1
+      │
+      │
+      ▼
+Purchase Order Items
+      *</code></pre>
+<p>Example:</p>
+<pre><code class="language-text">PO-1001
+   │
+   ├── Laptop
+   ├── Access Point
+   ├── Monitor
+   └── Keyboard</code></pre>
+<p>The relationship helps maintain proper association between the order and its line items.</p>
+<h4>Q10. Why use Dataverse instead of Excel?</h4>
+<p>Interview answer:</p>
+<p>&ldquo;Excel is useful for simple tabular data and lightweight scenarios, but Dataverse is designed for structured business applications and provides stronger relational data capabilities, security, business rules and integration with Power Platform.&rdquo;</p>
+<p>For your project, Dataverse is important because you have multiple related entities:</p>
+<pre><code class="language-text">Vendors
+   │
+   ├── Purchase Orders
+   │       │
+   │       └── Purchase Order Items
+   │
+   └── Products
+
+Inventory
+   │
+   └── Assets</code></pre>
+<p>And multiple applications interact with the same data:</p>
+<pre><code class="language-text">Model-driven App
+       │
+Canvas App ───► Dataverse ◄─── Power Automate
+       │
+Mobile App
+       │
+Copilot</code></pre>
+<p>Your architecture specifically identifies Dataverse as the common data layer shared across the different Power Platform components.</p>
+<p>Strong interview line:</p>
+<p>&ldquo;The main reason is that my solution is an application, not just a spreadsheet. I need relational data, consistent records and multiple Power Platform components accessing the same business data.&rdquo;</p>
+<h4>Q11. How do you maintain data integrity in Dataverse?</h4>
+<p>Interview answer:</p>
+<p>&ldquo;I maintain data integrity through proper table relationships, required fields, validation rules, controlled choices and business logic.&rdquo;</p>
+<p>In your project, one important business rule is:</p>
+<pre><code class="language-text">One Purchase Order → One Vendor</code></pre>
+<p>Once the vendor is selected, the available items are filtered according to that vendor. You can explain:</p>
+<pre><code class="language-text">Vendor selected
+      ↓
+Filter available products
+      ↓
+User selects items
+      ↓
+Create PO
+      ↓
+Create PO Items</code></pre>
+<p>Other techniques you can mention:</p>
+<ul>
+<li>Required columns</li>
+<li>Choice/status fields</li>
+<li>Lookup relationships</li>
+<li>Business rules</li>
+<li>Validation in Power Apps</li>
+<li>Dataverse relationships</li>
+<li>Preventing invalid combinations</li>
+<li>Controlled update permissions</li>
+</ul>
+<p>Very strong answer:</p>
+<p>&ldquo;I try to enforce important rules as close to the data layer as possible, while also validating them in the application for a better user experience.&rdquo;</p>
+<h3>4. Power Automate Automation Concepts</h3>
+<h4>Q12. What is a Trigger?</h4>
+<p>Interview answer:</p>
+<p>&ldquo;A trigger is the event that starts a Power Automate flow.&rdquo;</p>
+<p>Examples:</p>
+<pre><code class="language-text">Power Apps button clicked
+       ↓
+Flow starts</code></pre>
+<p>or:</p>
+<pre><code class="language-text">Dataverse record created
+       ↓
+Flow starts</code></pre>
+<p>or:</p>
+<pre><code class="language-text">Scheduled time reached
+       ↓
+Flow starts</code></pre>
+<p>Your project — the PO process starts when the user submits the order from the Canvas App:</p>
+<pre><code class="language-text">Submit Order
+     ↓
+Power Automate Trigger</code></pre>
+<h4>Q13. What are Actions?</h4>
+<p>Interview answer:</p>
+<p>&ldquo;Actions are the individual steps executed after the flow is triggered.&rdquo;</p>
+<p>For your PO flow:</p>
+<pre><code class="language-text">Trigger
+   ↓
+Get Dataverse data
+   ↓
+Generate PO
+   ↓
+Create PDF
+   ↓
+Send Email</code></pre>
+<p>Other examples:</p>
+<ul>
+<li>Get a row</li>
+<li>Create a row</li>
+<li>Update a row</li>
+<li>Send email</li>
+<li>HTTP request</li>
+<li>Parse JSON</li>
+<li>Compose</li>
+<li>Condition</li>
+</ul>
+<h4>Q14. What is a Condition?</h4>
+<p>Interview answer:</p>
+<p>&ldquo;A Condition allows the flow to make a decision based on data.&rdquo;</p>
+<p>Example:</p>
+<pre><code class="language-text">Is Order Status = Submitted?
+          │
+       ┌──┴──┐
+      Yes    No
+       │      │
+ Process   Stop/return</code></pre>
+<p>Another example:</p>
+<pre><code class="language-text">API Status = 200?
+     │
+ ┌───┴────┐
+Yes       No
+ ↓         ↓
+Process   Error</code></pre>
+<p>Your inventory scenario — you could use conditions such as:</p>
+<pre><code class="language-text">Order submitted?
+       ↓
+Yes → Process order
+No  → Don&#x27;t process</code></pre>
+<h4>Q15. What are Variables?</h4>
+<p>Interview answer:</p>
+<p>&ldquo;Variables are used to temporarily store values during the execution of a flow.&rdquo;</p>
+<p>Examples:</p>
+<pre><code class="language-text">OrderID
+VendorName
+PONumber
+EmailAddress
+TotalAmount
+Status</code></pre>
+<p>For example:</p>
+<pre><code class="language-text">Initialize variable
+      ↓
+PONumber = PO-1001
+      ↓
+Use it in PDF
+      ↓
+Use it in email</code></pre>
+<p>Interview tip — don't overuse variables. Say:</p>
+<p>&ldquo;I use variables when a value needs to be maintained or modified during the flow. For simple values, I prefer dynamic content or Compose rather than creating unnecessary variables.&rdquo;</p>
+<p>That sounds experienced.</p>
+<h4>Q16. What is Apply to each?</h4>
+<p>Interview answer:</p>
+<p>&ldquo;Apply to each is used when I receive multiple records and need to perform an action for every record.&rdquo;</p>
+<p>For your PO:</p>
+<pre><code class="language-text">Purchase Order
+     │
+     ├── Laptop
+     ├── Access Point
+     └── Monitor</code></pre>
+<p>The flow can process:</p>
+<pre><code class="language-text">Apply to each PO Item
+       │
+       ├── Process Laptop
+       ├── Process Access Point
+       └── Process Monitor</code></pre>
+<p>Example — if there are 5 PO items:</p>
+<pre><code class="language-text">Apply to each
+    ↓
+Item 1
+Item 2
+Item 3
+Item 4
+Item 5</code></pre>
+<p>This is a very common Power Automate interview question.</p>
+<h4>Q17. How do you handle errors in Power Automate?</h4>
+<p>Interview answer:</p>
+<p>&ldquo;I handle errors by designing separate success and failure paths and using appropriate flow controls such as scopes, conditions and run-after configuration. I also capture useful error information and notify the appropriate user or support team.&rdquo;</p>
+<p>A good conceptual design:</p>
+<pre><code class="language-text">              Main Process
+                   │
+             ┌─────┴─────┐
+          Success       Failure
+             │             │
+        Continue       Log Error
+             │             │
+        Send Email     Notify User</code></pre>
+<p>Example:</p>
+<pre><code class="language-text">API Call
+   ↓
+Parse JSON
+   ↓
+Process Data</code></pre>
+<p>If API call fails:</p>
+<pre><code class="language-text">API Failure
+    ↓
+Capture Error
+    ↓
+Return Failure Message
+    ↓
+Notify User</code></pre>
+<p>Again, your supplied project description doesn't document a specific completed error-handling implementation, so present this as how you would productionize the flow unless you actually implemented it.</p>
+<h4>Q18. How would you implement notifications and approvals?</h4>
+<p>Interview answer:</p>
+<p>&ldquo;Power Automate can send notifications or start an approval workflow when a business decision is required.&rdquo;</p>
+<p>For example:</p>
+<pre><code class="language-text">Employee submits PO
+        ↓
+Power Automate
+        ↓
+Manager Approval
+        ↓
+   ┌────┴────┐
+Approved   Rejected
+   ↓           ↓
+Send PO      Notify User
+to Vendor</code></pre>
+<p>Your project documentation specifically identifies approval as an extension of the architecture:</p>
+<pre><code class="language-text">User creates order
+       ↓
+Submit
+       ↓
+Manager approval
+       ↓
+Vendor</code></pre>
+<p>Interview wording:</p>
+<p>&ldquo;The demonstrated version focused on the ordering and automation process, but the same architecture can easily incorporate an approval step before sending the PO to the vendor.&rdquo;</p>
+<p>This is much safer than claiming you already implemented something that wasn't in the documented version.</p>
+<h3>5. Complete Real Business Scenario</h3>
+<p>This is the most important part. If the interviewer says: "Okay, explain your complete project from beginning to end." Say this:</p>
+<p>&ldquo;The project is an end-to-end inventory management solution built using Microsoft Power Platform.&rdquo;</p>
+<p>&ldquo;First, I have vendor management through a Model-driven App. Users can create, view and update vendor information, and the vendor data is stored in Dataverse.&rdquo;</p>
+<p>&ldquo;Once vendors are available, users move to the Canvas App for inventory ordering. They select a vendor, select the required products and quantities, and create a purchase order. I maintain a parent-child relationship between the Purchase Order and Purchase Order Items.&rdquo;</p>
+<p>&ldquo;When the user submits the order, Power Automate comes into the picture. The flow processes the order information, generates the purchase-order document as a PDF and sends it to the vendor through email.&rdquo;</p>
+<p>&ldquo;I also have an external catalog integration. From the Canvas App, the user can request products from an online catalog. Power Automate calls the external API, receives the product information as JSON, processes the response and makes the required product data available back to Power Apps.&rdquo;</p>
+<p>&ldquo;After the vendor ships the inventory, the receiving process is handled through a mobile Power App. The user can capture a picture of the packing slip. An AI prompt extracts information such as the order and asset details. The user then physically tags the asset and scans its barcode using the Power Apps barcode scanner.&rdquo;</p>
+<p>&ldquo;Once all the assets are processed, inventory records are created in Dataverse and their status is set to Available.&rdquo;</p>
+<p>&ldquo;Finally, I use Copilot Studio to provide a conversational inventory experience. A user can ask something like, 'Do we have any UniFi access points available?' The agent can use the inventory data in Dataverse to find available assets and, where authorized, update the relevant asset record.&rdquo;</p>
+<p>&ldquo;So architecturally, Power Apps handles the user experience, Dataverse acts as the common data layer, Power Automate handles workflow and integration, external APIs provide additional data, and AI/Copilot capabilities automate document understanding and conversational inventory management.&rdquo;</p>
+<p>That sequence matches your documented end-to-end business flow: Vendor Management → Inventory Ordering → Purchase Order → Vendor Email → Receiving → AI Extraction → Asset Tagging → Inventory Creation → Copilot-based Search and Allocation.</p>
+<h4>The Entire Project in One Diagram</h4>
+<p>Memorize this:</p>
+<pre><code class="language-text">                         ┌─────────────────────┐
+                         │   MODEL-DRIVEN APP  │
+                         │   Vendor Management │
+                         └──────────┬──────────┘
+                                    │
+                              Vendor Data
+                                    │
+                                    ▼
+┌─────────────────────┐       ┌───────────────┐
+│     CANVAS APP      │◄─────►│   DATAVERSE   │
+│  Inventory Ordering │       │ Common Data   │
+└──────────┬──────────┘       └───────┬───────┘
+           │                          │
+     Submit PO                        │
+           │                          │
+           ▼                          │
+┌────────────────────────────────────┐│
+│         POWER AUTOMATE             ││
+│       Orchestration Layer          ││
+│                                    ││
+│  Generate PDF → Send Email         ││
+│  Call API → Parse JSON             ││
+└──────────────┬─────────────────────┘│
+               │                      │
+               ▼                      │
+       ┌───────────────┐              │
+       │ THIRD-PARTY   │              │
+       │     API       │              │
+       │ Product Catalog│             │
+       └───────┬───────┘              │
+               │                      │
+             JSON                     │
+               │                      │
+               ▼                      │
+        ┌──────────────┐              │
+        │  POWER APPS  │              │
+        └──────────────┘              │
+                                      │
+                                      │
+                 VENDOR SHIPS         │
+                      │               │
+                      ▼               │
+             ┌────────────────┐       │
+             │  MOBILE APP    │───────┘
+             │   Receiving    │
+             └───────┬────────┘
+                     │
+              Take Packing Slip
+                     │
+                     ▼
+               ┌───────────┐
+               │ AI Prompt │
+               │ Extraction│
+               └─────┬─────┘
+                     │
+                     ▼
+              Extract Assets
+                     │
+                     ▼
+              Barcode Scanner
+                     │
+                     ▼
+              Create Inventory
+                     │
+                     ▼
+               Status = Available</code></pre>
+<p>Then the final layer:</p>
+<pre><code class="language-text">                  DATAVERSE
+                     │
+                     ▼
+             ┌───────────────┐
+             │ COPILOT       │
+             │ STUDIO AGENT  │
+             └───────┬───────┘
+                     │
+              &quot;Any AP available?&quot;
+                     │
+                     ▼
+                 Dataverse
+                     │
+                     ▼
+              Available Assets
+                     │
+                     ▼
+              Request Asset
+                     │
+                     ▼
+              Update Record</code></pre>
+<h3>🔥 10 Questions I Would Expect Immediately After This</h3>
+<p>If the interviewer is genuinely testing whether you know Power Apps/Power Automate, be prepared for these:</p>
+<table>
+<thead><tr><th>Question</th><th>What you should emphasize</th></tr></thead>
+<tbody>
+<tr><td>1. Why Canvas App?</td><td>Highly customized UI/user interaction</td></tr>
+<tr><td>2. Why Model-driven App?</td><td>Dataverse-driven business/data management</td></tr>
+<tr><td>3. Why Dataverse?</td><td>Relational business data + common data layer</td></tr>
+<tr><td>4. Canvas vs Model-driven?</td><td>UI flexibility vs data-driven experience</td></tr>
+<tr><td>5. Why Power Automate?</td><td>Workflow/orchestration/integration</td></tr>
+<tr><td>6. How does Power Apps call a flow?</td><td>Flow added to app + pass parameters</td></tr>
+<tr><td>7. How does Flow call API?</td><td>API/HTTP integration → JSON response</td></tr>
+<tr><td>8. How do you process JSON?</td><td>Parse JSON + schema + dynamic fields</td></tr>
+<tr><td>9. Explain your Dataverse relationship</td><td>PO 1 → many PO Items</td></tr>
+<tr><td>10. Explain your complete flow</td><td>Submit → Flow → PDF → Email → Receiving → Asset → Dataverse</td></tr>
+</tbody></table>
+<h3>The One Sentence to Remember</h3>
+<p>If you get nervous, bring the conversation back to this:</p>
+<p>&ldquo;In my solution, Power Apps is the presentation and user-interaction layer, Dataverse is the centralized relational data layer, and Power Automate is the orchestration layer connecting business processes, documents, email and external APIs.&rdquo;</p>
+<p>That single statement, followed by your PO → PDF → email → receiving → barcode → inventory example, gives the interviewer a clear picture that you understand how the Power Platform components work together — not just individual features.</p>
+</div></div>
+</div>
 <div class="item" data-index="natural-paragraph-power-platform">
-<button class="item-head"><span class="idx">02</span><span class="item-title">Natural Paragraph — Power Platform</span><span class="tag">Interview Answers</span><svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg></button>
+<button class="item-head"><span class="idx">03</span><span class="item-title">Natural Paragraph — Power Platform</span><span class="tag">Interview Answers</span><svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg></button>
 <div class="item-body"><div class="item-body-inner">
 <p class="sub">Click a topic to expand it and see the related practice paragraph.</p>
 <div class="list" id="pp-natural-topics">
@@ -4579,7 +5391,7 @@ RANKX(
 </div></div>
 </div>
 <div class="item" data-index="ae-2">
-<button class="item-head"><span class="idx">03</span><span class="item-title">Anglo-Eastern — Company Understanding &amp; Role Fit</span><span class="tag">Company Research</span><svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg></button>
+<button class="item-head"><span class="idx">04</span><span class="item-title">Anglo-Eastern — Company Understanding &amp; Role Fit</span><span class="tag">Company Research</span><svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg></button>
 <div class="item-body"><div class="item-body-inner">
 <p>From my understanding, Anglo-Eastern is a global independent ship-management company, and the business is much broader than just managing ships. The main areas include technical ship management, crew management, newbuilding supervision, cruise and leisure management, and sustainability and performance services. Anglo-Eastern manages a large and diverse fleet including bulk carriers, tankers, container ships, gas carriers, LNG vessels, offshore vessels and passenger ships.</p>
 <p>From a business perspective, the company has to manage a lot of operational data around vessels, maintenance, procurement, crew, voyages, safety, compliance, financial performance and vessel performance. One thing I found particularly relevant to this role is that Anglo-Eastern already puts significant emphasis on digitalisation and data-driven decision making. Its client portal, my.angloeastern, provides visibility into areas such as operational and technical performance, financial reporting, OPEX, crew information and procurement. The company also uses technology partnerships and systems such as JiBe and fleet-optimisation solutions to improve operational visibility and automation.</p>
@@ -4603,7 +5415,7 @@ RANKX(
 </div></div>
 </div>
 <div class="item" data-index="ae-3">
-<button class="item-head"><span class="idx">04</span><span class="item-title">Power Platform — End-to-End Inventory Management Solution</span><span class="tag">Project Deep-Dive</span><svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg></button>
+<button class="item-head"><span class="idx">05</span><span class="item-title">Power Platform — End-to-End Inventory Management Solution</span><span class="tag">Project Deep-Dive</span><svg class="chev" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round" stroke-width="2"></path></svg></button>
 <div class="item-body"><div class="item-body-inner">
 <h3>1. Overall Solution – Complete Power Platform Story</h3>
 <p>The solution is a complete end-to-end inventory management system built 100% using Microsoft Power Platform.</p>
@@ -5166,6 +5978,10 @@ Additional Business Actions → Power Automate / Approval / Delivery Workflow</c
 </div></div>
 </div>
 </div>
+<div class="mis-dashboard-image-wrap" style="margin:24px 0 4px;">
+<img src="images/anglo-eastern-inventory-architecture.png" alt="End-to-End Inventory Management Solution architecture diagram built using Microsoft Power Platform, showing Model-driven App for vendor management, Canvas App for inventory ordering, Dataverse as the common data layer, Power Automate orchestration, third-party API integration, Mobile App for receiving and asset tagging, AI and Copilot integration, and the business process flow" style="max-width:100%;height:auto;display:block;"/>
+</div>
+
 </div>
 </div>
 </div>
